@@ -17,20 +17,40 @@ class StatusSeeder extends Seeder
         $statuses = [
             [
                 "id" => 1,
-                "name" => 'Черновик',
+                "name" => 'На проверке',
+                "color" => '#ece13985'
             ],
             [
                 "id" => 2,
-                "name" => 'В работе',
+                "name" => 'Ожидание ТЗ',
+                "color" => '#ffad46c7'
             ],
             [
                 "id" => 3,
-                "name" => 'Завершен',
+                "name" => 'Стоп',
+                "color" => '#827cd0bf'
             ],
             [
                 "id" => 4,
-                "name" => 'Отказ',
+                "name" => 'Доработка',
+                "color" => '#ff8e00d4'
+            ],
+            [
+                "id" => 5,
+                "name" => 'Ушел',
+                "color" => '#f25959c7'
+            ],
+            [
+                "id" => 6,
+                "name" => 'Ждем оплату',
+                "color" => '#59d0f28f'
+            ],
+            [
+                "id" => 7,
+                "name" => 'В работе',
+                "color" => '#68dd75d1'
             ]
+
         ];
 
         foreach($statuses as $item){
