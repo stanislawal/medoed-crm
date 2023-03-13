@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     {
         $admins = [
             [
-                'full_name' => 'Петров Кирилл Юрьевич',
+                'full_name' => 'Гонтарь Кирилл Владимирович',
                 'login' => 'admin',
                 'password' => Hash::make('12345678'),
                 'is_work' => 'true',
