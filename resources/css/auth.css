@@ -1,0 +1,8 @@
+.auth_form{
+    max-width: 450px;
+    width: 100%;
+}
+
+.auth_container{
+    min-height: 100vh;
+}
