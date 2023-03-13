@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
                 'full_name' => 'Гонтарь Кирилл Владимирович',
                 'login' => 'admin',
                 'password' => Hash::make('12345678'),
-                'is_work' => 'true',
+                'is_work' => 1,
             ]
         ];
 
