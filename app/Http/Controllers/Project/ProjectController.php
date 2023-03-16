@@ -43,13 +43,15 @@ class ProjectController extends Controller
             ->leftJoin('users', 'projects.manager_id', 'users.id')
             ->leftJoin('themes', 'projects.theme_id', 'themes.id')
             ->leftJoin('statuses', 'projects.status_id', 'statuses.id')
+            ->leftJoin('styles', 'projects.style_id', 'styles.id')
             ->with([
-            'projectTheme',
-            'projectUser',
-            'projectStatus',
-            'projectClients',
-            'projectAuthor'
-        ]);
+                'projectTheme',
+                'projectUser',
+                'projectStatus',
+                'projectClients',
+                'projectAuthor',
+                'projectStyle'
+            ]);
 
 
         $projects->when(UserHelper::isManager(), function ($where) {
@@ -338,14 +340,14 @@ class ProjectController extends Controller
 
 
         // sort
-        if(str_contains($request->sort, '|')){
+        if (str_contains($request->sort, '|')) {
             $parts = explode('|', $request->sort);
 
             $orderBy = implode('.', $parts);
 
             $projects->orderByRaw($orderBy . ' ' . $request->direction ?? 'asc');
-        }else{
-            $projects->when(!empty($request->sort), function($orderBy) use ($request){ // use ($request) - это то самое замыкание, о котормо я тебе говорил)))
+        } else {
+            $projects->when(!empty($request->sort), function ($orderBy) use ($request) { // use ($request) - это то самое замыкание, о котормо я тебе говорил)))
                 $orderBy->orderBy($request->sort, $request->direction ?? 'asc');
             });
         }

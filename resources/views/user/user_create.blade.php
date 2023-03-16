@@ -28,6 +28,12 @@
                     <label for="" class="form-label">Контактная информация </label>
                     <input type="text" required class="form-control form-control-sm" name="contact_info">
                 </div>
+
+                <div class="form-group col-12 col-lg-6">
+                    <label for="" class="form-label">Реквизиты оплаты </label>
+                    <input type="text" required class="form-control form-control-sm" name="payment">
+                </div>
+
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Дата рождения</label>
                     <input type="date" required class="form-control form-control-sm" name="birthday">

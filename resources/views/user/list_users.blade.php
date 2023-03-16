@@ -13,17 +13,17 @@
                     <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i
                             class="fa fa-search search-icon mr-2"></i>Поиск
                     </div>
-                    <div action="{{ route('project.index') }}" method="GET" class="check__field">
+
+                    <form action="{{ route('user.index') }}" method="GET" class="check__field">
                         @csrf
                         <div class="row m-0" id="search" @if(empty(request()->all())) style="display: none;" @endif>
                             <div class="w-100 row m-0 py-3">
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Должность</label>
-                                    <select class="form-select form-select-sm" name="job">
+                                    <select class="form-select form-select-sm" name="role">
                                         <option>Не выбрано</option>
-                                        @foreach($users as $user)
-
-                                            <option value="">{{$user['full_name']}}</option>
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role['id'] }}" @if(request()->role == $role['id']) selected @endif>{{$role['name']}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 

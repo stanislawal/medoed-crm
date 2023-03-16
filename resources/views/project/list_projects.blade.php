@@ -78,17 +78,17 @@
                                            value="{{ request()->price_per ?? '' }}">
                                 </div>
 
-                                <div class="form-group col-12 col-md-4 col-lg-3">
-                                    <label for="" class="form-label">Цена заказчика</label>
-                                    <div class="input-group input-group-sm">
-                                        <input class="form-control form-control-sm" type="number" step="0.01" min="0.01"
-                                               name="price_client"
-                                               value="{{ request()->price_client ?? '' }}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">РУБ</span>
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                <div class="form-group col-12 col-md-4 col-lg-3">--}}
+{{--                                    <label for="" class="form-label">Цена заказчика</label>--}}
+{{--                                    <div class="input-group input-group-sm">--}}
+{{--                                        <input class="form-control form-control-sm" type="number" step="0.01" min="0.01"--}}
+{{--                                               name="price_client"--}}
+{{--                                               value="{{ request()->price_client ?? '' }}">--}}
+{{--                                        <div class="input-group-append">--}}
+{{--                                            <span class="input-group-text" id="basic-addon2">РУБ</span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Цена автора</label>
@@ -189,6 +189,7 @@
                                     <th>Заказчик(и) </th>
                                     <th>Контакт</th>
                                     <th>@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Тип текста', 'column' => 'styles|name'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена за 1000', 'column' => 'price_per'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Договор', 'column' => 'contract'] )</th>
@@ -211,6 +212,7 @@
                                                    @endif onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
                                         </td>
                                         <td><a href="{{route('project.edit',['project'=> $project['id']])}}">Открыть</a>
+
                                         </td>
                                         <td>{{$project['project_user']['full_name'] ?? '------'}}</td>
                                         <td>
@@ -223,6 +225,7 @@
 
                                         <td>{{$project['project_clients'][0]['site'] ?? '------'}}</td>
                                         <td>{{$project['project_name'] ?? '------'}}</td>
+                                        <td>{{$project['project_style']['name'] ?? '------'}}</td>
                                         {{--                                        @dd($project)--}}
 
                                         <td>{{$project['price_per'] ?? '------'}}</td>

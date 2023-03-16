@@ -54,6 +54,10 @@ class UpdateUserRequest extends FormRequest
               'nullable',
               'numeric'
             ],
+            'payment' => [
+                'nullable',
+                'string'
+            ],
         ];
     }
 }

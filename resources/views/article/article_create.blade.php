@@ -65,7 +65,7 @@
                                 <label for="" class="form-label">Валюта</label>
                                 <div class="input-group mb-3">
                                     <select required class="form-control form-control-sm" name="id_currency">
-                                        <option value="">Не выбрано</option>
+                                        <option value="1">RUB</option>
                                         @foreach ($currency ?? '' as $item)
                                             <option value="{{$item['id']}}">{{$item['currency']}}</option>
                                         @endforeach
@@ -85,17 +85,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-12 col-lg-6">
-                                <label for="" class="form-label">Цена автора</label>
-                                <div class="input-group mb-3">
-                                    <input class="form-control form-control-sm" required type="number" step="0.1"
-                                           min="0.1"
-                                           name="price_author">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text input-group-sm" id="basic-addon2">РУБ</span>
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="form-group col-12 col-lg-6">--}}
+{{--                                <label for="" class="form-label">Цена автора</label>--}}
+{{--                                <div class="input-group mb-3">--}}
+{{--                                    <input class="form-control form-control-sm" required type="number" step="0.1"--}}
+{{--                                           min="0.1"--}}
+{{--                                           name="price_author">--}}
+{{--                                    <div class="input-group-append">--}}
+{{--                                        <span class="input-group-text input-group-sm" id="basic-addon2">РУБ</span>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
                             <div class="form-group col-12 col-lg-6">
                                 <label for="" class="form-label">Ссылка на текст</label>

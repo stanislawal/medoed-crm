@@ -8,16 +8,27 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-       $users =  User::on()->with(['roles'])->orderBy('id', 'desc')->get()->toArray();
+
+        $users =  User::on()->with(['roles']);
+
+            $this->filter($request, $users);
+
+        $users->orderBy('id', 'desc');
+        $users = $users->get()->toArray();
+
+
+       $roles= Role::on()->get()->toArray();
 //        dd($users);
         return view('user.list_users', [
             'users' => $users,
+            'roles' => $roles,
         ]);
 
     }
@@ -38,6 +49,7 @@ class UserController extends Controller
             'contact_info' => $request->contact_info,
             'birthday' => $request->birthday,
             'manager_salary' => $request->manager_salary ?? null,
+            'payment' => $request->payment ?? null,
             'is_work' => true,
         ];
 
@@ -85,4 +97,17 @@ class UserController extends Controller
         User::on()->where('id', $user)->delete();
         return redirect()->back()->with(['success' => 'Пользователь успешно удален']);
     }
+
+//$projects->when(!empty($request->manager_id), function ($where) use ($request) {
+//            $where->where('manager_id', $request->manager_id);
+
+    private function filter($request, &$users){
+        $users->when(!empty($request->role), function ($whereHas) use ($request) {
+            $whereHas->whereHas('roles', function ($where) use ($request) {
+                $where->where('id', $request->role);
+            });
+        });
+    }
+
 }
+
