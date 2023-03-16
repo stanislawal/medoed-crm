@@ -64,11 +64,13 @@
                                 @endif
 
 
+
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Название проекта</label>
                                     <input type="text" class="form-control form-control-sm" name="project_name"
                                            value="{{ request()->project_name ?? '' }}">
                                 </div>
+
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Цена за 1000 (от)</label>

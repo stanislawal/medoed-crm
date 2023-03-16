@@ -98,7 +98,7 @@ class ClientController extends Controller
             'link_socialnetwork' => $request->link_socialnetwork ?? null,
             'contact_info' => $request->contact_info ?? null,
             'characteristic' => $request->characteristic ?? null,
-            'manager_salary' => $request->manager_salary ?? null,
+
         ];
 
         Client::on()->where('id', $client)->update($attr);

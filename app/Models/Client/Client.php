@@ -20,7 +20,6 @@ class Client extends Model
         'site', //сайт компании
         'link_socialnetwork', //ccылка на соцсети
         'contact_info',
-        'manager_salary', //ставка менеджера
         'birthday'
     ];
 
