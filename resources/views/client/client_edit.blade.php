@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-group col-12 col-lg-6">
                         <label for="" class="form-label mt-2">Ссылка на соц. сеть</label>
-                        <input type="text" value="{{$clients['link_socialnetwork']}}" class="form-control form-control-sm" name="site">
+                        <input type="text" value="{{$clients['link_socialnetwork']}}" class="form-control form-control-sm" name="link_socialnetwork">
                     </div>
                     <div class="form-group col-12 col-lg-6">
                         <label for="" class="form-label">Сайт</label>

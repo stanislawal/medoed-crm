@@ -63,9 +63,11 @@
                             <input type="text" class="form-control form-control-sm" name="site">
                         </div>
 
-                        <div class="form-group col-12 col-lg-6">
-                            <label for="" class="form-label">Портрет и общая хар-ка</label>
-                            <input type="text" class="form-control form-control-sm" name="characteristic">
+
+                            <div class="form-group col-12 col-lg-6">
+                                <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
+                                <textarea id="characteristic" name="characteristic" class="form-control"> </textarea>
+
                         </div>
                         <div class="form-group col-12 mb-2">
                             <button class="btn btn-sm btn-success">Создать</button>

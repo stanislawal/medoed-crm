@@ -1,21 +1,21 @@
 @extends('layout.markup')
 @section('custom_css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-{{--    <style>--}}
-{{--        table {--}}
-{{--            counter-reset: rowNumber;--}}
-{{--        }--}}
+    {{--    <style>--}}
+    {{--        table {--}}
+    {{--            counter-reset: rowNumber;--}}
+    {{--        }--}}
 
-{{--        table tbody tr {--}}
-{{--            counter-increment: rowNumber;--}}
-{{--        }--}}
+    {{--        table tbody tr {--}}
+    {{--            counter-increment: rowNumber;--}}
+    {{--        }--}}
 
-{{--        table tr td:first-child::before {--}}
-{{--            content: counter(rowNumber);--}}
-{{--            min-width: 1em;--}}
-{{--            margin-right: 0.5em;--}}
-{{--        }--}}
-{{--    </style>--}}
+    {{--        table tr td:first-child::before {--}}
+    {{--            content: counter(rowNumber);--}}
+    {{--            min-width: 1em;--}}
+    {{--            margin-right: 0.5em;--}}
+    {{--        }--}}
+    {{--    </style>--}}
 @endsection
 @section('content')
     <div class="row p-0s">
@@ -64,7 +64,6 @@
                                 @endif
 
 
-
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Название проекта</label>
                                     <input type="text" class="form-control form-control-sm" name="project_name"
@@ -78,17 +77,17 @@
                                            value="{{ request()->price_per ?? '' }}">
                                 </div>
 
-{{--                                <div class="form-group col-12 col-md-4 col-lg-3">--}}
-{{--                                    <label for="" class="form-label">Цена заказчика</label>--}}
-{{--                                    <div class="input-group input-group-sm">--}}
-{{--                                        <input class="form-control form-control-sm" type="number" step="0.01" min="0.01"--}}
-{{--                                               name="price_client"--}}
-{{--                                               value="{{ request()->price_client ?? '' }}">--}}
-{{--                                        <div class="input-group-append">--}}
-{{--                                            <span class="input-group-text" id="basic-addon2">РУБ</span>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
+                                {{--                                <div class="form-group col-12 col-md-4 col-lg-3">--}}
+                                {{--                                    <label for="" class="form-label">Цена заказчика</label>--}}
+                                {{--                                    <div class="input-group input-group-sm">--}}
+                                {{--                                        <input class="form-control form-control-sm" type="number" step="0.01" min="0.01"--}}
+                                {{--                                               name="price_client"--}}
+                                {{--                                               value="{{ request()->price_client ?? '' }}">--}}
+                                {{--                                        <div class="input-group-append">--}}
+                                {{--                                            <span class="input-group-text" id="basic-addon2">РУБ</span>--}}
+                                {{--                                        </div>--}}
+                                {{--                                    </div>--}}
+                                {{--                                </div>--}}
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Цена автора</label>
@@ -186,7 +185,7 @@
                                     <th></th>
                                     <th></th>
                                     <th>@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name'] )</th>
-                                    <th>Заказчик(и) </th>
+                                    <th>Заказчик(и)</th>
                                     <th>Контакт</th>
                                     <th>@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Тип текста', 'column' => 'styles|name'] )</th>
@@ -214,16 +213,16 @@
                                         <td><a href="{{route('project.edit',['project'=> $project['id']])}}">Открыть</a>
 
                                         </td>
-                                        <td>{{$project['project_user']['full_name'] ?? '------'}}</td>
+                                        <td><textarea disabled
+                                                      style="border: none; border-radius: 10px; background-color: rgba(255,255,255,0);"
+                                            >{{$project['project_user']['full_name'] ?? '------'}}</textarea></td>
                                         <td>
-                                            @forelse ($project['project_clients'] as $client)
-                                                {{ $client['name'] }}
-                                            @empty
-                                                -
-                                            @endforelse
-                                        </td>
-
-                                        <td>{{$project['project_clients'][0]['site'] ?? '------'}}</td>
+                                                @forelse ($project['project_clients'] as $client)
+                                                    {{ $client['name'] }}
+                                                @empty
+                                                    -
+                                                @endforelse
+                                        <td>{{$project['project_clients'][0]['contact_info'] ?? '------'}}</td>
                                         <td>{{$project['project_name'] ?? '------'}}</td>
                                         <td>{{$project['project_style']['name'] ?? '------'}}</td>
                                         {{--                                        @dd($project)--}}
@@ -258,7 +257,6 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <textarea style="width: 100%; height: 100%; border: none"
-                                                          class="form-control form-control-sm"
                                                           onchange="editCommentProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
                                                           type="text"
                                                 >{{$project['comment']}}</textarea>
