@@ -62,8 +62,8 @@
                     </div>
                     <div class="form-group col-12 col-lg-6">
                         <label for="" class="form-label">Портрет и общая хар-ка</label>
-                        <input type="text" value="{{$clients['characteristic']}}" class="form-control form-control-sm"
-                               name="characteristic">
+                        <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
+                        <textarea id="characteristic" value="{{$clients['characteristic']}}" name="characteristic" class="form-control"> </textarea>
                     </div>
                     <div class="form-group col-12 mb-2">
                         <button class="btn btn-success btn-sm mr-3 w-auto">Редактировать</button>
