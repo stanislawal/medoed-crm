@@ -61,9 +61,8 @@
                         <input type="text" value="{{$clients['contact_info']}}" class="form-control form-control-sm" name="contact_info">
                     </div>
                     <div class="form-group col-12 col-lg-6">
-                        <label for="" class="form-label">Портрет и общая хар-ка</label>
                         <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
-                        <textarea id="characteristic" value="{{$clients['characteristic']}}" name="characteristic" class="form-control"> </textarea>
+                        <textarea id="characteristic" name="characteristic" class="form-control">{{$clients['characteristic']}}</textarea>
                     </div>
                     <div class="form-group col-12 mb-2">
                         <button class="btn btn-success btn-sm mr-3 w-auto">Редактировать</button>
