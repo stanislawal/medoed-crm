@@ -33,7 +33,6 @@ class ClientController extends Controller
         ]);
     }
 
-
     public function create()
     {
         $socialNetwork = SocialNetwork::on()->get();
@@ -42,7 +41,6 @@ class ClientController extends Controller
             'socialNetwork' => $socialNetwork,
         ]);
     }
-
 
     public function store(Request $request)
     {
@@ -53,7 +51,6 @@ class ClientController extends Controller
             'characteristic' => $request->characteristic ?? null,
             'company_name' => $request->company_name ?? null,
             'site' => $request->site ?? null,
-
             'link_socialnetwork' => $request->link_socialnetwork ?? null,
             'contact_info' => $request->contact_info ?? null,
             'birthday' => $request->birthday ?? null,
@@ -63,12 +60,10 @@ class ClientController extends Controller
 
     }
 
-
     public function show($id)
     {
-        //
-    }
 
+    }
 
     public function edit($client)
     {
@@ -87,7 +82,6 @@ class ClientController extends Controller
         ]);
     }
 
-
     public function update(Request $request, $client)
     {
         $attr = [
@@ -105,7 +99,6 @@ class ClientController extends Controller
         return redirect()->back()->with(['success' => 'Данные успешно обновлены.']);
 
     }
-
 
     public function destroy($client)
     {

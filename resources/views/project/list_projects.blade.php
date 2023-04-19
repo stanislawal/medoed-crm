@@ -191,10 +191,10 @@
                                     <th>@include('components.table.sort', ['title' => 'Тип текста', 'column' => 'styles|name'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена за 1000', 'column' => 'price_per'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Договор', 'column' => 'contract'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name'] )</th>
                                     <th>Дата последнего прописывания</th>
-                                    <th>Комментарий</th>
+                                    <th style="min-width: 300px !important;">Комментарий</th>
                                     <th>Автор</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author'] )</th>
                                     <th>Дата поступления</th>
@@ -205,31 +205,31 @@
                                 <tbody>
 
                                 @foreach ($projects as $key => $project)
-                                    <tr style="background-color: {{ $project['project_status']['color'] ?? "" }}">
-                                        <td>{{ $key + 1 }}</td>
-                                        <td><input type="checkbox" name="check" @if((bool)$project['check']) checked
+                                    <tr style=" background-color: {{ $project['project_status']['color'] ?? "" }}">
+                                        <td style="padding: 0 10px 0 12px!important">{{ $key + 1 }}</td>
+                                        <td style="padding: 0 10px 0 12px!important"><input type="checkbox" name="check" @if((bool)$project['check']) checked
                                                    @endif onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
                                         </td>
-                                        <td><a href="{{route('project.edit',['project'=> $project['id']])}}">Открыть</a>
+                                        <td style="padding: 0 10px 0 12px!important"><a href="{{route('project.edit',['project'=> $project['id']])}}"><i class="fas fa-grip-horizontal"></i></a>
 
                                         </td>
-                                        <td><textarea disabled
-                                                      style="border: none; border-radius: 10px; background-color: rgba(255,255,255,0);"
+                                        <td style="padding: 0 10px 0 12px!important"><textarea disabled
+                                                      style="border: none; width: 100px; border-radius: 10px; background-color: rgba(255,255,255,0);"
                                             >{{$project['project_user']['full_name'] ?? '------'}}</textarea></td>
-                                        <td>
+                                        <td style="padding: 0 10px 0 12px!important">
                                                 @forelse ($project['project_clients'] as $client)
                                                     {{ $client['name'] }}
                                                 @empty
                                                     -
                                                 @endforelse
-                                        <td>{{$project['project_clients'][0]['contact_info'] ?? '------'}}</td>
-                                        <td>{{$project['project_name'] ?? '------'}}</td>
-                                        <td>{{$project['project_style']['name'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_clients'][0]['contact_info'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_name'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_style']['name'] ?? '------'}}</td>
                                         {{--                                        @dd($project)--}}
 
-                                        <td>{{$project['price_per'] ?? '------'}}</td>
-                                        <td>{{$project['project_theme']['name'] ?? '------'}}</td>
-                                        <td>@if($project['contract'] == 0)
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['price_per'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_theme']['name'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">@if($project['contract'] == 0)
                                                 Нет
                                             @else
                                                 Да
@@ -246,7 +246,7 @@
                                                 </select>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td style="padding: 0 10px 0 12px!important">
                                             <div>
                                                 <input class="form-control form-control-sm"
                                                        onchange="editDateLastChangeProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
@@ -254,7 +254,7 @@
                                                        value="{{$project['date_last_change']}}">
                                             </div>
                                         </td>
-                                        <td>
+                                        <td style="padding: 0 10px 0 12px!important">
                                             <div class="d-flex align-items-center">
                                                 <textarea style="width: 100%; height: 100%; border: none"
                                                           onchange="editCommentProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
@@ -262,7 +262,7 @@
                                                 >{{$project['comment']}}</textarea>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td style="padding: 0 10px 0 12px!important">
                                             @forelse ($project['project_author'] as $author)
                                                 <div class="nowrap">{{ $author['full_name'] }}</div>
                                             @empty
@@ -270,10 +270,10 @@
                                             @endforelse
 
                                         </td>
-                                        <td>{{$project['price_author'] ?? '------'}}</td>
-                                        <td>{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['price_author'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
                                         @role('Администратор')
-                                        <td>
+                                        <td style="padding: 0 10px 0 12px!important">
                                             <div class="form-group col-12 d-flex justify-content-between destroy">
                                                 <a href="{{route('project.destroy',['project' => $project['id']])}}"
                                                    class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
