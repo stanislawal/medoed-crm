@@ -4,6 +4,8 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Article\ArticleController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Report\ReportAuthorController;
+use App\Http\Controllers\Report\ReportClientController;
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\Tables\TableProject;
 use App\Http\Controllers\User\UserController;
@@ -80,6 +82,10 @@ Route::middleware('auth')->group(function () {
         # Клиенты
         Route::resource('client', ClientController::class)->except('show');
         Route::get('client-destroy/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
+
+        # Отчеты
+        Route::resource('report_client', ReportClientController::class );
+        Route::resource('report_author', ReportAuthorController::class );
     });
 });
 

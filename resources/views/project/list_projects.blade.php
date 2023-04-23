@@ -1,21 +1,6 @@
 @extends('layout.markup')
 @section('custom_css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-    {{--    <style>--}}
-    {{--        table {--}}
-    {{--            counter-reset: rowNumber;--}}
-    {{--        }--}}
-
-    {{--        table tbody tr {--}}
-    {{--            counter-increment: rowNumber;--}}
-    {{--        }--}}
-
-    {{--        table tr td:first-child::before {--}}
-    {{--            content: counter(rowNumber);--}}
-    {{--            min-width: 1em;--}}
-    {{--            margin-right: 0.5em;--}}
-    {{--        }--}}
-    {{--    </style>--}}
 @endsection
 @section('content')
     <div class="row p-0s">
@@ -77,17 +62,6 @@
                                            value="{{ request()->price_per ?? '' }}">
                                 </div>
 
-                                {{--                                <div class="form-group col-12 col-md-4 col-lg-3">--}}
-                                {{--                                    <label for="" class="form-label">Цена заказчика</label>--}}
-                                {{--                                    <div class="input-group input-group-sm">--}}
-                                {{--                                        <input class="form-control form-control-sm" type="number" step="0.01" min="0.01"--}}
-                                {{--                                               name="price_client"--}}
-                                {{--                                               value="{{ request()->price_client ?? '' }}">--}}
-                                {{--                                        <div class="input-group-append">--}}
-                                {{--                                            <span class="input-group-text" id="basic-addon2">РУБ</span>--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-                                {{--                                </div>--}}
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Цена автора</label>

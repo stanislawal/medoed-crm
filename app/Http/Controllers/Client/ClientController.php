@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-
     public function index(Request $request)
     {
         $clients = Client::on()
@@ -20,12 +19,6 @@ class ClientController extends Controller
             ->toArray();
         $socialNetwork = SocialNetwork::on()->get()->toArray();
 
-//        //-----------------ФИЛЬТР-------------------
-//
-//        // по id
-//        $clients->when(!empty($request->id), function ($where) use ($request) {
-//            $where->where('id', $request->id);
-//        });
 
         return view('client.list_clients', [
             'clients' => $clients,

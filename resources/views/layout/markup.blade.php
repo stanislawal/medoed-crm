@@ -9,7 +9,6 @@
         <div class="main-header">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="blue">
-
                 <a href="{{ route('home') }}" class="logo d-flex align-items-center">
                     <h3 class="text-white m-auto">CRM</h3>
                 </a>
@@ -42,7 +41,6 @@
             </nav>
             <!-- End Navbar -->
         </div>
-
         <!-- Sidebar -->
         <div class="sidebar sidebar-style-2">
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
@@ -50,12 +48,10 @@
                     <div class="user">
                         <div class="info">
                             <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-
                                 @auth
                                     <span>
                                         {{ auth()->user()->full_name }}
                                         <span class="user-level">{{\App\Helpers\UserHelper::getRoleName()}}</span>
-                                        {{-- <span class="caret"></span> --}}
                                     </span>
                                 @endauth
 
@@ -72,7 +68,6 @@
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
 							</span>
-                            {{-- <h4 class="text-section">Components</h4> --}}
                         </li>
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#base">
@@ -195,22 +190,49 @@
                         </li>
                         @endhasanyrole
 
+                        @role('Администратор')
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#result">
+                                <i class="fas fa-book-open"></i>
+                                <p>Своды</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="result">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{route('report_client.index')}}">
+                                            <span class="sub-item">Заказчики</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('report_author.index')}}">
+                                            <span class="sub-item">Авторы</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#currency">
+                                <i class="fas fa-dollar-sign"></i>
+                                <p>Курс валют</p>
+                            </a>
+                        </li>
+                        @endrole
+
                     </ul>
                 </div>
             </div>
         </div>
         <!-- End Sidebar -->
-
         <div class="main-panel">
             <div class="content">
-
                 <div class="page-inner">
                     @yield('content')
-
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
 

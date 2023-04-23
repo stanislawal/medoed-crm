@@ -3,8 +3,8 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 @endsection
 @section('content')
-    <div class="row p-0s">
-        <div class="col-12">
+    <div class="">
+        <div>
             @include('Answer.custom_response')
             @include('Answer.validator_response')
 
@@ -65,41 +65,89 @@
             </div>
         </div>
 
-        <div class="col-12 mb-3">
-            <div class="shadow border bg-white rounded p-3">
-                <div class="col-12">
-                    Дней в диапазоне: <strong>{{ $statistics['count_days_in_range'] }}</strong>
-                </div>
-                <div class="col-12">
-                    Текущий день в диапазоне: <strong>{{ $statistics['current_day_in_range'] }}</strong>
-                </div>
-                <div class="col-12">
-                    Ожидаемый объем ЗБП: <strong>{{ $statistics['expectation'] }}</strong>
-                </div>
-                <div class="col-12">
-                    Сдано за сегодня: <strong>{{ $statistics['passed'] }}</strong>
-                </div>
+        {{--        <div class="w-100 mb-3">--}}
+        {{--            <div class="shadow border bg-white rounded p-3">--}}
+        {{--                <div class="col-12">--}}
+        {{--                    Дней в диапазоне: <strong>{{ $statistics['count_days_in_range'] }}</strong>--}}
+        {{--                </div>--}}
+        {{--                <div class="col-12">--}}
+        {{--                    Текущий день в диапазоне: <strong>{{ $statistics['current_day_in_range'] }}</strong>--}}
+        {{--                </div>--}}
+        {{--                <div class="col-12">--}}
+        {{--                    Ожидаемый объем ЗБП: <strong>{{ $statistics['expectation'] }}</strong>--}}
+        {{--                </div>--}}
+        {{--                <div class="col-12">--}}
+        {{--                    Сдано за сегодня: <strong>{{ $statistics['passed'] }}</strong>--}}
+        {{--                </div>--}}
 
-                @role('Admin')
-                <div class="col-12">
-                    Валовый доход (сумма): <strong>{{ (int)$statistics['sum_gross_income'] }}</strong>
-                </div>
-                @endrole
+        {{--                @role('Admin')--}}
+        {{--                <div class="col-12">--}}
+        {{--                    Валовый доход (сумма): <strong>{{ (int)$statistics['sum_gross_income'] }}</strong>--}}
+        {{--                </div>--}}
+        {{--                @endrole--}}
 
-                @if(\App\Helpers\UserHelper::isManager() || !is_null(request()->manager_id))
-                    <div class="col-12">
-                        Расчет менеджера: <strong>{{ $statistics['manager_salary'] }}</strong>
+        {{--                @if(\App\Helpers\UserHelper::isManager() || !is_null(request()->manager_id))--}}
+        {{--                    <div class="col-12">--}}
+        {{--                        Расчет менеджера: <strong>{{ $statistics['manager_salary'] }}</strong>--}}
+        {{--                    </div>--}}
+        {{--                @endif--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
+
+        <div class="mb-2">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+                            <div class="px-3 py-2 shadow border bg-white rounded">
+                                <div class="text-24"><strong>{{ $statistics['count_days_in_range'] }}</strong></div>
+                                <div class="text-12 nowrap-dot">Дней в месяце:</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+                            <div class="px-3 py-2 shadow border bg-white rounded">
+                                <div class="text-24"><strong>{{ $statistics['current_day_in_range'] }}</strong></div>
+                                <div class="text-12 nowrap-dot">Текущий день месяца:</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+                            <div class="px-3 py-2 shadow border bg-white rounded">
+                                <div class="text-24"><strong>{{ $statistics['expectation'] }}</strong></div>
+                                <div class="text-12 nowrap-dot">Ожидаемый объем ЗБП:</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+                            <div class="px-3 py-2 shadow border bg-white rounded">
+                                <div class="text-24"><strong>{{ $statistics['passed'] }}</strong></div>
+                                <div class="text-12 nowrap-dot">Сдано за сегодня:</div>
+                            </div>
+                        </div>
+
+                        @role('Admin')
+                        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+                            <div class="px-3 py-2 shadow border bg-white rounded">
+                                <div class="text-24"><strong>{{ (int)$statistics['sum_gross_income'] }}</strong></div>
+                                <div class="text-12 nowrap-dot">Валовый доход (сумма):</div>
+                            </div>
+                        </div>
+                        @endrole
+
+                        @if(\App\Helpers\UserHelper::isManager() || !is_null(request()->manager_id))
+                            <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+                                <div class="px-3 py-2 shadow border bg-white rounded">
+                                    <div class="text-24"><strong>{{ $statistics['manager_salary'] }}</strong></div>
+                                    <div class="text-12 nowrap-dot">Расчет менеджера:</div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
-                @endif
-
-
+                </div>
             </div>
-
         </div>
 
 
-        <div class="col-12">
-            <div class="card">
+        <div class="w-100">
+            <div class="card shadow border bg-white rounded">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title ">Редактирование статей</h4>
@@ -183,7 +231,7 @@
                                     {{--                                    ВАЛОВЫЙ ДОХОД--}}
                                     @role('Администратор')
                                     <td>
-                                        {{(int)$article['gross_income'] ?? '-'}}
+                                        {{$article['gross_income'] + 0 ?? '-'}}
                                     </td>
                                     @endrole
                                     <td class="td-client">

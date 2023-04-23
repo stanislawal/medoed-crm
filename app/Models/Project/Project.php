@@ -84,6 +84,9 @@ class Project extends Model
         return $this->belongsTo(Theme::class, 'theme_id');
     }
 
+    /*
+     * СВЯЗЬ ПРОЕКТА С МЕНЕДЖЕРОМ
+     */
     public function projectUser()
     {
         return $this->belongsTo(User::class, 'manager_id');
