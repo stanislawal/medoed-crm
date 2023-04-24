@@ -4,6 +4,7 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Article\ArticleController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Report\ReportAuthorController;
 use App\Http\Controllers\Report\ReportClientController;
 use App\Http\Controllers\Report\ReportController;
@@ -52,18 +53,18 @@ Route::middleware('auth')->group(function () {
         return view('home');
     })->name('home');
 
-    # Проекты
+    # Проекты (projects)
     Route::resource('project', ProjectController::class)->except('show');
     Route::post('project/partial-update/{id}', [ProjectController::class, 'partialUpdate'])->name('project.partial_update');
     Route::get('project-destroy/{project}', [ProjectController::class, 'destroy'])->name('project.destroy');
 
-    # Статьи
+    # Статьи (articles)
     Route::resource('article', ArticleController::class);
     Route::get('article-destroy/{article}', [ArticleController::class, 'destroy'])->name('article.destroy');
 
     # only admin
     Route::middleware('role:Администратор')->group(function () {
-        # Пользователи
+        # Пользователи (users)
         Route::resource('user', UserController::class)->except('destroy');
         Route::get('user-destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
@@ -79,13 +80,20 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('add_option_socialnetwork', SocialNetworkController::class);
         Route::get('add_option_socialnetwork-destroy/{socialnetwork}', [SocialNetworkController::class, 'destroy'])->name('add_option_socialnetwork.destroy');
-        # Клиенты
+        # Заказчики (clients)
         Route::resource('client', ClientController::class)->except('show');
         Route::get('client-destroy/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
 
-        # Отчеты
+        # Отчеты (reports)
         Route::resource('report_client', ReportClientController::class );
         Route::resource('report_author', ReportAuthorController::class );
+
+        #Валюта (currency)
+        Route::prefix('rate')->group(function (){
+            Route::get('/', [RateController::class, 'index'])->name('rate.index');
+            Route::post('/update', [RateController::class, 'update'])->name('rate.update');
+        });
+
     });
 });
 

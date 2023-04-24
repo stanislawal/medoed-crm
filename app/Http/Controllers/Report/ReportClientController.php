@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project\Project;
+use App\Models\Rate\Rate;
 use Illuminate\Http\Request;
 
 class ReportClientController extends Controller
@@ -25,6 +26,7 @@ class ReportClientController extends Controller
                 )) as date_diff,
                 SUM(articles.price_client) as sum_price_client,
                 SUM(articles.price_author) as sum_price_author
+
         ")->from('projects')
             ->leftJoin('articles', 'articles.project_id', '=', 'projects.id')
             ->groupBy(['projects.id', 'duty']);
@@ -45,12 +47,15 @@ class ReportClientController extends Controller
             'sum_without_space' => $reports->sum('sum_without_space'),
             'sum_gross_income' => $reports->sum('sum_gross_income'),
             'profit' => $reports->sum('profit'),
-            'middle_check' => "-",
+            'middle_check' => $reports->sum('sum_price_client')/$reports->count(),
         ];
+
+        $rates = Rate::on()->get();
 
         return view('report.client_report.client_report', [
             'reports' => $reports->toArray(),
-            'statistics' => $statistics
+            'statistics' => $statistics,
+            'rates' => $rates
         ]);
     }
 
@@ -81,9 +86,9 @@ class ReportClientController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+
     }
 
     /**

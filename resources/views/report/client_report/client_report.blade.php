@@ -103,38 +103,37 @@
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{$statistics['middle_check']}}</strong></div>
+                            <div class="text-24"><strong>{{number_format($statistics['middle_check'], 2,'.', '')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Средний чек:</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-3">
-                <div class="w-100">
-                    <div class="px-3 py-1 shadow border bg-white rounded mb-2">
-                        <div class="d-flex align-items-center">
+                <div class="col-12 col-md-3">
+                    <div class="w-100">
+                        <div class="px-3 py-1 shadow border bg-white rounded mb-2">
                             <div class="d-flex align-items-center">
-                                <div><i class="la flaticon-graph-2 text-primary" style="font-size: 30px"></i></div>
-                                <div class="pl-3"><span class="text-14">USD:</span></div>
-                                <div class="pl-2 text-18">73.3</div>
+                                <div class="d-flex align-items-center">
+                                    <div style="font-size: 40px">$</div>
+                                    <div class="pl-3"><span class="text-14">USD:</span></div>
+                                    <div class="pl-2 text-18">{{$rates->where('id_currency', 2)->first()->rate ?? ""}}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="px-3 py-1 shadow border bg-white rounded mb-2">
-                        <div class="d-flex align-items-center">
-                            <div><i class="la flaticon-graph-2 text-primary" style="font-size: 30px"></i></div>
-                            <div class="pl-3"><span class="text-14">EUR:</span></div>
-                            <div class="pl-2 text-18">79</div>
+                        <div class="px-3 py-1 shadow border bg-white rounded mb-2">
+                            <div class="d-flex align-items-center">
+                                <div style="font-size: 40px">€</div>
+                                <div class="pl-3"><span class="text-14">EUR:</span></div>
+                                <div class="pl-2 text-18">{{$rates->where('id_currency', 3)->first()->rate ?? ""}}</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="px-3 py-1 shadow border bg-white rounded mb-2">
-                        <div class="d-flex align-items-center">
-                            <div><i class="la flaticon-graph-2 text-primary" style="font-size: 30px"></i></div>
-                            <div class="pl-3"><span class="text-14">UAH:</span></div>
-                            <div class="pl-2 text-18">2.2</div>
-                        </div>
+                        <div class="px-3 py-1 shadow border bg-white rounded mb-2">
+                            <div class="d-flex align-items-center">
+                                <div style="font-size: 38px">₴</div>
+                                <div class="pl-3"><span class="text-14">UAH:</span></div>
+                                <div class="pl-2 text-18">{{$rates->where('id_currency', 4)->first()->rate ?? ""}}</div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -157,7 +156,6 @@
                         <tr>
                             <th>ID</th>
                             <th></th>
-                            <th></th>
 
                             <th>Состояние</th>
                             <th>Долг</th>
@@ -178,8 +176,7 @@
                         @foreach($reports as $item)
                             <tr>
                                 <td>{{$item['id']}}</td>
-                                <td><input type="checkbox" name="check"></td>
-                                <td><i class="fas fa-grip-horizontal"></td>
+                                <td><a href="{{route('report_client.show')}}"><i class="fas fa-grip-horizontal"></a></td>
                                 <td class="text-center">
                                     <span class="badge text-dark" style="background-color: {{ $item['project_status']['color'] }} ">{{$item['project_status']['name'] ?? ''}}</span>
                                 </td>

@@ -214,7 +214,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a data-toggle="collapse" href="#currency">
+                            <a  href="{{route('rate.index')}}">
                                 <i class="fas fa-dollar-sign"></i>
                                 <p>Курс валют</p>
                             </a>
