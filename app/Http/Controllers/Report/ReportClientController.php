@@ -88,7 +88,7 @@ class ReportClientController extends Controller
      */
     public function show()
     {
-
+            return view('report.client_report.client_project');
     }
 
     /**

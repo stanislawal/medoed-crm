@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
         # Отчеты (reports)
         Route::resource('report_client', ReportClientController::class );
         Route::resource('report_author', ReportAuthorController::class );
-
+        Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
         #Валюта (currency)
         Route::prefix('rate')->group(function (){
             Route::get('/', [RateController::class, 'index'])->name('rate.index');

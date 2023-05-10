@@ -156,7 +156,6 @@
                         <tr>
                             <th>ID</th>
                             <th></th>
-
                             <th>Состояние</th>
                             <th>Долг</th>
                             <th>Проект</th>
@@ -176,7 +175,7 @@
                         @foreach($reports as $item)
                             <tr>
                                 <td>{{$item['id']}}</td>
-                                <td><a href="{{route('report_client.show')}}"><i class="fas fa-grip-horizontal"></a></td>
+                                <td><a href="{{route('client_project.show', ['project'=> $item['id']])}}"><i class="fas fa-grip-horizontal"></a></td>
                                 <td class="text-center">
                                     <span class="badge text-dark" style="background-color: {{ $item['project_status']['color'] }} ">{{$item['project_status']['name'] ?? ''}}</span>
                                 </td>
