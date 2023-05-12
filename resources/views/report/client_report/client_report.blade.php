@@ -29,29 +29,40 @@
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Долг</label>
                             <div class="input-group">
-                                <input type="number" step="0.01" class="form-control form-control-sm" name="duty_from" value="{{ request()->duty_from ?? '' }}" placeholder="От">
-                                <input type="number" step="0.01" class="form-control form-control-sm" name="duty_to" value="{{ request()->duty_to ?? '' }}" placeholder="До">
+                                <input type="number" step="0.01" class="form-control form-control-sm" name="duty_from"
+                                       value="{{ request()->duty_from ?? '' }}" placeholder="От">
+                                <input type="number" step="0.01" class="form-control form-control-sm" name="duty_to"
+                                       value="{{ request()->duty_to ?? '' }}" placeholder="До">
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Объем ЗБП </label>
                             <div class="input-group">
-                                <input type="number" step="0.01" class="form-control form-control-sm" name="sum_without_space_from" value="{{ request()->sum_without_space_from ?? '' }}" placeholder="От">
-                                <input type="number" step="0.01" class="form-control form-control-sm" name="sum_without_space_to" value="{{ request()->sum_without_space_to ?? '' }}" placeholder="До">
+                                <input type="number" step="0.01" class="form-control form-control-sm"
+                                       name="sum_without_space_from"
+                                       value="{{ request()->sum_without_space_from ?? '' }}" placeholder="От">
+                                <input type="number" step="0.01" class="form-control form-control-sm"
+                                       name="sum_without_space_to" value="{{ request()->sum_without_space_to ?? '' }}"
+                                       placeholder="До">
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Маржа</label>
                             <div class="input-group">
-                                <input type="number" step="0.01" class="form-control form-control-sm" name="profit_from" value="{{ request()->profit_from ?? '' }}" placeholder="От">
-                                <input type="number" step="0.01" class="form-control form-control-sm" name="profit_to" value="{{ request()->profit_to ?? '' }}" placeholder="До">
+                                <input type="number" step="0.01" class="form-control form-control-sm" name="profit_from"
+                                       value="{{ request()->profit_from ?? '' }}" placeholder="От">
+                                <input type="number" step="0.01" class="form-control form-control-sm" name="profit_to"
+                                       value="{{ request()->profit_to ?? '' }}" placeholder="До">
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Срок в работе (дни)</label>
                             <div class="input-group">
-                                <input type="number" step="0.01" class="form-control form-control-sm" name="date_diff_from" value="{{ request()->date_diff_from ?? '' }}" placeholder="От">
-                                <input type="number" step="0.01" class="form-control form-control-sm" name="date_diff_to" value="{{ request()->date_diff_to ?? '' }}" placeholder="До">
+                                <input type="number" step="0.01" class="form-control form-control-sm"
+                                       name="date_diff_from" value="{{ request()->date_diff_from ?? '' }}"
+                                       placeholder="От">
+                                <input type="number" step="0.01" class="form-control form-control-sm"
+                                       name="date_diff_to" value="{{ request()->date_diff_to ?? '' }}" placeholder="До">
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-4 col-lg-3">
@@ -206,10 +217,18 @@
                                 <td><a href="{{route('client_project.show', ['project'=> $item['id']])}}">
                                         <i class="fas fa-grip-horizontal"></i></a>
                                 </td>
-                                <td class="text-center" style="background-color: {{ $item['project_status_payment']['color'] }}70">
-                                    <select name="status_payment_id" onchange="editStatusPaymentProject(this, '{{ route('project.partial_update', ['id'=>$item['id']]) }}')">
+                                <td class="text-center"
+                                    style="background-color: {{ $item['project_status_payment']['color'] ?? '#ffffff' }}70 ">
+                                    <select name="status_payment_id"
+                                            onchange="editStatusPaymentProject(this, '{{ route('project.partial_update', ['id'=>$item['id']]) }}')">
+                                        <option value="">
+                                            Не выбрано
+                                        </option>
                                         @foreach($statusPayments as $status)
-                                            <option value="{{ $status['id'] }}" @if($status['id'] === $item['project_status_payment']['id']) selected @endif>{{ $status['name'] }}</option>
+                                            <option value="{{ $status['id'] }}"
+                                                    @if($status['id'] == ($item['project_status_payment']['id'] ?? 0)) selected @endif>
+                                                {{ $status['name'] }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -217,7 +236,7 @@
                                     @if($item['duty'] < 0)
                                         <span class="text-danger">{{$item['duty'] ?? '-'}}</span>
                                     @else
-                                        {{$item['duty'] ?? '-'}}
+                                        {{$item['duty'] + 0 ?? '-'}}
                                     @endif
                                 </td>
                                 <td>{{$item['project_name'] ?? '-'}}</td>
@@ -226,12 +245,12 @@
                                     @endforeach</td>
                                 <td>{{$item['sum_without_space']+0 ?? '-'}}</td>
                                 <td>{{$item['sum_gross_income']+0 ?? '-'}}</td>
-                                <td>{{$item['profit'] ?? '-'}}</td>
+                                <td>{{$item['profit'] + 0 ?? '-'}}</td>
                                 <td>{{$item['project_user']['full_name'] ?? '-'}}</td>
                                 <td>{{$item['payment_terms'] ?? '-'}}</td>
                                 <td>{{$item['date_diff'].' дней' ?? '-'}}</td>
-                                <td>{{$item['sum_price_client'] ?? '-'}}</td>
-                                <td>{{$item['sum_price_author'] ?? '-'}}</td>
+                                <td>{{$item['sum_price_client'] + 0 ?? '-'}}</td>
+                                <td>{{$item['sum_price_author']+ 0 ?? '-'}}</td>
                                 <td>{{$item['symbol_in_day'] ?? '-'}}</td>
 
                             </tr>

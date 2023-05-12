@@ -92,6 +92,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('report_client', ReportClientController::class );
         Route::resource('report_author', ReportAuthorController::class );
         Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
+
         #----------------------------------------ОТЧЕТЫ----------------------------------------
 
 
@@ -107,6 +108,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('payment')->group(function () {
         // страница создания оплаты, и список (для менеджера)
         Route::get('/create', [PaymentController::class, 'create'])->name('payment.create');
+        // возвращает html select статей указанного проекта
+        Route::get('/select-article/{id}', [PaymentController::class, 'selectArticle'])->name('payment.select_article');
         // создание оплаты
         Route::post('/store', [PaymentController::class, 'store'])->name('payment.store');
         // обновление оплаты

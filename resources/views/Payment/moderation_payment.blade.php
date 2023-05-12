@@ -33,6 +33,7 @@
                                 <th>ВМЗ</th>
                                 <th>Биржи</th>
                                 <th>Проект</th>
+                                <th>Статья</th>
                                 <th>Комментарий</th>
                                 <th></th>
                                 <th></th>
@@ -100,16 +101,13 @@
                                                    value="{{ $payment['birja'] }}" disabled>
                                         </div>
                                     </td>
+
                                     <td>
-                                        <select class="form-select form-select-sm select-2" name="project_id" disabled>
-                                            <option value="" data-author="" data-client="">Не выбрано</option>
-                                            @foreach($projects as $project)
-                                                <option value="{{ $project['id'] }}"
-                                                        @if($project['id'] === $payment['project_id']) selected @endif>
-                                                    {{ $project['project_name'] }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        {{ $payment['project']['project_name'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $payment['article']['article'] }}
                                     </td>
 
                                     <td>

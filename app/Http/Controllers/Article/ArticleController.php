@@ -147,7 +147,9 @@ class ArticleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $attr = $request->only(['article', 'manager_id', 'without_space', 'id_currency', 'gross_income', 'link_text', 'check', 'project_id']);
+        $attr = $request->only([
+            'article', 'manager_id', 'without_space', 'id_currency', 'gross_income', 'link_text', 'check', 'project_id', 'price_author', 'price_client'
+        ]);
         Article::on()->where('id', $id)->update($attr);
 
         CrossArticleAuthor::on()->where('article_id', $id)->delete();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Payment;
 
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Models\Payment\Payment;
 use App\Models\Project\Project;
 use App\Models\StatusPayment;
@@ -32,7 +33,7 @@ class PaymentController extends Controller
             ->when(UserHelper::isManager(), function ($where) {
                 $where->where('create_user_id', UserHelper::getUserId());
             })
-            ->with(['project', 'status'])
+            ->with(['project', 'status', 'article'])
             ->get()
             ->toArray();
 
@@ -40,6 +41,16 @@ class PaymentController extends Controller
             'projects' => $projects,
             'paymentList' => $paymentList,
             'statuses' => StatusPayment::on()->get()->toArray()
+        ]);
+    }
+
+    public function selectArticle($id)
+    {
+        $articles = Article::on()->where('project_id', $id)->get()->toArray();
+
+        return response()->json([
+            'result' => true,
+            'html' => view('Render.Payment.select_article' ,['articles' => $articles])->render()
         ]);
     }
 
@@ -52,7 +63,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $params = collect($request->all())
-            ->only(['project_id', 'date', 'sber_d', 'sber_k', 'privat', 'um', 'wmz', 'birja', 'comment'])
+            ->only(['project_id', 'date', 'sber_d', 'sber_k', 'privat', 'um', 'wmz', 'birja', 'comment', 'article_id'])
             ->toArray();
 
         $params['status_payment_id'] = 1;
@@ -72,7 +83,7 @@ class PaymentController extends Controller
     {
         return view('Payment.moderation_payment', [
             'projects' => Project::on()->select(['id', 'project_name'])->get()->toArray(),
-            'paymentList' => Payment::on()->with(['project', 'status'])->get()->toArray(),
+            'paymentList' => Payment::on()->with(['project', 'status', 'article'])->get()->toArray(),
             'statuses' => StatusPayment::on()->get()->toArray()
         ]);
     }

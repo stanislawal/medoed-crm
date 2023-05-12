@@ -4,6 +4,7 @@ namespace App\Models\Project;
 
 use App\Models\Article;
 use App\Models\Client\Client;
+use App\Models\Payment\Payment;
 use App\Models\Project\Cross\CrossprojectArticle;
 use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Cross\CrossProjectClient;
@@ -70,6 +71,10 @@ class Project extends Model
     {
         //Обратное отношение. прямая связь моделей
         return $this->belongsTo(StatusPaymentProject::class, 'status_payment_id');
+    }
+
+    public function payment(){
+        return $this->hasMany(Payment::class, 'project_id');
     }
 
     public function projectStyle()

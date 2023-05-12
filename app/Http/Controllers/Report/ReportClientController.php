@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Models\Client\Client;
+use App\Models\Payment\Payment;
 use App\Models\Project\Project;
 use App\Models\Rate\Rate;
 use App\Models\StatusPaymentProject;
@@ -27,8 +29,8 @@ class ReportClientController extends Controller
                     projects.start_date_project,
                     COALESCE(projects.end_date_project, CURRENT_DATE())
                 )) as date_diff,
-                SUM(articles.price_client) as sum_price_client,
-                SUM(articles.price_author) as sum_price_author
+                SUM((articles.price_client*(articles.without_space/1000))) as sum_price_client,
+                SUM((articles.price_author *(articles.without_space/1000))) as sum_price_author
 
         ")->from('projects')
             ->leftJoin('articles', 'articles.project_id', '=', 'projects.id')
@@ -80,12 +82,12 @@ class ReportClientController extends Controller
             ->get()->toArray();
 
         $clients = Client::on()->get()->toArray();
-
+//        dd($reports->toArray());
         return view('report.client_report.client_report', [
             'reports' => $reports->toArray(),
             'statistics' => $statistics,
             'rates' => $rates,
-            'statusPayments' => StatusPaymentProject::on()->get(),
+            'statusPayments' => StatusPaymentProject::on()->get()->toArray(),
             'managers' => $managers,
             'project' => $project,
             'clients' => $clients
@@ -133,7 +135,7 @@ class ReportClientController extends Controller
 
         // менеджер
         if (!empty($request->client_id)) {
-            $reports->whereHas('projectClients', function($where) use ($request){
+            $reports->whereHas('projectClients', function ($where) use ($request) {
                 $where->where('clients.id', $request->client_id);
             });
         }
@@ -160,15 +162,50 @@ class ReportClientController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show()
+    public function show($id)
     {
-        return view('report.client_report.client_project');
+
+        $report = Article::on()->selectRaw("
+              id,
+              article as article_name,
+              project_id,
+              without_space,
+              (price_client *(without_space/1000)) as price_client,
+              (price_author *(without_space/1000)) as price_author
+        ");
+
+        $payment = Payment::on()->selectRaw("
+            article_id,
+            sum(sber_d + sber_k + privat + um + wmz + birja) as amount,
+            count(id) as count_operation
+        ")
+            ->groupBy(['article_id'])
+            ->where('mark', true);
+
+        $report = Article::on()->selectRaw("
+            projects.project_name,
+            projects.end_date_project,
+            articles.*,
+            payment.*,
+            (articles.price_client - amount) as duty
+        ")
+            ->from('projects')
+            ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')
+            ->leftJoinSub($payment, 'payment', 'payment.article_id', '=', 'articles.id')
+            ->where('projects.id', $id)
+            ->groupBy(['projects.project_name', 'projects.end_date_project', 'articles.id'])
+            ->with(['articleAuthor:id,full_name'])
+            ->get()
+            ->toArray();
+
+        $clients = Client::on()->whereHas('projectClients', function ($where) use ($id) {
+            $where->where('projects.id', $id);
+        })->get()->toArray();
+
+        return view('report.client_report.client_project', [
+            'report' => collect($report),
+            'clients' => $clients
+        ]);
     }
 
     /**

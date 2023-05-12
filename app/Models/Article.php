@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends BaseModel
 {
     public $table = 'articles';
+
     protected $fillable = [
         'article', //статья
         'manager_id', //id пользователя

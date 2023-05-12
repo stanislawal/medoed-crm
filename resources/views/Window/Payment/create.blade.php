@@ -10,13 +10,22 @@
                     @csrf
                     <div class="form-group">
                         <label for="">Проект</label>
-                        <select class="form-select form-select-sm select-2" name="project_id" required>
-                            <option value="" data-author="" data-client="">Не выбрано</option>
+                        <select class="form-select form-select-sm select-2" name="project_id" required onchange="getSelect(this)">
+                            <option value="0">Не выбрано</option>
                             @foreach($projects as $project)
                                 <option value="{{ $project['id'] }}">{{ $project['project_name'] }}
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Статья</label>
+                        <div class="select-block">
+                            <select class="form-select form-select-sm" required>
+                                <option value="">Не выбрано</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="form-group">

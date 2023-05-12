@@ -40,10 +40,10 @@ class ProjectController extends Controller
 
         $projects = Project::on()
             ->selectRaw('projects.*')
-            ->leftJoin('users', 'projects.manager_id', 'users.id')
-            ->leftJoin('themes', 'projects.theme_id', 'themes.id')
-            ->leftJoin('statuses', 'projects.status_id', 'statuses.id')
-            ->leftJoin('styles', 'projects.style_id', 'styles.id')
+//            ->leftJoin('users', 'projects.manager_id', 'users.id')
+//            ->leftJoin('themes', 'projects.theme_id', 'themes.id')
+//            ->leftJoin('statuses', 'projects.status_id', 'statuses.id')
+//            ->leftJoin('styles', 'projects.style_id', 'styles.id')
             ->with([
                 'projectTheme',
                 'projectUser',
@@ -301,7 +301,7 @@ class ProjectController extends Controller
     private function filter(&$projects, $request)
     {
         $projects->when(!empty($request->id), function ($where) use ($request) {
-            $where->where('id', $request->id);
+            $where->where('projects.id', $request->id);
         });
 
         $projects->when(!empty($request->created_at), function ($where) use ($request) {
