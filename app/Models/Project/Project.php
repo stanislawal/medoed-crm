@@ -8,6 +8,7 @@ use App\Models\Project\Cross\CrossprojectArticle;
 use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Cross\CrossProjectClient;
 use App\Models\Status;
+use App\Models\StatusPaymentProject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,6 +36,7 @@ class Project extends Model
         'contract_exist', // договор если да
         'comment', // комментарий к проекту
         'style_id', // id стиля текса
+        'status_payment_id', // id статуса оплаты проекта
         'status_id', //id состояния проекта
         'business_area', //сфера бизнесса
         'link_site', //ссылка на сайт
@@ -62,6 +64,12 @@ class Project extends Model
     {
         //Обратное отношение. прямая связь моделей
         return $this->belongsTo(Status::class, 'status_id');
+    }
+
+    public function projectStatusPayment()
+    {
+        //Обратное отношение. прямая связь моделей
+        return $this->belongsTo(StatusPaymentProject::class, 'status_payment_id');
     }
 
     public function projectStyle()

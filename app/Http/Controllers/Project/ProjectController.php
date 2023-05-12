@@ -279,7 +279,7 @@ class ProjectController extends Controller
     public function partialUpdate($id, Request $request)
     {
         try {
-            $param = $request->only(['status_id', 'comment', 'date_last_change', 'check']);
+            $param = $request->only(['status_id', 'comment', 'date_last_change', 'check', 'status_payment_id']);
 
             if (count($param) > 0) {
                 Project::on()->where('id', $id)->update($param);

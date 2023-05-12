@@ -23,7 +23,10 @@ window.editCheckProject = function (el, url) {
     ajax('post', url, {check: check});
 }
 
-
+window.editStatusPaymentProject = function(el, url){
+    const statusPaymentId = $(el).val();
+    ajax('post', url, {status_payment_id : statusPaymentId})
+}
 
 window.ajaxStatus = true;
 window.ajax = function (method, url, params) {

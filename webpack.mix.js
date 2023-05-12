@@ -21,6 +21,8 @@ mix.js('resources/js/select2.js', 'public/js');
 mix.js('resources/js/project/project.js', 'public/js');
 // article js
 mix.js('resources/js/article/article.js', 'public/js');
+// payment.js
+mix.js('resources/js/payment/payment.js', 'public/js');
 
 
 //---------------------CSS-----------------

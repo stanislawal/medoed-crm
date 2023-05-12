@@ -30,6 +30,12 @@ window.editCheckProject = function (el, url) {
     check: check
   });
 };
+window.editStatusPaymentProject = function (el, url) {
+  var statusPaymentId = $(el).val();
+  ajax('post', url, {
+    status_payment_id: statusPaymentId
+  });
+};
 window.ajaxStatus = true;
 window.ajax = function (method, url, params) {
   if (window.ajaxStatus) {

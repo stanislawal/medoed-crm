@@ -1,13 +1,13 @@
 @extends('layout.markup')
 
 @section('content')
-<h2>Добавление состояния</h2>
+<h2>Добавление состояния проекта</h2>
     <div>
         <div class="shadow border p-4 my-3">
                 <form action="{{route('add_option_status.store')}}" method="POST">
                     @csrf
                     <div class="mb-3 col-6 col-md-4">
-                        <label for="" class="form-label mb-3">Добавить новое состояние</label>
+                        <label for="" class="form-label mb-3">Добавить новое состояние проекта</label>
                         <input type="text" class="form-control form-control " name="add_new_status">
                         <button type="success" class="btn btn-sm btn-success mt-3">Добавить</button>
                     </div>

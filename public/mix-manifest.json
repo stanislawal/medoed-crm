@@ -3,6 +3,7 @@
     "/js/select2.js": "/js/select2.js",
     "/js/project.js": "/js/project.js",
     "/js/article.js": "/js/article.js",
+    "/js/payment.js": "/js/payment.js",
     "/css/auth.css": "/css/auth.css",
     "/css/app.css": "/css/app.css"
 }

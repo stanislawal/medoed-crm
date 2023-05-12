@@ -143,7 +143,12 @@
                                 <ul class="nav nav-collapse">
                                     <li>
                                         <a href="{{route('add_option_status.index')}}">
-                                            <span class="sub-item">Состояния</span>
+                                            <span class="sub-item">Состояния проекта</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('status_payment.index')}}">
+                                            <span class="sub-item">Состояния оплаты проекта</span>
                                         </a>
                                     </li>
                                     <li>
@@ -212,9 +217,35 @@
                                 </ul>
                             </div>
                         </li>
+                        @endrole
 
                         <li class="nav-item">
-                            <a  href="{{route('rate.index')}}">
+                            <a data-toggle="collapse" href="#payment">
+                                <i class="fas fa-book-open"></i>
+                                <p>Оплата</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="payment">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('payment.create') }}">
+                                            <span class="sub-item">Внести оплату</span>
+                                        </a>
+                                    </li>
+                                    @role('Администратор')
+                                    <li>
+                                        <a href="{{ route('payment.moderation') }}">
+                                            <span class="sub-item">Бухгалтерский учет</span>
+                                        </a>
+                                    </li>
+                                    @endrole
+                                </ul>
+                            </div>
+                        </li>
+
+                        @role('Администратор')
+                        <li class="nav-item">
+                            <a href="{{route('rate.index')}}">
                                 <i class="fas fa-dollar-sign"></i>
                                 <p>Курс валют</p>
                             </a>
