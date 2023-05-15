@@ -10,8 +10,6 @@
             {{ $client['name'] }}
         @endforeach
     </h2>
-
-
     <div class="mb-2">
         <div class="row">
             <div class="col-12">
