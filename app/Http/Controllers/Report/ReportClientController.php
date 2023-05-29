@@ -16,6 +16,10 @@ use Illuminate\Http\Request;
 class ReportClientController extends Controller
 {
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index(Request $request)
     {
         $reports = Project::on()
@@ -41,7 +45,6 @@ class ReportClientController extends Controller
             project.*,
             (sum_without_space / date_diff) as symbol_in_day,
             (sum_price_client - sum_price_author) as profit,
-
             (
                 sum_price_client
                 -
@@ -82,7 +85,7 @@ class ReportClientController extends Controller
             ->get()->toArray();
 
         $clients = Client::on()->get()->toArray();
-//        dd($reports->toArray());
+
         return view('report.client_report.client_report', [
             'reports' => $reports->toArray(),
             'statistics' => $statistics,
@@ -164,6 +167,16 @@ class ReportClientController extends Controller
 
     public function show($id)
     {
+        $payment = Payment::on()->selectRaw("
+            project_id,
+            sum(sber_d + sber_k + privat + um + wmz + birja) as amount,
+            count(id) as count_operation
+        ")
+            ->groupBy(['project_id'])
+            ->where('project_id', $id)
+            ->where('mark', true)
+            ->get()
+            ->toArray();
 
         $report = Article::on()->selectRaw("
               id,
@@ -174,26 +187,14 @@ class ReportClientController extends Controller
               (price_author *(without_space/1000)) as price_author
         ");
 
-        $payment = Payment::on()->selectRaw("
-            article_id,
-            sum(sber_d + sber_k + privat + um + wmz + birja) as amount,
-            count(id) as count_operation
-        ")
-            ->groupBy(['article_id'])
-            ->where('mark', true);
-
         $report = Article::on()->selectRaw("
             projects.project_name,
             projects.end_date_project,
-            articles.*,
-            payment.*,
-            (articles.price_client - amount) as duty
+            articles.*
         ")
             ->from('projects')
             ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')
-            ->leftJoinSub($payment, 'payment', 'payment.article_id', '=', 'articles.id')
             ->where('projects.id', $id)
-            ->groupBy(['projects.project_name', 'projects.end_date_project', 'articles.id'])
             ->with(['articleAuthor:id,full_name'])
             ->get()
             ->toArray();
@@ -204,7 +205,8 @@ class ReportClientController extends Controller
 
         return view('report.client_report.client_project', [
             'report' => collect($report),
-            'clients' => $clients
+            'clients' => $clients,
+            'payment' => $payment
         ]);
     }
 

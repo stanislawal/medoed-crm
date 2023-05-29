@@ -36,7 +36,6 @@
                                 <th>ВМЗ</th>
                                 <th>Биржи</th>
                                 <th>Проект</th>
-                                <th>Статья</th>
                                 <th>Комментарий</th>
                                 <th>Удалить</th>
                                 <th>Изменить</th>
@@ -104,10 +103,6 @@
 
                                     <td>
                                         {{ $payment['project']['project_name'] }}
-                                    </td>
-
-                                    <td>
-                                        {{ $payment['article']['article'] }}
                                     </td>
 
                                     <td>

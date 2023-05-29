@@ -16,13 +16,13 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ collect($report)->sum('amount') }}</strong></div>
+                            <div class="text-24"><strong>{{ collect($payment)->sum('amount') }}</strong></div>
                             <div class="text-12 nowrap-dot">Оплата:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ collect($report)->sum('count_operation') }}</strong></div>
+                            <div class="text-24"><strong>{{ collect($payment)->sum('count_operation') }}</strong></div>
                             <div class="text-12 nowrap-dot">Кол-во заявок оплаты:</div>
                         </div>
                     </div>
@@ -55,9 +55,6 @@
                             <th>Статья</th>
                             <th>Цена заказчика</th>
                             <th>Цена автора</th>
-                            <th>Оплата</th>
-                            <th>Операции</th>
-                            <th>Долг</th>
                             <th>Автор</th>
                             <th>Дата сдачи</th>
                         </tr>
@@ -71,15 +68,15 @@
                                 <td>{{ $item['article_name'] }}</td>
                                 <td>{{ $item['price_client'] + 0 }}</td>
                                 <td>{{ $item['price_author'] + 0 }}</td>
-                                <td>{{ $item['amount'] + 0 }}</td>
-                                <td>{{ $item['count_operation'] }}</td>
-                                <td>
-                                    @if($item['duty'] < 0)
-                                        <span class="text-danger">{{ $item['duty'] + 0 }}</span>
-                                    @else
-                                        {{ $item['duty'] + 0 }}
-                                    @endif
-                                </td>
+{{--                                <td>{{ $item['amount'] + 0 }}</td>--}}
+{{--                                <td>{{ $item['count_operation'] }}</td>--}}
+{{--                                <td>--}}
+{{--                                    @if($item['duty'] < 0)--}}
+{{--                                        <span class="text-danger">{{ $item['duty'] + 0 }}</span>--}}
+{{--                                    @else--}}
+{{--                                        {{ $item['duty'] + 0 }}--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
                                 <td>
                                     @forelse($item['article_author'] as $author)
                                         <div class="badge bg-primary">{{ $author['full_name'] }}</div>

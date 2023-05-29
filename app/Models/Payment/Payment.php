@@ -24,7 +24,6 @@ class Payment extends Model
         'birja',
         'number',
         'project_id',
-        'article_id',
         'comment',
         'create_user_id'
     ];
@@ -34,11 +33,6 @@ class Payment extends Model
     public function project()
     {
         return $this->belongsTo(Project::class,'project_id');
-    }
-
-    public function article()
-    {
-        return $this->belongsTo(Article::class,'article_id');
     }
 
     public function status(){

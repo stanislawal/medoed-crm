@@ -101,36 +101,3 @@ $('select[name="project_id"]').change(function () {
     $('.' + className + ' .td-author').text(author);
 });
 
-window.ajaxStatus = true;
-window.getSelect = function (el) {
-
-    const url =  '/payment/select-article/' + $(el).val();
-
-    if (window.ajaxStatus) {
-        const selectBlock = $('.select-block');
-        selectBlock.prop('disabled', true);
-        $.ajax({
-            url: url,
-            method: 'get',
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-        }).done((res) => {
-            if (res.result) {
-
-                selectBlock.empty();
-                selectBlock.append(res.html);
-
-            } else {
-                showNotification('error', res.message)
-            }
-            window.ajaxStatus = true;
-        }).fail((error) => {
-            showNotification('error', 'Произошла ошибка запроса.')
-            console.log(error)
-            window.ajaxStatus = true;
-        })
-        selectBlock.prop('disabled', false);
-    } else {
-        alert('Дождитесь завершения запроса');
-    }
-}
-

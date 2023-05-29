@@ -21,7 +21,6 @@ class PaymentController extends Controller
      */
     public function create()
     {
-
         $projects = Project::on()
             ->when(UserHelper::isManager(), function ($where) {
                 $where->where('manager_id', UserHelper::getUserId());
@@ -33,7 +32,7 @@ class PaymentController extends Controller
             ->when(UserHelper::isManager(), function ($where) {
                 $where->where('create_user_id', UserHelper::getUserId());
             })
-            ->with(['project', 'status', 'article'])
+            ->with(['project', 'status'])
             ->get()
             ->toArray();
 
@@ -63,7 +62,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $params = collect($request->all())
-            ->only(['project_id', 'date', 'sber_d', 'sber_k', 'privat', 'um', 'wmz', 'birja', 'comment', 'article_id'])
+            ->only(['project_id', 'date', 'sber_d', 'sber_k', 'privat', 'um', 'wmz', 'birja', 'comment'])
             ->toArray();
 
         $params['status_payment_id'] = 1;
@@ -83,7 +82,7 @@ class PaymentController extends Controller
     {
         return view('Payment.moderation_payment', [
             'projects' => Project::on()->select(['id', 'project_name'])->get()->toArray(),
-            'paymentList' => Payment::on()->with(['project', 'status', 'article'])->get()->toArray(),
+            'paymentList' => Payment::on()->with(['project', 'status'])->get()->toArray(),
             'statuses' => StatusPayment::on()->get()->toArray()
         ]);
     }

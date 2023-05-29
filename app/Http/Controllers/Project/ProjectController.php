@@ -40,10 +40,6 @@ class ProjectController extends Controller
 
         $projects = Project::on()
             ->selectRaw('projects.*')
-//            ->leftJoin('users', 'projects.manager_id', 'users.id')
-//            ->leftJoin('themes', 'projects.theme_id', 'themes.id')
-//            ->leftJoin('statuses', 'projects.status_id', 'statuses.id')
-//            ->leftJoin('styles', 'projects.style_id', 'styles.id')
             ->with([
                 'projectTheme',
                 'projectUser',

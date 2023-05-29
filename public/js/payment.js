@@ -90,35 +90,5 @@ $('select[name="project_id"]').change(function () {
   $('.' + className + ' .td-client').text(client);
   $('.' + className + ' .td-author').text(author);
 });
-window.ajaxStatus = true;
-window.getSelect = function (el) {
-  var url = '/payment/select-article/' + $(el).val();
-  if (window.ajaxStatus) {
-    var selectBlock = $('.select-block');
-    selectBlock.prop('disabled', true);
-    $.ajax({
-      url: url,
-      method: 'get',
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    }).done(function (res) {
-      if (res.result) {
-        selectBlock.empty();
-        selectBlock.append(res.html);
-      } else {
-        showNotification('error', res.message);
-      }
-      window.ajaxStatus = true;
-    }).fail(function (error) {
-      showNotification('error', 'Произошла ошибка запроса.');
-      console.log(error);
-      window.ajaxStatus = true;
-    });
-    selectBlock.prop('disabled', false);
-  } else {
-    alert('Дождитесь завершения запроса');
-  }
-};
 /******/ })()
 ;
