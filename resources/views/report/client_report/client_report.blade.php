@@ -90,6 +90,16 @@
                             </select>
                         </div>
 
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Даты</label>
+                            <div class="input-group">
+                                <input type="date" class="form-control form-control-sm" name="start_date"
+                                       value="{{ request()->start_date ?? now()->startOfMonth()->format('Y-m-d') }}" placeholder="От">
+                                <input type="date" class="form-control form-control-sm" name="end_date"
+                                       value="{{ request()->end_date ?? now()->format('Y-m-d') }}" placeholder="До">
+                            </div>
+                        </div>
+
                         <div class="col-12 p-0">
                             <div class="form-group col-12">
                                 <div class="w-100 d-flex justify-content-end">
@@ -181,7 +191,7 @@
 
     {{--    ТАБЛИЦА--}}
     <div class="w-100 shadow border rounded">
-        <div class="card">
+        <div class=>
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title">Общий свод по заказчикам</h4>
@@ -196,7 +206,7 @@
                             <th>ID</th>
                             <th></th>
                             <th>Состояние</th>
-                            <th>Долг</th>
+                            <th class="fw-bold">Долг</th>
                             <th>Проект</th>
                             <th>Заказчик</th>
                             <th>Объем ЗБП</th>
@@ -208,6 +218,7 @@
                             <th>Цена проекта</th>
                             <th>Цена автора</th>
                             <th>Знаки в день</th>
+                            <th>Дата</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -232,7 +243,7 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td>
+                                <td class="fw-bolder">
                                     @if($item['duty'] < 0)
                                         <span class="text-danger">{{$item['duty'] ?? '-'}}</span>
                                     @else
@@ -252,7 +263,7 @@
                                 <td>{{$item['sum_price_client'] + 0 ?? '-'}}</td>
                                 <td>{{$item['sum_price_author']+ 0 ?? '-'}}</td>
                                 <td>{{$item['symbol_in_day'] ?? '-'}}</td>
-
+                                <td>{{ \Carbon\Carbon::parse($item['created_at'])->format('d.m.Y') ?? '-'}}</td>
                             </tr>
                         @endforeach
                         </tbody>

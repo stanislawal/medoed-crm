@@ -2,12 +2,12 @@
 
 namespace App\Models\Client;
 
+use App\Models\BaseModel;
 use App\Models\Project\Cross\CrossClientSocialNetwork;
 use App\Models\Project\Cross\CrossProjectClient;
 use App\Models\Project\Project;
-use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Client extends BaseModel
 {
     public $table = 'clients';
 

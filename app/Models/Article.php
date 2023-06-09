@@ -21,8 +21,7 @@ class Article extends BaseModel
         'project_id',
         'price_client', //цена заказчика
         'price_author', //цена автора
-        'check', //галочка
-
+        'check' //галочка
     ];
 
     public $timestamps = true;

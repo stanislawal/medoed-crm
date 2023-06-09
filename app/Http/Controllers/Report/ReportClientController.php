@@ -10,6 +10,7 @@ use App\Models\Project\Project;
 use App\Models\Rate\Rate;
 use App\Models\StatusPaymentProject;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -106,9 +107,19 @@ class ReportClientController extends Controller
      */
     private function filter(Builder &$reports, $request)
     {
+
         // менеджер
         if (!empty($request->manager_id)) {
             $reports->where('manager_id', $request->manager_id);
+        }
+
+        // дата с какой
+        if (!empty($request->start_date)) {
+            $reports->where('created_at', '>=', Carbon::parse($request->start_date)->startOfDay()->format('Y-m-d H:i:s'));
+        }
+        // дата до какой
+        if (!empty($request->end_date)) {
+            $reports->where('created_at', '<=', Carbon::parse($request->end_date)->endOfDay()->format('Y-m-d H:i:s'));
         }
 
         // долг

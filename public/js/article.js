@@ -26,7 +26,8 @@ window.save = function (className) {
     'price_author': tr.find('input[name="price_author"]').val(),
     'link_text': tr.find('input[name="link_text"]').val(),
     'project_id': tr.find('select[name="project_id"]').val(),
-    'authors_id': tr.find('select[name="select_authors[]"]').val()
+    'authors_id': tr.find('select[name="select_authors[]"]').val(),
+    'manager_id': tr.find('select[name="manager_id"]').val()
   };
   ajax('post', url, attr);
   tr.find('.edit').show();

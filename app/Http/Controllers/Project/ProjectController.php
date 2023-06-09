@@ -54,7 +54,7 @@ class ProjectController extends Controller
             $where->where('manager_id', UserHelper::getUserId());
         });
 
-        // фильтер
+        // фильтр
         $this->filter($projects, $request);
 
         $projects->orderBy('id', 'desc');

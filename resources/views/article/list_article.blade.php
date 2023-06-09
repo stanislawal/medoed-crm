@@ -3,7 +3,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 @endsection
 @section('content')
-    <div class="">
+    <div>
         <div>
             @include('Answer.custom_response')
             @include('Answer.validator_response')
@@ -65,34 +65,6 @@
             </div>
         </div>
 
-        {{--        <div class="w-100 mb-3">--}}
-        {{--            <div class="shadow border bg-white rounded p-3">--}}
-        {{--                <div class="col-12">--}}
-        {{--                    Дней в диапазоне: <strong>{{ $statistics['count_days_in_range'] }}</strong>--}}
-        {{--                </div>--}}
-        {{--                <div class="col-12">--}}
-        {{--                    Текущий день в диапазоне: <strong>{{ $statistics['current_day_in_range'] }}</strong>--}}
-        {{--                </div>--}}
-        {{--                <div class="col-12">--}}
-        {{--                    Ожидаемый объем ЗБП: <strong>{{ $statistics['expectation'] }}</strong>--}}
-        {{--                </div>--}}
-        {{--                <div class="col-12">--}}
-        {{--                    Сдано за сегодня: <strong>{{ $statistics['passed'] }}</strong>--}}
-        {{--                </div>--}}
-
-        {{--                @role('Admin')--}}
-        {{--                <div class="col-12">--}}
-        {{--                    Валовый доход (сумма): <strong>{{ (int)$statistics['sum_gross_income'] }}</strong>--}}
-        {{--                </div>--}}
-        {{--                @endrole--}}
-
-        {{--                @if(\App\Helpers\UserHelper::isManager() || !is_null(request()->manager_id))--}}
-        {{--                    <div class="col-12">--}}
-        {{--                        Расчет менеджера: <strong>{{ $statistics['manager_salary'] }}</strong>--}}
-        {{--                    </div>--}}
-        {{--                @endif--}}
-        {{--            </div>--}}
-        {{--        </div>--}}
 
         <div class="mb-2">
             <div class="row">
@@ -183,7 +155,12 @@
 
                                 <th>Действие</th>
                             </tr>
+                            <style>
+                                .form-control {
+                                    color: black;
+                                }
 
+                            </style>
                             </thead>
                             <tbody>
                             @foreach($articles as $article)
@@ -212,7 +189,19 @@
                                         </div>
                                     </td>
                                     <td>
-                                        {{$article['article_manager']['full_name'] ?? '-'}}
+
+                                        <div>
+                                            <select class="form-select form-select-sm select-2" disabled
+                                                    data-class="row_{{ $article['id'] }}" name="manager_id">
+                                                <option value="" data-author="" data-client="">Не выбрано</option>
+                                                @foreach($managers as $manager)
+                                                    <option value="{{ $manager['id'] }}"
+                                                            @if($manager['id'] == $article['article_manager']['id']) selected @endif>
+                                                        {{ $manager['full_name'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -292,7 +281,7 @@
                                                    value="{{$article['link_text'] ?? '-'}}">
                                         </div>
                                     </td>
-                                    <td>{{\Illuminate\Support\Carbon::parse($article['created_at'])->format('d.m.Y H:i') ?? '-'}}</td>
+                                    <td>{{$article['created_at'] ?? '-'}}</td>
                                     @role('Администратор')
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
@@ -314,9 +303,7 @@
                                     </td>
 
                                 </tr>
-
                             @endforeach
-
                             </tbody>
                         </table>
 
@@ -334,4 +321,9 @@
                                     }
                                 }
                             </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
