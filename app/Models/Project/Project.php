@@ -44,6 +44,8 @@ class Project extends Model
         'invoice_for_payment', //Счет для оплаты
         'project_perspective', //перспектива проекта
         'payment_terms', //Сроки оплаты
+        'type_task', //Тип задачи
+        'dop_info', //Дополнительная информация
     ];
 
     public $timestamps = true;

@@ -63,9 +63,22 @@
                 </div>
             </div>
             <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Тип задачи</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="type_task">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дополнительная информация</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="dop_info">
+                </div>
+            </div>
+
+            <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Перспектива проекта</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="project_perspective">
+                    <textarea type="text" rows="6" style="resize: both;" class="form-control form-control-sm" name="project_perspective"> </textarea>
                 </div>
             </div>
             <div class="row mb-3">

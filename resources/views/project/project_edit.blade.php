@@ -31,10 +31,11 @@
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Менеджер</label>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm"  name="manager_id" disabled>
+                    <select class="form-select form-select-sm" name="manager_id" disabled>
                         <option value="">Не выбрано</option>
                         @foreach ($managers as $manager)
-                            <option @if($manager['id'] == $projectInfo['manager_id']) selected @endif value="{{$manager['id']}}">{{$manager['full_name']}}</option>
+                            <option @if($manager['id'] == $projectInfo['manager_id']) selected
+                                    @endif value="{{$manager['id']}}">{{$manager['full_name']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -83,6 +84,18 @@
                 </div>
             </div>
             <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Тип задачи</label>
+                <div class="col-sm-9">
+                    <input type="text" disabled value="{{ $projectInfo['type_task'] ?? '' }}" class="form-control form-control-sm" name="type_task">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дополнительная информация</label>
+                <div class="col-sm-9">
+                    <input type="text" disabled value="{{ $projectInfo['dop_info'] ?? '' }}" class="form-control form-control-sm" name="dop_info">
+                </div>
+            </div>
+            <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Дата поступления тз</label>
                 <div class="col-sm-9">
                     <input type="date" class="form-control form-control-sm" name="start_date_project"
@@ -114,8 +127,8 @@
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Перспектива проекта</label>
                 <div class="col-sm-9">
-                    <input disabled type="text" value="{{ $projectInfo['project_perspective'] }}"
-                           class="form-control form-control-sm" name="project_perspective">
+                    <textarea disabled type="text" value="{{ $projectInfo['project_perspective'] }}"
+                              class="form-control form-control-sm" name="project_perspective"> </textarea>
                 </div>
             </div>
             <div class="row mb-3">
@@ -213,12 +226,12 @@
                 </div>
             </div>
 
-{{--            <div class="row mb-3">--}}
-{{--                <label class="col-sm-3 col-form-label">Портрет заказчика</label>--}}
-{{--                <div class="col-sm-9">--}}
-{{--                    <input type="text" class="form-control form-control-sm" required value="{{ $projectInfo['characteristic'] }}" name="characteristic">--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            {{--            <div class="row mb-3">--}}
+            {{--                <label class="col-sm-3 col-form-label">Портрет заказчика</label>--}}
+            {{--                <div class="col-sm-9">--}}
+            {{--                    <input type="text" class="form-control form-control-sm" required value="{{ $projectInfo['characteristic'] }}" name="characteristic">--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
 
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Договор</label>
