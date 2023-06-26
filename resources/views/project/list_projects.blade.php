@@ -179,7 +179,7 @@
                                 <tbody>
 
                                 @foreach ($projects as $key => $project)
-                                    <tr style=" background-color: {{ $project['project_status']['color'] ?? "" }}">
+                                    <tr>
                                         <td style="padding: 0 10px 0 12px!important">{{ $key + 1 }}</td>
                                         <td style="padding: 0 10px 0 12px!important"><input type="checkbox" name="check" @if((bool)$project['check']) checked
                                                    @endif onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
@@ -208,9 +208,9 @@
                                             @else
                                                 Да
                                             @endif</td>
-                                        <td style="min-width: 130px;">
+                                        <td style=" min-width: 170px;">
                                             <div class="d-flex align-items-center">
-                                                <select class="form-select form-select-sm mr-1" id="edit_status_project"
+                                                <select style=" background-color: {{ $project['project_status']['color'] ?? "" }} ;" class="form-select form-select-sm mr-1" id="edit_status_project"
                                                         onchange="editStatusProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
                                                     @foreach ($statuses as $status)
                                                         <option value="{{$status['id']}}"

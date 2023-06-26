@@ -73,6 +73,7 @@ class ReportClientController extends Controller
             'sum_gross_income' => $reports->sum('sum_gross_income'),
             'profit' => $reports->sum('profit'),
             'middle_check' => $reports->sum('sum_price_client') == 0 ? 0 : $reports->sum('sum_price_client') / $reports->count(),
+            'sum_symbols_in_day' => $reports->sum('symbol_in_day'),
         ];
 
         $rates = Rate::on()->get();
@@ -97,6 +98,7 @@ class ReportClientController extends Controller
             'clients' => $clients
         ]);
     }
+
 
     /**
      * Фильтр к отчету
@@ -195,13 +197,15 @@ class ReportClientController extends Controller
               project_id,
               without_space,
               (price_client *(without_space/1000)) as price_client,
+              (without_space * ((price_client *(without_space/1000)) / 1000)) as gross_income,
               (price_author *(without_space/1000)) as price_author
         ");
 
         $report = Article::on()->selectRaw("
             projects.project_name,
             projects.end_date_project,
-            articles.*
+            articles.*,
+            ((articles.price_client - articles.price_author) * (articles.without_space / 1000)) as margin
         ")
             ->from('projects')
             ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')

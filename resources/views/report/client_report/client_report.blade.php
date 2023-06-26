@@ -120,7 +120,6 @@
     </div>
     {{--    ФИЛЬТР--}}
 
-
     <div class="mb-2">
         <div class="row">
             <div class="col-12 col-md-9">
@@ -154,6 +153,13 @@
                             <div class="text-24">
                                 <strong>{{number_format($statistics['middle_check'], 2,'.', '')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Средний чек:</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{number_format($statistics['sum_symbols_in_day'], 2,'.', '')  }}</strong></div>
+                            <div class="text-12 nowrap-dot">Итого знаков:</div>
                         </div>
                     </div>
                 </div>
@@ -228,9 +234,8 @@
                                 <td><a href="{{route('client_project.show', ['project'=> $item['id']])}}">
                                         <i class="fas fa-grip-horizontal"></i></a>
                                 </td>
-                                <td class="text-center"
-                                    style="background-color: {{ $item['project_status_payment']['color'] ?? '#ffffff' }}70 ">
-                                    <select name="status_payment_id"
+                                <td class="text-center">
+                                    <select class="form-select form-select-sm" style="padding: 10px; min-width: 170px; background-color: {{ $item['project_status_payment']['color'] ?? '#ffffff' }}70 " name="status_payment_id"
                                             onchange="editStatusPaymentProject(this, '{{ route('project.partial_update', ['id'=>$item['id']]) }}')">
                                         <option value="">
                                             Не выбрано
@@ -245,7 +250,7 @@
                                 </td>
                                 <td class="fw-bolder">
                                     @if($item['duty'] < 0)
-                                        <span class="text-danger">{{$item['duty'] ?? '-'}}</span>
+                                        <span class="text-danger">{{$item['duty'] + 0 ?? '-'}}</span>
                                     @else
                                         {{$item['duty'] + 0 ?? '-'}}
                                     @endif

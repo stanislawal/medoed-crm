@@ -126,6 +126,8 @@ class ProjectController extends Controller
                 'project_perspective' => $request->project_perspective ?? null,
                 'payment_terms' => $request->payment_terms ?? null,
                 'style_id' => $request->style_id ?? null,
+                'type_task' => $request->type_task ?? null,
+                'dop_info' => $request->dop_info ?? null,
 //                'characteristic' => $request->characteristic ?? null,
                 'created_user_id' => UserHelper::getUserId()
             ];
@@ -217,6 +219,8 @@ class ProjectController extends Controller
             'project_perspective' => $request->project_perspective ?? null,
             'payment_terms' => $request->payment_terms ?? null,
             'style_id' => $request->style_id ?? null,
+            'type_task' => $request->type_task ?? null,
+            'dop_info' => $request->dop_info ?? null,
             'created_user_id' => UserHelper::getUserId()
         ];
 
