@@ -28,8 +28,7 @@ class User extends Authenticatable
         'manager_salary',
         'is_work',
         'payment', //реквизиты оплаты
-
-
+        'bank_id'
     ];
 
     /**
@@ -50,5 +49,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class, 'bank_id');
+    }
 
 }

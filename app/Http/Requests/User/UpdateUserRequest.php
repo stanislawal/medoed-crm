@@ -58,6 +58,10 @@ class UpdateUserRequest extends FormRequest
                 'nullable',
                 'string'
             ],
+            'bank_id' => [
+                'nullable',
+                'numeric'
+            ]
         ];
     }
 }

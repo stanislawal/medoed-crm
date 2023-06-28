@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Bank;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +37,7 @@ class UserController extends Controller
     //Страница создания (нахождения формы) пользователя
     public function create()
     {
-        return view('user.user_create');
+        return view('user.user_create', ['banks' => Bank::on()->get()]);
     }
 
 
@@ -50,6 +51,7 @@ class UserController extends Controller
             'birthday' => $request->birthday,
             'manager_salary' => $request->manager_salary ?? null,
             'payment' => $request->payment ?? null,
+            'bank_id' => $request->bank_id ?? null,
             'is_work' => true,
         ];
 
@@ -63,14 +65,13 @@ class UserController extends Controller
         //
     }
 
-
     public function edit($id)
     {
         return view('user.user_edit', [
-            'user' => User::on()->find($id)->toArray()
+            'user' => User::on()->find($id)->toArray(),
+            'banks' => Bank::on()->get()
         ]);
     }
-
 
     public function update(UpdateUserRequest $request, $id)
     {

@@ -34,13 +34,25 @@
                     <input type="text" value="{{$user['contact_info']}}" class="form-control form-control-sm"
                            name="contact_info">
                 </div>
+
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Реквизиты оплаты </label>
-                    <input type="text" value="{{$user['payment']}}"  class="form-control form-control-sm" name="payment">
+                    <div class="input-group">
+                        <div class="w-25">
+                            <select name="bank_id"  class="form-select form-select-sm">
+                                <option value="">Выберите банк</option>
+                                @foreach($banks as $bank)
+                                    <option {{ $bank['id'] == $user['bank_id'] ? 'selected' : '' }}  value="{{ $bank['id'] }}">{{ $bank['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="text" value="{{$user['payment']}}"  class="form-control form-control-sm" name="payment">
+                    </div>
                 </div>
+
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Дата рождения</label>
-                    <input type="date" class="form-control form-control-sm" name="birthday">
+                    <input type="date" class="form-control form-control-sm" name="birthday" value="{{ $user['birthday'] }}">
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Роль</label>
