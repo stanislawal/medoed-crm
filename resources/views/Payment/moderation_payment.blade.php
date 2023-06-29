@@ -102,7 +102,7 @@
                                     </td>
 
                                     <td>
-                                        {{ $payment['project']['project_name'] }}
+                                        {{ $payment['project']['project_name'] ?? ''}}
                                     </td>
 
                                     <td>
