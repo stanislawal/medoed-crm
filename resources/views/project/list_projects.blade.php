@@ -158,22 +158,31 @@
                                     <th>ID</th>
                                     <th></th>
                                     <th></th>
+                                    @role('Администратор')
                                     <th>@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name'] )</th>
-                                    <th>Заказчик(и)</th>
-                                    <th>Контакт</th>
+                                    @endrole
                                     <th>@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Тип текста', 'column' => 'styles|name'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Цена за 1000', 'column' => 'price_per'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name'] )</th>
+                                    <th>Заказчик(и)</th>
                                     <th>Дата последнего прописывания</th>
+                                    <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name'] )</th>
                                     <th style="min-width: 300px !important;">Комментарий</th>
                                     <th>Автор</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author'] )</th>
-                                    <th>Дата поступления</th>
+                                    <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract'] )</th>
+                                    <th>Место ведения диалога</th>
+                                    <th>Контакт</th>
+                                    <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Тип текста', 'column' => 'styles|name'] )</th>
                                     @role('Администратор')
-                                    <th>Удалить</th>@endrole
+                                    <th>Дата поступления</th>
+                                    @endrole
+
+
+                                    {{--                                    <th>@include('components.table.sort', ['title' => 'Цена за 1000', 'column' => 'price_per'] )</th>--}}
+
+                                    @role('Администратор')
+                                    <th>Удалить</th>
+                                    @endrole
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -181,44 +190,27 @@
                                 @foreach ($projects as $key => $project)
                                     <tr>
                                         <td style="padding: 0 10px 0 12px!important">{{ $key + 1 }}</td>
-                                        <td style="padding: 0 10px 0 12px!important"><input type="checkbox" name="check" @if((bool)$project['check']) checked
-                                                   @endif onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
+                                        <td style="padding: 0 10px 0 12px!important"><input type="checkbox" name="check"
+                                                                                            @if((bool)$project['check']) checked
+                                                                                            @endif onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
                                         </td>
-                                        <td style="padding: 0 10px 0 12px!important"><a href="{{route('project.edit',['project'=> $project['id']])}}"><i class="fas fa-grip-horizontal"></i></a>
+                                        <td style="padding: 0 10px 0 12px!important"><a
+                                                href="{{route('project.edit',['project'=> $project['id']])}}"><i
+                                                    class="fas fa-grip-horizontal"></i></a>
 
                                         </td>
+                                        @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important"><textarea disabled
-                                                      style="border: none; width: 100px; border-radius: 10px; background-color: rgba(255,255,255,0);"
+                                                                                               style="border: none; width: 100px; border-radius: 10px; background-color: rgba(255,255,255,0);"
                                             >{{$project['project_user']['full_name'] ?? '------'}}</textarea></td>
-                                        <td style="padding: 0 10px 0 12px!important">
-                                                @forelse ($project['project_clients'] as $client)
-                                                    {{ $client['name'] }}
-                                                @empty
-                                                    -
-                                                @endforelse
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_clients'][0]['contact_info'] ?? '------'}}</td>
+                                        @endrole
                                         <td style="padding: 0 10px 0 12px!important">{{$project['project_name'] ?? '------'}}</td>
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_style']['name'] ?? '------'}}</td>
-                                        {{--                                        @dd($project)--}}
-
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['price_per'] ?? '------'}}</td>
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_theme']['name'] ?? '------'}}</td>
-                                        <td style="padding: 0 10px 0 12px!important">@if($project['contract'] == 0)
-                                                Нет
-                                            @else
-                                                Да
-                                            @endif</td>
-                                        <td style=" min-width: 170px;">
-                                            <div class="d-flex align-items-center">
-                                                <select style=" background-color: {{ $project['project_status']['color'] ?? "" }} ;" class="form-select form-select-sm mr-1" id="edit_status_project"
-                                                        onchange="editStatusProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
-                                                    @foreach ($statuses as $status)
-                                                        <option value="{{$status['id']}}"
-                                                                @if($status['id'] == $project['status_id']) selected @endif
-                                                        >{{$status['name']}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                        <td style="padding: 0 10px 0 12px!important">
+                                            @forelse ($project['project_clients'] as $client)
+                                                {{ $client['name'] }}
+                                            @empty
+                                                -
+                                            @endforelse
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             <div>
@@ -226,6 +218,20 @@
                                                        onchange="editDateLastChangeProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
                                                        name="date_last_change" type="date"
                                                        value="{{$project['date_last_change']}}">
+                                            </div>
+                                        </td>
+                                        <td style=" min-width: 170px;">
+                                            <div class="d-flex align-items-center">
+                                                <select
+                                                    style=" background-color: {{ $project['project_status']['color'] ?? "" }} ;"
+                                                    class="form-select form-select-sm mr-1" id="edit_status_project"
+                                                    onchange="editStatusProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
+                                                    @foreach ($statuses as $status)
+                                                        <option value="{{$status['id']}}"
+                                                                @if($status['id'] == $project['status_id']) selected @endif
+                                                        >{{$status['name']}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">
@@ -242,11 +248,34 @@
                                             @empty
                                                 ------
                                             @endforelse
-
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">{{$project['price_author'] ?? '------'}}</td>
-                                        <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">@if($project['contract'] == 0)
+                                                Нет
+                                            @else
+                                                Да
+                                            @endif</td>
+                                        <td style="padding: 0 10px 0 12px!important">
+                                            @foreach($project['project_clients'] as $client )
+                                                @foreach($client['social_network'] as $social_network)
+                                                    {{$social_network['name'] ?? ''}} <br>
+                                                @endforeach
+                                            @endforeach
+                                        </td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_clients'][0]['contact_info'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_theme']['name'] ?? '------'}}</td>
+
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_style']['name'] ?? '------'}}</td>
+                                        {{--                                        @dd($project)--}}
+
+{{--                                        <td style="padding: 0 10px 0 12px!important">{{$project['price_per'] ?? '------'}}</td>--}}
+
+
+
+
+
                                         @role('Администратор')
+                                        <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             <div class="form-group col-12 d-flex justify-content-between destroy">
                                                 <a href="{{route('project.destroy',['project' => $project['id']])}}"

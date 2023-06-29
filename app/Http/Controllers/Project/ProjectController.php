@@ -44,7 +44,7 @@ class ProjectController extends Controller
                 'projectTheme',
                 'projectUser',
                 'projectStatus',
-                'projectClients',
+                'projectClients.socialNetwork',
                 'projectAuthor',
                 'projectStyle'
             ]);
