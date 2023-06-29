@@ -25,7 +25,7 @@
 
 
                     <div class="form-group col-12 col-lg-6">
-                        <label for="" class="form-label">Имя заказчика</label>
+                        <label for="" class="form-label">Контактное лицо</label>
                         <input type="text" value="{{$clients['name']}}" class="form-control form-control-sm" name="name">
                     </div>
 
@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="form-group col-12 col-lg-6">
-                        <label for="" class="form-label">Имя компании</label>
+                        <label for="" class="form-label">Название компании</label>
                         <input type="text" value="{{$clients['company_name']}}" class="form-control form-control-sm"
                                name="company_name">
                     </div>

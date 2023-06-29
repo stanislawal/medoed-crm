@@ -60,6 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('article', ArticleController::class);
     Route::get('article-destroy/{article}', [ArticleController::class, 'destroy'])->name('article.destroy');
 
+    Route::resource('client', ClientController::class)->except('show');
+    Route::get('client-destroy/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
+
     # only admin
     Route::middleware('role:Администратор')->group(function () {
         # Пользователи (users)
@@ -83,8 +86,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('add_option_socialnetwork', SocialNetworkController::class);
         Route::get('add_option_socialnetwork-destroy/{socialnetwork}', [SocialNetworkController::class, 'destroy'])->name('add_option_socialnetwork.destroy');
         # Заказчики (clients)
-        Route::resource('client', ClientController::class)->except('show');
-        Route::get('client-destroy/{client}', [ClientController::class, 'destroy'])->name('client.destroy');
+
 
 
 

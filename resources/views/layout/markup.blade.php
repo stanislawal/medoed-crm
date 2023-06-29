@@ -90,7 +90,7 @@
                                 </ul>
                             </div>
                         </li>
-                        @role('Администратор')
+
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#sidebarLayouts">
                                 <i class="fas fa-th-list"></i>
@@ -112,6 +112,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @role('Администратор')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#user">
                                 <i class="fas fa-users"></i>

@@ -23,7 +23,7 @@
                     </div>
                     <div class="w-100 row m-0 p-2">
                         <div class="form-group col-12 col-lg-6">
-                            <label for="" class="form-label">Имя заказчика</label>
+                            <label for="" class="form-label">Контактное лицо</label>
                             <input type="text" class="form-control form-control-sm" name="name">
                             <label for="" class="form-label">Место ведения диалога</label>
                             <select class="form-control form-control-sm select-client-socialnetworks select-2" multiple
@@ -54,7 +54,7 @@
                         {{--                        </div>--}}
 
                         <div class="form-group col-12 col-lg-6">
-                            <label for="" class="form-label">Имя компании</label>
+                            <label for="" class="form-label">Название компании</label>
                             <input type="text" class="form-control form-control-sm" name="company_name">
                         </div>
 
