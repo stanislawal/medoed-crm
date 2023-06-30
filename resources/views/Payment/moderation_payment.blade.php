@@ -41,12 +41,12 @@
                             </thead>
                             <tbody>
                             @foreach($paymentList as $payment)
-                                <tr style="background-color: {{ $payment['status']['color'] }}70"
+                                <tr
                                     class="row_{{ $payment['id'] }}"
                                     data-url="{{ route('payment.update', ['id' => $payment['id']]) }}">
                                     <td>
                                         <div>
-                                            <select class="form-select form-select-sm" name="status_payment_id" disabled>
+                                            <select style="background-color: {{ $payment['status']['color'] }}70" class="form-select form-select-sm" name="status_payment_id" disabled>
                                                 @foreach($statuses as $status)
                                                     <option value="{{ $status['id'] }}"
                                                             @if($payment['status_payment_id'] === $status['id']) selected @endif
