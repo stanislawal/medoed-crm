@@ -168,6 +168,7 @@
                                     <th style="min-width: 300px !important;">Комментарий</th>
                                     <th>Автор</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_author'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract'] )</th>
                                     <th>Место ведения диалога</th>
                                     <th>Контакт</th>

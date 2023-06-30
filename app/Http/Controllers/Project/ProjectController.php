@@ -39,7 +39,12 @@ class ProjectController extends Controller
 
 
         $projects = Project::on()
-            ->selectRaw('projects.*')
+            ->selectRaw("
+                projects.*,
+                statuses.name as project_status,
+                themes.name,
+                users.full_name
+            ")
             ->with([
                 'projectTheme',
                 'projectUser',
@@ -49,6 +54,10 @@ class ProjectController extends Controller
                 'projectStyle'
             ]);
 
+        $projects->leftJoin('users', 'users.id', '=', 'projects.manager_id');
+
+        $projects->leftJoin('statuses', 'statuses.id', '=', 'projects.status_id');
+        $projects->leftJoin('themes', 'themes.id', '=', 'projects.theme_id');
 
         $projects->when(UserHelper::isManager(), function ($where) {
             $where->where('manager_id', UserHelper::getUserId());
@@ -338,7 +347,6 @@ class ProjectController extends Controller
             $where->whereBetween('created_at', [$dateStart, $dateEnd]);
         });
 
-
         // sort
         if (str_contains($request->sort, '|')) {
             $parts = explode('|', $request->sort);
@@ -346,6 +354,7 @@ class ProjectController extends Controller
             $orderBy = implode('.', $parts);
 
             $projects->orderByRaw($orderBy . ' ' . $request->direction ?? 'asc');
+
         } else {
             $projects->when(!empty($request->sort), function ($orderBy) use ($request) { // use ($request) - это то самое замыкание, о котормо я тебе говорил)))
                 $orderBy->orderBy($request->sort, $request->direction ?? 'asc');
