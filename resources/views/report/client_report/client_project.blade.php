@@ -92,7 +92,6 @@
                         </thead>
                         <tbody>
 
-                        @dd($report)
 
                         @foreach($report as $item)
                             <tr>
