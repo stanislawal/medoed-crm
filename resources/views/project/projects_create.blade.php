@@ -215,7 +215,7 @@
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Настроение</label>
                 <div class="col-sm-9">
-                    <select class="form-control form-control-sm" required name="mood_id">
+                    <select class="form-control form-control-sm" name="mood_id">
                         <option value="">Не выбрано</option>
                         @foreach ($moods as $mood)
                             <option value="{{$mood['id']}}">{{$mood['name']}}</option>
