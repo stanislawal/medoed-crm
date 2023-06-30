@@ -168,6 +168,7 @@
                                     <th style="min-width: 300px !important;">Комментарий</th>
                                     <th>Автор</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract'] )</th>
                                     <th>Место ведения диалога</th>
                                     <th>Контакт</th>
@@ -246,10 +247,14 @@
                                             @forelse ($project['project_author'] as $author)
                                                 <div class="nowrap">{{ $author['full_name'] }}</div>
                                             @empty
-                                                ------
+                                                <span
+                                                    style="font-style: italic; font-size: 12px; color: rgba(0,0,0,0.53);">Пусто</span>
                                             @endforelse
                                         </td>
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['price_author'] ?? '------'}}</td>
+
+
+                                        <td style="padding: 0 10px 0 12px!important">{{ $project['price_author'] ?? ''}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{ $project['price_client'] ?? ''}}</td>
                                         <td style="padding: 0 10px 0 12px!important">@if($project['contract'] == 0)
                                                 Нет
                                             @else
@@ -263,17 +268,10 @@
                                             @endforeach
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">{{$project['project_clients'][0]['contact_info'] ?? '------'}}</td>
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_theme']['name'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_theme']['name'] ?? ''}}
+                                        </td>
 
                                         <td style="padding: 0 10px 0 12px!important">{{$project['project_style']['name'] ?? '------'}}</td>
-                                        {{--                                        @dd($project)--}}
-
-{{--                                        <td style="padding: 0 10px 0 12px!important">{{$project['price_per'] ?? '------'}}</td>--}}
-
-
-
-
-
                                         @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
                                         <td style="padding: 0 10px 0 12px!important">

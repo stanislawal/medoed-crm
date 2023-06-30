@@ -25,6 +25,7 @@ class Project extends Model
         'mood_id', //настроение заказчика
         'pay_info', //информация об оплате
         'price_author', //информация об оплате
+        'price_client', //информация об оплате
         'pay_method', //метод оплаты
         'start_date_project', // дата начала проекта
         'end_date_project', // дата конца проекта
