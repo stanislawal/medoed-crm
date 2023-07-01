@@ -22,7 +22,7 @@ class UpdateProjectsTableChangeTypeCollumn extends Migration
 
     /**
      * Reverse the migrations.
-     *f
+     *fd
      * @return void
      */
     public function down()
