@@ -50,11 +50,12 @@
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Роль</label>
+
                     <select class="form-select form-select-sm select-manager" required name="role" id="">
-                        <option disabled value="">Роль</option>
-                        <option value="Администратор">Администратор</option>
-                        <option value="Менеджер">Менеджер</option>
-                        <option value="Автор">Автор</option>
+                        <option  value="">Выберите роль</option>
+                        @foreach($roles as $role)
+                            <option value="{{ $role['name'] }}">{{ $role['name'] }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group col-12 col-lg-6 d-none input-manager">

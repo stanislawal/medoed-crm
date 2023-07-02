@@ -17,6 +17,7 @@ use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 
@@ -25,6 +26,7 @@ class ProjectController extends Controller
     //Для отображения (вывода) всех записей
     public function index(Request $request)
     {
+//        dd(Cookie::get(''));
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
         $themes = Theme::on()->get()->toArray(); //Достаем все темы проектов
         $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
@@ -68,6 +70,7 @@ class ProjectController extends Controller
 
         $projects->orderBy('id', 'desc');
         $projects = $projects->get()->toArray();
+
 
         return view('project.list_projects', [
             'projects' => $projects,
@@ -311,12 +314,16 @@ class ProjectController extends Controller
      */
     private function filter(&$projects, $request)
     {
+        if (count($request->all()) == 0) {
+            $this->setFilter($request);
+        }
+
         $projects->when(!empty($request->id), function ($where) use ($request) {
             $where->where('projects.id', $request->id);
         });
 
         $projects->when(!empty($request->created_at), function ($where) use ($request) {
-            $where->whereRaw("DATE(created_at) = '" . $request->created_at . "'");
+            $where->whereRaw("DATE(projects.created_at) = '" . $request->created_at . "'");
         });
 
         $projects->when(!empty($request->manager_id), function ($where) use ($request) {
@@ -346,7 +353,8 @@ class ProjectController extends Controller
         $projects->when((!empty($request->date_from) && (!empty($request->date_before))), function ($where) use ($request) {
             $dateStart = Carbon::parse($request->date_from)->startOfDay();
             $dateEnd = Carbon::parse($request->date_before)->endOfDay();
-            $where->whereBetween('created_at', [$dateStart, $dateEnd]);
+//            $where->whereBetween('created_at', [$dateStart, $dateEnd]);
+            $where->whereRaw("projects.created_at between '{$dateStart}' and '{$dateEnd}'");
         });
 
         // sort
@@ -362,5 +370,30 @@ class ProjectController extends Controller
                 $orderBy->orderBy($request->sort, $request->direction ?? 'asc');
             });
         }
+        $this->saveFilterHistory($request);
+    }
+
+    private function saveFilterHistory($request)
+    {
+        $history = collect($request->all())->except(['sort', 'direction', '_token'])->toArray();
+        $history = json_encode($history);
+        Cookie::queue('project_filter', $history);
+    }
+
+    /**
+     * Save param for request
+     *
+     * @param $request
+     * @return void
+     */
+    private function setFilter(&$request)
+    {
+        $key = "project_filter";
+        $filterHistory = json_decode(Cookie::get($key) ?? '', TRUE) ?? [];
+        foreach ($filterHistory as $key => $value) {
+            $request->request->set($key, $value);
+        }
     }
 }
+
+

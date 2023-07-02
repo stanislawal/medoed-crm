@@ -77,11 +77,13 @@
                             </a>
                             <div class="collapse" id="base">
                                 <ul class="nav nav-collapse">
+                                    @hasanyrole('Администратор|Менеджер')
                                     <li>
                                         <a href="{{ route('project.index') }}">
                                             <span class="sub-item">База проектов</span>
                                         </a>
                                     </li>
+                                    @endrole
                                     <li>
                                         <a href="{{ route('project.create') }}">
                                             <span class="sub-item">Добавить проект</span>
@@ -99,11 +101,13 @@
                             </a>
                             <div class="collapse" id="sidebarLayouts">
                                 <ul class="nav nav-collapse">
+                                   @role('Администратор')
                                     <li>
                                         <a href="{{ route('client.index') }}">
                                             <span class="sub-item">База заказчиков</span>
                                         </a>
                                     </li>
+                                    @endrole
                                     <li>
                                         <a href="{{ route('client.create') }}">
                                             <span class="sub-item">Добавить заказчика</span>
@@ -220,6 +224,7 @@
                         </li>
                         @endrole
 
+                        @hasanyrole('Администратор|Менеджер')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#payment">
                                 <i class="fas fa-money-check-alt"></i>
@@ -243,6 +248,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endrole
 
                         @role('Администратор')
                         <li class="nav-item">

@@ -37,9 +37,11 @@ class UserController extends Controller
     //Страница создания (нахождения формы) пользователя
     public function create()
     {
-        return view('user.user_create', ['banks' => Bank::on()->get()]);
+        return view('user.user_create', [
+            'banks' => Bank::on()->get(),
+            'roles' => Role::on()->get()
+        ]);
     }
-
 
     public function store(Request $request)
     {
@@ -69,7 +71,8 @@ class UserController extends Controller
     {
         return view('user.user_edit', [
             'user' => User::on()->find($id)->toArray(),
-            'banks' => Bank::on()->get()
+            'banks' => Bank::on()->get(),
+            'roles' => Role::on()->get()
         ]);
     }
 

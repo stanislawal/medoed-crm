@@ -59,17 +59,11 @@
                     <select class="form-select form-select-sm select-manager" name="role" id="">
                         <option disabled value="">Роль</option>
 
-                        <option value="Администратор"
-                                @if(\App\Helpers\UserHelper::getRoleName($user['id']) == 'Администратор') selected @endif
-                        >Администратор
-                        </option>
-                        <option value="Менеджер"
-                                @if(\App\Helpers\UserHelper::getRoleName($user['id']) == 'Менеджер') selected @endif>
-                            Менеджер
-                        </option>
-                        <option value="Автор"
-                                @if(\App\Helpers\UserHelper::getRoleName($user['id']) == 'Автор') selected @endif>Автор
-                        </option>
+                        <option  value="">Выберите роль</option>
+                        @foreach($roles as $role)
+                            <option value="{{ $role['name'] }}">{{ $role['name'] }}</option>
+                        @endforeach
+
                     </select>
                 </div>
 

@@ -121,9 +121,6 @@
                             <th>ВД</th>
                             <th>Маржа</th>
                             <th>Ср. цена</th>
-                            <th>Норма/день</th>
-                            <th>Факт V/день</th>
-                            <th>Недозагрузка</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -143,9 +140,6 @@
                                 <td>{{ $author['gross_income']+0 }}</td>
                                 <td>{{ $author['margin']+0 }}</td>
                                 <td>{{ $author['avg_price']+0 }}</td>
-                                <td>-</td>
-                                <td>{{ $author['avg_without_space_in_day']+0 }}</td>
-                                <td>-</td>
                             </tr>
                         @endforeach
                         </tbody>
