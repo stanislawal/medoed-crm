@@ -251,7 +251,7 @@
                                                     style="font-style: italic; font-size: 12px; color: rgba(0,0,0,0.53);">Пусто</span>
                                             @endforelse
                                         </td>
-
+{{--@dd($project)--}}
 
                                         <td style="padding: 0 10px 0 12px!important">{{ $project['price_author'] ?? ''}}</td>
                                         <td style="padding: 0 10px 0 12px!important">{{ $project['price_client'] ?? ''}}</td>

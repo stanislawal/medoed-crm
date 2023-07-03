@@ -3,49 +3,39 @@
 @section('content')
 
     <div class="row p-0s">
-{{--        <div class="col-12">--}}
-{{--            <div class="w-100 shadow border rounded p-3 mb-3">--}}
-{{--                <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i--}}
-{{--                        class="fa fa-search search-icon mr-2"></i>Поиск--}}
-{{--                </div>--}}
-{{--                <div action="{{ route('project.index') }}" method="GET" class="check__field">--}}
-{{--                    @csrf--}}
-{{--                    <div class="row m-0" id="search" @if(empty(request()->all())) style="display: none;" @endif>--}}
-{{--                        <div class="w-100 row m-0 py-3">--}}
-{{--                            <div class="form-group col-12 col-md-6 col-lg-4">--}}
-{{--                                <label for="" class="form-label">ID</label>--}}
-{{--                                <input type="text" class="form-control" name="id" value="{{ request()->id ?? '' }}">--}}
-{{--                            </div>--}}
-{{--                            <div class="form-group col-12 col-md-6 col-lg-4">--}}
-{{--                                <label for="" class="form-label">Имя</label>--}}
-{{--                                <input type="text" class="form-control" name="name" value="{{ request()->id ?? '' }}">--}}
-{{--                            </div>--}}
-{{--                            <div class="form-group col-12 col-md-6 col-lg-4">--}}
-{{--                                <label for="" class="form-label">Сфера деятельности</label>--}}
-{{--                                <input type="text" class="form-control" name="scope_work"--}}
-{{--                                       value="{{ request()->project_name ?? '' }}">--}}
-{{--                            </div>--}}
-{{--                            <div class="form-group col-12 col-md-6 col-lg-4">--}}
-{{--                                <label for="" class="form-label">Название компании</label>--}}
-{{--                                <input class="form-control" type="text" name="company_name"--}}
-{{--                                       value="{{ request()->price_client ?? '' }}">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-12 p-0">--}}
-{{--                            <div class="form-group col-12">--}}
-{{--                                <div class="w-100 d-flex justify-content-end">--}}
-{{--                                    @if(!empty(request()->all() && count(request()->all())) > 0)--}}
-{{--                                        <a href="{{ route('project.index') }}" class="btn btn-sm btn-danger mr-3">Сбросить--}}
-{{--                                            фильтр</a>--}}
-{{--                                    @endif--}}
-{{--                                    <button class="btn btn-sm btn-success">Искать</button>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        <div class="col-12">
+            <div class="w-100 shadow border rounded p-3 mb-3">
+                <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i
+                        class="fa fa-search search-icon mr-2"></i>Поиск
+                </div>
+                <form action="{{ route('client.index') }}" method="GET" class="check__field">
+                    @csrf
+                    <div class="row m-0" id="search" @if(empty(request()->all())) style="display: none;" @endif>
+                        <div class="w-100 row m-0 py-3">
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label for="" class="form-label">ID</label>
+                                <input type="text" class="form-control" name="id" value="{{ request()->id ?? '' }}">
+                            </div>
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label for="" class="form-label">Имя</label>
+                                <input type="text" class="form-control" name="name" value="{{ request()->name ?? '' }}">
+                            </div>
+                        </div>
+                        <div class="col-12 p-0">
+                            <div class="form-group col-12">
+                                <div class="w-100 d-flex justify-content-end">
+                                    @if(!empty(request()->all() && count(request()->all())) > 0)
+                                        <a href="{{ route('client.index') }}" class="btn btn-sm btn-danger mr-3">Сбросить
+                                            фильтр</a>
+                                    @endif
+                                    <button class="btn btn-sm btn-success">Искать</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="col-12">
             <div class="card">
                 <div class="card-header">

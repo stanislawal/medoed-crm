@@ -65,6 +65,8 @@ class ProjectController extends Controller
             $where->where('manager_id', UserHelper::getUserId());
         });
 
+
+
         // фильтр
         $this->filter($projects, $request);
 
@@ -128,7 +130,7 @@ class ProjectController extends Controller
                 'status_id' => $request->status_id ?? null,
                 'pay_info' => $request->pay_info ?? null,
                 'price_author' => $request->price_author ?? null,
-                'price_client' => $request->price_author ?? null,
+                'price_client' => $request->price_client ?? null,
                 'start_date_project' => $request->start_date_project ?? null,
                 'contract' => $request->contract ?? null,
                 'contract_exist' => $request->contract_exist ?? null,
@@ -222,7 +224,7 @@ class ProjectController extends Controller
             'status_id' => $request->status_id ?? null,
             'pay_info' => $request->pay_info ?? null,
             'price_author' => $request->price_author ?? null,
-            'price_client' => $request->price_author ?? null,
+            'price_client' => $request->price_client ?? null,
             'start_date_project' => $request->start_date_project ?? null,
             'contract' => $request->contract ?? null,
             'contract_exist' => $request->contract_exist ?? null,

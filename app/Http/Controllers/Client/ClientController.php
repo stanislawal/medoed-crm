@@ -6,18 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Models\Client\Client;
 use App\Models\Client\SocialNetwork;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
     public function index(Request $request)
     {
+
+
         $clients = Client::on()
             ->with([
                 'socialNetwork', 'projectClients'
-            ])->orderBy('id', 'desc')
+            ]);
+
+        $this->filter($request, $clients);
+
+        $clients = $clients->orderBy('id', 'desc')
             ->get()
             ->toArray();
+
         $socialNetwork = SocialNetwork::on()->get()->toArray();
+
+
 
 
         return view('client.list_clients', [
@@ -97,5 +107,11 @@ class ClientController extends Controller
     {
         Client::on()->where('id', $client)->delete();
         return redirect()->back()->with(['success' => 'Заказчик успешно удален']);
+    }
+
+    private function filter($request, &$clients){
+        $clients->when(!empty($request->name), function ($where) use ($request) {
+            $where->where('name', $request->name);
+        });
     }
 }
