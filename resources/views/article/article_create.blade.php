@@ -50,6 +50,27 @@
                         </div>
 
                         <div class="form-group col-12 col-lg-6">
+                            <label for="" class="form-label">Редактор</label>
+                            <select class="form-control select-2" multiple name="redactor_id[]">
+                                <option value="">Не выбрано</option>
+                                @foreach ($authors as $author)
+                                    <option value="{{$author['id']}}">{{$author['full_name']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-lg-6">
+                            <label for="" class="form-label">Цена редактора</label>
+                            <div class="input-group mb-3">
+                                <input class="form-control form-control-sm" type="number" step="0.1" min="0.1"
+                                       name="price_redactor">
+                                <div class="input-group-append input-group-sm">
+                                    <span class="input-group-text" id="basic-addon2">РУБ</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Статья</label>
                             <input class="form-control form-control-sm" type="text" name="article" required>
                         </div>
