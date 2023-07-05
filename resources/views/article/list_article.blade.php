@@ -208,33 +208,33 @@
                                         <div class="d-flex align-items-center">
                                             {{--                                            Название статьи--}}
                                             <input  class="form-control form-control-sm" name="article"
-                                                   value="{{$article['article'] ?? '-'}}">
+                                                   value="{{$article['article'] ?? ''}}">
                                         </div>
                                     </td>
                                     {{--                                    ЗБП--}}
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <input  class="form-control form-control-sm" name="without_space"
-                                                   value="{{$article['without_space'] ?? '-'}}">
+                                                   value="{{$article['without_space'] ?? ''}}">
                                         </div>
                                     </td>
                                     {{--                                    ВАЛОВЫЙ ДОХОД--}}
                                     @role('Администратор')
                                     <td>
-                                        {{$article['gross_income'] + 0 ?? '-'}}
+                                        {{$article['gross_income'] + 0 ?? ''}}
                                     </td>
                                     @endrole
                                     <td class="td-client">
                                         {{--                                        Заказчик--}}
                                         @foreach($article['article_project']['project_clients'] ?? [] as $client)
-                                            {{$client['name'] ?? '-'}}
+                                            {{$client['name'] ?? ''}}
                                         @endforeach
                                     </td>
                                     {{--                                    Цена заказчика--}}
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <input  class="form-control form-control-sm" name="price_client"
-                                                   value="{{$article['price_client'] ?? '-'}}"></div>
+                                                   value="{{$article['price_client'] ?? ''}}"></div>
                                     </td>
                                     {{--                                    Валюта--}}
                                     <td>
@@ -259,7 +259,7 @@
                                                             selected
                                                     @endif>
 
-                                                    {{$author['full_name'] ?? '-'}}
+                                                    {{$author['full_name'] ?? ''}}
                                                 </option>
 
                                             @endforeach
@@ -270,7 +270,7 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <input  class="form-control form-control-sm" name="price_author"
-                                                   value="{{$article['price_author'] ?? '-'}}">
+                                                   value="{{$article['price_author'] ?? ''}}">
                                         </div>
                                     </td>
 
@@ -286,7 +286,7 @@
                                                             selected
                                                     @endif>
 
-                                                    {{$author['full_name'] ?? '-'}}
+                                                    {{$author['full_name'] ?? ''}}
                                                 </option>
 
                                             @endforeach
@@ -305,10 +305,10 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <input  class="form-control form-control-sm" name="link_text"
-                                                   value="{{$article['link_text'] ?? '-'}}">
+                                                   value="{{$article['link_text'] ?? ''}}">
                                         </div>
                                     </td>
-                                    <td>{{$article['created_at'] ?? '-'}}</td>
+                                    <td>{{$article['created_at'] ?? ''}}</td>
                                     @role('Администратор')
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
