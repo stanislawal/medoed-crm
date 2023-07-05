@@ -7,7 +7,6 @@
         <div>
             @include('Answer.custom_response')
             @include('Answer.validator_response')
-
             <div class="w-100 shadow border rounded bg-white p-3 mb-3">
                 <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i
                         class="fa fa-search search-icon mr-2"></i>Поиск
@@ -146,6 +145,8 @@
                                 {{--                                <th>ВД</th>--}}
                                 <th style="min-width: 150px;">Автор</th>
                                 <th style="min-width: 100px;">Цена автора</th>
+                                <th style="min-width: 150px;">Редактор</th>
+                                <th style="min-width: 100px;">Цена редактора</th>
                                 <th style="min-width: 200px;">Ссылка на текст</th>
                                 <th>Дата создания</th>
                                 @role('Администратор')
@@ -270,6 +271,33 @@
                                         <div class="d-flex align-items-center">
                                             <input disabled class="form-control form-control-sm" name="price_author"
                                                    value="{{$article['price_author'] ?? '-'}}">
+                                        </div>
+                                    </td>
+
+
+                                    <td class="td-author">
+                                        {{--                                        Редактор--}}
+                                        <select disabled class="form-select form-select-sm select-2" multiple
+                                                name="select_authors[]">
+
+                                            @foreach($authors as $author)
+                                                <option value="{{$author['id']}}"
+                                                        @if(in_array($author['id'], collect($article['article_redactor'])->pluck('id')->toArray()))
+                                                            selected
+                                                    @endif>
+
+                                                    {{$author['full_name'] ?? '-'}}
+                                                </option>
+
+                                            @endforeach
+                                        </select>
+
+                                    </td>
+                                    {{--                                    Цена редактора--}}
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <input disabled class="form-control form-control-sm" name="price_author"
+                                                   value="{{$article['price_redactor'] ?? '-'}}">
                                         </div>
                                     </td>
 

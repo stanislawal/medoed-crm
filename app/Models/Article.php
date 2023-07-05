@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Project\Cross\CrossprojectArticle;
-use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Project;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\CrossArticleRedactor;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Project\Cross\CrossProjectAuthor;
+use App\Models\Project\Cross\CrossprojectArticle;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Article extends BaseModel
 {
@@ -21,6 +22,7 @@ class Article extends BaseModel
         'project_id',
         'price_client', //цена заказчика
         'price_author', //цена автора
+        'price_redactor', //цена автора
         'check' //галочка
     ];
 
@@ -49,4 +51,10 @@ class Article extends BaseModel
     {
         return $this->belongsToMany(User::class, CrossArticleAuthor::class, 'article_id', 'user_id');
     }
+
+    public function articleRedactor()
+    {
+        return $this->belongsToMany(User::class, CrossArticleRedactor::class, 'article_id', 'user_id');
+    }
+
 }

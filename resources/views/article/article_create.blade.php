@@ -106,18 +106,6 @@
                             </div>
                         </div>
 
-                        {{--                            <div class="form-group col-12 col-lg-6">--}}
-                        {{--                                <label for="" class="form-label">Цена автора</label>--}}
-                        {{--                                <div class="input-group mb-3">--}}
-                        {{--                                    <input class="form-control form-control-sm" required type="number" step="0.1"--}}
-                        {{--                                           min="0.1"--}}
-                        {{--                                           name="price_author">--}}
-                        {{--                                    <div class="input-group-append">--}}
-                        {{--                                        <span class="input-group-text input-group-sm" id="basic-addon2">РУБ</span>--}}
-                        {{--                                    </div>--}}
-                        {{--                                </div>--}}
-                        {{--                            </div>--}}
-
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Ссылка на текст</label>
                             <input required class="form-control form-control-sm" type="text" name="link_text">

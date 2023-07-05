@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\UserHelper;
+use App\Models\CrossArticleRedactor;
 
 class ArticleController extends Controller
 {
@@ -29,7 +30,7 @@ class ArticleController extends Controller
             ->with([
                 'articleProject.projectClients',
                 'articleProject.projectAuthor',
-                'articleCurrency', 'articleManager', 'articleAuthor'
+                'articleCurrency', 'articleManager', 'articleAuthor', 'articleRedactor'
             ]);
 
         $managers = User::on()->whereHas('roles', function ($query) {
@@ -124,8 +125,9 @@ class ArticleController extends Controller
         DB::beginTransaction();
         try {
 
-            $attr = $request->only(['article', 'manager_id', 'without_space', 'id_currency', 'link_text', 'project_id', 'price_client', 'price_author', 'manager_salary']);
+            $attr = $request->only(['article', 'manager_id', 'without_space', 'id_currency', 'link_text', 'project_id', 'price_client', 'price_author', 'price_redactor', 'manager_salary']);
             $article_id = Article::on()->create($attr)->id;
+
 
             if ($request->has('author_id') && count($request->author_id) > 0) {
                 foreach ($request->author_id as $author) {
@@ -135,6 +137,16 @@ class ArticleController extends Controller
                     ];
                 }
                 CrossArticleAuthor::on()->insert($authors);
+            }
+
+            if ($request->has('redactor_id') && count($request->redactor_id) > 0) {
+                foreach ($request->redactor_id as $redactor) {
+                    $redactors[] = [
+                        'article_id' => $article_id,
+                        'user_id' => $redactor,
+                    ];
+                }
+                CrossArticleRedactor::on()->insert($redactors);
             }
 
             DB::commit();
