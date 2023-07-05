@@ -20,7 +20,7 @@
                     <div class="w-100 row m-0 p-2">
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Менеджер</label>
-                            <select class="form-select form-select-sm" required name="manager_id">
+                            <select class="form-select form-select-sm" name="manager_id">
                                 <option value="">Не выбрано</option>
                                 @foreach ($managers as $manager)
                                     <option value="{{$manager['id']}}">{{$manager['full_name']}}</option>
@@ -77,7 +77,7 @@
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">ЗБП</label>
                             <div class="input-group mb-3">
-                                <input class="form-control form-control-sm" required type="number" step="0.1"
+                                <input class="form-control form-control-sm"  type="number" step="0.1"
                                        min="0.1"
                                        name="without_space">
                             </div>
@@ -85,7 +85,7 @@
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Валюта</label>
                             <div class="input-group mb-3">
-                                <select required class="form-control form-control-sm" name="id_currency">
+                                <select  class="form-control form-control-sm" name="id_currency">
                                     <option value="1">RUB</option>
                                     @foreach ($currency ?? '' as $item)
                                         <option value="{{$item['id']}}">{{$item['currency']}}</option>
@@ -97,7 +97,7 @@
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Цена заказчика</label>
                             <div class="input-group mb-3">
-                                <input class="form-control form-control-sm" required type="number" step="0.1"
+                                <input class="form-control form-control-sm"  type="number" step="0.1"
                                        min="0.1"
                                        name="price_client">
                                 <div class="input-group-append">
@@ -108,7 +108,7 @@
 
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Ссылка на текст</label>
-                            <input required class="form-control form-control-sm" type="text" name="link_text">
+                            <input  class="form-control form-control-sm" type="text" name="link_text">
                         </div>
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Название проекта</label>

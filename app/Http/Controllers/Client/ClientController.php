@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Client\Client;
 use App\Models\Client\SocialNetwork;
+use App\Models\Project\Cross\CrossClientSocialNetwork;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -54,11 +55,26 @@ class ClientController extends Controller
             'characteristic' => $request->characteristic ?? null,
             'company_name' => $request->company_name ?? null,
             'site' => $request->site ?? null,
-            'link_socialnetwork' => $request->link_socialnetwork ?? null,
+            // 'link_socialnetwork' => $request->link_socialnetwork ?? null,
             'contact_info' => $request->contact_info ?? null,
             'birthday' => $request->birthday ?? null,
         ];
-        Client::on()->create($attr);
+        $client = Client::on()->create($attr);
+
+        $socialnetrowks = json_decode($request->socialnetwork_info, TRUE);
+
+        if(count($socialnetrowks) > 0){
+            $attr = [];
+            foreach($socialnetrowks as $item){
+                $attr[] = [
+                    'client_id' => $client->id,
+                    'social_network_id' => $item['socialnetrowk_id'],
+                    'description' => $item['link'],
+                ];
+            }
+            CrossClientSocialNetwork::on()->insert($attr);
+        }
+
         return redirect()->back();
 
     }
@@ -77,6 +93,7 @@ class ClientController extends Controller
             ->get()
             ->toArray();
 
+        $crossSocialNetwork = CrossClientSocialNetwork::on()->get();
 
         return view('client.client_edit', [
             'clients' => $clients,

@@ -15,8 +15,9 @@ class SocialNetworkController extends Controller
      */
     public function index()
     {
+
         return view('Option.add_option_socialnetwork', [
-            'socialnetwork' => SocialNetwork::on()->orderBy('id', "asc")->get()
+            'socialnetwork' => SocialNetwork::on()->with(['isUse'])->orderBy('id', "asc")->get()
         ]);
     }
 
@@ -25,9 +26,12 @@ class SocialNetworkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function getSelect()
     {
-        //
+        $socialnetworks = SocialNetwork::on()->get();
+        return response()->json([
+            'html' => view('Render.Socialnetwork.select_socialnetwork', ['socialnetworks' => $socialnetworks])->render()
+        ]);
     }
 
     /**

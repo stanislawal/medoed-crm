@@ -160,7 +160,7 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $attr = $request->only([
-            'article', 'manager_id', 'without_space', 'id_currency', 'gross_income', 'link_text', 'check', 'project_id', 'price_author', 'price_client'
+            'article', 'manager_id', 'without_space', 'id_currency', 'gross_income', 'link_text', 'check', 'project_id', 'price_author', 'price_redactor', 'price_client'
         ]);
         Article::on()->where('id', $id)->update($attr);
 
@@ -176,6 +176,20 @@ class ArticleController extends Controller
             CrossArticleAuthor::on()->insert($authors);
         }
 
+
+
+        CrossArticleRedactor::on()->where('article_id', $id)->delete();
+
+        if ($request->has('redactors_id') && count($request->redactors_id) > 0) {
+            foreach ($request->redactors_id as $redactor) {
+                $rows[] = [
+                    'article_id' => $id,
+                    'user_id' => $redactor,
+                ];
+            }
+
+            CrossArticleRedactor::on()->insert($rows);
+        }
 
         return response()->json(['success' => 'Статья успешно обновлена']);
     }

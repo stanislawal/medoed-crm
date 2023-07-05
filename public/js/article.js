@@ -27,13 +27,17 @@ window.save = function (className) {
     'link_text': tr.find('input[name="link_text"]').val(),
     'project_id': tr.find('select[name="project_id"]').val(),
     'authors_id': tr.find('select[name="select_authors[]"]').val(),
+    'redactors_id': tr.find('select[name="select_redactors[]"]').val(),
+    'price_redactor': tr.find('input[name="price_redactor"]').val(),
     'manager_id': tr.find('select[name="manager_id"]').val()
   };
   ajax('post', url, attr);
-  tr.find('.edit').show();
-  tr.find('.save').hide();
-  tr.find('select, input').prop('disabled', true);
+
+  // tr.find('.edit').show();
+  // tr.find('.save').hide()
+  // tr.find('select, input').prop('disabled', true);
 };
+
 window.ajaxStatus = true;
 window.ajax = function (method, url, params) {
   if (window.ajaxStatus) {

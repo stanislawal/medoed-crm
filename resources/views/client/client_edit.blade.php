@@ -29,15 +29,6 @@
                         <input type="text" value="{{$clients['name']}}" class="form-control form-control-sm" name="name">
                     </div>
 
-                    <label for="" class="form-label">Место ведения диалога</label>
-                    <select class="form-control form-control-sm select-client-socialnetworks select-2" multiple
-                            name="dialog_location">
-                        <option disabled value="">Места</option>
-                        @foreach ($socialNetwork ?? '' as $dialog)
-                            <option value="{{$dialog['id']}}">{{$dialog['name']}}</option>
-                        @endforeach
-                    </select>
-
                     <div class="form-group col-12 col-lg-6">
                         <label for="" class="form-label">Сфера деятельности</label>
                         <input type="text" value="{{$clients['scope_work']}}" class="form-control form-control-sm" name="scope_work">
@@ -47,10 +38,6 @@
                         <label for="" class="form-label">Название компании</label>
                         <input type="text" value="{{$clients['company_name']}}" class="form-control form-control-sm"
                                name="company_name">
-                    </div>
-                    <div class="form-group col-12 col-lg-6">
-                        <label for="" class="form-label mt-2">Ссылка на соц. сеть</label>
-                        <input type="text" value="{{$clients['link_socialnetwork']}}" class="form-control form-control-sm" name="link_socialnetwork">
                     </div>
                     <div class="form-group col-12 col-lg-6">
                         <label for="" class="form-label">Сайт</label>
@@ -68,9 +55,7 @@
                         <button class="btn btn-success btn-sm mr-3 w-auto">Редактировать</button>
                     </div>
                 </div>
-                {{--                    <div class="w-100 row m-0 p-3">--}}
-                {{--                        <button class="btn btn-success">Редактировать</button>--}}
-                {{--                    </div>--}}
+
 
             </div>
         </div>

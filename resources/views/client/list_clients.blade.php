@@ -55,7 +55,7 @@
                                 <th>Сфера деятельности</th>
                                 <th>Имя компании</th>
                                 <th>Контактная инф.</th>
-                                <th>Ссылка на соц.сеть</th>
+                                <th>Соц.сеть</th>
                                 <th>Удалить</th>
                             </tr>
                             </thead>
@@ -74,7 +74,13 @@
                                     <td>{{$client['scope_work'] ?? '-'}}</td>
                                     <td>{{$client['company_name'] ?? '-'}}</td>
                                     <td>{{$client['contact_info'] ?? '-' }}</td>
-                                    <td>{{$client['link_socialnetwork'] ?? '-' }}</td>
+
+                                        <td>
+                                            @foreach ($client['social_network'] as $socialnetrowk)
+                                            <span class="badge bg-primary">{{ $socialnetrowk['name'] }}: {{ $socialnetrowk['pivot']['description'] }}</span>
+                                        @endforeach
+                                        </td>
+                                    {{-- <td>{{$client['link_socialnetwork'] ?? '-' }}</td> --}}
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
                                             <a href="{{route('client.destroy',['client' => $client['id']])}}"

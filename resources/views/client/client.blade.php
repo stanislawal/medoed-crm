@@ -22,10 +22,11 @@
                     <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">О клиенте
                     </div>
                     <div class="w-100 row m-0 p-2">
-                        <div class="form-group col-12 col-lg-6">
+                        <div class="col-12 col-lg-6">
                             <label for="" class="form-label">Контактное лицо</label>
                             <input type="text" class="form-control form-control-sm" name="name">
-                            <label for="" class="form-label">Место ведения диалога</label>
+                        </div>
+                            {{-- <label for="" class="form-label">Место ведения диалога</label>
                             <select class="form-control form-control-sm select-client-socialnetworks select-2" multiple
                                     name="dialog_location">
                                 <option disabled value="">Места</option>
@@ -33,17 +34,19 @@
                                     <option value="{{$dialog['id']}}">{{$dialog['name']}}</option>
                                 @endforeach
                             </select>
-                        </div>
+
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label mt-2">Ссылка на соц. сеть</label>
                             <input type="text" class="form-control form-control-sm" name="link_socialnetwork">
-                        </div>
-                        <div class="form-group col-12 col-lg-6">
+                        </div> --}}
+
+
+                        <div class="col-12 col-lg-6">
                             <label for="" class="form-label">Сфера деятельности</label>
                             <input type="text" class="form-control form-control-sm" name="scope_work">
                         </div>
 
-                        <div class="form-group col-12 col-lg-6">
+                        <div class="col-12 col-lg-6">
                             <label for="" class="form-label">Контактная информация</label>
                             <input type="text" class="form-control form-control-sm" name="contact_info">
                         </div>
@@ -53,22 +56,33 @@
                         {{--                            <input type="date" class="form-control" name="birthday">--}}
                         {{--                        </div>--}}
 
-                        <div class="form-group col-12 col-lg-6">
+                        <div class="col-12 col-lg-6">
                             <label for="" class="form-label">Название компании</label>
                             <input type="text" class="form-control form-control-sm" name="company_name">
                         </div>
 
-                        <div class="form-group col-12 col-lg-6">
+                        <div class="col-12 col-lg-6">
                             <label for="" class="form-label">Сайт компании</label>
                             <input type="text" class="form-control form-control-sm" name="site">
                         </div>
 
 
-                            <div class="form-group col-12 col-lg-6">
+                            <div class="col-12 col-lg-6">
                                 <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
                                 <textarea id="characteristic" name="characteristic" class="form-control"> </textarea>
 
                         </div>
+
+
+                        <div class="col-12 section_socialwork mb-3">
+                            <div>
+                                <label class="form-label">Место ведения диалога</label>
+                                <div class="btn btn-sm btn-primary py-0 px-1 add">Добавить</div>
+                                <input type="hidden" name="socialnetwork_info" class="socialnetwork_info">
+                            </div>
+                            <div class="items_socialwork"></div>
+                        </div>
+
                         <div class="form-group col-12 mb-2">
                             <button class="btn btn-sm btn-success">Создать</button>
                         </div>
@@ -90,4 +104,38 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="{{asset('js/select2.js')}}"></script>
+
+    <script>
+        $('.section_socialwork .add').click(function(){
+            const itemsSocialwork = $('.section_socialwork .items_socialwork');
+
+            $.ajax({
+                url: '{{ route("socialnetwork.get_select") }}',
+                method: 'GET',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            }).done((res) => {
+                itemsSocialwork.append(res.html);
+            })
+        });
+
+
+        $('.section_socialwork').on('click', '.delete', function(){
+            $(this).parent('div').remove();
+        })
+
+        window.write_socialnetwork = function(){
+
+            var array = [];
+
+            $('.items_socialwork .item').each(function(i, item){
+                array.push({
+                    'socialnetrowk_id' : $(this).children('select').val(),
+                    'link' : $(this).children('input').val()
+                })
+            });
+
+            $('.socialnetwork_info').val(JSON.stringify(array));
+        }
+
+    </script>
 @endsection
