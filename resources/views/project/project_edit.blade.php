@@ -150,7 +150,7 @@
                 <label class="col-sm-3 col-form-label">Цена автора</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <input class="form-control form-control-sm" type="number" step="0.1" min="0.1"
+                        <input class="form-control form-control-sm" type="text"
                                name="price_author"
                                disabled value="{{ $projectInfo['price_author'] ?? '' }}">
                         <div class="input-group-append input-group-sm">
@@ -164,7 +164,7 @@
                 <label class="col-sm-3 col-form-label">Цена заказчика</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <input class="form-control form-control-sm" disabled value="{{ $projectInfo['price_client'] ?? '' }}" type="number" step="0.1" min="0.1"
+                        <input class="form-control form-control-sm" disabled value="{{ $projectInfo['price_client'] ?? '' }}" type="text"
                                name="price_client">
                         <div class="input-group-append">
                             <span class="input-group-text" id="basic-addon2">РУБ</span>
