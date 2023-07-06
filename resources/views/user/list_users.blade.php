@@ -18,15 +18,20 @@
                         @csrf
                         <div class="row m-0" id="search" @if(empty(request()->all())) style="display: none;" @endif>
                             <div class="w-100 row m-0 py-3">
+                                <div class="form-group col-12 col-md-6 col-lg-4">
+                                    <label for="" class="form-label">Имя</label>
+                                    <input type="text" class="form-control form-control-sm" name="full_name" value="{{ request()->full_name ?? '' }}">
+                                </div>
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Должность</label>
                                     <select class="form-select form-select-sm" name="role">
-                                        <option>Не выбрано</option>
+                                        <option value="">Не выбрано</option>
                                         @foreach($roles as $role)
                                             <option value="{{ $role['id'] }}" @if(request()->role == $role['id']) selected @endif>{{$role['name']}}</option>
                                         @endforeach
                                     </select>
                                 </div>
+
                             </div>
 
                             <div class="col-12 p-0">
@@ -53,6 +58,9 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="w-100 d-flex justify-content-center mb-3">
+                            {{ $users->appends(request()->input())->links('vendor.pagination.custom')  }}
+                        </div>
                         <div class="table-responsive">
                             <table id="basic-datatables" class="display table  table-hover table-head-bg-info">
                                 <thead>

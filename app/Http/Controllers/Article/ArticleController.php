@@ -12,6 +12,7 @@ use App\Models\Project\Cross\CrossProjectClient;
 use App\Models\Project\Project;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -47,9 +48,11 @@ class ArticleController extends Controller
             $query->where('id', 3);
         })->get();
 
-        $articles = $articles->get()->toArray();
+        $list = $articles->get()->toArray();
 
-        $statistics = $this->calculate($articles, $request);
+        $statistics = $this->calculate($list, $request);
+
+        $articles = $articles->paginate(50);
 
         $project = Project::on()->select(['id', 'project_name'])
             ->with(['projectAuthor', 'projectClients'])
@@ -77,8 +80,14 @@ class ArticleController extends Controller
             $currentDay = $dateStart->diff(now())->days + 1;
             $expectation = (int)($list->sum('without_space') / $currentDay * $countDays);
             $passed = $list->filter(function ($item) {
-                return str_contains($item['created_at'], now()->format('Y-m-d'));
+
+
+                return Carbon::parse($item['created_at'])->format('Y-m-d') == now()->format('Y-m-d');
+
+//                dd($item);
             })->sum('without_space') ?? 0 / $currentDay;
+
+//            dd($passed);
         }
 
         $result = [
@@ -86,7 +95,8 @@ class ArticleController extends Controller
             "current_day_in_range" => $currentDay ?? "Текущий день не входит в диапазон",
             "expectation" => $expectation ?? "Невозможно вычислить",
             "passed" => $passed ?? "Невозможно вычислить",
-            "sum_gross_income" => $list->sum('gross_income')
+            "sum_gross_income" => $list->sum('gross_income'),
+
         ];
 
         $salary = UserHelper::getUser()->manager_salary ?? 0;
@@ -211,6 +221,12 @@ class ArticleController extends Controller
         });
 
         $articles->whereBetween('created_at', $this->getDate($request));
+
+        $articles->when(!empty($request->project_id), function ($where) use ($request){
+            $where->wherehas('articleProject', function ($where) use ($request){
+                $where->where('id', $request->project_id);
+            });
+        });
     }
 
     private function getDate($request)

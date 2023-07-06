@@ -105,13 +105,18 @@ class UserController extends Controller
 //$projects->when(!empty($request->manager_id), function ($where) use ($request) {
 //            $where->where('manager_id', $request->manager_id);
 
-    private function filter($request, &$users){
+    private function filter($request, &$users)
+    {
+        $users->when(!empty($request->full_name), function ($where) use ($request) {
+            $where->where('full_name', $request->full_name);
+        });
+
         $users->when(!empty($request->role), function ($whereHas) use ($request) {
+            dd($request->role);
             $whereHas->whereHas('roles', function ($where) use ($request) {
                 $where->where('id', $request->role);
             });
         });
     }
-
 }
 

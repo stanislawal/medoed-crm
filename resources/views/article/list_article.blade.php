@@ -53,6 +53,21 @@
                                        value="{{ request()->article ?? "" }}">
                             </div>
 
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label class="form-label">Проект</label>
+                                <select class="form-select form-select-sm select-2"
+                                        name="project_id">
+                                    <option value="">Не выбрано</option>
+                                    @foreach($projects as $project)
+                                        <option value="{{ $project['id'] }}"
+
+                                                @if($project['id'] == request()->project_id ?? '') selected @endif>
+                                            {{ $project['project_name'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="form-group col-12">
                                 <div class="w-100 d-flex justify-content-end">
                                     <button class="btn btn-sm btn-success">Искать</button>
@@ -126,6 +141,9 @@
                 </div>
 
                 <div class="card-body">
+                    <div class="w-100 d-flex justify-content-center">
+                        {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}
+                    </div>
                     <div class="table-responsive">
                         <table id="basic-datatables"
                                class="display table table-hover table-head-bg-info table-center">
@@ -135,7 +153,7 @@
                                 {{--                                <th>ID</th>--}}
                                 <th style="min-width: 200px;">Проект</th>
                                 @role('Администратор')
-                                <th>Заказчик(и)</th>
+                                <th style="min-width: 150px;">Заказчик(и)</th>
                                 @endrole
                                 <th style="min-width: 200px;">Статья</th>
                                 <th style="min-width: 100px;">ЗБП</th>
@@ -191,12 +209,14 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            {{--                                            @dd($article)--}}
                                         </div>
                                     </td>
-                                @role('Администратор')
+                                    @role('Администратор')
                                     <td class="td-client">
                                         {{--                                        Заказчик--}}
-                                        @foreach($article['article_project']['project_clients'] ?? [] as $client)
+
+                                        @foreach($article['articleProject']['projectClients'] ?? [] as $client)
                                             {{$client['name'] ?? ''}}
                                         @endforeach
                                     </td>
@@ -261,8 +281,6 @@
                                     @endrole
 
 
-
-
                                     <td class="td-author">
                                         {{--                                        Автор--}}
                                         <select class="form-select form-select-sm select-2" multiple
@@ -297,7 +315,7 @@
 
                                             @foreach($authors as $author)
                                                 <option value="{{$author['id']}}"
-                                                        @if(in_array($author['id'], collect($article['article_redactor'])->pluck('id')->toArray()))
+                                                        @if(in_array($author['id'], collect($article['articleRedactor'])->pluck('id')->toArray()))
                                                             selected
                                                     @endif>
 
@@ -348,9 +366,9 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {{--                        <div class="w-100 d-flex justify-content-center mt-3">--}}
-                        {{--                            {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}--}}
-                        {{--                        </div>--}}
+                        <div class="w-100 d-flex justify-content-center mt-3">
+                            {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}
+                        </div>
                         @endsection
                         @section('custom_js')
                             <script
