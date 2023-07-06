@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div style="height: 100vh; overflow: scroll;" class="table-responsive">
                             <table id="basic-datatables"
                                    class="display table table-hover table-head-bg-info table-center table-cut">
                                 <thead>
