@@ -18,7 +18,7 @@
                             @if(\App\Helpers\UserHelper::isManager())
                                 <div class="form-group col-12 col-md-6 col-lg-4">
                                     <label class="form-label">Менеджер</label>
-                                    <select class="form-control form-control-sm" >
+                                    <select class="form-control form-control-sm">
                                         <option>{{ auth()->user()->full_name }}</option>
                                     </select>
                                 </div>
@@ -48,9 +48,9 @@
                             </div>
 
                             <div class="form-group col-12 col-md-6 col-lg-4">
-                                <label class="form-label">По ID</label>
-                                <input type="number" name="id" class="form-control form-control-sm"
-                                       value="{{ request()->id ?? "" }}">
+                                <label class="form-label">Статья</label>
+                                <input type="text" name="article" class="form-control form-control-sm"
+                                       value="{{ request()->article ?? "" }}">
                             </div>
 
                             <div class="form-group col-12">
@@ -132,19 +132,21 @@
                             <thead>
                             <tr>
                                 <th></th>
-{{--                                <th>ID</th>--}}
+                                {{--                                <th>ID</th>--}}
                                 <th style="min-width: 200px;">Проект</th>
+                                @role('Администратор')
+                                <th>Заказчик(и)</th>
+                                @endrole
+                                <th style="min-width: 200px;">Статья</th>
+                                <th style="min-width: 100px;">ЗБП</th>
+                                <th style="min-width: 100px;">Цена заказчика</th>
+                                <th style="min-width: 100px;">Валюта</th>
                                 @unlessrole ('Менеджер')
                                 <th style="min-width: 150px;">Менеджер</th>
                                 @endunlessrole
-                                <th style="min-width: 200px;">Статья</th>
-                                <th style="min-width: 100px;">ЗБП</th>
+
                                 @role('Администратор')
                                 <th style="min-width: 100px;">ВД</th>@endrole
-                                <th>Заказчик(и)</th>
-                                <th style="min-width: 100px;">Цена заказчика</th>
-                                <th style="min-width: 100px;">Валюта</th>
-                                {{--                                <th>ВД</th>--}}
                                 <th style="min-width: 150px;">Автор</th>
                                 <th style="min-width: 100px;">Цена автора</th>
                                 <th style="min-width: 150px;">Редактор</th>
@@ -165,15 +167,15 @@
 
                             </style>
                             </thead>
-                            <tbody >
+                            <tbody>
                             @foreach($articles as $article)
                                 <tr class="row_{{ $article['id'] }}"
                                     data-url="{{ route('article.update', ['article' => $article['id']]) }}">
                                     <td><input type="checkbox" name="check"
                                                @if((bool)$article['check']) checked @endif
-                                               >
+                                        >
                                     </td>
-{{--                                    <td>{{ $article['id'] }}</td>--}}
+                                    {{--                                    <td>{{ $article['id'] }}</td>--}}
                                     {{--Имя проекта--}}
                                     <td>
                                         <div>
@@ -191,6 +193,47 @@
                                             </select>
                                         </div>
                                     </td>
+                                @role('Администратор')
+                                    <td class="td-client">
+                                        {{--                                        Заказчик--}}
+                                        @foreach($article['article_project']['project_clients'] ?? [] as $client)
+                                            {{$client['name'] ?? ''}}
+                                        @endforeach
+                                    </td>
+                                    @endrole
+
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {{--                                            Название статьи--}}
+                                            <input class="form-control form-control-sm" name="article"
+                                                   value="{{$article['article'] ?? ''}}">
+                                        </div>
+                                    </td>
+                                    {{--                                    ЗБП--}}
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <input class="form-control form-control-sm" name="without_space"
+                                                   value="{{$article['without_space'] ?? ''}}">
+                                        </div>
+                                    </td>
+                                    {{--                                    Цена заказчика--}}
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <input class="form-control form-control-sm" name="price_client"
+                                                   value="{{$article['price_client'] ?? ''}}"></div>
+                                    </td>
+                                    {{--                                    Валюта--}}
+                                    <td>
+                                        <div>
+                                            <select class="form-select form-select-sm" name="id_currency">
+                                                @foreach($currency as $item)
+                                                    <option value="{{$item['id']}}"
+                                                            @if($item['id'] == $article['id_currency']) selected @endif>{{$item['currency']}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </td>
+
                                     @unlessrole('Менеджер')
                                     <td>
 
@@ -208,53 +251,21 @@
                                         </div>
                                     </td>
                                     @endunlessrole
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            {{--                                            Название статьи--}}
-                                            <input  class="form-control form-control-sm" name="article"
-                                                   value="{{$article['article'] ?? ''}}">
-                                        </div>
-                                    </td>
-                                    {{--                                    ЗБП--}}
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <input  class="form-control form-control-sm" name="without_space"
-                                                   value="{{$article['without_space'] ?? ''}}">
-                                        </div>
-                                    </td>
+
+
                                     {{--                                    ВАЛОВЫЙ ДОХОД--}}
                                     @role('Администратор')
                                     <td>
                                         {{$article['gross_income'] + 0 ?? ''}}
                                     </td>
                                     @endrole
-                                    <td class="td-client">
-                                        {{--                                        Заказчик--}}
-                                        @foreach($article['article_project']['project_clients'] ?? [] as $client)
-                                            {{$client['name'] ?? ''}}
-                                        @endforeach
-                                    </td>
-                                    {{--                                    Цена заказчика--}}
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <input  class="form-control form-control-sm" name="price_client"
-                                                   value="{{$article['price_client'] ?? ''}}"></div>
-                                    </td>
-                                    {{--                                    Валюта--}}
-                                    <td>
-                                        <div>
-                                            <select  class="form-select form-select-sm" name="id_currency">
-                                                @foreach($currency as $item)
-                                                    <option value="{{$item['id']}}"
-                                                            @if($item['id'] == $article['id_currency']) selected @endif>{{$item['currency']}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </td>
+
+
+
 
                                     <td class="td-author">
                                         {{--                                        Автор--}}
-                                        <select  class="form-select form-select-sm select-2" multiple
+                                        <select class="form-select form-select-sm select-2" multiple
                                                 name="select_authors[]">
 
                                             @foreach($authors as $author)
@@ -273,7 +284,7 @@
                                     {{--                                    Цена автора--}}
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <input  class="form-control form-control-sm" name="price_author"
+                                            <input class="form-control form-control-sm" name="price_author"
                                                    value="{{$article['price_author'] ?? ''}}">
                                         </div>
                                     </td>
@@ -281,7 +292,7 @@
 
                                     <td class="td-author">
                                         {{--                                        Редактор--}}
-                                        <select  class="form-select form-select-sm select-2" multiple
+                                        <select class="form-select form-select-sm select-2" multiple
                                                 name="select_redactors[]">
 
                                             @foreach($authors as $author)
@@ -300,7 +311,7 @@
                                     {{--                                    Цена редактора--}}
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <input  class="form-control form-control-sm" name="price_redactor"
+                                            <input class="form-control form-control-sm" name="price_redactor"
                                                    value="{{$article['price_redactor'] ?? ''}}">
                                         </div>
                                     </td>
@@ -308,7 +319,7 @@
                                     {{--Ссылка--}}
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <input  class="form-control form-control-sm" name="link_text"
+                                            <input class="form-control form-control-sm" name="link_text"
                                                    value="{{$article['link_text'] ?? ''}}">
                                         </div>
                                     </td>
@@ -337,9 +348,9 @@
                             @endforeach
                             </tbody>
                         </table>
-{{--                        <div class="w-100 d-flex justify-content-center mt-3">--}}
-{{--                            {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}--}}
-{{--                        </div>--}}
+                        {{--                        <div class="w-100 d-flex justify-content-center mt-3">--}}
+                        {{--                            {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}--}}
+                        {{--                        </div>--}}
                         @endsection
                         @section('custom_js')
                             <script

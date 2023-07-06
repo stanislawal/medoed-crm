@@ -180,7 +180,6 @@
 
 
                                     {{--                                    <th>@include('components.table.sort', ['title' => 'Цена за 1000', 'column' => 'price_per'] )</th>--}}
-
                                     @role('Администратор')
                                     <th>Удалить</th>
                                     @endrole
@@ -203,7 +202,7 @@
                                         @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important"><textarea disabled
                                                                                                style="border: none; width: 100px; border-radius: 10px; background-color: rgba(255,255,255,0);"
-                                            >{{$project['project_user']['full_name'] ?? '------'}}</textarea></td>
+                                            >{{$project['projectUser']['full_name'] ?? '------'}}</textarea></td>
                                         @endrole
                                         <td style="padding: 0 10px 0 12px!important">{{$project['project_name'] ?? '------'}}</td>
                                         <td style="padding: 0 10px 0 12px!important">

@@ -177,7 +177,6 @@ class ArticleController extends Controller
         }
 
 
-
         CrossArticleRedactor::on()->where('article_id', $id)->delete();
 
         if ($request->has('redactors_id') && count($request->redactors_id) > 0) {
@@ -203,8 +202,8 @@ class ArticleController extends Controller
 
     private function filter(&$articles, $request)
     {
-        $articles->when(!empty($request->id), function ($where) use ($request) {
-            $where->where('id', $request->id);
+        $articles->when(!empty($request->article), function ($where) use ($request) {
+            $where->where('article', $request->article);
         });
 
         $articles->when(!empty($request->manager_id), function ($where) use ($request) {
