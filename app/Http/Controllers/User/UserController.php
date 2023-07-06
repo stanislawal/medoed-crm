@@ -112,7 +112,6 @@ class UserController extends Controller
         });
 
         $users->when(!empty($request->role), function ($whereHas) use ($request) {
-            dd($request->role);
             $whereHas->whereHas('roles', function ($where) use ($request) {
                 $where->where('id', $request->role);
             });
