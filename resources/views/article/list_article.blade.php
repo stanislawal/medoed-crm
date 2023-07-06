@@ -163,7 +163,7 @@
 
                             </style>
                             </thead>
-                            <tbody>
+                            <tbody >
                             @foreach($articles as $article)
                                 <tr class="row_{{ $article['id'] }}"
                                     data-url="{{ route('article.update', ['article' => $article['id']]) }}">

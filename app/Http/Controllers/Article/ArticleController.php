@@ -31,7 +31,7 @@ class ArticleController extends Controller
                 'articleProject.projectClients',
                 'articleProject.projectAuthor',
                 'articleCurrency', 'articleManager', 'articleAuthor', 'articleRedactor'
-            ]);
+            ])->orderBy('id', 'desc');
 
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
