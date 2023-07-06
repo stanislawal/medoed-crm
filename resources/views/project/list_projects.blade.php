@@ -224,7 +224,7 @@
                                         <td style=" min-width: 170px;">
                                             <div class="d-flex align-items-center">
                                                 <select
-                                                    style=" background-color: {{ $project['project_status']['color'] ?? "" }} ;"
+                                                    style=" background-color: {{ $project['projectStatus']['color'] ?? "" }} ;"
                                                     class="form-select form-select-sm mr-1" id="edit_status_project"
                                                     onchange="editStatusProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
                                                     @foreach ($statuses as $status)
@@ -268,7 +268,7 @@
                                             @endforeach
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">{{$project['project_clients'][0]['contact_info'] ?? '------'}}</td>
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_theme']['name'] ?? ''}}
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['projectTheme']['name'] ?? ''}}
                                         </td>
 
                                         <td style="padding: 0 10px 0 12px!important">{{$project['project_style']['name'] ?? '------'}}</td>
