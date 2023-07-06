@@ -20,7 +20,7 @@
                     <div class="w-100 row m-0 p-2">
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Менеджер</label>
-                            <select class="form-select form-select-sm" name="manager_id">
+                            <select required class="form-select form-select-sm" name="manager_id">
                                 <option value="">Не выбрано</option>
                                 @foreach ($managers as $manager)
                                     <option value="{{$manager['id']}}">{{$manager['full_name']}}</option>

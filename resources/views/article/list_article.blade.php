@@ -134,7 +134,9 @@
                                 <th></th>
                                 <th>ID</th>
                                 <th style="min-width: 200px;">Проект</th>
+                                @unlessrole ('Менеджер')
                                 <th style="min-width: 150px;">Менеджер</th>
+                                @endunlessrole
                                 <th style="min-width: 200px;">Статья</th>
                                 <th style="min-width: 100px;">ЗБП</th>
                                 @role('Администратор')
@@ -189,6 +191,7 @@
                                             </select>
                                         </div>
                                     </td>
+                                    @unlessrole('Менеджер')
                                     <td>
 
                                         <div>
@@ -204,6 +207,7 @@
                                             </select>
                                         </div>
                                     </td>
+                                    @endunlessrole
                                     <td>
                                         <div class="d-flex align-items-center">
                                             {{--                                            Название статьи--}}
