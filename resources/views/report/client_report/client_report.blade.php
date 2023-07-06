@@ -209,7 +209,7 @@
                            class="display table table-hover table-head-bg-info table-center table-cut">
                         <thead>
                         <tr>
-                            <th>ID</th>
+{{--                            <th>ID</th>--}}
                             <th></th>
                             <th>Состояние</th>
                             <th class="fw-bold">Долг</th>
@@ -230,7 +230,7 @@
                         <tbody>
                         @foreach($reports as $item)
                             <tr>
-                                <td>{{$item['id']}}</td>
+{{--                                <td>{{$item['id']}}</td>--}}
                                 <td><a href="{{route('client_project.show', ['project'=> $item['id']])}}">
                                         <i class="fas fa-grip-horizontal"></i></a>
                                 </td>

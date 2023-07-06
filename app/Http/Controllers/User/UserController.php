@@ -22,7 +22,7 @@ class UserController extends Controller
             $this->filter($request, $users);
 
         $users->orderBy('id', 'desc');
-        $users = $users->get()->toArray();
+        $users = $users->paginate(3);
 
 
        $roles= Role::on()->get()->toArray();

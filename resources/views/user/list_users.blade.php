@@ -58,7 +58,7 @@
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>ID</th>
+{{--                                    <th>ID</th>--}}
                                     <th>Ф.И.О</th>
                                     <th>Логин</th>
                                     <th>Должность</th>
@@ -74,7 +74,7 @@
                                     <tr>
                                         <td><a href="{{route('user.edit',['user'=> $user['id']])}}">Открыть</a>
                                         </td>
-                                        <td>{{$user['id']}}</td>
+{{--                                        <td>{{$user['id']}}</td>--}}
                                         <td>{{$user['full_name'] ?? '-'}}</td>
                                         <td>{{$user['login'] ?? '-'}}</td>
                                         <td>{{$user['roles'][0]['name'] ?? '-'}}</td>
@@ -100,6 +100,9 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="w-100 d-flex justify-content-center mt-3">
+                            {{ $users->appends(request()->input())->links('vendor.pagination.custom')  }}
                         </div>
                     </div>
                 </div>

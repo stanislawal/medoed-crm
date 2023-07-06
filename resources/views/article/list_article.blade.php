@@ -132,7 +132,7 @@
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>ID</th>
+{{--                                <th>ID</th>--}}
                                 <th style="min-width: 200px;">Проект</th>
                                 @unlessrole ('Менеджер')
                                 <th style="min-width: 150px;">Менеджер</th>
@@ -173,7 +173,7 @@
                                                @if((bool)$article['check']) checked @endif
                                                >
                                     </td>
-                                    <td>{{ $article['id'] }}</td>
+{{--                                    <td>{{ $article['id'] }}</td>--}}
                                     {{--Имя проекта--}}
                                     <td>
                                         <div>
@@ -337,7 +337,9 @@
                             @endforeach
                             </tbody>
                         </table>
-
+{{--                        <div class="w-100 d-flex justify-content-center mt-3">--}}
+{{--                            {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}--}}
+{{--                        </div>--}}
                         @endsection
                         @section('custom_js')
                             <script

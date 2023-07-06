@@ -155,7 +155,7 @@
                                    class="display table table-hover table-head-bg-info table-center table-cut">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+{{--                                    <th>ID</th>--}}
                                     <th></th>
                                     <th></th>
                                     @role('Администратор')
@@ -190,7 +190,7 @@
 
                                 @foreach ($projects as $key => $project)
                                     <tr>
-                                        <td style="padding: 0 10px 0 12px!important">{{ $key + 1 }}</td>
+{{--                                        <td style="padding: 0 10px 0 12px!important">{{ $key + 1 }}</td>--}}
                                         <td style="padding: 0 10px 0 12px!important"><input type="checkbox" name="check"
                                                                                             @if((bool)$project['check']) checked
                                                                                             @endif onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
@@ -207,7 +207,7 @@
                                         @endrole
                                         <td style="padding: 0 10px 0 12px!important">{{$project['project_name'] ?? '------'}}</td>
                                         <td style="padding: 0 10px 0 12px!important">
-                                            @forelse ($project['project_clients'] as $client)
+                                            @forelse ($project['projectClients'] as $client)
                                                 {{ $client['name'] }}
                                             @empty
                                                 -
@@ -244,7 +244,7 @@
                                             </div>
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">
-                                            @forelse ($project['project_author'] as $author)
+                                            @forelse ($project['projectAuthor'] as $author)
                                                 <div class="nowrap">{{ $author['full_name'] }}</div>
                                             @empty
                                                 <span
@@ -261,8 +261,8 @@
                                                 Да
                                             @endif</td>
                                         <td style="padding: 0 10px 0 12px!important">
-                                            @foreach($project['project_clients'] as $client )
-                                                @foreach($client['social_network'] as $social_network)
+                                            @foreach($project['projectClients'] as $client )
+                                                @foreach($client['socialNetwork'] as $social_network)
                                                     {{$social_network['name'] ?? ''}} <br>
                                                 @endforeach
                                             @endforeach
@@ -284,8 +284,12 @@
                                         @endrole
                                     </tr>
                                 @endforeach
+
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="w-100 d-flex justify-content-center mt-3">
+                            {{ $projects->appends(request()->input())->links('vendor.pagination.custom')  }}
                         </div>
                     </div>
                 </div>

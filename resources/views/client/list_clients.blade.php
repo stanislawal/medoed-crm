@@ -67,7 +67,7 @@
                                     </td>
                                     <td>{{$client['name'] ?? '-'}}</td>
                                     <td>
-                                        @foreach($client['project_clients'] as $item)
+                                        @foreach($client['projectClients'] as $item)
                                             <strong>·</strong> {{ $item['project_name'] }} <br>
                                         @endforeach
                                     </td>
@@ -76,11 +76,10 @@
                                     <td>{{$client['contact_info'] ?? '-' }}</td>
 
                                         <td>
-                                            @foreach ($client['social_network'] as $socialnetrowk)
+                                            @foreach ($client['socialNetwork'] as $socialnetrowk)
                                             <span class="badge bg-primary">{{ $socialnetrowk['name'] }}: {{ $socialnetrowk['pivot']['description'] }}</span>
                                         @endforeach
                                         </td>
-                                    {{-- <td>{{$client['link_socialnetwork'] ?? '-' }}</td> --}}
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
                                             <a href="{{route('client.destroy',['client' => $client['id']])}}"
@@ -93,6 +92,9 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="w-100 d-flex justify-content-center mt-3">
+                    {{ $clients->appends(request()->input())->links('vendor.pagination.custom')  }}
                 </div>
             </div>
         </div>

@@ -26,7 +26,8 @@ class ProjectController extends Controller
     //Для отображения (вывода) всех записей
     public function index(Request $request)
     {
-//        dd(Cookie::get(''));
+
+
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
         $themes = Theme::on()->get()->toArray(); //Достаем все темы проектов
         $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
@@ -71,7 +72,7 @@ class ProjectController extends Controller
         $this->filter($projects, $request);
 
         $projects->orderBy('id', 'desc');
-        $projects = $projects->get()->toArray();
+        $projects = $projects->paginate(50);
 
 
         return view('project.list_projects', [

@@ -92,7 +92,7 @@
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Дополнительная информация</label>
                 <div class="col-sm-9">
-                    <input type="text" disabled value="{{ $projectInfo['dop_info'] ?? '' }}" class="form-control form-control-sm" name="dop_info">
+                    <textarea type="text" disabled rows="6" style="resize: both;" class="form-control form-control-sm"  name="dop_info">{{ $projectInfo['dop_info'] ?? '' }}</textarea>
                 </div>
             </div>
             <div class="row mb-3">

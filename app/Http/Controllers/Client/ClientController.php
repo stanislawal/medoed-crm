@@ -13,23 +13,18 @@ class ClientController extends Controller
 {
     public function index(Request $request)
     {
-
-
         $clients = Client::on()
             ->with([
                 'socialNetwork', 'projectClients'
             ]);
-
         $this->filter($request, $clients);
 
         $clients = $clients->orderBy('id', 'desc')
+            ->paginate(50);
+
+        $socialNetwork = SocialNetwork::on()
             ->get()
             ->toArray();
-
-        $socialNetwork = SocialNetwork::on()->get()->toArray();
-
-
-
 
         return view('client.list_clients', [
             'clients' => $clients,
@@ -40,7 +35,6 @@ class ClientController extends Controller
     public function create()
     {
         $socialNetwork = SocialNetwork::on()->get();
-
         return view('client.client', [
             'socialNetwork' => $socialNetwork,
         ]);
