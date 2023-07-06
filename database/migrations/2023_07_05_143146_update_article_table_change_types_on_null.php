@@ -18,8 +18,6 @@ class UpdateArticleTableChangeTypesOnNull extends Migration
             $table->unsignedBigInteger('without_space')->nullable()->change();
             $table->unsignedBigInteger('id_currency')->nullable()->change();
             $table->text('link_text')->nullable()->change();
-
-
         });
     }
 
