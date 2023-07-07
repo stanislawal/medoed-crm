@@ -288,7 +288,7 @@
 
                                             @foreach($authors as $author)
                                                 <option value="{{$author['id']}}"
-                                                        @if(in_array($author['id'], collect($article['article_author'])->pluck('id')->toArray()))
+                                                        @if(in_array($author['id'], collect($article['articleAuthor'])->pluck('id')->toArray()))
                                                             selected
                                                     @endif>
 
