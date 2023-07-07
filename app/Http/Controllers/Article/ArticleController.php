@@ -224,6 +224,11 @@ class ArticleController extends Controller
                 $where->where('id', $request->project_id);
             });
         });
+        $articles->when(!empty($request->author_id), function ($where) use ($request) {
+            $where->wherehas('articleAuthor', function ($where) use ($request) {
+                $where->where('id', $request->author_id);
+            });
+        });
     }
 
     private function getDate($request)
