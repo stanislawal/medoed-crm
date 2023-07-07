@@ -55,6 +55,7 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="card-title">Администрирование пользователей</h4>
+                            <div class="text-16">Найдено записей: {{ count($users) }}</div>
                         </div>
                     </div>
                     <div class="card-body">
