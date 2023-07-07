@@ -113,8 +113,8 @@
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Сфера бизнеса</label>
                 <div class="col-sm-9">
-                    <input type="text" disabled value="{{ $projectInfo['business_area'] }}"
-                           class="form-control form-control-sm" name="business_area">
+                    <textarea type="text" disabled
+                              class="form-control form-control-sm" name="business_area">{{ $projectInfo['business_area'] }}</textarea>
                 </div>
             </div>
             <div class="row mb-3">
