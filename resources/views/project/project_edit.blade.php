@@ -127,8 +127,8 @@
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Перспектива проекта</label>
                 <div class="col-sm-9">
-                    <textarea disabled type="text" value="{{ $projectInfo['project_perspective'] }}"
-                              class="form-control form-control-sm" name="project_perspective"> </textarea>
+                    <textarea disabled type="text"
+                              class="form-control form-control-sm" name="project_perspective">{{ $projectInfo['project_perspective'] }}</textarea>
                 </div>
             </div>
             <div class="row mb-3">
