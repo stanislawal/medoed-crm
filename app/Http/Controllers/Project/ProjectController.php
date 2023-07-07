@@ -67,7 +67,6 @@ class ProjectController extends Controller
         });
 
 
-
         // фильтр
         $this->filter($projects, $request);
 
@@ -396,6 +395,12 @@ class ProjectController extends Controller
         foreach ($filterHistory as $key => $value) {
             $request->request->set($key, $value);
         }
+    }
+
+    public function deleteCheckbox()
+    {
+        Project::on()->where('manager_id', UserHelper::getUserId())->update(['check'=> 0]);
+        return redirect()->back();
     }
 }
 

@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('project', ProjectController::class)->except('show');
     Route::post('project/partial-update/{id}', [ProjectController::class, 'partialUpdate'])->name('project.partial_update');
     Route::get('project-destroy/{project}', [ProjectController::class, 'destroy'])->name('project.destroy');
+    Route::get('project/delete-checkboxes', [ProjectController::class, 'deleteCheckbox'])->name('project.delete_checkboxes');
 
     # Статьи (articles)
     Route::resource('article', ArticleController::class);

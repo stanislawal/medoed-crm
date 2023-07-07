@@ -35,14 +35,22 @@
                                 </div>
                             @endif
 
+                            {{--                            <div class="form-group col-12 col-md-6 col-lg-4">--}}
+                            {{--                                <label class="form-label">Диапазон добавления</label>--}}
+                            {{--                                <div class="input-group">--}}
+                            {{--                                    <input type="date" name="date_from" class="form-control form-control-sm"--}}
+                            {{--                                           value="{{ request()->date_from ?? \Carbon\Carbon::parse(now())->startOfMonth()->format('Y-m-d') }}"--}}
+                            {{--                                           required>--}}
+                            {{--                                    <input type="date" name="date_before" class="form-control form-control-sm"--}}
+                            {{--                                           value="{{ request()->date_before ?? \Carbon\Carbon::parse(now())->endOfMonth()->format('Y-m-d') }}"--}}
+                            {{--                                           required>--}}
+                            {{--                                </div>--}}
+                            {{--                            </div>--}}
                             <div class="form-group col-12 col-md-6 col-lg-4">
-                                <label class="form-label">Диапазон добавления</label>
+                                <label class="form-label">Дата</label>
                                 <div class="input-group">
-                                    <input type="date" name="date_from" class="form-control form-control-sm"
-                                           value="{{ request()->date_from ?? \Carbon\Carbon::parse(now())->startOfMonth()->format('Y-m-d') }}"
-                                           required>
-                                    <input type="date" name="date_before" class="form-control form-control-sm"
-                                           value="{{ request()->date_before ?? \Carbon\Carbon::parse(now())->endOfMonth()->format('Y-m-d') }}"
+                                    <input type="date" name="date_article" class="form-control form-control-sm"
+                                           value="{{ request()->data ?? \Carbon\Carbon::parse(now())->format('Y-m-d') }}"
                                            required>
                                 </div>
                             </div>
@@ -51,6 +59,23 @@
                                 <label class="form-label">Статья</label>
                                 <input type="text" name="article" class="form-control form-control-sm"
                                        value="{{ request()->article ?? "" }}">
+                            </div>
+
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label class="form-label">Авторы</label>
+                                <select class="form-select form-select-sm select-2" multiple
+                                        name="select_authors[]">
+
+                                    @foreach($authors as $author)
+                                        <option value="{{$author['id']}}"
+                                                @if($author['id'] == request()->author_id ?? '')
+                                                 selected
+                                            @endif>
+                                            {{$author['full_name'] ?? ''}}
+                                        </option>
+
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -106,6 +131,13 @@
                             <div class="px-3 py-2 shadow border bg-white rounded">
                                 <div class="text-24"><strong>{{ $statistics['passed'] }}</strong></div>
                                 <div class="text-12 nowrap-dot">Сдано за сегодня:</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+                            <div class="px-3 py-2 shadow border bg-white rounded">
+                                <div class="text-24"><strong>{{ $statistics['sum_without_space'] }}</strong></div>
+                                <div class="text-12 nowrap-dot">Всего ЗБП:</div>
                             </div>
                         </div>
 

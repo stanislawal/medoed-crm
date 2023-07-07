@@ -67,11 +67,13 @@
                     </select>
                 </div>
 
-
-                <div class="form-group col-12 col-lg-6 input-manager">
+                <div class="form-group col-12 col-lg-6 d-none input-manager">
                     <label for="" class="form-label">Ставка менеджера</label>
-                    <input type="number" value="{{$user['manager_salary']}}" class="form-control form-control-sm"
-                           name="manager_salary">
+                    <input type="number" class="form-control form-control-sm" value="{{$user['manager_salary']}}" name="manager_salary">
+                </div>
+                <div class="form-group col-12 col-lg-6 d-none input-author">
+                    <label for="" class="form-label">Ссылка на анкету</label>
+                    <input type="text" class="form-control form-control-sm" value="{{$user['link_author']}}" name="link_author">
                 </div>
 
                 <div class=" m-0 p-3">
@@ -83,16 +85,24 @@
 @endsection
 
 @section('custom_js')
-    {{--    <script>--}}
-    {{--        // $('.select-manager').change(function () {--}}
-    {{--        //     if ($(this).val() === 'Менеджер') {--}}
-    {{--        //         $('.input-manager').removeClass('d-none');--}}
-    {{--        //--}}
-    {{--        //     } else {--}}
-    {{--        //         $('.input-manager').addClass('d-none');--}}
-    {{--        //     }--}}
-    {{--        // });--}}
-    {{--    </script>--}}
+    <script>
+        $('.select-manager').change(function () {
+            if ($(this).val() === 'Менеджер') {
+                $('.input-manager').removeClass('d-none');
+
+            } else {
+                $('.input-manager').addClass('d-none');
+            }
+        });
+        $('.select-manager').change(function () {
+            if ($(this).val() === 'Автор') {
+                $('.input-author').removeClass('d-none');
+
+            } else {
+                $('.input-author').addClass('d-none');
+            }
+        });
+    </script>
 @endsection
 
 

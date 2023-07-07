@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Контактная информация </label>
-                    <input type="text" required class="form-control form-control-sm" name="contact_info">
+                    <input type="text" class="form-control form-control-sm" name="contact_info">
                 </div>
 
                 <div class="form-group col-12 col-lg-6">
@@ -46,7 +46,7 @@
 
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Дата рождения</label>
-                    <input type="date" required class="form-control form-control-sm" name="birthday">
+                    <input type="date"  class="form-control form-control-sm" name="birthday">
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Роль</label>
@@ -61,6 +61,10 @@
                 <div class="form-group col-12 col-lg-6 d-none input-manager">
                     <label for="" class="form-label">Ставка менеджера</label>
                     <input type="number" class="form-control form-control-sm" name="manager_salary">
+                </div>
+                <div class="form-group col-12 col-lg-6 d-none input-author">
+                    <label for="" class="form-label">Ссылка на анкету</label>
+                    <input type="text" class="form-control form-control-sm" name="link_author">
                 </div>
                 <div class="m-0 p-3">
                     <button class="btn btn-sm btn-success" type="submit">Создать</button>
@@ -81,6 +85,14 @@
 
             } else {
                 $('.input-manager').addClass('d-none');
+            }
+        });
+        $('.select-manager').change(function () {
+            if ($(this).val() === 'Автор') {
+                $('.input-author').removeClass('d-none');
+
+            } else {
+                $('.input-author').addClass('d-none');
             }
         });
     </script>

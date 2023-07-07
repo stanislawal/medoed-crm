@@ -81,13 +81,9 @@ class ArticleController extends Controller
             $expectation = (int)($list->sum('without_space') / $currentDay * $countDays);
             $passed = $list->filter(function ($item) {
 
-
                 return Carbon::parse($item['created_at'])->format('Y-m-d') == now()->format('Y-m-d');
 
-//                dd($item);
             })->sum('without_space') ?? 0 / $currentDay;
-
-//            dd($passed);
         }
 
         $result = [
@@ -96,6 +92,7 @@ class ArticleController extends Controller
             "expectation" => $expectation ?? "Невозможно вычислить",
             "passed" => $passed ?? "Невозможно вычислить",
             "sum_gross_income" => $list->sum('gross_income'),
+            "sum_without_space" => $list->sum('without_space'),
 
         ];
 
@@ -222,8 +219,8 @@ class ArticleController extends Controller
 
         $articles->whereBetween('created_at', $this->getDate($request));
 
-        $articles->when(!empty($request->project_id), function ($where) use ($request){
-            $where->wherehas('articleProject', function ($where) use ($request){
+        $articles->when(!empty($request->project_id), function ($where) use ($request) {
+            $where->wherehas('articleProject', function ($where) use ($request) {
                 $where->where('id', $request->project_id);
             });
         });

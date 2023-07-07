@@ -52,6 +52,7 @@ class UserController extends Controller
             'contact_info' => $request->contact_info,
             'birthday' => $request->birthday,
             'manager_salary' => $request->manager_salary ?? null,
+            'link_author' => $request->link_author ?? null,
             'payment' => $request->payment ?? null,
             'bank_id' => $request->bank_id ?? null,
             'is_work' => true,
