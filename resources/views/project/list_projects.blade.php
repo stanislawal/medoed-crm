@@ -155,8 +155,12 @@
                                    class="display table table-hover table-head-bg-info table-center table-cut">
                                 <thead>
                                 <tr>
-{{--                                    <th>ID</th>--}}
-                                    <th></th>
+                                    <th>
+                                        <a href="{{ route('project.delete_checkboxes') }}" type="submit"
+                                                class="text-white ">
+                                            ✖
+                                        </a>
+                                    </th>
                                     <th></th>
                                     @role('Администратор')
                                     <th>@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name'] )</th>
@@ -189,7 +193,7 @@
 
                                 @foreach ($projects as $key => $project)
                                     <tr>
-{{--                                        <td style="padding: 0 10px 0 12px!important">{{ $key + 1 }}</td>--}}
+                                        {{--                                        <td style="padding: 0 10px 0 12px!important">{{ $key + 1 }}</td>--}}
                                         <td style="padding: 0 10px 0 12px!important"><input type="checkbox" name="check"
                                                                                             @if((bool)$project['check']) checked
                                                                                             @endif onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
@@ -250,7 +254,7 @@
                                                     style="font-style: italic; font-size: 12px; color: rgba(0,0,0,0.53);">Пусто</span>
                                             @endforelse
                                         </td>
-{{--@dd($project)--}}
+                                        {{--@dd($project)--}}
 
                                         <td style="padding: 0 10px 0 12px!important">{{ $project['price_author'] ?? ''}}</td>
                                         <td style="padding: 0 10px 0 12px!important">{{ $project['price_client'] ?? ''}}</td>
