@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Client\Client;
 use App\Models\Client\SocialNetwork;
 use App\Models\Project\Cross\CrossClientSocialNetwork;
+use App\Models\Project\Project;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,9 +28,12 @@ class ClientController extends Controller
             ->get()
             ->toArray();
 
+        $projects = Project::on()->select(['id', 'project_name'])->get();
+
         return view('client.list_clients', [
             'clients' => $clients,
-            'social_network' => $socialNetwork
+            'social_network' => $socialNetwork,
+            'projects' => $projects
         ]);
     }
 
@@ -92,26 +97,32 @@ class ClientController extends Controller
         return view('client.client_edit', [
             'clients' => $clients,
             'socialNetwork' => $socialNetwork,
-
         ]);
     }
 
     public function update(Request $request, $client)
     {
-        $attr = [
-            'name' => $request->name ?? null,
-            'scope_work' => $request->scope_work ?? null,
-            'company_name' => $request->company_name ?? null,
-            'site' => $request->site ?? null,
-            'link_socialnetwork' => $request->link_socialnetwork ?? null,
-            'contact_info' => $request->contact_info ?? null,
-            'characteristic' => $request->characteristic ?? null,
-
-        ];
-
+        $attr = collect($request)->only(['name', 'scope_work', 'company_name', 'site', 'link_socialnetwork', 'contact_info', 'characteristic'])->toArray();
         Client::on()->where('id', $client)->update($attr);
-        return redirect()->back()->with(['success' => 'Данные успешно обновлены.']);
 
+        CrossClientSocialNetwork::on()->where('client_id', $client)->delete();
+
+        $socialnetrowks = json_decode($request->socialnetwork_info, TRUE);
+
+
+        if(count($socialnetrowks) > 0){
+            $attr = [];
+            foreach($socialnetrowks as $item){
+                $attr[] = [
+                    'client_id' => $client,
+                    'social_network_id' => $item['socialnetrowk_id'],
+                    'description' => $item['link'],
+                ];
+            }
+            CrossClientSocialNetwork::on()->insert($attr);
+        }
+
+        return redirect()->back()->with(['success' => 'Данные успешно обновлены.']);
     }
 
     public function destroy($client)
@@ -121,8 +132,15 @@ class ClientController extends Controller
     }
 
     private function filter($request, &$clients){
-        $clients->when(!empty($request->name), function ($where) use ($request) {
-            $where->where('name', $request->name);
+        $clients->when(!empty($request->name), function (Builder $where) use ($request) {
+            $where->where('name','like', '%'.$request->name.'%');
+        });
+
+        $clients->when(!empty($request->project_id), function (Builder $where) use ($request){
+            $where->whereHas('projectClients', function ($where) use ($request){
+                $where->whereIn('projects.id', $request->project_id);
+            });
         });
     }
+
 }
