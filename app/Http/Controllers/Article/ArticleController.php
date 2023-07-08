@@ -41,7 +41,6 @@ class ArticleController extends Controller
         $articles->when(UserHelper::isManager(), function ($where) {
             $where->where('manager_id', UserHelper::getUserId());
         });
-
         $this->filter($articles, $request);
 
         $authors = User::on()->whereHas('roles', function ($query) {
@@ -217,18 +216,24 @@ class ArticleController extends Controller
             $where->where('manager_id', $request->manager_id);
         });
 
-        $articles->whereBetween('created_at', $this->getDate($request));
+        $articles->when(!empty($request->date_article), function ($where) use ($request){
+            $where->whereRaw("DATE(created_at) = '{$request->date_article}'");
+        });
 
         $articles->when(!empty($request->project_id), function ($where) use ($request) {
             $where->wherehas('articleProject', function ($where) use ($request) {
                 $where->where('id', $request->project_id);
             });
         });
+
         $articles->when(!empty($request->author_id), function ($where) use ($request) {
             $where->wherehas('articleAuthor', function ($where) use ($request) {
-                $where->where('id', $request->author_id);
+                $where->whereIn('users.id', $request->author_id);
             });
         });
+
+
+
     }
 
     private function getDate($request)

@@ -6,6 +6,7 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Client\Client;
+use App\Models\Client\SocialNetwork;
 use App\Models\Currency;
 use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Cross\CrossProjectClient;
@@ -196,9 +197,25 @@ class ProjectController extends Controller
         })->get();
 
         $projectInfo = Project::on()
-            ->with(['projectTheme', 'projectAuthor', 'projectUser', 'projectStatus', 'projectClients'])
+            ->with(['projectTheme', 'projectAuthor', 'projectUser', 'projectStatus', 'projectClients.socialNetwork'])
             ->find($project)
             ->toArray();
+
+        $socialNetwork = SocialNetwork::on()
+            ->get()
+            ->toArray();
+
+        $projectInfo['project_clients'] = collect($projectInfo['project_clients'])->map(function ($item){
+            $data = collect($item['social_network'])->map(function($item){
+                return [
+                    'socialnetrowk_id' => $item['id'],
+                    'link' => $item['pivot']['description']
+                ];
+            })->toArray();
+            $item['json'] = json_encode($data);
+            return $item;
+        })->toArray();
+
         return view('project.project_edit', [
             'projectInfo' => $projectInfo,
             'statuses' => $statuses,
@@ -208,6 +225,7 @@ class ProjectController extends Controller
             'style' => $style,
             'managers' => $managers,
             'authors' => $authors,
+            'socialNetwork' => $socialNetwork,
         ]);
     }
 

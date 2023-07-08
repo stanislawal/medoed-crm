@@ -50,7 +50,7 @@
                                 <label class="form-label">Дата</label>
                                 <div class="input-group">
                                     <input type="date" name="date_article" class="form-control form-control-sm"
-                                           value="{{ request()->data ?? \Carbon\Carbon::parse(now())->format('Y-m-d') }}"
+                                           value="{{ request()->date_article }}"
                                            required>
                                 </div>
                             </div>
@@ -64,16 +64,14 @@
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label class="form-label">Авторы</label>
                                 <select class="form-select form-select-sm select-2" multiple
-                                        name="select_authors[]">
-
+                                        name="author_id[]">
                                     @foreach($authors as $author)
                                         <option value="{{$author['id']}}"
-                                                @if($author['id'] == request()->author_id ?? '')
-                                                 selected
+                                                @if (in_array($author['id'], request()->author_id ?? []))
+                                                    selected
                                             @endif>
                                             {{$author['full_name'] ?? ''}}
                                         </option>
-
                                     @endforeach
                                 </select>
                             </div>

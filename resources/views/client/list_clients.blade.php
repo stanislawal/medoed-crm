@@ -1,5 +1,7 @@
 @extends('layout.markup')
-
+@section('custom_css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+@endsection
 @section('content')
 
     <div class="row p-0s">
@@ -12,13 +14,25 @@
                     @csrf
                     <div class="row m-0" id="search" @if(empty(request()->all())) style="display: none;" @endif>
                         <div class="w-100 row m-0 py-3">
-                            <div class="form-group col-12 col-md-6 col-lg-4">
-                                <label for="" class="form-label">ID</label>
-                                <input type="text" class="form-control" name="id" value="{{ request()->id ?? '' }}">
-                            </div>
+
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label for="" class="form-label">Имя</label>
-                                <input type="text" class="form-control" name="name" value="{{ request()->name ?? '' }}">
+                                <input type="text" class="form-control form-control-sm" name="name" value="{{ request()->name ?? '' }}">
+                            </div>
+
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label class="form-label">Проект</label>
+                                <select multiple class="form-select form-select-sm select-2"
+                                        name="project_id[]">
+                                    <option value="">Не выбрано</option>
+                                    @foreach($projects as $project)
+                                        <option value="{{ $project['id'] }}"
+
+                                                @if(in_array($project['id'], request()->project_id ?? [])) selected @endif>
+                                            {{ $project['project_name'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-12 p-0">
@@ -79,11 +93,12 @@
                                     <td>{{$client['company_name'] ?? '-'}}</td>
                                     <td>{{$client['contact_info'] ?? '-' }}</td>
 
-                                        <td>
-                                            @foreach ($client['socialNetwork'] as $socialnetrowk)
-                                            <span class="badge bg-primary">{{ $socialnetrowk['name'] }}: {{ $socialnetrowk['pivot']['description'] }}</span>
+                                    <td>
+                                        @foreach ($client['socialNetwork'] as $socialnetrowk)
+                                            <span
+                                                class="badge bg-primary">{{ $socialnetrowk['name'] }}: {{ $socialnetrowk['pivot']['description'] }}</span>
                                         @endforeach
-                                        </td>
+                                    </td>
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
                                             <a href="{{route('client.destroy',['client' => $client['id']])}}"
@@ -111,4 +126,9 @@
                 event.preventDefault();
             }
         }</script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{asset('js/select2.js')}}"></script>
+    <script src="{{asset('js/article.js')}}"></script>
 @endsection
