@@ -12,7 +12,88 @@
         </div>
 
         <h1 class="mb-3 text-center">Форма редактирования проекта</h1>
+        <div class="accordion mb-3" id="socialNetworkLink">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button p-2 text-12 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#clients" aria-expanded="false">
+                        <strong>Заказчики ({{ count($projectInfo['project_clients']) }})</strong>
+                    </button>
+                </h2>
 
+                <div id="clients" class="accordion-collapse collapse" style="">
+                    <div class="accordion-body">
+                        <form class="d-none"></form>
+                        @foreach($projectInfo['project_clients'] as $key => $item)
+                            <form action="{{ route('client.update', ['client' => $item['id']]) }}" method="POST">
+                                @if($key > 0)<hr class="w-100 bg-primary">@endif
+                                @csrf
+                                @method('PUT')
+
+                                <div class="row">
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
+                                        <label class="form-label">Контактное лицо</label>
+                                        <input class="form-control form-control-sm" type="text" name="name" value="{{ $item['name'] }}" />
+                                    </div>
+
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
+                                        <label class="form-label">Сфера деятельности</label>
+                                        <input class="form-control form-control-sm" type="text" name="scope_work" value="{{ $item['scope_work'] }}" />
+                                    </div>
+
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
+                                        <label class="form-label">Название компании</label>
+                                        <input class="form-control form-control-sm" type="text" name="company_name" value="{{ $item['company_name'] }}" />
+                                    </div>
+
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
+                                        <label class="form-label">Сайт</label>
+                                        <input class="form-control form-control-sm" type="text" name="site" value="{{ $item['site'] }}" />
+                                    </div>
+
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
+                                        <label class="form-label">Контактная информация</label>
+                                        <input class="form-control form-control-sm" type="text" name="contact_info" value="{{ $item['contact_info'] }}" />
+                                    </div>
+
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
+                                        <label class="form-label">Портрет и общая хар-ка</label>
+                                        <input class="form-control form-control-sm" type="text" name="characteristic" value="{{ $item['characteristic'] }}" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-8 section_socialwork mb-3">
+                                        <div class="mb-2">
+                                            <label class="form-label">Место ведения диалога</label>
+                                            <div class="btn btn-sm btn-primary py-0 px-1 add">Добавить</div>
+                                            <input type="hidden" data-id="{{ $key }}" name="socialnetwork_info" value="{{ $item['json'] }}" class="socialnetwork_info">
+                                        </div>
+                                        <div class="items_socialwork" data-id="{{ $key }}">
+                                            @foreach($item['social_network'] as $socialNetworkClientItem)
+                                                <div class="input-group mb-3 item">
+                                                    <select class="form-select form-select-sm" required onchange="window.write_socialnetwork(this)">
+                                                        <option value="">Не выбрано</option>
+                                                        @foreach ($socialNetwork as $item)
+                                                            <option @if($socialNetworkClientItem['id'] == $item['id']) selected @endif value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <input class="form-control form-control-sm" type="text" value="{{ $socialNetworkClientItem['pivot']['description'] }}" required oninput="window.write_socialnetwork(this)">
+                                                    <div class="btn btn-sm btn-danger delete" onclick="window.write_socialnetwork(this)">Удалить</div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-sm btn-success">Сохранить</button>
+                                </div>
+                            </form>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
         <form action="{{route('project.update', ['project' => $projectInfo['id']])}}" method="POST"
               class="mb-5" data-form-name="edit__project">
             @csrf
@@ -302,5 +383,41 @@
                 $('.input-contract').show();
             }
         });
+
+        $('.section_socialwork').on('click', '.delete', function(){
+            const id = $(this).parent('.item').parent('.items_socialwork').attr('data-id');
+            $(this).parent('div').remove();
+            window.save(id);
+        })
+
+        $('.section_socialwork .add').click(function(){
+            const itemsSocialwork = $(this).parent('div').next('.items_socialwork');
+
+            $.ajax({
+                url: '{{ route("socialnetwork.get_select") }}',
+                method: 'GET',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            }).done((res) => {
+                itemsSocialwork.append(res.html);
+            })
+        });
+
+        window.write_socialnetwork = function(el){
+            const id = $(el).parent('.item').parent('.items_socialwork').attr('data-id');
+            window.save(id);
+        }
+
+        window.save = function(id) {
+            var array = [];
+
+            $('.items_socialwork[data-id="'+id+'"] .item').each(function(i, item){
+                array.push({
+                    'socialnetrowk_id' : $(this).children('select').val(),
+                    'link' : $(this).children('input').val()
+                })
+            });
+
+            $('.socialnetwork_info[data-id="'+id+'"]').val(JSON.stringify(array));
+        };
     </script>
 @endsection
