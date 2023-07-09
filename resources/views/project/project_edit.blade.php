@@ -29,56 +29,59 @@
                                 @csrf
                                 @method('PUT')
 
-                                <div class="form-group col-12 col-md- mb-3">
-                                    <label class="form-label">Контактное лицо</label>
-                                    <input class="form-control form-control-sm" type="text" name="name" value="{{ $item['name'] }}" />
-                                </div>
+                                <div class="row">
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
+                                        <label class="form-label">Контактное лицо</label>
+                                        <input class="form-control form-control-sm" type="text" name="name" value="{{ $item['name'] }}" />
+                                    </div>
 
-                                    <div class="form-group col-12 col-md- mb-3">
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Сфера деятельности</label>
                                         <input class="form-control form-control-sm" type="text" name="scope_work" value="{{ $item['scope_work'] }}" />
                                     </div>
 
-                                    <div class="form-group col-12 col-md- mb-3">
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Название компании</label>
                                         <input class="form-control form-control-sm" type="text" name="company_name" value="{{ $item['company_name'] }}" />
                                     </div>
 
-                                    <div class="form-group col-12 col-md- mb-3">
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Сайт</label>
-                                        <input class="form-control form-control-sm" type="text" name="name" value="{{ $item['site'] }}" />
+                                        <input class="form-control form-control-sm" type="text" name="site" value="{{ $item['site'] }}" />
                                     </div>
 
-                                    <div class="form-group col-12 col-md- mb-3">
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Контактная информация</label>
                                         <input class="form-control form-control-sm" type="text" name="contact_info" value="{{ $item['contact_info'] }}" />
                                     </div>
 
-                                    <div class="form-group col-12 col-md- mb-3">
+                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Портрет и общая хар-ка</label>
-                                        <input class="form-control form-control-sm" type="text" name="name" value="{{ $item['characteristic'] }}" />
+                                        <input class="form-control form-control-sm" type="text" name="characteristic" value="{{ $item['characteristic'] }}" />
                                     </div>
+                                </div>
 
-
-                                <div class="col-12 col-md-8 section_socialwork mb-3">
-                                    <div class="mb-2">
-                                        <label class="form-label">Место ведения диалога</label>
-                                        <div class="btn btn-sm btn-primary py-0 px-1 add">Добавить</div>
-                                        <input type="hidden" data-id="{{ $key }}" name="socialnetwork_info" value="{{ $item['json'] }}" class="socialnetwork_info">
-                                    </div>
-                                    <div class="items_socialwork" data-id="{{ $key }}">
-                                        @foreach($item['social_network'] as $socialNetworkClientItem)
-                                            <div class="input-group mb-3 item">
-                                                <select class="form-select form-select-sm" required onchange="window.write_socialnetwork(this)">
-                                                    <option value="">Не выбрано</option>
-                                                    @foreach ($socialNetwork as $item)
-                                                        <option @if($socialNetworkClientItem['id'] == $item['id']) selected @endif value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <input class="form-control form-control-sm" type="text" value="{{ $socialNetworkClientItem['pivot']['description'] }}" required oninput="window.write_socialnetwork(this)">
-                                                <div class="btn btn-sm btn-danger delete" onclick="window.write_socialnetwork(this)">Удалить</div>
-                                            </div>
-                                        @endforeach
+                                <div class="row">
+                                    <div class="col-12 col-md-8 section_socialwork mb-3">
+                                        <div class="mb-2">
+                                            <label class="form-label">Место ведения диалога</label>
+                                            <div class="btn btn-sm btn-primary py-0 px-1 add">Добавить</div>
+                                            <input type="hidden" data-id="{{ $key }}" name="socialnetwork_info" value="{{ $item['json'] }}" class="socialnetwork_info">
+                                        </div>
+                                        <div class="items_socialwork" data-id="{{ $key }}">
+                                            @foreach($item['social_network'] as $socialNetworkClientItem)
+                                                <div class="input-group mb-3 item">
+                                                    <select class="form-select form-select-sm" required onchange="window.write_socialnetwork(this)">
+                                                        <option value="">Не выбрано</option>
+                                                        @foreach ($socialNetwork as $item)
+                                                            <option @if($socialNetworkClientItem['id'] == $item['id']) selected @endif value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <input class="form-control form-control-sm" type="text" value="{{ $socialNetworkClientItem['pivot']['description'] }}" required oninput="window.write_socialnetwork(this)">
+                                                    <div class="btn btn-sm btn-danger delete" onclick="window.write_socialnetwork(this)">Удалить</div>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
 
