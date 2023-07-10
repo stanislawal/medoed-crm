@@ -294,7 +294,7 @@
                                                 <option value="" data-author="" data-client="">Не выбрано</option>
                                                 @foreach($managers as $manager)
                                                     <option value="{{ $manager['id'] }}"
-                                                            @if($manager['id'] == ($article['article_manager']['id'] ?? "")) selected @endif>
+                                                            @if($manager['id'] == ($article['articleManager']['id'] ?? "")) selected @endif>
                                                         {{ $manager['full_name'] }}
                                                     </option>
                                                 @endforeach
