@@ -146,6 +146,9 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="card-title">Администрирование проектов</h4>
+                            <div class="w-100 d-flex justify-content-center mt-3">
+                                {{ $projects->appends(request()->input())->links('vendor.pagination.custom')  }}
+                            </div>
                             <div class="text-16">Найдено записей: {{ count($projects) }}</div>
                         </div>
                     </div>
