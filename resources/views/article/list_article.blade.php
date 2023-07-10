@@ -51,7 +51,7 @@
                                 <div class="input-group">
                                     <input type="date" name="date_article" class="form-control form-control-sm"
                                            value="{{ request()->date_article }}"
-                                           required>
+                                           >
                                 </div>
                             </div>
 
