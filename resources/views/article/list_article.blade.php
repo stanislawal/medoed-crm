@@ -34,18 +34,17 @@
                                     </select>
                                 </div>
                             @endif
-
-                            {{--                            <div class="form-group col-12 col-md-6 col-lg-4">--}}
-                            {{--                                <label class="form-label">Диапазон добавления</label>--}}
-                            {{--                                <div class="input-group">--}}
-                            {{--                                    <input type="date" name="date_from" class="form-control form-control-sm"--}}
-                            {{--                                           value="{{ request()->date_from ?? \Carbon\Carbon::parse(now())->startOfMonth()->format('Y-m-d') }}"--}}
-                            {{--                                           required>--}}
-                            {{--                                    <input type="date" name="date_before" class="form-control form-control-sm"--}}
-                            {{--                                           value="{{ request()->date_before ?? \Carbon\Carbon::parse(now())->endOfMonth()->format('Y-m-d') }}"--}}
-                            {{--                                           required>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
+                                                        <div class="form-group col-12 col-md-6 col-lg-4">
+                                                            <label class="form-label">Диапазон добавления</label>
+                                                            <div class="input-group">
+                                                                <input type="date" name="date_from" class="form-control form-control-sm"
+                                                                       value="{{ request()->date_from ?? \Carbon\Carbon::parse(now())->startOfMonth()->format('Y-m-d') }}"
+                                                                       required>
+                                                                <input type="date" name="date_before" class="form-control form-control-sm"
+                                                                       value="{{ request()->date_before ?? \Carbon\Carbon::parse(now())->endOfMonth()->format('Y-m-d') }}"
+                                                                       required>
+                                                            </div>
+                                                        </div>
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label class="form-label">Дата</label>
                                 <div class="input-group">
