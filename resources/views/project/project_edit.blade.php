@@ -143,27 +143,27 @@
                            value="{{ $projectInfo['project_name'] ?? '' }}">
                 </div>
             </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Тип текста</label>
-                <div class="col-sm-9">
-                    <select class="form-control form-control-sm" title="Пожалуйста, выберите"
-                            name="style_id"
-                            disabled>
-                        @foreach ($style as $item)
-                            <option value="{{$item['id']}}"
-                                    @if($item['id'] == $projectInfo['style_id']) selected @endif
-                            >{{$item['name']}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Начальный объём проекта</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="total_symbols"
-                           disabled value="{{ $projectInfo['total_symbols'] ?? '' }}">
-                </div>
-            </div>
+{{--            <div class="row mb-3">--}}
+{{--                <label class="col-sm-3 col-form-label">Тип текста</label>--}}
+{{--                <div class="col-sm-9">--}}
+{{--                    <select class="form-control form-control-sm" title="Пожалуйста, выберите"--}}
+{{--                            name="style_id"--}}
+{{--                            disabled>--}}
+{{--                        @foreach ($style as $item)--}}
+{{--                            <option value="{{$item['id']}}"--}}
+{{--                                    @if($item['id'] == $projectInfo['style_id']) selected @endif--}}
+{{--                            >{{$item['name']}}</option>--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="row mb-3">--}}
+{{--                <label class="col-sm-3 col-form-label">Начальный объём проекта</label>--}}
+{{--                <div class="col-sm-9">--}}
+{{--                    <input type="text" class="form-control form-control-sm" name="total_symbols"--}}
+{{--                           disabled value="{{ $projectInfo['total_symbols'] ?? '' }}">--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Тип задачи</label>
                 <div class="col-sm-9">

@@ -130,18 +130,18 @@
                     </div>
                 </div>
             </div>
-{{--            <div class="row mb-3">--}}
-{{--                <label class="col-sm-3 col-form-label">Цена заказчика</label>--}}
-{{--                <div class="col-sm-9">--}}
-{{--                    <div class="input-group">--}}
-{{--                        <input class="form-control form-control-sm"  type="text"--}}
-{{--                               name="price_client">--}}
-{{--                        <div class="input-group-append">--}}
-{{--                            <span class="input-group-text" id="basic-addon2">РУБ</span>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Цена заказчика</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input class="form-control form-control-sm"  type="text"
+                               name="price_client">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">РУБ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Состояние проекта</label>
                 <div class="col-sm-9">
