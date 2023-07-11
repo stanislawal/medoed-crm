@@ -41,6 +41,7 @@ class ArticleController extends Controller
         $articles->when(UserHelper::isManager(), function ($where) {
             $where->where('manager_id', UserHelper::getUserId());
         });
+
         $this->filter($articles, $request);
 
         $authors = User::on()->whereHas('roles', function ($query) {

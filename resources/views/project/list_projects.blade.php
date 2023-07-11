@@ -180,7 +180,7 @@
                                     <th>Место ведения диалога</th>
                                     <th>Контакт</th>
                                     <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Тип текста', 'column' => 'styles|name'] )</th>
+{{--                                    <th>@include('components.table.sort', ['title' => 'Тип текста', 'column' => 'styles|name'] )</th>--}}
                                     @role('Администратор')
                                     <th>Дата поступления</th>
                                     @endrole
@@ -277,7 +277,7 @@
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectTheme']['name'] ?? ''}}
                                         </td>
 
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_style']['name'] ?? '------'}}</td>
+{{--                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_style']['name'] ?? '------'}}</td>--}}
                                         @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
                                         <td style="padding: 0 10px 0 12px!important">

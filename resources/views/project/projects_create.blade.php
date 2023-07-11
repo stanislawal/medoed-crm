@@ -45,23 +45,23 @@
                     <input type="text" class="form-control form-control-sm" required name="project_name">
                 </div>
             </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Тип текста</label>
-                <div class="col-sm-9">
-                    <select class="form-select form-select-sm" title="Пожалуйста, выберите" name="style_id">
-                        <option value="">Не выбрано</option>
-                        @foreach ($style as $item)
-                            <option value="{{$item['id']}}">{{$item['name']}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Начальный объём проекта</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="total_symbols">
-                </div>
-            </div>
+{{--            <div class="row mb-3">--}}
+{{--                <label class="col-sm-3 col-form-label">Тип текста</label>--}}
+{{--                <div class="col-sm-9">--}}
+{{--                    <select class="form-select form-select-sm" title="Пожалуйста, выберите" name="style_id">--}}
+{{--                        <option value="">Не выбрано</option>--}}
+{{--                        @foreach ($style as $item)--}}
+{{--                            <option value="{{$item['id']}}">{{$item['name']}}</option>--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="row mb-3">--}}
+{{--                <label class="col-sm-3 col-form-label">Начальный объём проекта</label>--}}
+{{--                <div class="col-sm-9">--}}
+{{--                    <input type="text" class="form-control form-control-sm" name="total_symbols">--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Тип задачи</label>
                 <div class="col-sm-9">
@@ -130,18 +130,18 @@
                     </div>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Цена заказчика</label>
-                <div class="col-sm-9">
-                    <div class="input-group">
-                        <input class="form-control form-control-sm"  type="text"
-                               name="price_client">
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">РУБ</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="row mb-3">--}}
+{{--                <label class="col-sm-3 col-form-label">Цена заказчика</label>--}}
+{{--                <div class="col-sm-9">--}}
+{{--                    <div class="input-group">--}}
+{{--                        <input class="form-control form-control-sm"  type="text"--}}
+{{--                               name="price_client">--}}
+{{--                        <div class="input-group-append">--}}
+{{--                            <span class="input-group-text" id="basic-addon2">РУБ</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Состояние проекта</label>
                 <div class="col-sm-9">
