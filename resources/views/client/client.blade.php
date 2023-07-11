@@ -21,7 +21,7 @@
                 <div class="shadow border rounded row mb-3">
                     <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">О клиенте
                     </div>
-                    <div class="w-100 row m-0 p-2">
+                    <div class="w-100 mb-3 row m-0 p-2">
                         <div class="col-12 col-lg-6">
                             <label for="" class="form-label">Контактное лицо</label>
                             <input type="text" class="form-control form-control-sm" name="name">
@@ -41,12 +41,12 @@
                         </div> --}}
 
 
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 mb-5 col-lg-6">
                             <label for="" class="form-label">Сфера деятельности</label>
                             <input type="text" class="form-control form-control-sm" name="scope_work">
                         </div>
 
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 mb-5 col-lg-6">
                             <label for="" class="form-label">Контактная информация</label>
                             <input type="text" class="form-control form-control-sm" name="contact_info">
                         </div>
@@ -56,25 +56,25 @@
                         {{--                            <input type="date" class="form-control" name="birthday">--}}
                         {{--                        </div>--}}
 
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 mb-5 col-lg-6">
                             <label for="" class="form-label">Название компании</label>
                             <input type="text" class="form-control form-control-sm" name="company_name">
                         </div>
 
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 mb-5 col-lg-6">
                             <label for="" class="form-label">Сайт компании</label>
                             <input type="text" class="form-control form-control-sm" name="site">
                         </div>
 
 
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 mb-5 col-lg-6">
                                 <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
                                 <textarea id="characteristic" name="characteristic" class="form-control"> </textarea>
 
                         </div>
 
 
-                        <div class="col-12 section_socialwork mb-3">
+                        <div class="col-12 mb-5 section_socialwork mb-3">
                             <div>
                                 <label class="form-label">Место ведения диалога</label>
                                 <div class="btn btn-sm btn-primary py-0 px-1 add">Добавить</div>
