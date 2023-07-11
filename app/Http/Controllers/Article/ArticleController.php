@@ -90,10 +90,9 @@ class ArticleController extends Controller
             "count_days_in_range" => $countDays,
             "current_day_in_range" => $currentDay ?? "Текущий день не входит в диапазон",
             "expectation" => $expectation ?? "Невозможно вычислить",
-            "passed" => $passed ?? "Невозможно вычислить",
+            "passed" => $passed ?? 0,
             "sum_gross_income" => $list->sum('gross_income'),
-            "sum_without_space" => $list->sum('without_space'),
-
+            "sum_without_space" => $list->sum('without_space')
         ];
 
         $salary = UserHelper::getUser()->manager_salary ?? 0;
@@ -134,7 +133,6 @@ class ArticleController extends Controller
 
             $attr = $request->only(['article', 'manager_id', 'without_space', 'id_currency', 'link_text', 'project_id', 'price_client', 'price_author', 'price_redactor', 'manager_salary']);
             $article_id = Article::on()->create($attr)->id;
-
 
             if ($request->has('author_id') && count($request->author_id) > 0) {
                 foreach ($request->author_id as $author) {
