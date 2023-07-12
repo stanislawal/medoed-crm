@@ -77,7 +77,8 @@
                                                             <option @if($socialNetworkClientItem['id'] == $item['id']) selected @endif value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                                         @endforeach
                                                     </select>
-                                                    <input class="form-control form-control-sm" type="text" value="{{ $socialNetworkClientItem['pivot']['description'] }}" required oninput="window.write_socialnetwork(this)">
+                                                    <>
+                                                    <input placeholder="Ник" class="form-control form-control-sm" type="text" value="{{ $socialNetworkClientItem['pivot']['description'] }}" required oninput="window.write_socialnetwork(this)">
                                                     <div class="btn btn-sm btn-danger delete" onclick="window.write_socialnetwork(this)">Удалить</div>
                                                 </div>
                                             @endforeach

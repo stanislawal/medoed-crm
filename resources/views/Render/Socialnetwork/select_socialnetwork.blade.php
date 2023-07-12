@@ -5,6 +5,6 @@
             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
         @endforeach
     </select>
-    <input class="form-control form-control-sm" type="text" required oninput="window.write_socialnetwork(this)">
+    <input class="form-control form-control-sm" placeholder="Ник" type="text" required oninput="window.write_socialnetwork(this)">
     <div class="btn btn-sm btn-danger delete" onclick="window.write_socialnetwork(this)">Удалить</div>
 </div>
