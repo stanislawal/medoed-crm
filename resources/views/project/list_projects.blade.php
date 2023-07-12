@@ -114,6 +114,20 @@
                                 </div>
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
+                                    <label for="" class="form-label">Приоритетность</label>
+                                    <select class="form-select form-select-sm" name="style_id" id="">
+                                        <option value="">Не выбрано</option>
+                                        @foreach ($style as $item)
+                                            <option value="{{$item['id']}}"
+                                                    @if($item['id'] == request()->style_id)
+                                                        selected
+                                                @endif
+                                            >{{$item['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label class="form-label">Диапазон добавления</label>
                                     <div class="input-group">
                                         <input type="date" name="date_from" class="form-control form-control-sm"

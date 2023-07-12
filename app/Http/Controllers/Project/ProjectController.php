@@ -370,6 +370,10 @@ class ProjectController extends Controller
             $where->where('theme_id', $request->theme_id);
         });
 
+        $projects->when(!empty($request->style_id), function ($where) use ($request) {
+            $where->where('style_id', $request->style_id);
+        });
+
         $projects->when((!empty($request->date_from) && (!empty($request->date_before))), function ($where) use ($request) {
             $dateStart = Carbon::parse($request->date_from)->startOfDay();
             $dateEnd = Carbon::parse($request->date_before)->endOfDay();
