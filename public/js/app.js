@@ -66,6 +66,13 @@ window.sort = function (el) {
       break;
   }
 };
+$('.nav-item').each(function () {
+  var location = window.location.protocol + "//" + window.location.host + window.location.pathname;
+  if ($(this).children('div').find('a').attr('href') == location) {
+    $(this).children('div').addClass('show');
+  }
+});
+$('a[href="' + location + '"]').addClass('menu-active');
 
 /***/ }),
 
