@@ -163,7 +163,7 @@
                                     </li>
                                     <li>
                                         <a href="{{route('add_option_style.index')}}">
-                                            <span class="sub-item">Типы текста</span>
+                                            <span class="sub-item">Приоритетность</span>
                                         </a>
                                     </li>
                                     <li>

@@ -45,17 +45,17 @@
                     <input type="text" class="form-control form-control-sm" required name="project_name">
                 </div>
             </div>
-{{--            <div class="row mb-3">--}}
-{{--                <label class="col-sm-3 col-form-label">Тип текста</label>--}}
-{{--                <div class="col-sm-9">--}}
-{{--                    <select class="form-select form-select-sm" title="Пожалуйста, выберите" name="style_id">--}}
-{{--                        <option value="">Не выбрано</option>--}}
-{{--                        @foreach ($style as $item)--}}
-{{--                            <option value="{{$item['id']}}">{{$item['name']}}</option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Приоритетность</label>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm" title="Пожалуйста, выберите" name="style_id">
+                        <option value="">Не выбрано</option>
+                        @foreach ($style as $item)
+                            <option value="{{$item['id']}}">{{$item['name']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 {{--            <div class="row mb-3">--}}
 {{--                <label class="col-sm-3 col-form-label">Начальный объём проекта</label>--}}
 {{--                <div class="col-sm-9">--}}
