@@ -55,7 +55,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Заказчики</h4>
-                        <div class="text-16">Найдено записей: {{ count($clients) }}</div>
+                        <div class="text-16">Найдено записей: {{ $clients->total() }}</div>
                     </div>
                 </div>
                 <div class="card-body">

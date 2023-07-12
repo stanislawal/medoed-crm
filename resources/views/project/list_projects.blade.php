@@ -163,7 +163,7 @@
                             <div class="w-100 d-flex justify-content-center mt-3">
                                 {{ $projects->appends(request()->input())->links('vendor.pagination.custom')  }}
                             </div>
-                            <div class="text-16">Найдено записей: {{ count($projects) }}</div>
+                            <div class="text-16">Найдено записей: {{ $projects->total() }}</div>
                         </div>
                     </div>
                     <div class="card-body">
