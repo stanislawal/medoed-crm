@@ -60,11 +60,11 @@ class ClientController extends Controller
         ];
         $client = Client::on()->create($attr);
 
-        $socialnetrowks = json_decode($request->socialnetwork_info, TRUE);
+        $socialnetworks = json_decode($request->socialnetwork_info, TRUE) ?? [];
 
-        if(count($socialnetrowks) > 0){
+        if(count($socialnetworks) > 0){
             $attr = [];
-            foreach($socialnetrowks as $item){
+            foreach($socialnetworks as $item){
                 $attr[] = [
                     'client_id' => $client->id,
                     'social_network_id' => $item['socialnetrowk_id'],
@@ -107,15 +107,15 @@ class ClientController extends Controller
 
         CrossClientSocialNetwork::on()->where('client_id', $client)->delete();
 
-        $socialnetrowks = json_decode($request->socialnetwork_info, TRUE);
+        $socialnetworks = json_decode($request->socialnetwork_info, TRUE);
 
 
-        if(count($socialnetrowks) > 0){
+        if(count($socialnetworks) > 0){
             $attr = [];
-            foreach($socialnetrowks as $item){
+            foreach($socialnetworks as $item){
                 $attr[] = [
                     'client_id' => $client,
-                    'social_network_id' => $item['socialnetrowk_id'],
+                    'social_network_id' => $item['socialnetworks_id'],
                     'description' => $item['link'],
                 ];
             }
