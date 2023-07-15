@@ -109,13 +109,12 @@ class ClientController extends Controller
 
         $socialnetworks = json_decode($request->socialnetwork_info, TRUE);
 
-
         if(count($socialnetworks) > 0){
             $attr = [];
             foreach($socialnetworks as $item){
                 $attr[] = [
                     'client_id' => $client,
-                    'social_network_id' => $item['socialnetworks_id'],
+                    'social_network_id' => $item['socialnetrowk_id'],
                     'description' => $item['link'],
                 ];
             }

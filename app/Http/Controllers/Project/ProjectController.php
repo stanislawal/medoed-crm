@@ -201,7 +201,7 @@ class ProjectController extends Controller
             ->find($project)
             ->toArray();
 
-        $socialNetwork = SocialNetwork::on()
+        $socialNetwork = SocialNetwork::on()->orderBy('id')
             ->get()
             ->toArray();
 
