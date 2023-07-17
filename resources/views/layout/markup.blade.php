@@ -9,7 +9,7 @@
         <div class="main-header">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="blue">
-                <a href="{{ route('home') }}" class="logo d-flex align-items-center">
+                <a href="/" class="logo d-flex align-items-center">
                     <h3 class="text-white m-auto">CRM</h3>
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
@@ -33,7 +33,8 @@
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 
                         <li class="nav-item submenu">
-                            <a href="#" class="nav-link quick-sidebar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#usersInfo" aria-controls="offcanvasRight">
+                            <a href="#" class="nav-link quick-sidebar-toggler" type="button" data-bs-toggle="offcanvas"
+                               data-bs-target="#usersInfo" aria-controls="offcanvasRight">
                                 <i class="fas fa-user-friends"></i>
                             </a>
                         </li>
@@ -53,21 +54,14 @@
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
                     <div class="user">
-                        <div class="info">
-                            <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-                                @auth
-                                    <span>
-                                        {{ auth()->user()->full_name }}
-                                        <span class="user-level">{{\App\Helpers\UserHelper::getRoleName()}}</span>
-                                    </span>
-                                @endauth
-
-                                @guest
-                                    <div>
-                                        <a class="btn btn-sm btn-primary" href="{{route('login')}}">Войти</a>
-                                    </div>
-                                @endguest
-                            </a>
+                        <div class="d-flex">
+                            <div><img src="{{ asset('img/user.png') }}" class="d-block" width="37" alt=""></div>
+                            <div class="ml-3">
+                                <div class="text-dark text-12 font-weight-bold">{{ auth()->user()->full_name }}</div>
+                                <div class="text-dark text-12 fst-italic mt-2">
+                                    Администратор
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <ul class="nav nav-primary">
@@ -108,7 +102,7 @@
                             </a>
                             <div class="collapse" id="sidebarLayouts">
                                 <ul class="nav nav-collapse">
-                                   @role('Администратор')
+                                    @role('Администратор')
                                     <li>
                                         <a href="{{ route('client.index') }}">
                                             <span class="sub-item">База заказчиков</span>
