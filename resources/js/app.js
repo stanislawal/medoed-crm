@@ -13,11 +13,11 @@ window.onEdit = function (formName, disable) {
 
     $(form).find('select, textarea, input').prop('disabled', Boolean(disable));
 
-    if(Boolean(disable)){
+    if (Boolean(disable)) {
         btnCancel.hide();
         btnSendForm.hide();
         btnEdit.show()
-    }else{
+    } else {
         btnCancel.show();
         btnSendForm.show();
         btnEdit.hide();
@@ -27,7 +27,7 @@ window.onEdit = function (formName, disable) {
 /**
  * Управление поиском
  */
-window.searchToggle = function(){
+window.searchToggle = function () {
     var containerSearch = $('#search');
     containerSearch.slideToggle('slow')
 }
@@ -36,22 +36,22 @@ window.searchToggle = function(){
 /**
  * Проверка фильтра на наличие не пустых полей, и добавление выделения
  */
-window.checkSearch = function(){
+window.checkSearch = function () {
     const formField = $('form.check__field').find('select, input');
-    formField.each(function(i, item){
-       let el = $(item);
-       if(el.val() !== ''){
-           el.addClass('border-primary')
-       }
+    formField.each(function (i, item) {
+        let el = $(item);
+        if (el.val() !== '') {
+            el.addClass('border-primary')
+        }
     })
 }
 checkSearch();
 
 
-window.sort = function(el, column = null){
+window.sort = function (el, column = null) {
     var element = $(el);
 
-    switch (true){
+    switch (true) {
         case !element.hasClass('sort-asc') && !element.hasClass('sort-desc') :
             console.log('sort-asc');
             break;
@@ -67,15 +67,43 @@ window.sort = function(el, column = null){
     }
 }
 
-$('.nav-item').each(function(){
+$('.nav-item').each(function () {
 
     const location = window.location.protocol + "//" + window.location.host + window.location.pathname;
 
-    if($(this).children('div').find('a').attr('href') == location){
+    if ($(this).children('div').find('a').attr('href') == location) {
         $(this).children('div').addClass('show')
 
     }
 
 });
 
-$('a[href="'+location+'"]').addClass('menu-active')
+$('a[href="' + location + '"]').addClass('menu-active')
+
+
+// подтверждение выхода
+window.exitConfirm = function () {
+    var res = confirm('Вы действительно хотите выйти?')
+    if (!res) {
+        event.preventDefault();
+    }
+}
+
+jQuery(window).on("load", function () {
+    window.loadUserActive();
+
+    setInterval(()=>{window.loadUserActive()}, 1000*60)
+});
+
+window.loadUserActive = function () {
+    $.ajax({
+        url: '/user-active',
+        method: 'POST',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    }).done((res) => {
+        const userList = res.html;
+        const container = $('.user-list-activity .userList');
+        container.empty();
+        container.append(userList);
+    })
+}

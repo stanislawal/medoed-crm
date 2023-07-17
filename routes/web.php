@@ -91,9 +91,6 @@ Route::middleware('auth')->group(function () {
         Route::get('add_option_socialnetwork-destroy/{socialnetwork}', [SocialNetworkController::class, 'destroy'])->name('add_option_socialnetwork.destroy');
         # Заказчики (clients)
 
-
-
-
         #----------------------------------------ОТЧЕТЫ----------------------------------------
         Route::resource('report_client', ReportClientController::class );
         Route::resource('report_author', ReportAuthorController::class );
@@ -126,4 +123,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/delete/{id}', [PaymentController::class, 'delete'])->name('payment.delete')->middleware('role:Администратор');
     });
     #----------------------------------------ОПЛАТА----------------------------------------
+
+    Route::post('user-active', [UserController::class, 'userActive']);
 });

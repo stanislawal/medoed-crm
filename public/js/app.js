@@ -74,6 +74,34 @@ $('.nav-item').each(function () {
 });
 $('a[href="' + location + '"]').addClass('menu-active');
 
+// подтверждение выхода
+window.exitConfirm = function () {
+  var res = confirm('Вы действительно хотите выйти?');
+  if (!res) {
+    event.preventDefault();
+  }
+};
+jQuery(window).on("load", function () {
+  window.loadUserActive();
+  setInterval(function () {
+    window.loadUserActive();
+  }, 1000 * 60);
+});
+window.loadUserActive = function () {
+  $.ajax({
+    url: '/user-active',
+    method: 'POST',
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  }).done(function (res) {
+    var userList = res.html;
+    var container = $('.user-list-activity .userList');
+    container.empty();
+    container.append(userList);
+  });
+};
+
 /***/ }),
 
 /***/ "./resources/css/app.css":

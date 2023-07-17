@@ -32,6 +32,15 @@
 .text-24{
     font-size: 24px;
 }
+.text-26{
+    font-size: 36px;
+}
+.text-28{
+    font-size: 38px;
+}
+.text-30{
+    font-size: 30px;
+}
 
 .nowrap-dot{
     white-space: nowrap;
@@ -117,4 +126,27 @@ span.select2-selection{
 
 textarea{
     resize: auto !important;
+}
+
+
+.user-list-activity .title{
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+    color: #2A2F5B;
+}
+
+.user-list-activity .user i{
+    color: #858d978f;
+}
+
+.user-list-activity .user .name{
+    color: #2A2F5B;
+    font-size: 13px;
+    margin-bottom: 3px;
+    font-weight: 600;
+}
+
+.user-list-activity .user .role{
+    color: #aaa;
 }

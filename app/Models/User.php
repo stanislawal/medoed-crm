@@ -55,5 +55,4 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Bank::class, 'bank_id');
     }
-
 }

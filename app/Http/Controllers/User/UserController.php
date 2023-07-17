@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Bank;
 use App\Models\User;
+use App\Models\UserActive;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,15 +19,15 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-        $users =  User::on()->with(['roles']);
+        $users = User::on()->with(['roles']);
 
-            $this->filter($request, $users);
+        $this->filter($request, $users);
 
         $users->orderBy('id', 'desc');
         $users = $users->paginate(50);
 
 
-       $roles= Role::on()->get()->toArray();
+        $roles = Role::on()->get()->toArray();
 //        dd($users);
         return view('user.list_users', [
             'users' => $users,
@@ -81,9 +83,9 @@ class UserController extends Controller
     {
         $attr = collect($request->validated());
 
-        if(is_null($attr['password'])){
+        if (is_null($attr['password'])) {
             unset($attr['password']);
-        }else{
+        } else {
             $attr['password'] = Hash::make($attr['password']);
         }
         $user = User::on()->find($id);
@@ -103,9 +105,6 @@ class UserController extends Controller
         return redirect()->back()->with(['success' => 'Пользователь успешно удален']);
     }
 
-//$projects->when(!empty($request->manager_id), function ($where) use ($request) {
-//            $where->where('manager_id', $request->manager_id);
-
     private function filter($request, &$users)
     {
         $users->when(!empty($request->full_name), function ($where) use ($request) {
@@ -118,5 +117,24 @@ class UserController extends Controller
             });
         });
     }
-}
 
+    public function userActive()
+    {
+        UserActive::on()->updateOrCreate([
+            'user_id' => UserHelper::getUserId(),
+        ], [
+            'user_id' => UserHelper::getUserId(),
+            'date_time' => now()
+        ]);
+
+        $userActive = UserActive::on()->with('user.roles')
+            ->whereBetween('date_time', [now()->subMinutes(3)->format('Y-m-d H:i:s'), now()->format('Y-m-d H:i:s')])
+            ->get()
+            ->toArray();
+
+        return response()->json([
+            'result' => true,
+            'html' => view('NavComponents.UserActive.user_list', ['userActive' => $userActive])->render()
+        ]);
+    }
+}

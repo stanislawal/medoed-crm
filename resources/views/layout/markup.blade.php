@@ -31,7 +31,14 @@
             <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
                 <div class="container-fluid">
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                        <a href="{{route('logout')}}">
+
+                        <li class="nav-item submenu">
+                            <a href="#" class="nav-link quick-sidebar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#usersInfo" aria-controls="offcanvasRight">
+                                <i class="fas fa-user-friends"></i>
+                            </a>
+                        </li>
+
+                        <a href="{{route('logout')}}" onclick="window.exitConfirm()">
                             <button class="btn btn-sm btn-warning" style="color:black!important;"><i
                                     class="fas fa-sign-out-alt pr-2"></i>Выход
                             </button>
@@ -271,6 +278,9 @@
                 </div>
             </div>
         </div>
+
+        @include('NavComponents.UserActive.users')
+
     </div>
 @endsection
 
