@@ -134,7 +134,8 @@ class UserController extends Controller
 
         return response()->json([
             'result' => true,
-            'html' => view('NavComponents.UserActive.user_list', ['userActive' => $userActive])->render()
+            'html' => view('NavComponents.UserActive.user_list', ['userActive' => $userActive])->render(),
+            'count' => count($userActive)
         ]);
     }
 }

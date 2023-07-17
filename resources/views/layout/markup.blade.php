@@ -35,7 +35,8 @@
                         <li class="nav-item submenu">
                             <a href="#" class="nav-link quick-sidebar-toggler" type="button" data-bs-toggle="offcanvas"
                                data-bs-target="#usersInfo" aria-controls="offcanvasRight">
-                                <i class="fas fa-user-friends"></i>
+                                <i class="fas fa-users"></i>
+                                <span class="notification" id="countActiveUsers">0</span>
                             </a>
                         </li>
 

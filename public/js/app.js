@@ -97,8 +97,9 @@ window.loadUserActive = function () {
   }).done(function (res) {
     var userList = res.html;
     var container = $('.user-list-activity .userList');
-    container.empty();
-    container.append(userList);
+    var countNotifications = $('#countActiveUsers');
+    container.empty().append(userList);
+    countNotifications.text(res.count);
   });
 };
 

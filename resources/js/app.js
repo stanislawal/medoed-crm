@@ -91,7 +91,6 @@ window.exitConfirm = function () {
 
 jQuery(window).on("load", function () {
     window.loadUserActive();
-
     setInterval(()=>{window.loadUserActive()}, 1000*60)
 });
 
@@ -103,7 +102,8 @@ window.loadUserActive = function () {
     }).done((res) => {
         const userList = res.html;
         const container = $('.user-list-activity .userList');
-        container.empty();
-        container.append(userList);
+        const countNotifications = $('#countActiveUsers')
+        container.empty().append(userList);
+        countNotifications.text(res.count);
     })
 }
