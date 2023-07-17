@@ -32,7 +32,7 @@
                 <div class="container-fluid">
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 
-                        <li class="nav-item submenu">
+                        <li class="nav-item submenu me-3">
                             <a href="#" class="nav-link quick-sidebar-toggler" type="button" data-bs-toggle="offcanvas"
                                data-bs-target="#usersInfo" aria-controls="offcanvasRight">
                                 <i class="fas fa-users"></i>

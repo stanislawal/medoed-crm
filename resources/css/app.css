@@ -136,6 +136,18 @@ textarea{
     color: #2A2F5B;
 }
 
+.user-list-activity .user:hover{
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.user-list-activity .user:hover i{
+    color: #4680fb;
+    transition: color 0.1s;
+}
+
 .user-list-activity .user i{
     color: #858d978f;
 }
