@@ -58,9 +58,7 @@
                             <div><img src="{{ asset('img/user.png') }}" class="d-block" width="37" alt=""></div>
                             <div class="ml-3">
                                 <div class="text-dark text-12 font-weight-bold">{{ auth()->user()->full_name }}</div>
-                                <div class="text-dark text-12 fst-italic mt-2">
-                                    Администратор
-                                </div>
+                                <div class="text-dark text-12 fst-italic mt-2">{{ \App\Helpers\UserHelper::getRoleName() }}</div>
                             </div>
                         </div>
                     </div>
