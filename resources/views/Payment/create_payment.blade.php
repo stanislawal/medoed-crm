@@ -153,8 +153,15 @@
     <script
         src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{asset('js/select2.js')}}"></script>
+
     <script src="{{asset('js/payment.js')}}"></script>
     <script>
+        $(document).ready(function() {
+            $("#select2insidemodal").select2({
+                dropdownParent: $("#create_payment")
+            });
+        });
+
         window.confirmDelete = function () {
             var res = confirm('Вы действительно хотите удалить этот проект?')
             if (!res) {

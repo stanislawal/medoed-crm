@@ -1,4 +1,4 @@
-<div class="modal fade" id="create_payment" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="create_payment" data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,7 +10,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="">Проект</label>
-                        <select class="form-select form-select-sm select-2" name="project_id" required>
+                        <select class="form-select form-select-sm" id="select2insidemodal" name="project_id" required>
                             <option value="0">Не выбрано</option>
                             @foreach($projects as $project)
                                 <option value="{{ $project['id'] }}">{{ $project['project_name'] }}
