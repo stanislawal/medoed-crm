@@ -30,25 +30,25 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ $authors->sum('margin') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($authors->sum('margin'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ $diffInWeekdays }}</strong></div>
+                            <div class="text-24"><strong>{{$diffInWeekdays }}</strong></div>
                             <div class="text-12 nowrap-dot">Количество рабочих дней:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ $authors->sum('without_space') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($authors->sum('without_space'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общий объем збп:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ $authors->sum('amount') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($authors->sum('amount'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общая сумма гонораров:</div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ $authors->sum('gross_income') }}</strong></div>
+                                <strong>{{number_format($authors->sum('gross_income'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Валовый доход:</div>
                         </div>
                     </div>
@@ -134,12 +134,12 @@
                                 </td>
                                 <td>{{ $author['bank'] ?? '-' }}</td>
                                 <td>{{ $author['full_name'] }}</td>
-                                <td>{{ $author['without_space']+0 }}</td>
-                                <td>{{ $author['amount']+0 }}</td>
+                                <td>{{number_format($author['without_space']+0, 2, '.', ' ')  }}</td>
+                                <td>{{number_format($author['amount']+0, 2, '.', ' ')  }}</td>
                                 <td>-</td>
-                                <td>{{ $author['gross_income']+0 }}</td>
-                                <td>{{ $author['margin']+0 }}</td>
-                                <td>{{ $author['avg_price']+0 }}</td>
+                                <td>{{number_format($author['gross_income']+0, 2, '.', ' ')  }}</td>
+                                <td>{{number_format($author['margin']+0, 2, '.', ' ')  }}</td>
+                                <td>{{number_format($author['avg_price']+0, 2, '.', ' ') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

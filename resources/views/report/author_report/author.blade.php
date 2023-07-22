@@ -28,13 +28,13 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ $articles->sum('without_space_author') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($articles->sum('without_space_author'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общий объем збп:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ $articles->sum('price') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($articles->sum('price'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Гонорар:</div>
                         </div>
                     </div>
@@ -53,14 +53,14 @@
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ $articles->sum('price_article') }}</strong></div>
+                                <strong>{{number_format($articles->sum('price_article'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общий ВД:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ $articles->sum('margin') }}</strong></div>
+                                <strong>{{number_format($articles->sum('margin'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
                     </div>
@@ -112,19 +112,19 @@
                             <tbody>
                             @foreach($articles as $article)
                                 <tr>
+
                                     <td>{{ \Illuminate\Support\Carbon::parse($article['created_at'])->format('d.m.Y') }}</td>
                                     <td>{{ $article['project_name'] }}</td>
                                     <td>{{ $article['article'] }}</td>
-                                    <td>{{ $article['without_space_author']+0 }} / {{ $article['without_space_all']+0 }}
-                                        ({{ $article['count_authors'] }})
+                                    <td> {{-- {{ $article['without_space_author'] +0 }} / --}} {{number_format($article['without_space_all']+0, 2, '.', ' ')  }}
                                     </td>
-                                    <td>{{ $article['price_author']+0 }}</td>
-                                    <td>{{ $article['price']+0 }}</td>
+                                    <td>{{number_format($article['price_author']+0, 2, '.', ' ')  }}</td>
+                                    <td>{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
                                     <td>-</td>
                                     <td>-</td>
-                                    <td>{{ $article['price_client']+0 }}</td>
-                                    <td>{{ $article['price_article']+0 }}</td>
-                                    <td>{{ $article['margin']+0 }}</td>
+                                    <td>{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
+                                    <td>{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
+                                    <td>{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

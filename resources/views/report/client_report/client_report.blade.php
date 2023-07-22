@@ -126,39 +126,41 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{$statistics['duty']}} ₽</strong></div>
+                            <div class="text-24"><strong>{{number_format($statistics['duty'], 2, '.', ' ')}} ₽</strong></div>
                             <div class="text-12 nowrap-dot">Общий долг:</div>
                         </div>
                     </div>
+
+
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{$statistics['sum_without_space']}}</strong></div>
+                            <div class="text-24"><strong>{{number_format($statistics['sum_without_space'], 2, '.', ' ')}}</strong></div>
                             <div class="text-12 nowrap-dot">Общий объем ЗБП:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{$statistics['sum_gross_income']}}</strong></div>
+                            <div class="text-24"><strong>{{number_format($statistics['sum_gross_income'], 2, '.', ' ')}}</strong></div>
                             <div class="text-12 nowrap-dot">ВД:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{$statistics['profit']}}</strong></div>
+                            <div class="text-24"><strong>{{number_format($statistics['profit'], 2, '.', ' ')}}</strong></div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{number_format($statistics['middle_check'], 2,'.', '')  }}</strong></div>
+                                <strong>{{number_format($statistics['middle_check'], 2,'.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Средний чек:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{number_format($statistics['sum_symbols_in_day'], 2,'.', '')  }}</strong></div>
+                                <strong>{{number_format($statistics['sum_symbols_in_day'], 2,'.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Итого знаков:</div>
                         </div>
                     </div>
@@ -212,17 +214,17 @@
 {{--                            <th>ID</th>--}}
                             <th></th>
                             <th>Состояние</th>
-                            <th class="fw-bold">Долг</th>
+                            <th class="fw-bold" style="min-width: 120px;">Долг</th>
                             <th>Проект</th>
                             <th>Заказчик</th>
-                            <th>Объем ЗБП</th>
-                            <th>ВД</th>
-                            <th>Маржа</th>
+                            <th style="min-width: 120px;">Объем ЗБП</th>
+                            <th style="min-width: 120px;">ВД</th>
+                            <th style="min-width: 120px;">Маржа</th>
                             <th>Менеджер</th>
                             <th>Сроки оплаты</th>
                             <th>Срок в работе</th>
-                            <th>Цена проекта</th>
-                            <th>Цена автора</th>
+                            <th style="min-width: 120px;">Цена проекта</th>
+                            <th style="min-width: 120px;">Цена автора</th>
                             <th>Знаки в день</th>
                             <th>Дата</th>
                         </tr>
@@ -250,24 +252,26 @@
                                 </td>
                                 <td class="fw-bolder">
                                     @if($item['duty'] < 0)
-                                        <span class="text-danger">{{$item['duty'] + 0 ?? '-'}}</span>
+                                        <span class="text-danger">{{number_format($item['duty'] + 0 ?? '-', 2, '.', ' ')}}</span>
                                     @else
-                                        {{$item['duty'] + 0 ?? '-'}}
+                                        {{number_format($item['duty'] + 0 ?? '-', 2, '.', ' ')}}
                                     @endif
                                 </td>
                                 <td>{{$item['project_name'] ?? '-'}}</td>
                                 <td>@foreach($item['project_clients'] as $client)
                                         {{$client['name']}}
                                     @endforeach</td>
-                                <td>{{$item['sum_without_space']+0 ?? '-'}}</td>
-                                <td>{{$item['sum_gross_income']+0 ?? '-'}}</td>
-                                <td>{{$item['profit'] + 0 ?? '-'}}</td>
+                                <td>{{number_format($item['sum_without_space']+0 ?? '-', 2, '.', ' ')}}</td>
+                                <td>{{number_format($item['sum_gross_income']+0 ?? '-', 2, '.', ' ')}}</td>
+                                <td>{{number_format($item['profit'] + 0 ?? '-', 2, '.', ' ')}}</td>
                                 <td>{{$item['project_user']['full_name'] ?? '-'}}</td>
                                 <td>{{$item['payment_terms'] ?? '-'}}</td>
                                 <td>{{$item['date_diff'].' дней' ?? '-'}}</td>
-                                <td>{{$item['sum_price_client'] + 0 ?? '-'}}</td>
-                                <td>{{$item['sum_price_author']+ 0 ?? '-'}}</td>
+                                <td>{{number_format($item['sum_price_client'] + 0 ?? '-', 2, '.', ' ')}}</td>
+                                <td>{{number_format($item['sum_price_author']+ 0 ?? '-', 2, '.', ' ')}}</td>
                                 <td>{{$item['symbol_in_day'] ?? '-'}}</td>
+
+
                                 <td>{{ \Carbon\Carbon::parse($item['created_at'])->format('d.m.Y') ?? '-'}}</td>
                             </tr>
                         @endforeach

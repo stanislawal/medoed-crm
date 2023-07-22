@@ -15,7 +15,7 @@
                             <div class="text-12 nowrap-dot">Проект:</div>
                         </div>
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ collect($payment)->sum('amount') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format(collect($payment)->sum('amount'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Оплата:</div>
                         </div>
                     </div>
@@ -36,27 +36,27 @@
                             <div class="text-12 nowrap-dot">Заказчик:</div>
                         </div>
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{ $report->sum('price_client') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($report->sum('price_client'), 2, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Цена проекта:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{ $report->sum('without_space') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($report->sum('without_space'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Сдано ЗБП:</div>
                         </div>
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ $report->sum('gross_income') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($report->sum('gross_income'), 2, '.', ' ')    }}</strong></div>
                             <div class="text-12 nowrap-dot">Сумма ВД:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-4  col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{ $report->sum('price_client') - collect($payment)->sum('amount') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($report->sum('price_client') - collect($payment)->sum('amount'), 2, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Долг: </div>
                         </div>
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ $report->sum('margin') }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($report->sum('margin'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
                     </div>
@@ -103,11 +103,14 @@
                                     @endforelse</td>
                                 <td>{{ $item['end_date_project'] }}</td>
                                 <td>{{ $item['article_name'] }}</td>
-                                <td>{{ $item['without_space'] }}</td>
-                                <td>{{ $item['price_client'] + 0 }}</td>
-                                <td>{{($item['without_space'] / 1000) * $item['price_client'] + 0 }}</td>
-                                <td>{{ $item['price_author'] + 0 }}</td>
-                                <td>{{ $item['margin'] + 0 }}</td>
+                                <td>{{number_format($item['without_space'], 2, '.', ' ')  }}</td>
+                                <td>{{number_format($item['price_client'] + 0, 2, '.', ' ')  }}</td>
+                                <td>{{number_format(($item['without_space'] / 1000) * $item['price_client'] + 0, 2, '.', ' ')  }}</td>
+                                <td>{{number_format($item['price_author'] + 0, 2, '.', ' ')  }}</td>
+                                <td>{{number_format($item['margin'] + 0, 2, '.', ' ')  }}</td>
+
+
+
 
                             </tr>
                         @endforeach
