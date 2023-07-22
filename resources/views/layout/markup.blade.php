@@ -32,7 +32,7 @@
             <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
                 <div class="container-fluid">
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                        <a href="{{ route('notifications-all.index') }}">aaaa</a>
+{{--                        <a href="{{ route('notifications-all.index') }}">aaaa</a>--}}
                         <li class="nav-item dropdown hidden-caret submenu show">
                             <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

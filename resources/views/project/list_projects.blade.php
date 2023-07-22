@@ -180,21 +180,21 @@
                                     </th>
                                     <th></th>
                                     @role('Администратор')
-                                    <th>@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name', 'routeName' => 'project.index'] )</th>
                                     @endrole
-                                    <th>@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
                                     <th>Заказчик(и)</th>
                                     <th>Дата последнего прописывания</th>
-                                    <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
                                     <th style="min-width: 300px !important;">Комментарий</th>
                                     <th>Автор</th>
-                                    <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client', 'routeName' => 'project.index'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract', 'routeName' => 'project.index'] )</th>
                                     <th>Место ведения диалога</th>
                                     <th>Контакт</th>
-                                    <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Приоритетность', 'column' => 'styles|name'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name', 'routeName' => 'project.index'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Приоритетность', 'column' => 'styles|name', 'routeName' => 'project.index'] )</th>
                                     @role('Администратор')
                                     <th>Дата поступления</th>
                                     @endrole

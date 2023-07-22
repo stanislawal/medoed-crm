@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Rate\Rate;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -62,8 +63,16 @@ class ReportAuthorController extends Controller
             ->whereHas('roles', function ($query) {
                 $query->where('id', 3);
             })
-            ->groupBy(['users.id'])
-            ->get()->toArray();
+            ->groupBy(['users.id']);
+
+        // подзапрос для внедрения сортировки
+        $authors = User::on()
+            ->fromSub($authors, 'authors')
+            ->when(!empty($request->sort), function(Builder $orderBy) use ($request){
+                $orderBy->orderBy($request->sort, $request->direction);
+            })
+            ->get()
+            ->toArray();
 
 
         return view('report.author_report.author_list', [

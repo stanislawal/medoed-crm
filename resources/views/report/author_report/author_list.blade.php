@@ -114,12 +114,12 @@
                         <tr>
                             <th></th>
                             <th>Банк</th>
-                            <th>Автор</th>
-                            <th>Объем</th>
-                            <th>Гонорар</th>
+                            <th>@include('components.table.sort', ['title' => 'Автор', 'column'       => 'full_name', 'routeName' => 'report_author.index'])</th>
+                            <th>@include('components.table.sort', ['title' => 'Объем', 'column'       => 'without_space', 'routeName' => 'report_author.index'])</th>
+                            <th>@include('components.table.sort', ['title' => 'Гонорар', 'column'     => 'amount', 'routeName' => 'report_author.index'])</th>
                             <th>К выплате</th>
-                            <th>ВД</th>
-                            <th>Маржа</th>
+                            <th>@include('components.table.sort', ['title' => 'ВД', 'column'          => 'gross_income', 'routeName' => 'report_author.index'])</th>
+                            <th>@include('components.table.sort', ['title' => 'Маржа', 'column'       => 'margin', 'routeName' => 'report_author.index'])</th>
                             <th>Ср. цена</th>
                         </tr>
                         </thead>
