@@ -56,7 +56,6 @@ class NotificationController extends Controller
     public function browse($id, Request $request)
     {
         Notification::on()->where('id', $id)->update(['is_viewed' => 1]);
-
         if ($request->ajax()) {
             return response()->json(['result' => true]);
         }

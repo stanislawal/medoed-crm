@@ -1,9 +1,4 @@
 @php
-    $notifications = \App\Models\Notification::on()->where('recipient_id', \App\Helpers\UserHelper::getUserId())
-        ->where('is_viewed', false)
-        ->with(['projects:id,project_name', 'articles:id,article'])
-        ->orderBy('date_time', 'desc')->get();
-
     $assignedProject = $notifications->where('type', \App\Constants\NotificationTypeConstants::ASSIGNED_PROJECT)->toArray();
     $changePriceProject = $notifications->where('type', \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT)->toArray();
     $changeArticle = $notifications->where('type', \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE)->toArray();

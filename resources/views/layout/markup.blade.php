@@ -33,11 +33,18 @@
                 <div class="container-fluid">
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 
+                        @php
+                            $notifications = \App\Models\Notification::on()->where('recipient_id', \App\Helpers\UserHelper::getUserId())
+                            ->where('is_viewed', false)
+                            ->with(['projects:id,project_name', 'articles:id,article'])
+                            ->orderBy('date_time', 'desc')->get();
+                        @endphp
+
                         <li class="nav-item dropdown hidden-caret submenu show">
                             <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                                data-bs-toggle="offcanvas" data-bs-target="#notificationContainer" aria-controls="offcanvasRight">
                                 <i class="fa fa-bell"></i>
-                                <span class="notification bg-danger">12</span>
+                                <span class="notification bg-danger count-notification">{{ count($notifications) }}</span>
                             </a>
                         </li>
 
@@ -285,7 +292,7 @@
         </div>
 
         @include('NavComponents.UserActive.users')
-        @include('NavComponents.Notification.notification')
+        @include('NavComponents.Notification.notification', ['notifications' => $notifications])
 
     </div>
 @endsection
