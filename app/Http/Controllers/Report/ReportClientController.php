@@ -181,17 +181,18 @@ class ReportClientController extends Controller
               article as article_name,
               project_id,
               without_space,
-              (price_client *(without_space/1000)) as price_client,
+              price_client,
               (without_space * ((price_client *(without_space/1000)) / 1000)) as gross_income,
-              (price_author *(without_space/1000)) as price_author,
+              price_author,
               created_at
         ");
 
         $report = Article::on()->selectRaw("
             projects.project_name,
             articles.*,
-            ((articles.price_client - articles.price_author) * (articles.without_space / 1000)) as margin
-        ")
+            ((articles.price_client - articles.price_author) * (articles.without_space / 1000)) as margin,
+            ((articles.without_space / 1000) * articles.price_client) as price_article
+            ")
             ->from('projects')
             ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')
             ->where('projects.id', $id)
