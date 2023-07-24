@@ -67,7 +67,6 @@ class ProjectController extends Controller
             $where->where('manager_id', UserHelper::getUserId());
         });
 
-
         // фильтр
         $this->filter($projects, $request);
 
@@ -369,6 +368,10 @@ class ProjectController extends Controller
         if (count($request->all()) == 0) {
             $this->setFilter($request);
         }
+
+        $projects->when(!empty($request->except_status_id), function ($where) use ($request) {
+            $where->whereNotIn('projects.status_id', $request->except_status_id);
+        });
 
         $projects->when(!empty($request->id), function ($where) use ($request) {
             $where->where('projects.id', $request->id);

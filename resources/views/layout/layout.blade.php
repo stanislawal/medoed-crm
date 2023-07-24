@@ -32,8 +32,7 @@
     <link rel="stylesheet" href="{{ asset('lib/css/atlantis.min.css') }}">
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=@version">
 

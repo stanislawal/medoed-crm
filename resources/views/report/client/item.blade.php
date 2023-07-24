@@ -72,29 +72,44 @@
             </div>
         </div>
     </div>
-    <div class="accordion accordion-flush mb-2" id="accordionFlushExample">
+    <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                    История оплат по проекту
+                    <strong class="text-14 text-gray">История оплат по проекту</strong>
                 </button>
             </h2>
-{{--            @dd($payment)--}}
             <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
                     <table class="table table-hover">
                         <thead>
-                            <tr>
-                                <th>Оплата</th>
-                                <th>Дата оплаты</th>
-                            </tr>
+                        <tr>
+                            <th>Сбер Д</th>
+                            <th>Сбер К</th>
+                            <th>Приват</th>
+                            <th>ЮМ</th>
+                            <th>ВМЗ</th>
+                            <th>Биржи</th>
+                            <th>Дата оплаты</th>
+                        </tr>
                         </thead>
                         <tbody>
+                        @forelse($paymentHistory as $item)
                             <tr>
-                                <td>28.10.2023</td>
-                                <td>700 <span>₽</span></td>
+                                <td @if($item['sber_d'] > 0) class="text-primary fw-bold" @endif>{{ $item['sber_d'] }} <span>₽</span></td>
+                                <td @if($item['sber_k'] > 0) class="text-primary fw-bold" @endif>{{ $item['sber_k'] }} <span>₽</span></td>
+                                <td @if($item['privat'] > 0) class="text-primary fw-bold" @endif>{{ $item['privat'] }} <span>₽</span></td>
+                                <td @if($item['um'] > 0) class="text-primary fw-bold" @endif>{{ $item['um'] }} <span>₽</span></td>
+                                <td @if($item['wmz'] > 0) class="text-primary fw-bold" @endif>{{ $item['wmz'] }} <span>₽</span></td>
+                                <td @if($item['birja'] > 0) class="text-primary fw-bold" @endif>{{ $item['birja'] }} <span>₽</span></td>
+                                <td>{{ $item['created_at'] }}</td>
                             </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center text-gray">Нет операций</td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -131,19 +146,19 @@
                         <tbody>
                         @foreach($report as $item)
                             <tr>
-                                <td>{{ $item['id'] }}</td>
+                                <td class="text-center">{{ $item['id'] }}</td>
                                 <td> @forelse($item['article_author'] as $author)
                                         <div class="badge bg-primary">{{ $author['full_name'] }}</div>
                                     @empty
                                         -
                                     @endforelse</td>
-                                <td>{{ $item['created_at'] }}</td>
+                                <td class="text-center">{{ $item['created_at'] }}</td>
                                 <td>{{ $item['article_name'] }}</td>
-                                <td>{{number_format($item['without_space'], 2, '.', ' ')  }}</td>
-                                <td>{{number_format($item['price_client'] + 0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($item['price_article'] + 0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($item['price_author'] + 0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($item['margin'] + 0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($item['without_space'], 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($item['price_client'] + 0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($item['price_article'] + 0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($item['price_author'] + 0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($item['margin'] + 0, 2, '.', ' ')  }}</td>
                             </tr>
                         @endforeach
                         </tbody>

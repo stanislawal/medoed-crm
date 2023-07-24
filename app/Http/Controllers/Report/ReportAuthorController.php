@@ -75,7 +75,7 @@ class ReportAuthorController extends Controller
             ->toArray();
 
 
-        return view('report.author_report.author_list', [
+        return view('report.author.list', [
             'rates' => Rate::on()->get(),
             'authors' => collect($authors),
             'diffInWeekdays' => $diffInWeekdays
@@ -137,7 +137,7 @@ class ReportAuthorController extends Controller
             ->where('users.id', $id)
             ->get()->first()->toArray();
 
-        return view('report.author_report.author', [
+        return view('report.author.author', [
             'articles' => collect($articles),
             'user' => $user
         ]);

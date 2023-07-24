@@ -28,6 +28,10 @@ class Payment extends Model
         'create_user_id'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:d.m.Y H:i'
+    ];
+
     public $timestamps = true;
 
     public function project()

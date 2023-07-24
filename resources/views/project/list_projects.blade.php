@@ -42,19 +42,21 @@
                                         <select class="form-select form-select-sm" name="manager_id">
                                             <option value="">Не выбрано</option>
                                             @foreach ($managers as $manager)
-                                                <option value="{{$manager['id']}}">{{$manager['full_name']}}</option>
+                                                <option
+                                                    @if($manager['id'] == request()->manager_id)
+                                                    selected
+                                                        @endif
+                                                        value="{{$manager['id']}}">{{$manager['full_name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 @endif
-
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Название проекта</label>
                                     <input type="text" class="form-control form-control-sm" name="project_name"
                                            value="{{ request()->project_name ?? '' }}">
                                 </div>
-
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Цена за 1000 (от)</label>
@@ -91,7 +93,7 @@
                                         <option value="">Не выбрано</option>
                                         @foreach ($statuses as $status)
                                             <option value="{{$status['id']}}"
-                                                    @if($status['id'] == request()->status_id)
+                                                    @if(in_array($status['id'], request()->status_id ?? []))
                                                         selected
                                                 @endif
                                             >{{$status['name']}}</option>
@@ -106,7 +108,7 @@
                                         <option value="">Не выбрано</option>
                                         @foreach ($statuses as $status)
                                             <option value="{{$status['id']}}"
-                                                    @if($status['id'] == request()->status_id)
+                                                    @if(in_array($status['id'], request()->except_status_id ?? []))
                                                         selected
                                                 @endif
                                             >{{$status['name']}}</option>
@@ -155,11 +157,11 @@
                                 <div class="col-12 p-0">
                                     <div class="form-group col-12">
                                         <div class="w-100 d-flex justify-content-end">
-                                            @if(!empty(request()->all() && count(request()->all())) > 0)
-                                                <a href="{{ route('project.index') }}"
-                                                   class="btn btn-sm btn-danger mr-3">Сбросить
-                                                    фильтр</a>
-                                            @endif
+{{--                                            @if(!empty(request()->all() && count(request()->all())) > 0)--}}
+{{--                                                <a href="{{ route('project.index') }}"--}}
+{{--                                                   class="btn btn-sm btn-danger mr-3">Сбросить--}}
+{{--                                                    фильтр</a>--}}
+{{--                                            @endif--}}
                                             <button class="btn btn-sm btn-success">Искать</button>
                                         </div>
                                     </div>

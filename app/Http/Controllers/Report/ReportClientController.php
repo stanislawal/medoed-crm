@@ -88,7 +88,7 @@ class ReportClientController extends Controller
 
         $clients = Client::on()->get()->toArray();
 
-        return view('report.client_report.client_report', [
+        return view('report.client.list', [
             'reports' => $reports->toArray(),
             'statistics' => $statistics,
             'rates' => $rates,
@@ -204,12 +204,13 @@ class ReportClientController extends Controller
             $where->where('projects.id', $id);
         })->get()->toArray();
 
+        $paymentHistory = Payment::on()->where('project_id', $id)->get()->toArray();
 
-
-        return view('report.client_report.client_project', [
+        return view('report.client.item', [
             'report' => collect($report),
             'clients' => $clients,
-            'payment' => $payment
+            'payment' => $payment,
+            'paymentHistory' => $paymentHistory
         ]);
     }
 }

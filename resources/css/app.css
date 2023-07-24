@@ -70,6 +70,11 @@ p{
     overflow: hidden;
 }
 
+
+.nowrap{
+    text-wrap: none;
+}
+
 a, a:hover, a:focus {
     color: inherit;
     text-decoration: none;
@@ -272,4 +277,8 @@ textarea {
 .notification-list .accordion-button .icon i{
     margin: auto;
     font-size: 10px;
+}
+
+#basic-datatables th, #basic-datatables td{
+    font-size: 12px!important;
 }
