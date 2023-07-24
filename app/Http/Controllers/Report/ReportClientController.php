@@ -204,6 +204,8 @@ class ReportClientController extends Controller
             $where->where('projects.id', $id);
         })->get()->toArray();
 
+
+
         return view('report.client_report.client_project', [
             'report' => collect($report),
             'clients' => $clients,

@@ -100,6 +100,21 @@
                                 </div>
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
+                                    <label for="" class="form-label">Исключение состояний</label>
+                                    <select class="form-control select-2" multiple
+                                            name="except_status_id[]" id="">
+                                        <option value="">Не выбрано</option>
+                                        @foreach ($statuses as $status)
+                                            <option value="{{$status['id']}}"
+                                                    @if($status['id'] == request()->status_id)
+                                                        selected
+                                                @endif
+                                            >{{$status['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Тема</label>
                                     <select class="form-select form-select-sm" name="theme_id" id="">
                                         <option value="">Не выбрано</option>

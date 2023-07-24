@@ -15,7 +15,9 @@
                             <div class="text-12 nowrap-dot">Проект:</div>
                         </div>
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format(collect($payment)->sum('amount'), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format(collect($payment)->sum('amount'), 2, '.', ' ')  }}</strong>
+                            </div>
                             <div class="text-12 nowrap-dot">Оплата:</div>
                         </div>
                     </div>
@@ -36,27 +38,33 @@
                             <div class="text-12 nowrap-dot">Заказчик:</div>
                         </div>
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($report->sum('price_article'), 2, '.', ' ') }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($report->sum('price_article'), 2, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Цена проекта:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($report->sum('without_space'), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($report->sum('without_space'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Сдано ЗБП:</div>
                         </div>
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($report->sum('gross_income'), 2, '.', ' ')    }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($report->sum('gross_income'), 2, '.', ' ')    }}</strong></div>
                             <div class="text-12 nowrap-dot">Сумма ВД:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-md-4  col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($report->sum('price_client') - collect($payment)->sum('amount'), 2, '.', ' ') }}</strong></div>
-                            <div class="text-12 nowrap-dot">Долг: </div>
+                            <div class="text-24">
+                                <strong>{{number_format($report->sum('price_client') - collect($payment)->sum('amount'), 2, '.', ' ') }}</strong>
+                            </div>
+                            <div class="text-12 nowrap-dot">Долг:</div>
                         </div>
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($report->sum('margin'), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($report->sum('margin'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
                     </div>
@@ -64,6 +72,36 @@
             </div>
         </div>
     </div>
+    <div class="accordion accordion-flush mb-2" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    История оплат по проекту
+                </button>
+            </h2>
+{{--            @dd($payment)--}}
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Оплата</th>
+                                <th>Дата оплаты</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>28.10.2023</td>
+                                <td>700 <span>₽</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="w-100 shadow border rounded">
         <div class="card mb-0">

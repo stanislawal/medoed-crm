@@ -162,6 +162,19 @@ class ProjectController extends Controller
                 CrossProjectClient::on()->insert($clients);
             }
 
+            if ($request->has('author_id') && count($request->author_id) > 0) {
+                $authors = [];
+
+                foreach ($request->author_id as $author) {
+                    $authors[] = [
+                        'project_id' => $project_id,
+                        'user_id' => $author
+                    ];
+                }
+
+                CrossProjectAuthor::on()->insert($authors);
+            }
+
             if ($request->manager_id != null) {
                 (new NotificationController())->createNotification(NotificationTypeConstants::ASSIGNED_PROJECT, $request->manager_id, $project_id);
             }
