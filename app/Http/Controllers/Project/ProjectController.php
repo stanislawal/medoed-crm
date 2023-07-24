@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Project;
 
+use App\Constants\NotificationTypeConstants;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use App\Models\Article;
 use App\Models\Client\Client;
 use App\Models\Client\SocialNetwork;
@@ -27,8 +29,6 @@ class ProjectController extends Controller
     //Для отображения (вывода) всех записей
     public function index(Request $request)
     {
-
-
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
         $themes = Theme::on()->get()->toArray(); //Достаем все темы проектов
         $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
@@ -120,7 +120,6 @@ class ProjectController extends Controller
     {
         DB::beginTransaction();
         try {
-
             $attr = [
                 'manager_id' => $request->manager_id ?? null,
                 'theme_id' => $request->theme_id ?? null,
@@ -161,6 +160,10 @@ class ProjectController extends Controller
                 }
 
                 CrossProjectClient::on()->insert($clients);
+            }
+
+            if ($request->manager_id != null) {
+                (new NotificationController())->createNotification(NotificationTypeConstants::ASSIGNED_PROJECT, $request->manager_id, $project_id);
             }
 
             DB::commit();
@@ -205,8 +208,8 @@ class ProjectController extends Controller
             ->get()
             ->toArray();
 
-        $projectInfo['project_clients'] = collect($projectInfo['project_clients'])->map(function ($item){
-            $data = collect($item['social_network'])->map(function($item){
+        $projectInfo['project_clients'] = collect($projectInfo['project_clients'])->map(function ($item) {
+            $data = collect($item['social_network'])->map(function ($item) {
                 return [
                     'socialnetrowk_id' => $item['id'],
                     'link' => $item['pivot']['description']
@@ -232,6 +235,8 @@ class ProjectController extends Controller
     //Обновляет запись (в бд)
     public function update(Request $request, $project)
     {
+        $oldProject = Project::on()->find($project);
+
         $attr = [
             'manager_id' => $request->manager_id ?? null,
             'theme_id' => $request->theme_id ?? null,
@@ -262,6 +267,20 @@ class ProjectController extends Controller
 
         $this->updateAuthorForProject($project, $request->author_id ?? []);
         $this->updateClientsForProject($project, $request->client_id ?? []);
+
+        if (!empty($request->manager_id) && $oldProject['manager_id'] != $request->manager_id) {
+            (new NotificationController())->createNotification(
+                NotificationTypeConstants::ASSIGNED_PROJECT,
+                $request->manager_id,
+                $project
+            );
+        } else if ($attr['price_client'] != $oldProject['price_client']) {
+            (new NotificationController())->createNotification(
+                NotificationTypeConstants::CHANGE_PRICE_PROJECT,
+                '',
+                $project
+            );
+        }
 
         return redirect()->back()->with(['success' => 'Данные успешно обновлены.']);
     }
@@ -421,7 +440,7 @@ class ProjectController extends Controller
 
     public function deleteCheckbox()
     {
-        Project::on()->where('manager_id', UserHelper::getUserId())->update(['check'=> 0]);
+        Project::on()->where('manager_id', UserHelper::getUserId())->update(['check' => 0]);
         return redirect()->back();
     }
 }

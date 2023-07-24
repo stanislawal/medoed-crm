@@ -61,8 +61,11 @@
 <!-- Atlantis JS -->
 <script src="{{ asset ('lib/js/atlantis.min.js')}}"></script>
 
+<!-- App JS -->
 <script src="{{ asset ('js/app.js')}}?v=@version"></script>
 
+<!-- Notification JS -->
+<script src="{{ asset ('js/notification.js')}}?v=@version"></script>
 
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/i18n/defaults-zh_CN.min.js"></script>

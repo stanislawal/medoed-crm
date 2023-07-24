@@ -158,26 +158,11 @@ class ReportClientController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Подробная информация о проекте
      *
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show($id)
     {
         $payment = Payment::on()->selectRaw("
@@ -198,12 +183,12 @@ class ReportClientController extends Controller
               without_space,
               (price_client *(without_space/1000)) as price_client,
               (without_space * ((price_client *(without_space/1000)) / 1000)) as gross_income,
-              (price_author *(without_space/1000)) as price_author
+              (price_author *(without_space/1000)) as price_author,
+              created_at
         ");
 
         $report = Article::on()->selectRaw("
             projects.project_name,
-            projects.end_date_project,
             articles.*,
             ((articles.price_client - articles.price_author) * (articles.without_space / 1000)) as margin
         ")
@@ -223,39 +208,5 @@ class ReportClientController extends Controller
             'clients' => $clients,
             'payment' => $payment
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

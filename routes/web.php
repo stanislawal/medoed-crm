@@ -4,6 +4,7 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Article\ArticleController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Option\StatusPaymentController;
 use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\Rate\RateController;
@@ -123,6 +124,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/delete/{id}', [PaymentController::class, 'delete'])->name('payment.delete')->middleware('role:Администратор');
     });
     #----------------------------------------ОПЛАТА----------------------------------------
+
+    Route::prefix('notification')->group(function(){
+        Route::post('browse/{id}', [NotificationController::class, 'browse'])->name('notification.browse');
+    });
 
     Route::post('user-active', [UserController::class, 'userActive']);
 });

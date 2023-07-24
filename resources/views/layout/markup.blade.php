@@ -13,7 +13,7 @@
                     <h3 class="text-white m-auto">CRM</h3>
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
-                    data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                        data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
                         <i class="icon-menu"></i>
                     </span>
@@ -32,209 +32,18 @@
             <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
                 <div class="container-fluid">
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-{{--                        <a href="{{ route('notifications-all.index') }}">aaaa</a>--}}
+
                         <li class="nav-item dropdown hidden-caret submenu show">
                             <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                               data-bs-toggle="offcanvas" data-bs-target="#notificationContainer" aria-controls="offcanvasRight">
                                 <i class="fa fa-bell"></i>
-                                <span class="notification notification-change">4</span>
+                                <span class="notification bg-danger">12</span>
                             </a>
-                            <ul class="dropdown-menu notif-box animated fadeIn" style="height: 300px; overflow-y: auto;"
-                                aria-labelledby="notifDropdown">
-                                <li>
-                                    <div class="dropdown-title">Новых уведомлений: 4</div>
-                                </li>
-                                <li>
-                                    <div class="scroll-wrapper notif-scroll scrollbar-outer" style="position: relative;">
-                                        <div class="notif-scroll scrollbar-outer scroll-content"
-                                            style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 256px;">
-                                            <div class="notif-center submenu">
-
-                                                <div class="accordion" id="accordionPanelsStayOpenExample">
-
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header">
-                                                            <button class="accordion-button" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#panelsStayOpen-collapseOne"
-                                                                aria-expanded="true"
-                                                                aria-controls="panelsStayOpen-collapseOne">
-                                                                Категория
-                                                            </button>
-                                                        </h2>
-                                                        <div id="panelsStayOpen-collapseOne"
-                                                            class="accordion-collapse collapse show">
-                                                            <div class="accordion-body">
-                                                                <a href="#">
-                                                                    <div class="notif-icon notif-success"><i
-                                                                            class="fa fa-comment"></i>
-                                                                    </div>
-                                                                    <div class="notif-content">
-                                                                        <span class="block">
-                                                                            Произошло событие
-                                                                        </span>
-                                                                        <span class="time">28.10.2023 18:43</span>
-                                                                    </div>
-                                                                </a>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header">
-                                                            <button class="accordion-button" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#panelsStayOpen-collapseOne"
-                                                                aria-expanded="true"
-                                                                aria-controls="panelsStayOpen-collapseOne">
-                                                                Категория
-                                                            </button>
-                                                        </h2>
-                                                        <div id="panelsStayOpen-collapseOne"
-                                                            class="accordion-collapse collapse show">
-                                                            <div class="accordion-body">
-                                                                <a href="#">
-                                                                    <div class="notif-icon notif-success"><i
-                                                                            class="fa fa-comment"></i>
-                                                                    </div>
-                                                                    <div class="notif-content">
-                                                                        <span class="block">
-                                                                            Произошло событие
-                                                                        </span>
-                                                                        <span class="time">28.10.2023 18:43</span>
-                                                                    </div>
-                                                                </a>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header">
-                                                            <button class="accordion-button" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#panelsStayOpen-collapseOne"
-                                                                aria-expanded="true"
-                                                                aria-controls="panelsStayOpen-collapseOne">
-                                                                Категория
-                                                            </button>
-                                                        </h2>
-                                                        <div id="panelsStayOpen-collapseOne"
-                                                            class="accordion-collapse collapse show">
-                                                            <div class="accordion-body">
-                                                                <a href="#">
-                                                                    <div class="notif-icon notif-success"><i
-                                                                            class="fa fa-comment"></i>
-                                                                    </div>
-                                                                    <div class="notif-content">
-                                                                        <span class="block">
-                                                                            Произошло событие
-                                                                        </span>
-                                                                        <span class="time">28.10.2023 18:43</span>
-                                                                    </div>
-                                                                </a>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header">
-                                                            <button class="accordion-button" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#panelsStayOpen-collapseOne"
-                                                                aria-expanded="true"
-                                                                aria-controls="panelsStayOpen-collapseOne">
-                                                                Категория
-                                                            </button>
-                                                        </h2>
-                                                        <div id="panelsStayOpen-collapseOne"
-                                                            class="accordion-collapse collapse show">
-                                                            <div class="accordion-body">
-                                                                <a href="#">
-                                                                    <div class="notif-icon notif-success"><i
-                                                                            class="fa fa-comment"></i>
-                                                                    </div>
-                                                                    <div class="notif-content">
-                                                                        <span class="block">
-                                                                            Произошло событие
-                                                                        </span>
-                                                                        <span class="time">28.10.2023 18:43</span>
-                                                                    </div>
-                                                                </a>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="accordion" id="accordionPanelsStayOpenExample">
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header">
-                                                            <button class="accordion-button" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#panelsStayOpen-collapseOne"
-                                                                aria-expanded="true"
-                                                                aria-controls="panelsStayOpen-collapseOne">
-                                                                Категория
-                                                            </button>
-                                                        </h2>
-                                                        <div id="panelsStayOpen-collapseOne"
-                                                            class="accordion-collapse collapse show">
-                                                            <div class="accordion-body">
-                                                                <a href="#">
-                                                                    <div class="notif-icon notif-success"><i
-                                                                            class="fa fa-comment"></i>
-                                                                    </div>
-                                                                    <div class="notif-content">
-                                                                        <span class="block">
-                                                                            Произошло событие
-                                                                        </span>
-                                                                        <span class="time">28.10.2023 18:43</span>
-                                                                    </div>
-                                                                </a>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="scroll-element scroll-x">
-                                            <div class="scroll-element_outer">
-                                                <div class="scroll-element_size"></div>
-                                                <div class="scroll-element_track"></div>
-                                                <div class="scroll-bar ui-draggable ui-draggable-handle"
-                                                    style="width: 100px;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="scroll-element scroll-y">
-                                            <div class="scroll-element_outer">
-                                                <div class="scroll-element_size"></div>
-                                                <div class="scroll-element_track"></div>
-                                                <div class="scroll-bar ui-draggable ui-draggable-handle"
-                                                    style="height: 100px;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="see-all" href="javascript:void(0);">Показать все уведомления<i
-                                            class="fa fa-angle-right"></i> </a>
-                                </li>
-                            </ul>
                         </li>
+
                         <li class="nav-item submenu me-3">
                             <a href="#" class="nav-link quick-sidebar-toggler" type="button"
-                                data-bs-toggle="offcanvas" data-bs-target="#usersInfo" aria-controls="offcanvasRight">
+                               data-bs-toggle="offcanvas" data-bs-target="#userActiveContainer" aria-controls="offcanvasRight">
                                 <i class="fas fa-users"></i>
                                 <span class="notification" id="countActiveUsers">0</span>
                             </a>
@@ -260,7 +69,8 @@
                             </div>
                             <div class="ml-3">
                                 <div class="text-dark text-12 font-weight-bold">{{ auth()->user()->full_name }}</div>
-                                <div class="text-dark text-12 fst-italic mt-2">{{ \App\Helpers\UserHelper::getRoleName() }}
+                                <div
+                                    class="text-dark text-12 fst-italic mt-2">{{ \App\Helpers\UserHelper::getRoleName() }}
                                 </div>
                             </div>
                         </div>
@@ -280,11 +90,11 @@
                             <div class="collapse" id="base">
                                 <ul class="nav nav-collapse">
                                     @hasanyrole('Администратор|Менеджер')
-                                        <li>
-                                            <a href="{{ route('project.index') }}">
-                                                <span class="sub-item">База проектов</span>
-                                            </a>
-                                        </li>
+                                    <li>
+                                        <a href="{{ route('project.index') }}">
+                                            <span class="sub-item">База проектов</span>
+                                        </a>
+                                    </li>
                                     @endrole
                                     <li>
                                         <a href="{{ route('project.create') }}">
@@ -304,11 +114,11 @@
                             <div class="collapse" id="sidebarLayouts">
                                 <ul class="nav nav-collapse">
                                     @role('Администратор')
-                                        <li>
-                                            <a href="{{ route('client.index') }}">
-                                                <span class="sub-item">База заказчиков</span>
-                                            </a>
-                                        </li>
+                                    <li>
+                                        <a href="{{ route('client.index') }}">
+                                            <span class="sub-item">База заказчиков</span>
+                                        </a>
+                                    </li>
                                     @endrole
                                     <li>
                                         <a href="{{ route('client.create') }}">
@@ -319,146 +129,146 @@
                             </div>
                         </li>
                         @role('Администратор')
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#user">
-                                    <i class="fas fa-users"></i>
-                                    <p>Пользователи</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="user">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="{{ route('user.index') }}">
-                                                <span class="sub-item">База пользователей</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('user.create') }}">
-                                                <span class="sub-item">Добавить пользователя</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#forms">
-                                    <i class="fas fa-pen-square"></i>
-                                    <p>Справочник</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="forms">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="{{ route('add_option_status.index') }}">
-                                                <span class="sub-item">Состояния проекта</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('status_payment.index') }}">
-                                                <span class="sub-item">Состояния оплаты проекта</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('add_option_theme.index') }}">
-                                                <span class="sub-item">Темы</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('add_option_style.index') }}">
-                                                <span class="sub-item">Приоритетность</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('add_option_socialnetwork.index') }}">
-                                                <span class="sub-item">Соц. сети</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#user">
+                                <i class="fas fa-users"></i>
+                                <p>Пользователи</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="user">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('user.index') }}">
+                                            <span class="sub-item">База пользователей</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.create') }}">
+                                            <span class="sub-item">Добавить пользователя</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#forms">
+                                <i class="fas fa-pen-square"></i>
+                                <p>Справочник</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="forms">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('add_option_status.index') }}">
+                                            <span class="sub-item">Состояния проекта</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('status_payment.index') }}">
+                                            <span class="sub-item">Состояния оплаты проекта</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('add_option_theme.index') }}">
+                                            <span class="sub-item">Темы</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('add_option_style.index') }}">
+                                            <span class="sub-item">Приоритетность</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('add_option_socialnetwork.index') }}">
+                                            <span class="sub-item">Соц. сети</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         @endrole
 
                         @hasanyrole('Администратор|Менеджер')
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#charts">
-                                    <i class="far fa-chart-bar"></i>
-                                    <p>Статьи</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="charts">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="{{ route('article.index') }}">
-                                                <span class="sub-item">База статей</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('article.create') }}">
-                                                <span class="sub-item">Добавить статью</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#charts">
+                                <i class="far fa-chart-bar"></i>
+                                <p>Статьи</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="charts">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('article.index') }}">
+                                            <span class="sub-item">База статей</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('article.create') }}">
+                                            <span class="sub-item">Добавить статью</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         @endhasanyrole
 
                         @role('Администратор')
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#result">
-                                    <i class="fas fa-book-open"></i>
-                                    <p>Своды</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="result">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="{{ route('report_client.index') }}">
-                                                <span class="sub-item">Заказчики</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('report_author.index') }}">
-                                                <span class="sub-item">Авторы</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#result">
+                                <i class="fas fa-book-open"></i>
+                                <p>Своды</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="result">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('report_client.index') }}">
+                                            <span class="sub-item">Заказчики</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('report_author.index') }}">
+                                            <span class="sub-item">Авторы</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         @endrole
 
                         @hasanyrole('Администратор|Менеджер')
-                            <li class="nav-item">
-                                <a data-toggle="collapse" href="#payment">
-                                    <i class="fas fa-money-check-alt"></i>
-                                    <p>Оплата</p>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="payment">
-                                    <ul class="nav nav-collapse">
-                                        <li>
-                                            <a href="{{ route('payment.create') }}">
-                                                <span class="sub-item">Внести оплату</span>
-                                            </a>
-                                        </li>
-                                        @role('Администратор')
-                                            <li>
-                                                <a href="{{ route('payment.moderation') }}">
-                                                    <span class="sub-item">Бухгалтерский учет</span>
-                                                </a>
-                                            </li>
-                                        @endrole
-                                    </ul>
-                                </div>
-                            </li>
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#payment">
+                                <i class="fas fa-money-check-alt"></i>
+                                <p>Оплата</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="payment">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('payment.create') }}">
+                                            <span class="sub-item">Внести оплату</span>
+                                        </a>
+                                    </li>
+                                    @role('Администратор')
+                                    <li>
+                                        <a href="{{ route('payment.moderation') }}">
+                                            <span class="sub-item">Бухгалтерский учет</span>
+                                        </a>
+                                    </li>
+                                    @endrole
+                                </ul>
+                            </div>
+                        </li>
                         @endrole
 
                         @role('Администратор')
-                            <li class="nav-item">
-                                <a href="{{ route('rate.index') }}">
-                                    <i class="fas fa-dollar-sign"></i>
-                                    <p>Курс валют</p>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a href="{{ route('rate.index') }}">
+                                <i class="fas fa-dollar-sign"></i>
+                                <p>Курс валют</p>
+                            </a>
+                        </li>
                         @endrole
 
                     </ul>
@@ -475,6 +285,7 @@
         </div>
 
         @include('NavComponents.UserActive.users')
+        @include('NavComponents.Notification.notification')
 
     </div>
 @endsection

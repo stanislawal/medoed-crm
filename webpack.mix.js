@@ -23,6 +23,8 @@ mix.js('resources/js/project/project.js', 'public/js');
 mix.js('resources/js/article/article.js', 'public/js');
 // payment.js
 mix.js('resources/js/payment/payment.js', 'public/js');
+//notification
+mix.js('resources/js/notification/notification.js', 'public/js');
 
 
 //---------------------CSS-----------------

@@ -4,6 +4,7 @@
     "/js/project.js": "/js/project.js",
     "/js/article.js": "/js/article.js",
     "/js/payment.js": "/js/payment.js",
+    "/js/notification.js": "/js/notification.js",
     "/css/auth.css": "/css/auth.css",
     "/css/app.css": "/css/app.css"
 }

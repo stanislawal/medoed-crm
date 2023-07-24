@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Article;
 
+use App\Constants\NotificationTypeConstants;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use App\Models\Article;
 use App\Models\Client\Client;
 use App\Models\CrossArticleAuthor;
@@ -167,6 +169,7 @@ class ArticleController extends Controller
         $attr = $request->only([
             'article', 'manager_id', 'without_space', 'id_currency', 'gross_income', 'link_text', 'check', 'project_id', 'price_author', 'price_redactor', 'price_client'
         ]);
+
         Article::on()->where('id', $id)->update($attr);
 
         CrossArticleAuthor::on()->where('article_id', $id)->delete();
@@ -181,7 +184,6 @@ class ArticleController extends Controller
             CrossArticleAuthor::on()->insert($authors);
         }
 
-
         CrossArticleRedactor::on()->where('article_id', $id)->delete();
 
         if ($request->has('redactors_id') && count($request->redactors_id) > 0) {
@@ -194,6 +196,12 @@ class ArticleController extends Controller
 
             CrossArticleRedactor::on()->insert($rows);
         }
+
+        (new NotificationController())->createNotification(
+            NotificationTypeConstants::CHANGE_ARTICLE,
+            '',
+            $id
+        );
 
         return response()->json(['success' => 'Статья успешно обновлена']);
     }
