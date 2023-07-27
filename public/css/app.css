@@ -70,6 +70,9 @@ p{
     overflow: hidden;
 }
 
+.table td{
+    height: 45px;
+}
 
 .nowrap{
     text-wrap: none;

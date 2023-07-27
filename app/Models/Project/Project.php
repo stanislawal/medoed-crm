@@ -47,6 +47,7 @@ class Project extends Model
         'payment_terms', //Сроки оплаты
         'type_task', //Тип задачи
         'dop_info', //Дополнительная информация
+        'duty', // временный долг
     ];
 
     public $timestamps = true;

@@ -94,9 +94,9 @@
                             <label for="" class="form-label">Даты</label>
                             <div class="input-group">
                                 <input type="date" class="form-control form-control-sm" name="start_date"
-                                       value="{{ request()->start_date ?? now()->startOfMonth()->format('Y-m-d') }}" placeholder="От">
+                                       value="{{ request()->start_date ?? null }}" placeholder="От">
                                 <input type="date" class="form-control form-control-sm" name="end_date"
-                                       value="{{ request()->end_date ?? now()->format('Y-m-d') }}" placeholder="До">
+                                       value="{{ request()->end_date ?? null  }}" placeholder="До">
                             </div>
                         </div>
 
@@ -126,7 +126,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($statistics['duty'], 2, '.', ' ')}} ₽</strong></div>
+                            <div class="text-24"><strong>{{number_format($statistics['finish_duty'], 2, '.', ' ')}} ₽</strong></div>
                             <div class="text-12 nowrap-dot">Общий долг:</div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@
     {{--    ТАБЛИЦА--}}
     <div class="w-100 shadow border rounded">
         <div class=>
-            <div class="card-header">
+            <div class="card-header bg-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title">Общий свод по заказчикам</h4>
                 </div>
@@ -252,14 +252,14 @@
                                     </select>
                                 </td>
                                 <td class="fw-bolder">
-                                    @if($item['duty'] < 0)
-                                        <span class="text-danger">{{number_format($item['duty'] + 0 ?? '-', 2, '.', ' ')}}</span>
+                                    @if(($item['finish_duty'] + $item['duty']) < 0)
+                                        <span class="text-danger">{{number_format(($item['finish_duty'] + $item['duty']) + 0 ?? '-', 2, '.', ' ')}}</span>
                                     @else
-                                        {{number_format($item['duty'] + 0 ?? '-', 2, '.', ' ')}}
+                                        {{number_format(($item['finish_duty'] + $item['duty']) + 0 ?? '-', 2, '.', ' ')}}
                                     @endif
                                 </td>
                                 <td>{{$item['project_name'] ?? '-'}}</td>
-                                <td>@foreach($item['project_clients'] as $client)
+                                <td>@foreach($item['projectClients'] as $client)
                                         {{$client['name']}}
                                     @endforeach</td>
                                 <td>{{number_format($item['sum_without_space']+0 ?? '-', 2, '.', ' ')}}</td>
