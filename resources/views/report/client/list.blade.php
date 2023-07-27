@@ -230,6 +230,7 @@
                         </tr>
                         </thead>
                         <tbody>
+
                         @foreach($reports as $item)
                             <tr>
 {{--                                <td>{{$item['id']}}</td>--}}

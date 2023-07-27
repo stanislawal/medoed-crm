@@ -72,6 +72,16 @@
             </div>
         </div>
     </div>
+    <div>
+        <div>
+            <form action="">
+                <label class="mb-2" for="">Добавить долг</label>
+                <input class="mb-2 form-control form-control-sm col-1" type="number">
+                <button class="mb-2 btn btn-sm btn-success">Добавить</button>
+            </form>
+
+        </div>
+    </div>
     <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
         <div class="accordion-item">
             <h2 class="accordion-header">
@@ -97,12 +107,18 @@
                         <tbody>
                         @forelse($paymentHistory as $item)
                             <tr>
-                                <td @if($item['sber_d'] > 0) class="text-primary fw-bold" @endif>{{ $item['sber_d'] }} <span>₽</span></td>
-                                <td @if($item['sber_k'] > 0) class="text-primary fw-bold" @endif>{{ $item['sber_k'] }} <span>₽</span></td>
-                                <td @if($item['privat'] > 0) class="text-primary fw-bold" @endif>{{ $item['privat'] }} <span>₽</span></td>
-                                <td @if($item['um'] > 0) class="text-primary fw-bold" @endif>{{ $item['um'] }} <span>₽</span></td>
-                                <td @if($item['wmz'] > 0) class="text-primary fw-bold" @endif>{{ $item['wmz'] }} <span>₽</span></td>
-                                <td @if($item['birja'] > 0) class="text-primary fw-bold" @endif>{{ $item['birja'] }} <span>₽</span></td>
+                                <td @if($item['sber_d'] > 0) class="text-primary fw-bold" @endif>{{ $item['sber_d'] }}
+                                    <span>₽</span></td>
+                                <td @if($item['sber_k'] > 0) class="text-primary fw-bold" @endif>{{ $item['sber_k'] }}
+                                    <span>₽</span></td>
+                                <td @if($item['privat'] > 0) class="text-primary fw-bold" @endif>{{ $item['privat'] }}
+                                    <span>₽</span></td>
+                                <td @if($item['um'] > 0) class="text-primary fw-bold" @endif>{{ $item['um'] }}
+                                    <span>₽</span></td>
+                                <td @if($item['wmz'] > 0) class="text-primary fw-bold" @endif>{{ $item['wmz'] }}
+                                    <span>₽</span></td>
+                                <td @if($item['birja'] > 0) class="text-primary fw-bold" @endif>{{ $item['birja'] }}
+                                    <span>₽</span></td>
                                 <td>{{ $item['created_at'] }}</td>
                             </tr>
                         @empty
