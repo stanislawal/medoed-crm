@@ -26,6 +26,8 @@
                                 <th>Состояние</th>
                                 <th>Метка оплаты</th>
                                 <th>Дата</th>
+                                <th>Сбер А</th>
+                                <th>Тинькофф А</th>
                                 <th>Сбер Д</th>
                                 <th>Сбер К</th>
                                 <th>Приват</th>
@@ -62,6 +64,18 @@
                                     </td>
                                     <td class="nowrap">
                                         {{ $payment['date'] }}
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input type="number" name="sber_a" class="form-control form-control-sm"
+                                                   value="{{ $payment['sber_a'] }}" disabled>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input type="number" name="tinkoff_a" class="form-control form-control-sm"
+                                                   value="{{ $payment['tinkoff_a'] }}" disabled>
+                                        </div>
                                     </td>
                                     <td>
                                         <div>

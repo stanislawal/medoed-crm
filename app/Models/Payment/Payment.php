@@ -16,6 +16,8 @@ class Payment extends Model
         'mark',
         'status_payment_id',
         'date',
+        'sber_a',
+        'tinkoff_a',
         'sber_d',
         'sber_k',
         'privat',

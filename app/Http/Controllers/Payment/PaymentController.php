@@ -62,7 +62,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $params = collect($request->all())
-            ->only(['project_id', 'date', 'sber_d', 'sber_k', 'privat', 'um', 'wmz', 'birja', 'comment'])
+            ->only(['project_id', 'date', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a', 'privat', 'um', 'wmz', 'birja', 'comment'])
             ->toArray();
 
         $params['status_payment_id'] = 1;
@@ -98,7 +98,8 @@ class PaymentController extends Controller
     {
 
         $params = collect($request->all())
-            ->only(['mark', 'status_payment_id', 'sber_d', 'sber_k', 'privat', 'um', 'wmz', 'birja', 'project_id', 'comment'])
+            ->only(['mark', 'status_payment_id', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a' , 'privat', 'um',
+                'wmz', 'birja', 'project_id', 'comment'])
             ->toArray();
 
         $hasMark = $this->hasMark($id);

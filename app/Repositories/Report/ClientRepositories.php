@@ -38,7 +38,16 @@ class ClientRepositories
             coalesce((
                 sum_price_client
                 -
-                SUM(COALESCE(payment.sber_d, 0) + COALESCE(payment.sber_k, 0) + COALESCE(payment.privat, 0) + COALESCE(payment.um, 0) + COALESCE(payment.wmz, 0) + COALESCE(payment.birja, 0))
+                SUM(
+                    COALESCE(payment.sber_a, 0) +
+                    COALESCE(payment.tinkoff_a, 0) +
+                    COALESCE(payment.sber_d, 0) +
+                    COALESCE(payment.sber_k, 0) +
+                    COALESCE(payment.privat, 0) +
+                    COALESCE(payment.um, 0) +
+                    COALESCE(payment.wmz, 0) +
+                    COALESCE(payment.birja, 0)
+                )
             ), 0) as finish_duty
         ")
             ->fromSub($reports, 'project')

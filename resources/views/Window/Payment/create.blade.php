@@ -27,6 +27,14 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-4 mb-2">
+                                <label for="">Сбер А</label>
+                                <input type="number" name="sber_a" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                            </div>
+                            <div class="col-4 mb-2">
+                                <label for="">Тинькофф А</label>
+                                <input type="number" name="tinkoff_a" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                            </div>
+                            <div class="col-4 mb-2">
                                 <label for="">Сбер Д</label>
                                 <input type="number" name="sber_d" class="form-control form-control-sm" min="0" step="0.01" value="0">
                             </div>

@@ -96,6 +96,8 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
+                            <th>Сбер А</th>
+                            <th>Тинькофф А</th>
                             <th>Сбер Д</th>
                             <th>Сбер К</th>
                             <th>Приват</th>
@@ -108,6 +110,10 @@
                         <tbody>
                         @forelse($paymentHistory as $item)
                             <tr>
+                                <td @if($item['sber_a'] > 0) class="text-primary fw-bold" @endif>{{ $item['sber_a'] }}
+                                    <span>₽</span></td>
+                                <td @if($item['tinkoff_a'] > 0) class="text-primary fw-bold" @endif>{{ $item['tinkoff_a'] }}
+                                    <span>₽</span></td>
                                 <td @if($item['sber_d'] > 0) class="text-primary fw-bold" @endif>{{ $item['sber_d'] }}
                                     <span>₽</span></td>
                                 <td @if($item['sber_k'] > 0) class="text-primary fw-bold" @endif>{{ $item['sber_k'] }}

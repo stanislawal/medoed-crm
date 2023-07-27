@@ -140,7 +140,7 @@ class ReportClientController extends Controller
     {
         $payment = Payment::on()->selectRaw("
             project_id,
-            sum(sber_d + sber_k + privat + um + wmz + birja) as amount,
+            sum(sber_a + tinkoff_a + sber_d + sber_k + privat + um + wmz + birja) as amount,
             count(id) as count_operation
         ")
             ->groupBy(['project_id'])
