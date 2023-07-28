@@ -44,9 +44,9 @@
                                             @foreach ($managers as $manager)
                                                 <option
                                                     @if($manager['id'] == request()->manager_id)
-                                                    selected
-                                                        @endif
-                                                        value="{{$manager['id']}}">{{$manager['full_name']}}</option>
+                                                        selected
+                                                    @endif
+                                                    value="{{$manager['id']}}">{{$manager['full_name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -157,11 +157,11 @@
                                 <div class="col-12 p-0">
                                     <div class="form-group col-12">
                                         <div class="w-100 d-flex justify-content-end">
-{{--                                            @if(!empty(request()->all() && count(request()->all())) > 0)--}}
-{{--                                                <a href="{{ route('project.index') }}"--}}
-{{--                                                   class="btn btn-sm btn-danger mr-3">Сбросить--}}
-{{--                                                    фильтр</a>--}}
-{{--                                            @endif--}}
+                                            {{--                                            @if(!empty(request()->all() && count(request()->all())) > 0)--}}
+                                            {{--                                                <a href="{{ route('project.index') }}"--}}
+                                            {{--                                                   class="btn btn-sm btn-danger mr-3">Сбросить--}}
+                                            {{--                                                    фильтр</a>--}}
+                                            {{--                                            @endif--}}
                                             <button class="btn btn-sm btn-success">Искать</button>
                                         </div>
                                     </div>
@@ -177,13 +177,13 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="card-title">Администрирование проектов</h4>
-                            <div class="w-100 d-flex justify-content-center mt-3">
-                                {{ $projects->appends(request()->input())->links('vendor.pagination.custom')  }}
-                            </div>
                             <div class="text-16">Найдено записей: {{ $projects->total() }}</div>
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="w-100 d-flex justify-content-center mb-3">
+                            {{ $projects->appends(request()->input())->links('vendor.pagination.custom')  }}
+                        </div>
                         <div class="table-responsive">
                             <table id="basic-datatables"
                                    class="display table table-hover table-head-bg-info table-center table-cut">
@@ -191,7 +191,7 @@
                                 <tr>
                                     <th>
                                         <a href="{{ route('project.delete_checkboxes') }}" type="submit"
-                                                class="text-white ">
+                                           class="text-white ">
                                             ✖
                                         </a>
                                     </th>
@@ -332,20 +332,21 @@
                 </div>
             </div>
         </div>
-        @endsection
+    </div>
+@endsection
 
-        @section('custom_js')
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-            <script src="{{asset('js/select2.js')}}"></script>
-            <script src="{{asset('js/project.js')}}"></script>
+@section('custom_js')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{asset('js/select2.js')}}"></script>
+    <script src="{{asset('js/project.js')}}"></script>
 
-            <script>
-                window.confirmDelete = function () {
-                    var res = confirm('Вы действительно хотите удалить этот проект?')
-                    if (!res) {
-                        event.preventDefault();
-                    }
-                }
-            </script>
+    <script>
+        window.confirmDelete = function () {
+            var res = confirm('Вы действительно хотите удалить этот проект?')
+            if (!res) {
+                event.preventDefault();
+            }
+        }
+    </script>
 @endsection
 

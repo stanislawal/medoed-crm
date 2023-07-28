@@ -293,6 +293,5 @@
 
         @include('NavComponents.UserActive.users')
         @include('NavComponents.Notification.notification', ['notifications' => $notifications])
-
     </div>
 @endsection

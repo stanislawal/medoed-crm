@@ -17,7 +17,8 @@
 
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label for="" class="form-label">Имя</label>
-                                <input type="text" class="form-control form-control-sm" name="name" value="{{ request()->name ?? '' }}">
+                                <input type="text" class="form-control form-control-sm" name="name"
+                                       value="{{ request()->name ?? '' }}">
                             </div>
 
                             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -55,7 +56,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Заказчики</h4>
-                        <div class="text-16">Найдено записей: {{ $clients->total() }}</div>
+                        <div>Всего записей: <strong>{{ $clients->total() }}</strong></div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -64,7 +65,8 @@
                     </div>
                     <div class="table-responsive">
                         <table id="basic-datatables"
-                               class="display table  table-hover table-head-bg-info">
+{{--                               class="display table  table-hover table-head-bg-info">--}}
+                               class="display table table-hover table-head-bg-info table-center table-cut">
                             <thead>
                             <tr>
                                 <th></th>
@@ -80,8 +82,10 @@
                             <tbody>
                             @foreach ($clients as $client)
                                 <tr>
-                                    <td>
-                                        <a href="{{route('client.edit',['client'=> $client['id']])}}">Открыть</a>
+                                    <td style="padding: 0 10px 0 12px!important">
+                                        <a href="{{route('client.edit',['client'=> $client['id']])}}"><i
+                                                class="fas fa-grip-horizontal"></i>
+                                        </a>
                                     </td>
                                     <td>{{$client['name'] ?? '-'}}</td>
                                     <td>
@@ -111,9 +115,9 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="w-100 d-flex justify-content-center mt-3">
-                    {{ $clients->appends(request()->input())->links('vendor.pagination.custom')  }}
+                    <div class="w-100 d-flex justify-content-center mt-3">
+                        {{ $clients->appends(request()->input())->links('vendor.pagination.custom')  }}
+                    </div>
                 </div>
             </div>
         </div>

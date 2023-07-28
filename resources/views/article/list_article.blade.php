@@ -34,23 +34,23 @@
                                     </select>
                                 </div>
                             @endif
-                                                        <div class="form-group col-12 col-md-6 col-lg-4">
-                                                            <label class="form-label">Диапазон добавления</label>
-                                                            <div class="input-group">
-                                                                <input type="date" name="date_from" class="form-control form-control-sm"
-                                                                       value="{{ request()->date_from ?? \Carbon\Carbon::parse(now())->startOfMonth()->format('Y-m-d') }}"
-                                                                       required>
-                                                                <input type="date" name="date_before" class="form-control form-control-sm"
-                                                                       value="{{ request()->date_before ?? \Carbon\Carbon::parse(now())->endOfMonth()->format('Y-m-d') }}"
-                                                                       required>
-                                                            </div>
-                                                        </div>
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label class="form-label">Диапазон добавления</label>
+                                <div class="input-group">
+                                    <input type="date" name="date_from" class="form-control form-control-sm"
+                                           value="{{ request()->date_from ?? \Carbon\Carbon::parse(now())->startOfMonth()->format('Y-m-d') }}"
+                                           required>
+                                    <input type="date" name="date_before" class="form-control form-control-sm"
+                                           value="{{ request()->date_before ?? \Carbon\Carbon::parse(now())->endOfMonth()->format('Y-m-d') }}"
+                                           required>
+                                </div>
+                            </div>
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label class="form-label">Дата</label>
                                 <div class="input-group">
                                     <input type="date" name="date_article" class="form-control form-control-sm"
                                            value="{{ request()->date_article }}"
-                                           >
+                                    >
                                 </div>
                             </div>
 
@@ -171,12 +171,12 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="w-100 d-flex justify-content-center">
+                    <div class="w-100 d-flex justify-content-center mb-3">
                         {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}
                     </div>
                     <div class="table-responsive">
                         <table id="basic-datatables"
-                               class="display table table-hover table-head-bg-info table-center">
+                               class="display table table-hover table-head-bg-info table-center table-cut">
                             <thead>
                             <tr>
                                 <th></th>
@@ -369,7 +369,8 @@
                                         <div class="d-flex align-items-center">
                                             <input class="form-control form-control-sm" type="url" name="link_text"
                                                    value="{{$article['link_text'] ?? ''}}">
-                                            <a class="ml-2" href="{{$article['link_text'] ?? ''}}"><i class="fas fa-external-link-alt"></i></a>
+                                            <a class="ml-2" href="{{$article['link_text'] ?? ''}}"><i
+                                                    class="fas fa-external-link-alt"></i></a>
                                         </div>
                                     </td>
                                     <td>{{$article['created_at'] ?? ''}}</td>
@@ -397,26 +398,27 @@
                             @endforeach
                             </tbody>
                         </table>
-                        <div class="w-100 d-flex justify-content-center mt-3">
-                            {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}
-                        </div>
-                        @endsection
-                        @section('custom_js')
-                            <script
-                                src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-                            <script src="{{asset('js/select2.js')}}"></script>
-                            <script src="{{asset('js/article.js')}}"></script>
-                            <script>
-                                window.confirmDelete = function () {
-                                    var res = confirm('Вы действительно хотите удалить этот проект?')
-                                    if (!res) {
-                                        event.preventDefault();
-                                    }
-                                }
-                            </script>
+                    </div>
+                    <div class="w-100 d-flex justify-content-center mt-3">
+                        {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('custom_js')
+    <script
+        src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{asset('js/select2.js')}}"></script>
+    <script src="{{asset('js/article.js')}}"></script>
+    <script>
+        window.confirmDelete = function () {
+            var res = confirm('Вы действительно хотите удалить этот проект?')
+            if (!res) {
+                event.preventDefault();
+            }
+        }
+    </script>
 @endsection

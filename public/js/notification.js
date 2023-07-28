@@ -4,6 +4,9 @@ var __webpack_exports__ = {};
   !*** ./resources/js/notification/notification.js ***!
   \***************************************************/
 window.ajaxStatus = true;
+/**
+ *  Прочитать уведомление
+ */
 window.browseNotification = function (el, url) {
   var notificationItem = $(el).parent('.notification-item');
   var list = notificationItem.parent('.accordion-body');
@@ -13,7 +16,7 @@ window.browseNotification = function (el, url) {
     window.ajaxStatus = false;
     $.ajax({
       url: url,
-      method: 'POST',
+      method: 'GET',
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
@@ -42,6 +45,32 @@ window.changeCountNotification = function () {
   var countNotification = Number(sensorCountNotification.text());
   var newCount = countNotification - 1;
   sensorCountNotification.text(newCount < 0 ? 0 : newCount);
+};
+
+/**
+ * Обновление списка уведомлений
+ */
+window.updateNotificationList = function () {
+  var url = $('meta[name="url-update-notification"]').attr('content');
+  $.ajax({
+    url: url,
+    method: 'GET',
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  }).done(function (res) {
+    if (res.result) {
+      var html = res.html;
+      var count = res.count;
+      var sensorCountNotification = $('.count-notification');
+      sensorCountNotification.text(count);
+      var notificationList = $('.notification-list');
+      notificationList.empty().html(html);
+
+      // const myAudio = $('#sound-push');
+      // myAudio[0].play();
+    }
+  });
 };
 /******/ })()
 ;

@@ -6969,7 +6969,7 @@ label.error {
 }
 
 .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span, .pagination > li > a, .pagination > li > span {
-    border-radius: 100px !important;
+    /*border-radius: 100px !important;*/
     margin: 0 2px;
     color: #777;
     border-color: #ddd

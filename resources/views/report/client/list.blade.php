@@ -203,6 +203,7 @@
             <div class="card-header bg-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title">Общий свод по заказчикам</h4>
+                    <div>Всего записей: <strong>{{ $reports->total() }}</strong></div>
                 </div>
             </div>
             <div class="card-body">
@@ -211,7 +212,6 @@
                            class="display table table-hover table-head-bg-info table-center table-cut">
                         <thead>
                         <tr>
-{{--                            <th>ID</th>--}}
                             <th></th>
                             <th>Состояние</th>
                             <th class="fw-bold" style="min-width: 120px;">Долг</th>
@@ -230,54 +230,57 @@
                         </tr>
                         </thead>
                         <tbody>
-
-                        @foreach($reports as $item)
-                            <tr>
-{{--                                <td>{{$item['id']}}</td>--}}
-                                <td><a href="{{route('client_project.show', ['project'=> $item['id']])}}">
-                                        <i class="fas fa-grip-horizontal"></i></a>
-                                </td>
-                                <td class="text-center">
-                                    <select class="form-select form-select-sm" style="padding: 10px; min-width: 170px; background-color: {{ $item['project_status_payment']['color'] ?? '#ffffff' }}70 " name="status_payment_id"
-                                            onchange="editStatusPaymentProject(this, '{{ route('project.partial_update', ['id'=>$item['id']]) }}')">
-                                        <option value="">
-                                            Не выбрано
-                                        </option>
-                                        @foreach($statusPayments as $status)
-                                            <option value="{{ $status['id'] }}"
-                                                    @if($status['id'] == ($item['project_status_payment']['id'] ?? 0)) selected @endif>
-                                                {{ $status['name'] }}
+                            @foreach($reports as $item)
+                                <tr>
+                                    <td>
+                                        <a href="{{route('client_project.show', ['project'=> $item['id']])}}">
+                                            <i class="fas fa-grip-horizontal"></i>
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <select class="form-select form-select-sm" style="min-width: 170px; background-color: {{ $item['project_status_payment']['color'] ?? '#ffffff' }}70 " name="status_payment_id"
+                                                onchange="editStatusPaymentProject(this, '{{ route('project.partial_update', ['id'=>$item['id']]) }}')">
+                                            <option value="">
+                                                Не выбрано
                                             </option>
+                                            @foreach($statusPayments as $status)
+                                                <option value="{{ $status['id'] }}"
+                                                        @if($status['id'] == ($item['project_status_payment']['id'] ?? 0)) selected @endif>
+                                                    {{ $status['name'] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td class="fw-bolder">
+                                        @if(($item['finish_duty'] + $item['duty']) < 0)
+                                            <span class="text-danger">{{number_format(($item['finish_duty'] + $item['duty']) + 0 ?? '-', 2, '.', ' ')}}</span>
+                                        @else
+                                            {{number_format(($item['finish_duty'] + $item['duty']) + 0 ?? '-', 2, '.', ' ')}}
+                                        @endif
+                                    </td>
+                                    <td>{{$item['project_name'] ?? '-'}}</td>
+                                    <td>
+                                        @foreach($item['projectClients'] as $client)
+                                            {{$client['name']}}
                                         @endforeach
-                                    </select>
-                                </td>
-                                <td class="fw-bolder">
-                                    @if(($item['finish_duty'] + $item['duty']) < 0)
-                                        <span class="text-danger">{{number_format(($item['finish_duty'] + $item['duty']) + 0 ?? '-', 2, '.', ' ')}}</span>
-                                    @else
-                                        {{number_format(($item['finish_duty'] + $item['duty']) + 0 ?? '-', 2, '.', ' ')}}
-                                    @endif
-                                </td>
-                                <td>{{$item['project_name'] ?? '-'}}</td>
-                                <td>@foreach($item['projectClients'] as $client)
-                                        {{$client['name']}}
-                                    @endforeach</td>
-                                <td>{{number_format($item['sum_without_space']+0 ?? '-', 2, '.', ' ')}}</td>
-                                <td>{{number_format($item['sum_gross_income']+0 ?? '-', 2, '.', ' ')}}</td>
-                                <td>{{number_format($item['profit'] + 0 ?? '-', 2, '.', ' ')}}</td>
-                                <td>{{$item['project_user']['full_name'] ?? '-'}}</td>
-                                <td>{{$item['payment_terms'] ?? '-'}}</td>
-                                <td>{{$item['date_diff'].' дней' ?? '-'}}</td>
-                                <td>{{number_format($item['sum_price_client'] + 0 ?? '-', 2, '.', ' ')}}</td>
-                                <td>{{number_format($item['sum_price_author']+ 0 ?? '-', 2, '.', ' ')}}</td>
-                                <td>{{$item['symbol_in_day'] ?? '-'}}</td>
-
-
-                                <td>{{ \Carbon\Carbon::parse($item['created_at'])->format('d.m.Y') ?? '-'}}</td>
-                            </tr>
-                        @endforeach
+                                    </td>
+                                    <td>{{number_format($item['sum_without_space']+0 ?? '-', 2, '.', ' ')}}</td>
+                                    <td>{{number_format($item['sum_gross_income']+0 ?? '-', 2, '.', ' ')}}</td>
+                                    <td>{{number_format($item['profit'] + 0 ?? '-', 2, '.', ' ')}}</td>
+                                    <td>{!! $item['project_user']['full_name'] ?? '<span class="test-12 fst-italic text-gray">Пусто</span>' !!}</td>
+                                    <td>{{ $item['payment_terms'] ?? '-'}} </td>
+                                    <td>{{$item['date_diff'].' дней' ?? '-'}}</td>
+                                    <td>{{number_format($item['sum_price_client'] + 0 ?? '-', 2, '.', ' ')}}</td>
+                                    <td>{{number_format($item['sum_price_author']+ 0 ?? '-', 2, '.', ' ')}}</td>
+                                    <td>{!! $item['symbol_in_day'] ?? '<span class="test-12 fst-italic text-gray">Пусто</span>' !!}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item['created_at'])->format('d.m.Y') ?? '-'}}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="w-100 d-flex justify-content-center mt-3">
+                    {{ $reports->appends(request()->input())->links('vendor.pagination.custom')  }}
                 </div>
             </div>
         </div>

@@ -28,6 +28,10 @@ class Article extends BaseModel
 
     public $timestamps = true;
 
+    protected $casts = [
+        'created_at' => 'datetime:d.m.Y H:i'
+    ];
+
     //Отношение многие ко многим. первый параметр - связь с конечной таблице. второй параметр - название промежуточной таблицы.
     public function articleManager()
     {

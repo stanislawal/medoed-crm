@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="url-update-notification" content="{{ route('notification.get_html') }}">
     <title>@yield('title')</title>
     <!-- Fonts and icons -->
     {{--bootstrap css v5.2.2--}}
@@ -62,6 +63,15 @@
 
 <!-- App JS -->
 <script src="{{ asset ('js/app.js')}}?v=@version"></script>
+
+
+@if(auth()->user())
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/socket.js') }}"></script>
+    <audio id="sound-push">
+        <source src="{{ asset('sounds/push.mp3') }}" type="audio/mpeg">
+    </audio>
+@endif
 
 <!-- Notification JS -->
 <script src="{{ asset ('js/notification.js')}}?v=@version"></script>

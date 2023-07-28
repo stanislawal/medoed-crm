@@ -166,11 +166,13 @@ class ArticleController extends Controller
 
     public function update(Request $request, $id)
     {
+        $oldArticle = Article::on()->select(['without_space', 'price_client'])->find($id)->toArray();
+
         $attr = $request->only([
             'article', 'manager_id', 'without_space', 'id_currency', 'gross_income', 'link_text', 'check', 'project_id', 'price_author', 'price_redactor', 'price_client'
         ]);
 
-        Article::on()->where('id', $id)->update($attr);
+        $newArticle = Article::on()->where('id', $id)->update($attr);
 
         CrossArticleAuthor::on()->where('article_id', $id)->delete();
 
@@ -197,15 +199,11 @@ class ArticleController extends Controller
             CrossArticleRedactor::on()->insert($rows);
         }
 
-        (new NotificationController())->createNotification(
-            NotificationTypeConstants::CHANGE_ARTICLE,
-            '',
-            $id
-        );
+        // проверяет измененные даныне и создает уведомление при условии
+        $this->whereNotify($id, $oldArticle, $newArticle);
 
         return response()->json(['success' => 'Статья успешно обновлена']);
     }
-
 
     public function destroy($id)
     {
@@ -262,5 +260,17 @@ class ArticleController extends Controller
             $startDate,
             $endDate
         ];
+    }
+
+
+    private function whereNotify($id, $oldArticle, $newArticle){
+
+        dd($oldArticle, $newArticle)
+
+        (new NotificationController())->createNotification(
+            NotificationTypeConstants::CHANGE_ARTICLE,
+            '',
+            $id
+        );
     }
 }

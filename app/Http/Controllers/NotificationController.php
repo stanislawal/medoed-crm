@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Constants\NotificationTypeConstants;
+use App\Events\PushNotification;
 use App\Helpers\UserHelper;
 use App\Models\Notification;
 use App\Models\User;
@@ -11,16 +12,26 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $notification = Notification::on()
-            ->where('recipient_id', UserHelper::getUserId())
-            ->orderBy('is_viewed', 'desc')
-            ->orderBy('date_time', 'desc')
-            ->get()
-            ->toArray();
+        $type = $request->type ?? null;
+        $viewed = $request->is_viewed ?? null;
 
-        return view('', [
+        $notification = Notification::on()
+            ->with(['projects:id,project_name', 'articles:id,article'])
+            ->where('recipient_id', UserHelper::getUserId())
+            ->when(!is_null($type), function ($where) use ($type) {
+                $where->where('type', $type);
+            })
+            ->when(!is_null($viewed), function ($where) use ($viewed) {
+                $where->where('is_viewed', ($viewed));
+            })
+            ->orderBy('is_viewed', 'asc')
+            ->orderBy('date_time', 'desc')
+            ->paginate(50);
+
+
+        return view('notification.list', [
             'notifications' => $notification
         ]);
     }
@@ -33,15 +44,15 @@ class NotificationController extends Controller
     public function getHtml()
     {
         $notifications = Notification::on()
+            ->with(['projects:id,project_name', 'articles:id,article'])
             ->where('recipient_id', UserHelper::getUserId())
             ->where('is_viewed', false)
             ->orderBy('date_time', 'desc')
-            ->get()
-            ->toArray();
+            ->get();
 
-        return redirect()->json([
+        return response()->json([
             'result' => true,
-            'html' => view('', ['notifications' => $notifications])->render(),
+            'html' => view('Render.Notifications.notification_list', ['notifications' => $notifications])->render(),
             'count' => count($notifications)
         ]);
     }
@@ -84,12 +95,24 @@ class NotificationController extends Controller
                 $this->changeArticle($userId, $id);
                 break;
 
-            // редактирование статьи
+            // редактирование цены в проекте
             case NotificationTypeConstants::CHANGE_PRICE_PROJECT :
                 $this->changePriceProject($userId, $id);
                 break;
 
+            // отписать клиенту через неделю
+            case NotificationTypeConstants::WRITE_TO_CLIENT_WEEK :
+                $this->writeToClient($userId, $id, NotificationTypeConstants::WRITE_TO_CLIENT_WEEK);
+                break;
+
+            // отписать клиенту через месяц
+            case NotificationTypeConstants::WRITE_TO_CLIENT_MONTH :
+                $this->writeToClient($userId, $id, NotificationTypeConstants::WRITE_TO_CLIENT_MONTH);
+                break;
+
         }
+
+        event(new PushNotification());
     }
 
     /**
@@ -159,9 +182,7 @@ class NotificationController extends Controller
      */
     private function changePriceProject($userId, $projectId)
     {
-        $recipients = User::on()->whereHas('roles', function ($query) {
-            $query->where('id', 1);
-        })->get()->pluck('id'); // получить всех админов
+        $recipients = $this->getAllAdmin();
 
         $notifications = [];
         foreach ($recipients as $recipient) {
@@ -177,7 +198,48 @@ class NotificationController extends Controller
 
         if (count($notifications) > 0) {
             Notification::on()->insert($notifications);
-
         }
+    }
+
+    /**
+     * Уведомление по проектам, где надо отписатьк лиентам через неделю/месяц в зависимости от полученного типа уведомления
+     *
+     * @param $userId
+     * @param $projectId
+     * @return void
+     */
+    private function writeToClient($userId, $projectId, $type)
+    {
+        $recipients = $this->getAllAdmin();
+
+        foreach ($recipients as $recipient) {
+            $notifications[] = [
+                'date_time' => now(),
+                'type' => $type,
+                'recipient_id' => $recipient,
+                'message' => null,
+                'project_id' => $projectId,
+                'article_id' => null
+            ];
+        }
+
+        if (count($notifications) > 0) {
+            Notification::on()->insert($notifications);
+        }
+    }
+
+    /**
+     * Возвращает массив id всех админов
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function getAllAdmin()
+    {
+        return User::on()->select('id')
+            ->whereHas('roles', function ($query) {
+                $query->where('id', 1);
+            })
+            ->get()
+            ->pluck('id');
     }
 }

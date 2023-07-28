@@ -41,7 +41,6 @@ Route::get('/', function () {
 });
 
 #Авторизация
-
 Route::resource('login', AuthController::class)->only(['index', 'store']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -126,7 +125,9 @@ Route::middleware('auth')->group(function () {
     #----------------------------------------ОПЛАТА----------------------------------------
 
     Route::prefix('notification')->group(function(){
-        Route::post('browse/{id}', [NotificationController::class, 'browse'])->name('notification.browse');
+        Route::get('browse/{id}', [NotificationController::class, 'browse'])->name('notification.browse');
+        Route::get('get-html', [NotificationController::class, 'getHtml'])->name('notification.get_html');
+        Route::get('list', [NotificationController::class, 'index'])->name('notification.index');
     });
 
     Route::post('user-active', [UserController::class, 'userActive']);

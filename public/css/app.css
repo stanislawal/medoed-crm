@@ -83,6 +83,10 @@ a, a:hover, a:focus {
     text-decoration: none;
 }
 
+ul.pagination{
+    margin-bottom: 0!important;
+}
+
 .nowrap {
     white-space: nowrap;
 }
@@ -252,6 +256,10 @@ textarea {
 
 .notification-item .browse:hover{
     background-color: #8d9498;
+}
+
+.notification-item.not-viewed{
+    background-color: #1269db1f;
 }
 
 .notification-item .browse:hover i{
