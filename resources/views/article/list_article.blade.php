@@ -369,7 +369,7 @@
                                         <div class="d-flex align-items-center">
                                             <input class="form-control form-control-sm" type="url" name="link_text"
                                                    value="{{$article['link_text'] ?? ''}}">
-                                            <a class="ml-2" href="{{$article['link_text'] ?? ''}}"><i
+                                            <a class="ml-2" target="_blank" href="{{$article['link_text'] ?? ''}}"><i
                                                     class="fas fa-external-link-alt"></i></a>
                                         </div>
                                     </td>
