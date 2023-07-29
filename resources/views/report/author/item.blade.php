@@ -12,7 +12,8 @@
             <form action="">
                 <div class="row">
                     <div class="col-12 col-md-4 col-lg-3">
-                        <input class="form-control form-control-sm" type="month" name="month" value="{{ request()->month ?? now()->format('Y-m') }}">
+                        <input class="form-control form-control-sm" type="month" name="month"
+                               value="{{ request()->month ?? now()->format('Y-m') }}">
                     </div>
                     <div class="col-12 col-md-4 col-lg-3">
                         <button class="btn btn-sm btn-success">Загрузить</button>
@@ -28,39 +29,42 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($articles->sum('without_space_author'), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($indicators['without_space_author'], 2, '.', ' ')  }}</strong>
+                            </div>
                             <div class="text-12 nowrap-dot">Общий объем збп:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($articles->sum('price'), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($indicators['price'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Гонорар:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>0</strong></div>
+                            <div class="text-24"><strong>{{number_format($indicators['payment_amount'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Выплачено:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>0</strong></div>
+                            <div class="text-24"><strong>{{number_format($indicators['duty'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Долг:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{number_format($articles->sum('price_article'), 2, '.', ' ')  }}</strong></div>
+                                <strong>{{number_format($indicators['price_article'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общий ВД:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{number_format($articles->sum('margin'), 2, '.', ' ')  }}</strong></div>
+                                <strong>{{number_format($indicators['margin'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
                     </div>
@@ -88,9 +92,13 @@
                 <div class="card-header bg-white">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title"><strong>{{ $user['full_name'] }}</strong></h4>
+                        <div>Всего записей: <strong>{{ $articles->total() }}</strong></div>
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="w-100 d-flex justify-content-center mb-3">
+                        {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}
+                    </div>
                     <div class="table-responsive">
                         <table id="basic-datatables"
                                class="display table table-hover table-head-bg-info table-center table-cut">
@@ -112,16 +120,26 @@
                             <tbody>
                             @foreach($articles as $article)
                                 <tr>
-
                                     <td>{{ \Illuminate\Support\Carbon::parse($article['created_at'])->format('d.m.Y') }}</td>
                                     <td>{{ $article['project_name'] }}</td>
                                     <td>{{ $article['article'] }}</td>
-                                    <td> {{-- {{ $article['without_space_author'] +0 }} / --}} {{number_format($article['without_space_all']+0, 2, '.', ' ')  }}
-                                    </td>
+                                    <td class="nowrap">{{number_format($article['without_space_all']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['price_author']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
-                                    <td>-</td>
-                                    <td>-</td>
+                                    <td class="bg-grey2">
+                                        <div>
+                                            <input type="number" step="0.01" style="width: 70px;" class="min-input" name="payment_amount"
+                                                   onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
+                                                   value="{{ $article['payment_amount'] ?? 0 }}">
+                                        </div>
+                                    </td>
+                                    <td class="bg-grey2">
+                                        <div>
+                                            <input type="date" style="width: 100px;" class="min-input" name="payment_date"
+                                                   onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
+                                                   value="{{ $article['payment_date'] ?? null }}">
+                                        </div>
+                                    </td>
                                     <td>{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
@@ -130,13 +148,18 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="w-100 d-flex justify-content-center mt-3">
+                        {{ $articles->appends(request()->input())->links('vendor.pagination.custom')  }}
+                    </div>
                 </div>
             </div>
         </div>
-        @endsection
+    </div>
+@endsection
 
-        @section('custom_js')
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-            <script src="{{asset('js/select2.js')}}"></script>
-            <script src="{{asset('js/project.js')}}"></script>
+@section('custom_js')
+    <script src="{{ asset('js/author.js') }}"></script>
+{{--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
+{{--    <script src="{{asset('js/select2.js')}}"></script>--}}
+{{--    <script src="{{asset('js/project.js')}}"></script>--}}
 @endsection

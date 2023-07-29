@@ -313,8 +313,8 @@
 
                                     <td class="td-author">
                                         {{--                                        Автор--}}
-                                        <select class="form-select form-select-sm select-2" multiple
-                                                name="select_authors[]">
+                                        <select class="form-select form-select-sm select-2"
+                                                name="select_authors">
 
                                             @foreach($authors as $author)
                                                 <option value="{{$author['id']}}"
@@ -373,7 +373,7 @@
                                                     class="fas fa-external-link-alt"></i></a>
                                         </div>
                                     </td>
-                                    <td>{{$article['created_at'] ?? ''}}</td>
+                                    <td>{{ \Carbon\Carbon::parse($article['created_at'])->format('Y-m-d H:i') }}</td>
                                     @role('Администратор')
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">

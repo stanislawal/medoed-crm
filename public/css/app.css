@@ -76,6 +76,13 @@ input::-webkit-inner-spin-button {
     background-color: #8d9498;
 }
 
+.bg-gre1{
+    background-color: rgba(141, 148, 152, 0.54);
+}
+.bg-grey2{
+    background-color: #b9b9b95e!important;
+}
+
 .nowrap-dot {
     white-space: nowrap;
     text-overflow: ellipsis;

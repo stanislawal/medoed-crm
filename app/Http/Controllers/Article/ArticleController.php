@@ -169,34 +169,49 @@ class ArticleController extends Controller
         $oldArticle = Article::on()->select(['without_space', 'price_client'])->find($id)->toArray();
 
         $attr = $request->only([
-            'article', 'manager_id', 'without_space', 'id_currency', 'gross_income', 'link_text', 'check', 'project_id', 'price_author', 'price_redactor', 'price_client'
+            'article',
+            'manager_id',
+            'without_space',
+            'id_currency',
+            'gross_income',
+            'link_text',
+            'check',
+            'project_id',
+            'price_author',
+            'price_redactor',
+            'price_client',
+            'payment_amount',
+            'payment_date'
         ]);
 
         $newArticle = Article::on()->where('id', $id)->update($attr);
 
-        CrossArticleAuthor::on()->where('article_id', $id)->delete();
+        if ($request->has('authors_id')) {
 
-        if ($request->has('authors_id') && count($request->authors_id) > 0) {
-            foreach ($request->authors_id as $author) {
-                $authors[] = [
+            CrossArticleAuthor::on()->where('article_id', $id)->delete();
+
+            if(!is_null($request->authors_id ?? null)){
+                CrossArticleAuthor::on()->insert([
                     'article_id' => $id,
-                    'user_id' => $author,
-                ];
+                    'user_id' => $request->authors_id,
+                ]);
             }
-            CrossArticleAuthor::on()->insert($authors);
         }
 
-        CrossArticleRedactor::on()->where('article_id', $id)->delete();
+        if ($request->has('redactors_id')) {
 
-        if ($request->has('redactors_id') && count($request->redactors_id) > 0) {
-            foreach ($request->redactors_id as $redactor) {
-                $rows[] = [
-                    'article_id' => $id,
-                    'user_id' => $redactor,
-                ];
+            CrossArticleRedactor::on()->where('article_id', $id)->delete();
+
+            if(count($request->redactors_id) > 0){
+                foreach ($request->redactors_id as $redactor) {
+                    $rows[] = [
+                        'article_id' => $id,
+                        'user_id' => $redactor,
+                    ];
+                }
+
+                CrossArticleRedactor::on()->insert($rows);
             }
-
-            CrossArticleRedactor::on()->insert($rows);
         }
 
         // проверяет измененные даныне и создает уведомление при условии
@@ -238,8 +253,6 @@ class ArticleController extends Controller
             });
         });
 
-
-
     }
 
     private function getDate($request)
@@ -262,15 +275,14 @@ class ArticleController extends Controller
         ];
     }
 
-
     private function whereNotify($id, $oldArticle, $newArticle){
 
-        dd($oldArticle, $newArticle)
-
-        (new NotificationController())->createNotification(
-            NotificationTypeConstants::CHANGE_ARTICLE,
-            '',
-            $id
-        );
+//        dd($oldArticle, $newArticle)
+//
+//        (new NotificationController())->createNotification(
+//            NotificationTypeConstants::CHANGE_ARTICLE,
+//            '',
+//            $id
+//        );
     }
 }

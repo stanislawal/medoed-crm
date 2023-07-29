@@ -1,31 +1,15 @@
-window.editStatusProject = function (el, url) {
-    const statusId = $(el).val();
-    ajax('post', url, {status_id: statusId})
-}
+window.updateData = function (el, url) {
+    const input = $(el);
 
-window.editCommentProject = function (el, url) {
-    const comment = $(el).val();
-    ajax('post', url, {comment: comment})
-}
+    const column = input.attr('name');
+    const value = input.val();
 
-window.editDateLastChangeProject = function (el, url) {
-    const lastChange = $(el).val();
-    ajax('post', url, {date_last_change: lastChange})
-}
+    const params = {
+        '_method' : 'PUT',
+        [column] : value
+    };
 
-window.editCheckProject = function (el, url) {
-    let check = 0;
-
-    if($(el).is(":checked")){
-        check = 1;
-    }
-
-    ajax('post', url, {check: check});
-}
-
-window.editStatusPaymentProject = function(el, url){
-    const statusPaymentId = $(el).val();
-    ajax('post', url, {status_payment_id : statusPaymentId})
+    ajax('POST', url, params);
 }
 
 window.ajaxStatus = true;
@@ -50,7 +34,6 @@ window.ajax = function (method, url, params) {
         alert('Дождитесь завершения запроса');
     }
 }
-
 window.showNotification = function (status, message) {
 
     let alertSuccess = $('.ajax-success');

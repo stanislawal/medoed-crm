@@ -23,7 +23,9 @@ class Article extends BaseModel
         'price_client', //цена заказчика
         'price_author', //цена автора
         'price_redactor', //цена автора
-        'check' //галочка
+        'check', //галочка
+        'payment_amount', // сумма оплаты
+        'payment_date' // дата оплаты
     ];
 
     public $timestamps = true;

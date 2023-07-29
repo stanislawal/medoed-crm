@@ -28,7 +28,8 @@ class ReportAuthorController extends Controller
             sum(authors.margin) as margin,
             sum(authors.without_space) as without_space,
             sum(authors.amount) as amount,
-            sum(authors.gross_income) as gross_income
+            sum(authors.gross_income) as gross_income,
+            (sum(authors.amount) - sum(authors.payment_amount)) as duty
         ")->fromSub($indicators, 'authors')
             ->first()
             ->toArray();
@@ -54,35 +55,21 @@ class ReportAuthorController extends Controller
         $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
         $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
 
-        $articles = Article::on()
-            ->selectraw("
-                articles.id,
-                articles.created_at,
-                projects.project_name,
-                articles.article,
-                (articles.without_space/count(cross.id)) as without_space_author,
-                articles.without_space as without_space_all,
-                articles.price_author,
-                articles.price_client,
-                (articles.without_space/count(cross.id)*(articles.price_author/1000)) as price,
-                (articles.without_space/count(cross.id)*(articles.price_client/1000)) as price_article,
-                (
-                    ((articles.without_space/count(cross.id))*(articles.price_client/1000))
-                    -
-                    ((articles.without_space/count(cross.id))*(articles.price_author/1000))
-                ) as margin,
-                count(cross.id) as count_authors
-            ")->from('articles')
-            ->leftJoin('projects', 'projects.id', '=', 'articles.project_id')
-            ->leftJoin('cross_article_authors as cross', 'cross.article_id', 'articles.id')
-            ->whereBetween('articles.created_at', [$startDate, $endDate])
-            ->groupBy('articles.id');
+        $articles = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id)
+            ->paginate(20);
 
+        $indicators = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id);
 
-        // сортируем статьи принадлежащие данному пользователю
-        $articles = Article::on()->fromSub($articles, 'articles')
-            ->leftJoin('cross_article_authors as cross', 'cross.article_id', 'articles.id')
-            ->where('cross.user_id', $id)->get()->toArray();
+        $indicators = Article::on()->selectRaw("
+            sum(report.without_space_author) as without_space_author,
+            sum(report.price) as price,
+            sum(report.price_article) as price_article,
+            sum(report.margin) as margin,
+            sum(report.payment_amount) as payment_amount,
+            (sum(report.price) - sum(report.payment_amount)) as duty
+        ")->fromSub($indicators, 'report')
+            ->first()
+            ->toArray();
 
         $user = User::on()
             ->selectRaw("
@@ -97,8 +84,9 @@ class ReportAuthorController extends Controller
             ->get()->first()->toArray();
 
         return view('report.author.item', [
-            'articles' => collect($articles),
-            'user' => $user
+            'articles' => $articles,
+            'user' => $user,
+            'indicators' => $indicators
         ]);
     }
 
