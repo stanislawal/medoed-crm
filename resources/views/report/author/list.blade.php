@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($authors->sum('margin'), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($indicators['margin'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
                     </div>
@@ -42,13 +42,13 @@
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($authors->sum('without_space'), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($indicators['without_space'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общий объем збп:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($authors->sum('amount'), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($indicators['amount'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общая сумма гонораров:</div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{number_format($authors->sum('gross_income'), 2, '.', ' ')  }}</strong></div>
+                                <strong>{{number_format($indicators['gross_income'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Валовый доход:</div>
                         </div>
                     </div>
@@ -104,9 +104,13 @@
             <div class="card-header bg-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title">Общий свод по авторам</h4>
+                    <div>Всего записей: <strong>{{ $authors->total() }}</strong></div>
                 </div>
             </div>
             <div class="card-body">
+                <div class="w-100 d-flex justify-content-center mb-3">
+                    {{ $authors->appends(request()->input())->links('vendor.pagination.custom')  }}
+                </div>
                 <div class="table-responsive">
                     <table id="basic-datatables"
                            class="display table table-hover table-head-bg-info table-center table-cut">
@@ -144,6 +148,9 @@
                         @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="w-100 d-flex justify-content-center mt-3">
+                    {{ $authors->appends(request()->input())->links('vendor.pagination.custom')  }}
                 </div>
             </div>
         </div>

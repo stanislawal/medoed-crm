@@ -207,6 +207,9 @@
                 </div>
             </div>
             <div class="card-body">
+                <div class="w-100 d-flex justify-content-center mb-3">
+                    {{ $reports->appends(request()->input())->links('vendor.pagination.custom')  }}
+                </div>
                 <div class="table-responsive">
                     <table id="basic-datatables"
                            class="display table table-hover table-head-bg-info table-center table-cut">
