@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Пароль</label>
-                    <input type="password" class="form-control form-control-sm" name="password">
+                    <input type="text" value="{{$user['visual_password']}}" class="form-control form-control-sm" name="password">
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Контактная информация </label>
@@ -39,41 +39,50 @@
                     <label for="" class="form-label">Реквизиты оплаты </label>
                     <div class="input-group">
                         <div class="w-25">
-                            <select name="bank_id"  class="form-select form-select-sm">
+                            <select name="bank_id" class="form-select form-select-sm">
                                 <option value="">Выберите банк</option>
                                 @foreach($banks as $bank)
-                                    <option {{ $bank['id'] == $user['bank_id'] ? 'selected' : '' }}  value="{{ $bank['id'] }}">{{ $bank['name'] }}</option>
+                                    <option
+                                        {{ $bank['id'] == $user['bank_id'] ? 'selected' : '' }}  value="{{ $bank['id'] }}">{{ $bank['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <input type="text" value="{{$user['payment']}}"  class="form-control form-control-sm" name="payment">
+                        <input type="text" value="{{$user['payment']}}" class="form-control form-control-sm"
+                               name="payment">
                     </div>
                 </div>
 
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Дата рождения</label>
-                    <input type="date" class="form-control form-control-sm" name="birthday" value="{{ $user['birthday'] }}">
+                    <input type="date" class="form-control form-control-sm" name="birthday"
+                           value="{{ $user['birthday'] }}">
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Роль</label>
                     <select class="form-select form-select-sm select-manager" name="role" id="">
                         <option disabled value="">Роль</option>
 
-                        <option  value="">Выберите роль</option>
+                        <option value="">Выберите роль</option>
                         @foreach($roles as $role)
-                            <option value="{{ $role['name'] }}">{{ $role['name'] }}</option>
+                            <option @if(\App\Helpers\UserHelper::getRoleName($user['id']) == $role['name']) selected
+                                    @endif value="{{ $role['name'] }}">{{ $role['name'] }}</option>
                         @endforeach
 
                     </select>
                 </div>
 
-                <div class="form-group col-12 col-lg-6 d-none input-manager">
+                <div
+                    class="form-group col-12 col-lg-6 input-manager @if(\App\Helpers\UserHelper::getRoleName($user['id']) != 'Менеджер') d-none @endif">
                     <label for="" class="form-label">Ставка менеджера</label>
-                    <input type="number" class="form-control form-control-sm" value="{{$user['manager_salary']}}" name="manager_salary">
+                    <input type="number" class="form-control form-control-sm" value="{{$user['manager_salary']}}"
+                           name="manager_salary">
                 </div>
-                <div class="form-group col-12 col-lg-6 d-none input-author">
+
+                <div
+                    class="form-group col-12 col-lg-6 input-author @if(\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
                     <label for="" class="form-label">Ссылка на анкету</label>
-                    <input type="text" class="form-control form-control-sm" value="{{$user['link_author']}}" name="link_author">
+                    <input type="text" class="form-control form-control-sm" value="{{$user['link_author']}}"
+                           name="link_author">
                 </div>
 
                 <div class=" m-0 p-3">

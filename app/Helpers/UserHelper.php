@@ -37,7 +37,7 @@ class UserHelper
             $roles = User::on()->find($userId)->getRoleNames();
         }
 
-        return $roles[0] ?? 'Неопределено';
+        return $roles[0] ?? null;
     }
 
     public static function getMonth()

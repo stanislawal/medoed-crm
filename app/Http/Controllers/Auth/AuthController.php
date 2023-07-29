@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Telegram\LoginNotification;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,12 +32,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($attr)) {
             $request->session()->regenerate();
-
             (new LoginNotification())->sendMessage();
-
+            User::on()->where('login', $request->login)->update(['visual_password' =>
+                $request->password]);
             return redirect()->route('home');
         } else {
-            return redirect()->back()->with(['error' => 'Неверные данные аутентификации']);
+            return redirect()->back()->with(['error' => 'Неверные данные входа']);
         }
     }
 

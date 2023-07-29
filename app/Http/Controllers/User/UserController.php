@@ -89,10 +89,9 @@ class UserController extends Controller
             $attr['password'] = Hash::make($attr['password']);
         }
         $user = User::on()->find($id);
-
+        User::on()->where('id', $id)->update(['visual_password' =>
+                $request->password]);
         $user->syncRoles([$attr['role']]); // удалить все роли у пользователя, и назначить новые из массива
-
-
         User::on()->where('id', $id)->update($attr->except('role')->toArray());
 
         return redirect()->back()->with(['success' => 'Message']);

@@ -11,6 +11,18 @@ p{
     margin: 0;
 }
 
+.min-input{
+    border: 1px solid #ebedf2;
+    padding: 5px;
+    border-radius: 0.2em;
+    width: 60px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 /*style for size text*/
 .text-10 {
     font-size: 10px;

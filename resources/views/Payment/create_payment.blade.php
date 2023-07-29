@@ -67,50 +67,50 @@
                                     </td>
                                     <td>
                                         <div>
-                                            <input type="number" name="sber_a" class="form-control form-control-sm"
+                                            <input type="number" name="sber_a" class="min-input"
                                                    value="{{ $payment['sber_a'] }}" disabled>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input type="number" name="tinkoff_a" class="form-control form-control-sm"
+                                            <input type="number" name="tinkoff_a" class="min-input"
                                                    value="{{ $payment['tinkoff_a'] }}" disabled>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input type="number" name="sber_d" class="form-control form-control-sm"
+                                            <input type="number" name="sber_d" class="min-input"
                                                    value="{{ $payment['sber_d'] }}" disabled>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input type="number" name="sber_k" class="form-control form-control-sm"
+                                            <input type="number" name="sber_k" class="min-input"
                                                    value="{{ $payment['sber_k'] }}" disabled>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input type="number" name="privat" class="form-control form-control-sm"
+                                            <input type="number" name="privat" class="min-input"
                                                    value="{{ $payment['privat'] }}" disabled>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input type="number" name="um" class="form-control form-control-sm"
+                                            <input type="number" name="um" class="min-input"
                                                    value="{{ $payment['um'] }}" disabled>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input type="number" name="wmz" class="form-control form-control-sm"
+                                            <input type="number" name="wmz" class="min-input"
                                                    value="{{ $payment['wmz'] }}" disabled>
                                         </div>
                                     </td>
 
                                     <td>
                                         <div>
-                                            <input type="number" name="birja" class="form-control form-control-sm"
+                                            <input type="number" name="birja" class="min-input"
                                                    value="{{ $payment['birja'] }}" disabled>
                                         </div>
                                     </td>

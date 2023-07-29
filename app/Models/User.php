@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'full_name',
         'password',
+        'visual_password',
         'login',
         'birthday',
         'contact_info',
@@ -29,7 +30,8 @@ class User extends Authenticatable
         'link_author',
         'is_work',
         'payment', //реквизиты оплаты
-        'bank_id'
+        'bank_id',
+
     ];
 
     /**

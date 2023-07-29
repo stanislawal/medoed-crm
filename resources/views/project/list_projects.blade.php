@@ -205,8 +205,9 @@
                                     <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
                                     <th style="min-width: 300px !important;">Комментарий</th>
                                     <th>Автор</th>
-                                    <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client', 'routeName' => 'project.index'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
+
                                     <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract', 'routeName' => 'project.index'] )</th>
                                     <th>Место ведения диалога</th>
                                     <th>Контакт</th>
@@ -289,9 +290,9 @@
                                             @endforelse
                                         </td>
                                         {{--@dd($project)--}}
-
-                                        <td style="padding: 0 10px 0 12px!important">{{ $project['price_author'] ?? ''}}</td>
                                         <td style="padding: 0 10px 0 12px!important">{{ $project['price_client'] ?? ''}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{ $project['price_author'] ?? ''}}</td>
+
                                         <td style="padding: 0 10px 0 12px!important">@if($project['contract'] == 0)
                                                 Нет
                                             @else
