@@ -1,4 +1,4 @@
-window.socket = io.connect('http://:7000');
+window.socket = io.connect('http://medoed-crm.ru/:7000');
 
 window.getSocket = function () {
     return window.socket;
