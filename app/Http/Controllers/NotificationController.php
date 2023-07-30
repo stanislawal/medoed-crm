@@ -66,7 +66,29 @@ class NotificationController extends Controller
      */
     public function browse($id, Request $request)
     {
-        Notification::on()->where('id', $id)->update(['is_viewed' => 1]);
+        Notification::on()->where('id', $id)
+            ->where('recipient_id', UserHelper::getUserId())
+            ->update(['is_viewed' => 1]);
+
+        if ($request->ajax()) {
+            return response()->json(['result' => true]);
+        }
+        return redirect()->back();
+    }
+
+    /**
+     * Прочитать все уведомления одного типа
+     *
+     * @param Request $request
+     * @param $type
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function browseInType(Request $request, $type)
+    {
+        Notification::on()->where('type', $type)
+            ->where('recipient_id', UserHelper::getUserId())
+            ->update(['is_viewed' => 1]);
+
         if ($request->ajax()) {
             return response()->json(['result' => true]);
         }

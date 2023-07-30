@@ -24,7 +24,7 @@
                                 value="{{ \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT }}">Изменение цены в проекте</option>
                             <option
                                 @if(request()->type == \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE) selected @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE }}">Изменения в статье</option>
+                                value="{{ \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE }}">Изменения в базе статей</option>
                             <option
                                 @if(request()->type == \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK) selected @endif
                                 value="{{ \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK }}">Связаться с клиентов (7 дней)</option>
@@ -53,7 +53,12 @@
             <div class="card shadow border bg-white rounded">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="card-title"><i class="fa fa-bell text-18 pe-2"></i>Уведомления</h4>
+                        <div class="d-flex">
+                            <h4 class="card-title"><i class="fa fa-bell text-18 pe-2"></i>Уведомления</h4>
+                            @if(!empty(request()->type))
+                                <a href="{{ route('notification.browse_in_type', ['type' => request()->type ?? '']) }}" class="btn btn-sm btn-primary ml-3">Прочитать все</a>
+                            @endif
+                        </div>
                         <div>Всего записей: <strong>{{ $notifications->total() }}</strong></div>
                     </div>
                 </div>
