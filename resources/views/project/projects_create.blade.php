@@ -122,7 +122,7 @@
                 <label class="col-sm-3 col-form-label">Цена автора</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <input class="form-control form-control-sm"  type="text"
+                        <input class="form-control form-control-sm" step="0.01" type="number"
                                name="price_author">
                         <div class="input-group-append">
                             <span class="input-group-text" id="basic-addon2">РУБ</span>

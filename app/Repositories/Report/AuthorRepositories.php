@@ -64,7 +64,11 @@ class AuthorRepositories
             ->fromSub($authors, 'authors')
             ->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
                 $orderBy->orderBy($request->sort, $request->direction);
+            })
+            ->when(!empty($request->author_id), function (Builder $where) use ($request){
+                $where->where('authors.id', $request->author_id);
             });
+
 
         return $authors;
     }

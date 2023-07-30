@@ -20,7 +20,12 @@ class ReportAuthorController extends Controller
         $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
         $diffInWeekdays = Carbon::parse($startDate)->diffInWeekdays(Carbon::parse($endDate)) + 1;
 
-        $authors = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays)->paginate(50);
+        $reports = AuthorRepositories::getReport($request, $startDate, $endDate,
+            $diffInWeekdays)->paginate(50);
+
+        $authors = User::on()->whereHas('roles', function ($query) {
+            $query->where('id', 3);
+        })->get();
 
         $indicators = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays);
         $indicators = User::on()->selectRaw("
@@ -35,9 +40,10 @@ class ReportAuthorController extends Controller
 
         return view('report.author.list', [
             'rates' => Rate::on()->get(),
-            'authors' => $authors,
+            'reports' => $reports,
             'indicators' => $indicators,
-            'diffInWeekdays' => $diffInWeekdays
+            'diffInWeekdays' => $diffInWeekdays,
+            'authors' => $authors
         ]);
     }
 

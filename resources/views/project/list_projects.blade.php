@@ -29,6 +29,20 @@
                                            value="{{ request()->created_at ?? '' }}">
                                 </div>
 
+                                <div class="form-group col-12 col-md-4 col-lg-3">
+                                    <label for="" class="form-label">Автор</label>
+                                    <select class="form-select form-select-sm" name="author_id">
+                                        <option value="">Не выбрано</option>
+                                        @foreach ($authors as $author)
+                                            <option
+                                                @if($author['id'] == request()->author_id)
+                                                    selected
+                                                @endif
+                                                value="{{$author['id']}}">{{$author['full_name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 @if(\App\Helpers\UserHelper::isManager())
                                     <div class="form-group col-12 col-md-4 col-lg-3">
                                         <label class="form-label">Менеджер</label>

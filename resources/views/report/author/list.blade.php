@@ -16,6 +16,21 @@
                         <input class="form-control form-control-sm" type="month" name="month"
                                value="{{ request()->month ?? now()->format('Y-m') }}">
                     </div>
+
+                    <div class="col-12 col-md-4 col-lg-3">
+                        <select class="form-select form-select-sm select-2"
+                                name="author_id">
+                            @foreach($authors as $author)
+                                <option value="{{$author['id']}}"
+                                        @if ($author['id'] == request()->author_id ?? null)
+                                            selected
+                                    @endif>
+                                    {{$author['full_name'] ?? ''}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="col-12 col-md-4 col-lg-3">
                         <button class="btn btn-sm btn-success">Загрузить</button>
                     </div>
@@ -104,12 +119,12 @@
             <div class="card-header bg-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title">Общий свод по авторам</h4>
-                    <div>Всего записей: <strong>{{ $authors->total() }}</strong></div>
+                    <div>Всего записей: <strong>{{ $reports->total() }}</strong></div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="w-100 d-flex justify-content-center mb-3">
-                    {{ $authors->appends(request()->input())->links('vendor.pagination.custom')  }}
+                    {{ $reports->appends(request()->input())->links('vendor.pagination.custom')  }}
                 </div>
                 <div class="table-responsive">
                     <table id="basic-datatables"
@@ -129,7 +144,7 @@
                         </thead>
                         <tbody>
 
-                        @foreach($authors as $author)
+                        @foreach($reports as $author)
                             <tr>
                                 <td>
                                     <a href="{{ route('report_author.show', ['report_author' => $author['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}">
@@ -150,7 +165,7 @@
                     </table>
                 </div>
                 <div class="w-100 d-flex justify-content-center mt-3">
-                    {{ $authors->appends(request()->input())->links('vendor.pagination.custom')  }}
+                    {{ $reports->appends(request()->input())->links('vendor.pagination.custom')  }}
                 </div>
             </div>
         </div>

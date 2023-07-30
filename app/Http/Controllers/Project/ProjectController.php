@@ -341,12 +341,6 @@ class ProjectController extends Controller
         }
     }
 
-    /**
-     *
-     *
-     *
-     */
-
     public function partialUpdate($id, Request $request)
     {
 
@@ -392,12 +386,22 @@ class ProjectController extends Controller
             $where->where('manager_id', $request->manager_id);
         });
 
+        $projects->when(!empty($request->author_id), function ($where) use ($request) {
+            $where->whereHas('projectAuthor', function ($where) use ($request){
+                $where->where('users.id', $request->author_id);
+            });
+        });
+
         $projects->when(!empty($request->project_name), function ($where) use ($request) {
             $where->where('project_name', 'like', '%' . $request->project_name . '%');
         });
 
         $projects->when(!empty($request->price_per), function ($where) use ($request) {
             $where->where('price_per', '>=', $request->price_per);
+        });
+
+        $projects->when(!empty($request->price_author), function ($where) use ($request) {
+            $where->where('price_author', $request->price_author);
         });
 
         $projects->when(!empty($request->contract), function ($where) use ($request) {
