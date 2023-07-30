@@ -27,6 +27,7 @@ class User extends Authenticatable
         'birthday',
         'contact_info',
         'manager_salary',
+        'duty',
         'link_author',
         'is_work',
         'payment', //реквизиты оплаты

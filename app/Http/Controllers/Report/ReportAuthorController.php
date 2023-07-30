@@ -23,13 +23,12 @@ class ReportAuthorController extends Controller
         $authors = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays)->paginate(50);
 
         $indicators = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays);
-
         $indicators = User::on()->selectRaw("
             sum(authors.margin) as margin,
             sum(authors.without_space) as without_space,
             sum(authors.amount) as amount,
             sum(authors.gross_income) as gross_income,
-            (sum(authors.amount) - sum(authors.payment_amount)) as duty
+            sum(authors.duty) as duty
         ")->fromSub($indicators, 'authors')
             ->first()
             ->toArray();
@@ -76,7 +75,8 @@ class ReportAuthorController extends Controller
                 users.id,
                 users.full_name,
                 users.payment,
-                banks.name as bank
+                banks.name as bank,
+                users.duty
             ")
             ->from('users')
             ->leftJoin('banks', 'banks.id', '=', 'users.bank_id')

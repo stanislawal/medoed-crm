@@ -77,10 +77,10 @@
             <form action="{{route('project.partial_update', ['id' => $projectId] )}}" method="post">
                 @csrf
                 <label class="mb-2" for="">Добавить долг</label>
-                <input class="mb-2 form-control form-control-sm col-1" name="duty" step="0.01" type="number" value="{{ $duty }}">
+                <input class="mb-2 form-control form-control-sm col-1" name="duty" step="0.01" type="number"
+                       value="{{ $duty }}">
                 <button class="mb-2 btn btn-sm btn-success">Обновить</button>
             </form>
-
         </div>
     </div>
     <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">

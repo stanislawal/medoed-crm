@@ -25,10 +25,14 @@
                     <input type="text" value="{{ $user['login'] ?? '-' }}" class="form-control form-control-sm"
                            name="login">
                 </div>
-                <div class="form-group col-12 col-lg-6">
+
+                <div class="form-group  col-12 col-lg-6">
                     <label for="" class="form-label">Пароль</label>
-                    <input type="text" value="{{$user['visual_password']}}" class="form-control form-control-sm" name="password">
+                    <input  type="password" value="{{$user['visual_password']}}" class="form-control form-control-sm" aria-label="Password" name="password" aria-describedby="show-password">
+                    <button id="show-password" class="btn btn-sm btn-primary mt-1"><i class="fas fa-eye"></i></button>
                 </div>
+
+
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Контактная информация </label>
                     <input type="text" value="{{$user['contact_info']}}" class="form-control form-control-sm"
@@ -60,9 +64,6 @@
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Роль</label>
                     <select class="form-select form-select-sm select-manager" name="role" id="">
-                        <option disabled value="">Роль</option>
-
-                        <option value="">Выберите роль</option>
                         @foreach($roles as $role)
                             <option @if(\App\Helpers\UserHelper::getRoleName($user['id']) == $role['name']) selected
                                     @endif value="{{ $role['name'] }}">{{ $role['name'] }}</option>
@@ -110,6 +111,20 @@
             } else {
                 $('.input-author').addClass('d-none');
             }
+        });
+
+        $(document).ready(function() {
+            $('#show-password').click(function() {
+                var passwordInput = $(this).prev('input');
+                var passwordInputType = passwordInput.attr('type');
+                if (passwordInputType === 'password') {
+                    passwordInput.attr('type', 'text');
+                    $(this).html('<i class="bi bi-eye-slash"></i>');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    $(this).html('<i class="bi bi-eye"></i>');
+                }
+            });
         });
     </script>
 @endsection

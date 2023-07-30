@@ -44,7 +44,7 @@ class AuthorRepositories
                 sum(articles.without_space_author) as without_space,
                 sum(articles.price) as amount,
                 sum(articles.price_article) as gross_income,
-                (sum(articles.price) - sum(articles.payment_amount)) as duty,
+                ((sum(articles.price) - sum(articles.payment_amount)) + users.duty) as duty,
                 sum(articles.payment_amount) as payment_amount,
                 sum(articles.margin) as margin,
                 (sum(articles.price)/(sum(articles.without_space_author)/1000)) as avg_price,

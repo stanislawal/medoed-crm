@@ -26,11 +26,11 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'login' => [
-                'required', // обязательное поле
+                'nullable', // обязательное поле
                 'string', // строка
             ],
             'full_name' => [
-                'required', // обязательное поле
+                'nullable', // обязательное поле
                 'string', // строка
             ],
             'password' => [
@@ -47,12 +47,16 @@ class UpdateUserRequest extends FormRequest
                 'date',
             ],
             'role' => [
-                'required',
+                'nullable',
                 Rule::in(['Администратор', 'Менеджер', 'Автор']),
             ],
             'manager_salary' => [
               'nullable',
               'numeric'
+            ],
+            'duty' => [
+                'nullable',
+                'numeric'
             ],
             'link_author' => [
                 'nullable',

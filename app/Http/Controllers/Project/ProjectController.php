@@ -341,6 +341,12 @@ class ProjectController extends Controller
         }
     }
 
+    /**
+     *
+     *
+     *
+     */
+
     public function partialUpdate($id, Request $request)
     {
 
