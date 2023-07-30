@@ -20,11 +20,12 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="basic-datatables"
-                               class="display table table-head-bg-info table-center">
+                               class="table-cut display table table-head-bg-info table-center">
                             <thead>
                             <tr>
                                 <th>Состояние</th>
                                 <th>Метка оплаты</th>
+                                <th>Списание</th>
                                 <th>Дата</th>
                                 <th>Сбер А</th>
                                 <th>Тинькофф А</th>
@@ -60,6 +61,11 @@
                                     <td>
                                         <div>
                                             <input type="checkbox" name="mark" @if((bool)$payment['mark']) checked @endif disabled>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input type="checkbox" name="back_duty" @if((bool)$payment['back_duty']) checked @endif disabled>
                                         </div>
                                     </td>
                                     <td class="nowrap">

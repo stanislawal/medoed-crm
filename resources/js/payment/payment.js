@@ -31,6 +31,16 @@ window.save = function (className, moder = false) {
         attr.mark = mark
     }
 
+    if (moder) {
+        let back_duty = 0;
+
+        if (tr.find('input[name="back_duty"]').is(':checked')) {
+            back_duty = 1;
+        }
+
+        attr.back_duty = back_duty
+    }
+
     console.log(attr);
 
     ajax('post', url, attr);

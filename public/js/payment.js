@@ -30,6 +30,13 @@ window.save = function (className) {
     }
     attr.mark = mark;
   }
+  if (moder) {
+    var back_duty = 0;
+    if (tr.find('input[name="back_duty"]').is(':checked')) {
+      back_duty = 1;
+    }
+    attr.back_duty = back_duty;
+  }
   console.log(attr);
   ajax('post', url, attr);
   tr.find('.edit').show();

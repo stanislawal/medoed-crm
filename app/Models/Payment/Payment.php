@@ -14,6 +14,7 @@ class Payment extends Model
 
     protected $fillable = [
         'mark',
+        'back_duty',
         'status_payment_id',
         'date',
         'sber_a',

@@ -98,7 +98,7 @@ class PaymentController extends Controller
     {
 
         $params = collect($request->all())
-            ->only(['mark', 'status_payment_id', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a' , 'privat', 'um',
+            ->only(['mark', 'back_duty', 'status_payment_id', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a' , 'privat', 'um',
                 'wmz', 'birja', 'project_id', 'comment'])
             ->toArray();
 
