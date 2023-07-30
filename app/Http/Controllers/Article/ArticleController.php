@@ -166,7 +166,7 @@ class ArticleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $oldArticle = Article::on()->select(['without_space', 'price_client'])->find($id)->toArray();
+        $oldArticle = Article::on()->select(['without_space', 'price_client', 'price_author'])->find($id)->toArray();
 
         $attr = $request->only([
             'article',
@@ -184,13 +184,13 @@ class ArticleController extends Controller
             'payment_date'
         ]);
 
-        $newArticle = Article::on()->where('id', $id)->update($attr);
+        Article::on()->where('id', $id)->update($attr);
 
         if ($request->has('authors_id')) {
 
             CrossArticleAuthor::on()->where('article_id', $id)->delete();
 
-            if(!is_null($request->authors_id ?? null)){
+            if (!is_null($request->authors_id ?? null)) {
                 CrossArticleAuthor::on()->insert([
                     'article_id' => $id,
                     'user_id' => $request->authors_id,
@@ -202,7 +202,7 @@ class ArticleController extends Controller
 
             CrossArticleRedactor::on()->where('article_id', $id)->delete();
 
-            if(count($request->redactors_id) > 0){
+            if (count($request->redactors_id) > 0) {
                 foreach ($request->redactors_id as $redactor) {
                     $rows[] = [
                         'article_id' => $id,
@@ -213,6 +213,8 @@ class ArticleController extends Controller
                 CrossArticleRedactor::on()->insert($rows);
             }
         }
+
+        $newArticle = Article::on()->find($id)->toArray();
 
         // проверяет измененные даныне и создает уведомление при условии
         $this->whereNotify($id, $oldArticle, $newArticle);
@@ -237,7 +239,7 @@ class ArticleController extends Controller
         });
         $articles->whereBetween('created_at', $this->getDate($request));
 
-        $articles->when(!empty($request->date_article), function ($where) use ($request){
+        $articles->when(!empty($request->date_article), function ($where) use ($request) {
             $where->whereRaw("DATE(created_at) = '{$request->date_article}'");
         });
 
@@ -275,14 +277,29 @@ class ArticleController extends Controller
         ];
     }
 
-    private function whereNotify($id, $oldArticle, $newArticle){
+    private function whereNotify($id, $oldArticle, $newArticle)
+    {
+        $change = "";
 
-//        dd($oldArticle, $newArticle)
-//
-//        (new NotificationController())->createNotification(
-//            NotificationTypeConstants::CHANGE_ARTICLE,
-//            '',
-//            $id
-//        );
+        if($oldArticle['without_space'] != $newArticle['without_space']){
+            $change = $change . 'ЗСБ: <strong>' . $oldArticle['without_space'] . "/" . $newArticle['without_space'] . '</strong><br> ';
+        }
+
+        if($oldArticle['price_client'] != $newArticle['price_client']){
+            $change = $change . 'Цена заказчика: <strong>' . $oldArticle['price_client'] . "/" . $newArticle['price_client'] . '</strong><br> ';
+        }
+
+        if($oldArticle['price_author'] != $newArticle['price_author']){
+            $change = $change . 'Цена автора: <strong>' . $oldArticle['price_author'] . "/" . $newArticle['price_author'] . '</strong><br> ';
+        }
+
+        if($change != ''){
+            (new NotificationController())->createNotification(
+                NotificationTypeConstants::CHANGE_ARTICLE,
+                '',
+                $id,
+                $change
+            );
+        }
     }
 }

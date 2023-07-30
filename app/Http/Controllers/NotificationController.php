@@ -104,7 +104,7 @@ class NotificationController extends Controller
      * @param $data
      * @return void
      */
-    public function createNotification($type, $userId, $id, $data = null)
+    public function createNotification($type, $userId, $id, $message = null)
     {
         switch ($type) {
             // назначение прокта на менеджера
@@ -114,7 +114,7 @@ class NotificationController extends Controller
 
             // редактирование статьи
             case NotificationTypeConstants::CHANGE_ARTICLE :
-                $this->changeArticle($userId, $id);
+                $this->changeArticle($userId, $id, $message);
                 break;
 
             // редактирование цены в проекте
@@ -131,7 +131,6 @@ class NotificationController extends Controller
             case NotificationTypeConstants::WRITE_TO_CLIENT_MONTH :
                 $this->writeToClient($userId, $id, NotificationTypeConstants::WRITE_TO_CLIENT_MONTH);
                 break;
-
         }
 
         event(new PushNotification());
@@ -171,7 +170,7 @@ class NotificationController extends Controller
      * @param $articleId
      * @return void
      */
-    private function changeArticle($userId, $articleId)
+    private function changeArticle($userId, $articleId, $message)
     {
         $recipients = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 1);
@@ -183,7 +182,7 @@ class NotificationController extends Controller
                 'date_time' => now(),
                 'type' => NotificationTypeConstants::CHANGE_ARTICLE,
                 'recipient_id' => $recipient,
-                'message' => null,
+                'message' => $message,
                 'project_id' => null,
                 'article_id' => $articleId
             ];
@@ -191,7 +190,6 @@ class NotificationController extends Controller
 
         if (count($notifications) > 0) {
             Notification::on()->insert($notifications);
-
         }
     }
 
