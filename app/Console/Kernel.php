@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\CheckProjects;
+use App\Console\Commands\TestCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -18,6 +19,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command(CheckProjects::class)->dailyAt('13:00');
+        $schedule->command(TestCommand::class)->everyMinute();
     }
 
     /**
