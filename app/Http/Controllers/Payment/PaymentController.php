@@ -82,7 +82,8 @@ class PaymentController extends Controller
     {
         return view('Payment.moderation_payment', [
             'projects' => Project::on()->select(['id', 'project_name'])->get()->toArray(),
-            'paymentList' => Payment::on()->with(['project', 'status'])->get()->toArray(),
+            'paymentList' => Payment::on()->with(['project', 'status'])->orderBy('id','DESC')->get
+                ()->toArray(),
             'statuses' => StatusPayment::on()->get()->toArray()
         ]);
     }
