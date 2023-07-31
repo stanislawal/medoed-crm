@@ -3,7 +3,7 @@ var __webpack_exports__ = {};
 /*!***************************************!*\
   !*** ./resources/js/socket/socket.js ***!
   \***************************************/
-window.socket = io.connect('https://medoed-crm.ru:7000');
+window.socket = io.connect('https://medoed-crm.ru' + ':7000');
 window.getSocket = function () {
   return window.socket;
 };
