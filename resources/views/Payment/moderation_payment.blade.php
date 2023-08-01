@@ -41,6 +41,7 @@
                                 <th></th>
                             </tr>
 
+
                             </thead>
                             <tbody>
                             @foreach($paymentList as $payment)
