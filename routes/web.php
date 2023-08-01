@@ -92,6 +92,8 @@ Route::middleware('auth')->group(function () {
         # Заказчики (clients)
 
         #----------------------------------------ОТЧЕТЫ----------------------------------------
+        Route::get('report-client/get-by-month', [ReportClientController::class, 'getByMonth'])->name('report_client.get_by_month');
+        Route::get('report-author/get-by-month', [ReportAuthorController::class, 'getByMonth'])->name('report_client.get_by_month');
         Route::resource('report_client', ReportClientController::class );
         Route::resource('report_author', ReportAuthorController::class );
         Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
@@ -124,12 +126,16 @@ Route::middleware('auth')->group(function () {
     });
     #----------------------------------------ОПЛАТА----------------------------------------
 
+    #----------------------------------------УВЕДОМЛЕНИЯ----------------------------------------
     Route::prefix('notification')->group(function(){
         Route::get('browse/{id}', [NotificationController::class, 'browse'])->name('notification.browse');
         Route::get('browse/all/{type}', [NotificationController::class, 'browseInType'])->name('notification.browse_in_type');
         Route::get('get-html', [NotificationController::class, 'getHtml'])->name('notification.get_html');
         Route::get('list', [NotificationController::class, 'index'])->name('notification.index');
     });
+    #----------------------------------------УВЕДОМЛЕНИЯ----------------------------------------
 
+    #----------------------------------------ПОЛЬЗОВАТЕЛИ ОНЛАЙН----------------------------------------
     Route::post('user-active', [UserController::class, 'userActive']);
+    #----------------------------------------ПОЛЬЗОВАТЕЛИ ОНЛАЙН----------------------------------------
 });

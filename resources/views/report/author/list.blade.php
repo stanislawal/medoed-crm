@@ -20,6 +20,7 @@
                     <div class="col-12 col-md-4 col-lg-3">
                         <select class="form-select form-select-sm select-2"
                                 name="author_id">
+                            <option value="">Не выбрано</option>
                             @foreach($authors as $author)
                                 <option value="{{$author['id']}}"
                                         @if ($author['id'] == request()->author_id ?? null)

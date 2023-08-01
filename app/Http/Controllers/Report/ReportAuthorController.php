@@ -87,13 +87,20 @@ class ReportAuthorController extends Controller
             ->from('users')
             ->leftJoin('banks', 'banks.id', '=', 'users.bank_id')
             ->where('users.id', $id)
-            ->get()->first()->toArray();
+            ->get()
+            ->first()
+            ->toArray();
 
         return view('report.author.item', [
             'articles' => $articles,
             'user' => $user,
             'indicators' => $indicators
         ]);
+    }
+
+    public function getByMonth(Request $request)
+    {
+
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Report;
 
+use App\Models\Article;
 use App\Models\Project\Project;
 
 class ClientRepositories
@@ -12,8 +13,9 @@ class ClientRepositories
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function getReport(){
-         $reports = Project::on()
+    public static function getReport()
+    {
+        $reports = Project::on()
             ->selectRaw("
                 projects.*,
                 SUM(articles.without_space) as sum_without_space,
@@ -62,6 +64,33 @@ class ClientRepositories
             ->fromSub($reports, 'projects');
 
         return $reports;
+    }
+
+    public static function getByProject($id)
+    {
+        $report = Article::on()->selectRaw("
+              id,
+              article as article_name,
+              project_id,
+              without_space,
+              price_client,
+              (without_space * ((price_client *(without_space/1000)) / 1000)) as gross_income,
+              price_author,
+              created_at
+        ");
+
+        $report = Article::on()->selectRaw("
+                projects.project_name,
+                articles.*,
+                ((articles.price_client - articles.price_author) * (articles.without_space / 1000)) as margin,
+                ((articles.without_space / 1000) * articles.price_client) as price_article
+            ")
+            ->from('projects')
+            ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')
+            ->where('projects.id', $id)
+            ->with(['articleAuthor:id,full_name']);
+
+        return $report;
     }
 
 }
