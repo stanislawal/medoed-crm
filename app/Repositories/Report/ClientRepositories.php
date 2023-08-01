@@ -24,8 +24,8 @@ class ClientRepositories
                     projects.start_date_project,
                     COALESCE(projects.end_date_project, CURRENT_DATE())
                 )) as date_diff,
-                SUM((articles.price_client*(articles.without_space/1000))) as sum_price_client,
-                SUM((articles.price_author *(articles.without_space/1000))) as sum_price_author
+               coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client,
+                coalesce(SUM((articles.price_author *(articles.without_space/1000))), 0) as sum_price_author
         ")->from('projects')
             ->leftJoin('articles', 'articles.project_id', '=', 'projects.id')
             ->groupBy(['projects.id']);

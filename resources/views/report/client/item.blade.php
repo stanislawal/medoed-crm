@@ -140,7 +140,26 @@
         </div>
     </div>
 
-
+    <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    <strong class="text-14 text-gray">История статей по месяцам</strong>
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                   <div>
+                       <a class="d-block" href="#">Аналитика за 07.2023</a>
+                       <a class="d-block" href="#">Аналитика за 06.2023</a>
+                       <a class="d-block" href="#">Аналитика за 05.2023</a>
+                       <a class="d-block" href="#">Аналитика за 04.2023</a>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="w-100 shadow border rounded">
         <div class="card mb-0">
             <div class="card-header">
@@ -190,4 +209,5 @@
             </div>
         </div>
     </div>
+
 @endsection
