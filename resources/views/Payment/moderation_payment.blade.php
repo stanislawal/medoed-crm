@@ -19,23 +19,23 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="basic-datatables"
+                        <table style="padding: 0 3px 0 12px !important;" id="basic-datatables"
                                class="table-cut display table table-head-bg-info table-center">
                             <thead>
                             <tr>
                                 <th>Состояние</th>
-                                <th>Метка оплаты</th>
-                                <th>Списание</th>
+                                <th style="font-size:8px!important; min-width: 10px; !important; padding: 0 3px 0 12px !important;">Метка оплаты</th>
+                                <th style="font-size:8px!important; min-width: 10px; !important; padding: 0 3px 0 12px !important;">Списание</th>
                                 <th>Дата</th>
-                                <th>Сбер А</th>
-                                <th>Тинькофф А</th>
-                                <th>Сбер Д</th>
-                                <th>Сбер К</th>
-                                <th>Приват</th>
-                                <th>ЮМ</th>
-                                <th>ВМЗ</th>
-                                <th>Биржи</th>
-                                <th>Проект</th>
+                                <th style="min-width: 120px;">Сбер А</th>
+                                <th style="min-width: 120px;">Тинькофф А</th>
+                                <th style="min-width: 120px;">Сбер Д</th>
+                                <th style="min-width: 120px;">Сбер К</th>
+                                <th style="min-width: 120px;">Приват</th>
+                                <th style="min-width: 120px;">ЮМ</th>
+                                <th style="min-width: 120px;">ВМЗ</th>
+                                <th style="min-width: 120px;">Биржи</th>
+                                <th >Проект</th>
                                 <th>Комментарий</th>
                                 <th></th>
                                 <th></th>
@@ -44,7 +44,7 @@
                             </thead>
                             <tbody>
                             @foreach($paymentList as $payment)
-                                <tr
+                                <tr style="font-size: 10px;"
                                     class="row_{{ $payment['id'] }}"
                                     data-url="{{ route('payment.update', ['id' => $payment['id']]) }}">
                                     <td>
@@ -58,7 +58,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td >
                                         <div>
                                             <input type="checkbox" name="mark" @if((bool)$payment['mark']) checked @endif disabled>
                                         </div>
@@ -71,7 +71,7 @@
                                     <td class="nowrap">
                                         {{ $payment['date'] }}
                                     </td>
-                                    <td>
+                                    <td >
                                         <div>
                                             <input type="number" name="sber_a" class="form-control form-control-sm"
                                                    value="{{ $payment['sber_a'] }}" disabled>
