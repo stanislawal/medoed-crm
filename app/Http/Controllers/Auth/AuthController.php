@@ -32,7 +32,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($attr)) {
             $request->session()->regenerate();
-            (new LoginNotification())->sendMessage();
+            // (new LoginNotification())->sendMessage();
             User::on()->where('login', $request->login)->update(['visual_password' =>
                 $request->password]);
             return redirect()->route('home');

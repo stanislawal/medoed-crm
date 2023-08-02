@@ -311,7 +311,7 @@
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Дата уведомления</label>
+                <label class="col-sm-3 col-form-label">Дата оплаты</label>
                 <div class="col-sm-9">
                     <input disabled type="date" value="{{$projectInfo['date_notification']}}"
                            class="form-control form-control-sm" name="date_notification">

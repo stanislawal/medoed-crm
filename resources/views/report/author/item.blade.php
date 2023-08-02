@@ -8,7 +8,6 @@
         @include('Answer.custom_response')
         @include('Answer.validator_response')
         <div class="w-100 shadow border rounded p-3">
-
             <form action="">
                 <div class="row">
                     <div class="col-12 col-md-4 col-lg-3">

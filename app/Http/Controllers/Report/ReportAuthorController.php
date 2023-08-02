@@ -62,7 +62,6 @@ class ReportAuthorController extends Controller
 
         $articles = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id)
             ->paginate(20);
-
         $indicators = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id);
 
         $indicators = Article::on()->selectRaw("
@@ -96,11 +95,6 @@ class ReportAuthorController extends Controller
             'user' => $user,
             'indicators' => $indicators
         ]);
-    }
-
-    public function getByMonth(Request $request)
-    {
-
     }
 
 }

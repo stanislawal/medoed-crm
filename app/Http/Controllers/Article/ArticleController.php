@@ -282,7 +282,7 @@ class ArticleController extends Controller
         $change = "";
 
         if($oldArticle['without_space'] != $newArticle['without_space']){
-            $change = $change . 'ЗСБ: <strong>' . $oldArticle['without_space'] . "/" . $newArticle['without_space'] . '</strong><br> ';
+            $change = $change . 'ЗБП: <strong>' . $oldArticle['without_space'] . "/" . $newArticle['without_space'] . '</strong><br> ';
         }
 
         if($oldArticle['price_client'] != $newArticle['price_client']){

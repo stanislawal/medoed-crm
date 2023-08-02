@@ -91,14 +91,7 @@ Route::middleware('auth')->group(function () {
         Route::get('add_option_socialnetwork-destroy/{socialnetwork}', [SocialNetworkController::class, 'destroy'])->name('add_option_socialnetwork.destroy');
         # Заказчики (clients)
 
-        #----------------------------------------ОТЧЕТЫ----------------------------------------
-        Route::get('report-client/get-by-month', [ReportClientController::class, 'getByMonth'])->name('report_client.get_by_month');
-        Route::get('report-author/get-by-month', [ReportAuthorController::class, 'getByMonth'])->name('report_client.get_by_month');
-        Route::resource('report_client', ReportClientController::class );
-        Route::resource('report_author', ReportAuthorController::class );
-        Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
 
-        #----------------------------------------ОТЧЕТЫ----------------------------------------
 
 
         #----------------------------------------ВАЛЮТА----------------------------------------
@@ -108,6 +101,13 @@ Route::middleware('auth')->group(function () {
         });
         #----------------------------------------ВАЛЮТА----------------------------------------
     });
+  #----------------------------------------ОТЧЕТЫ----------------------------------------
+  Route::resource('report_client', ReportClientController::class );
+  Route::resource('report_author', ReportAuthorController::class );
+  Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
+
+  #----------------------------------------ОТЧЕТЫ----------------------------------------
+
 
     #----------------------------------------ОПЛАТА----------------------------------------
     Route::prefix('payment')->group(function () {

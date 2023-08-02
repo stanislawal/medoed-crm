@@ -3,6 +3,7 @@
 namespace App\Repositories\Report;
 
 use App\Models\Article;
+use Illuminate\Support\Carbon;
 use App\Models\Project\Project;
 
 class ClientRepositories
@@ -66,8 +67,10 @@ class ClientRepositories
         return $reports;
     }
 
-    public static function getByProject($id)
+    public static function getByProject($id, $request)
     {
+        $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
+        $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
         $report = Article::on()->selectRaw("
               id,
               article as article_name,
@@ -88,7 +91,9 @@ class ClientRepositories
             ->from('projects')
             ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')
             ->where('projects.id', $id)
+            ->whereBetween('articles.created_at', [$startDate, $endDate])
             ->with(['articleAuthor:id,full_name']);
+
 
         return $report;
     }

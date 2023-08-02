@@ -3,6 +3,7 @@ var __webpack_exports__ = {};
 /*!*****************************************!*\
   !*** ./resources/js/project/project.js ***!
   \*****************************************/
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 window.editStatusProject = function (el, url) {
   var statusId = $(el).val();
   ajax('post', url, {
@@ -20,6 +21,11 @@ window.editDateLastChangeProject = function (el, url) {
   ajax('post', url, {
     date_last_change: lastChange
   });
+};
+window.editDatePayment = function (el, url) {
+  var value = $(el).val();
+  var columnName = $(el).attr('name');
+  ajax('post', url, _defineProperty({}, columnName, value));
 };
 window.editCheckProject = function (el, url) {
   var check = 0;

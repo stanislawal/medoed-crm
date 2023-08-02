@@ -13,6 +13,13 @@ window.editDateLastChangeProject = function (el, url) {
     ajax('post', url, {date_last_change: lastChange})
 }
 
+window.editDatePayment = function (el, url) {
+    const value = $(el).val();
+    const columnName = $(el).attr('name')
+    ajax('post', url, {[columnName]: value})
+}
+
+
 window.editCheckProject = function (el, url) {
     let check = 0;
 
@@ -29,6 +36,7 @@ window.editStatusPaymentProject = function(el, url){
 }
 
 window.ajaxStatus = true;
+
 window.ajax = function (method, url, params) {
     if (window.ajaxStatus) {
         window.ajaxStatus = false;

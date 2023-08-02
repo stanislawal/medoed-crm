@@ -220,7 +220,7 @@
                 <div class="icon bg-primary">
                     <i class="fas fa-ruble-sign text-white"></i>
                 </div>
-                <span class="ps-2">Оплата: <strong
+                <span class="ps-2">Запросить оплату: <strong
                         class="text-primary">{{ count($projectPayment) }}</strong></span>
             </button>
         </h2>

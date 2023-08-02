@@ -216,6 +216,7 @@
                                     <th>@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
                                     <th>Заказчик(и)</th>
                                     <th>Дата последнего прописывания</th>
+                                    <th>Дата оплаты</th>
                                     <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
                                     <th style="min-width: 300px !important;">Комментарий</th>
                                     <th>Автор</th>
@@ -271,6 +272,14 @@
                                                        onchange="editDateLastChangeProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
                                                        name="date_last_change" type="date"
                                                        value="{{$project['date_last_change']}}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <input class="form-control form-control-sm"
+                                                       onchange="editDatePayment(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
+                                                       name="date_notification" type="date"
+                                                       value="{{$project['date_notification']}}">
                                             </div>
                                         </td>
                                         <td style=" min-width: 170px;">

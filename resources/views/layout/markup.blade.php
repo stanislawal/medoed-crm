@@ -217,9 +217,9 @@
                                 </ul>
                             </div>
                         </li>
-                        @endhasanyrole
 
-                        @role('Администратор')
+
+
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#result">
                                 <i class="fas fa-book-open"></i>
@@ -241,8 +241,8 @@
                                 </ul>
                             </div>
                         </li>
-                        @endrole
 
+                        @endhasanyrole
                         @hasanyrole('Администратор|Менеджер')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#payment">

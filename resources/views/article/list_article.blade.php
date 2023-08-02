@@ -138,14 +138,14 @@
                             </div>
                         </div>
 
-                        @role('Admin')
+
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
                                 <div class="text-24"><strong>{{ (int)$statistics['sum_gross_income'] }}</strong></div>
                                 <div class="text-12 nowrap-dot">Валовый доход (сумма):</div>
                             </div>
                         </div>
-                        @endrole
+
 
                         @if(\App\Helpers\UserHelper::isManager() || !is_null(request()->manager_id))
                             <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">

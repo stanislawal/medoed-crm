@@ -29,6 +29,8 @@ class ReportClientController extends Controller
         $reportQuery = ClientRepositories::getReport();
         $statistict = ClientRepositories::getReport();
 
+
+
         // фильтр
         $this->filter($reportQuery, $request);
         $this->filter($statistict, $request);
@@ -128,6 +130,12 @@ class ReportClientController extends Controller
                 $where->where('clients.id', $request->client_id);
             });
         }
+
+        if(!empty($request->month)) {
+            $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
+            $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
+            $reports->whereBetween('projects.created_at', [$startDate, $endDate]);
+        }
     }
 
     /**
@@ -136,8 +144,9 @@ class ReportClientController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+
         $payment = Payment::on()->selectRaw("
             project_id,
             sum(sber_a + tinkoff_a + sber_d + sber_k + privat + um + wmz + birja) as amount,
@@ -151,48 +160,19 @@ class ReportClientController extends Controller
 
         $clients = Client::on()->whereHas('projectClients', function ($where) use ($id) {
             $where->where('projects.id', $id);
-        });
+        })->get()->toArray();
 
-        // позвращает месяца и количества статей в них
-        $links = Article::on()->selectRaw("
-                DATE_FORMAT(created_at, '01-%m-%Y') as date,
-                count(id) as count
-        ")->where('project_id', $id)
-            ->groupBy('date')
-            ->get()
-            ->map(function ($item) use ($id) {
-                return [
-                    'link' => route('report_client.get_by_month', ['project_id' => $id, 'date' => $item['date']]),
-                    'date' => $item['date'],
-                    'count' => $item['count']
-                ];
-            })->toArray();
+        $report = ClientRepositories::getByProject($id, $request)->get()->toArray();
 
-        $duty = Project::on()->find($id)->duty;
+        $project = Project::on()->select(['duty', 'id', 'project_name'])->find($id);
 
         return view('report.client.item', [
-            'report' => collect(ClientRepositories::getByProject($id)->get()->toArray()),
+            'report' => collect($report),
             'clients' => $clients,
             'payment' => $payment,
             'paymentHistory' => Payment::on()->where('project_id', $id)->get()->toArray(),
             'projectId' => $id,
-            'duty' => $duty,
-            'links' => $links,
+            'project' => $project
         ]);
-    }
-
-    /**
-     * Возвращает все статьи относящиеся к проекту за указанный месяц
-     */
-    public function getByMonth(Request $request)
-    {
-        $dateBetween = [
-            Carbon::parse($request->date)->startOfMonth()->toDateTimeString(),
-            Carbon::parse($request->date)->endOfMonth()->toDateTimeString(),
-        ];
-
-        $articles = ClientRepositories::getByProject($request->project_id)
-        ->whereBetween('articles.created_at', $dateBetween);
-
     }
 }
