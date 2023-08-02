@@ -261,6 +261,7 @@ class ProjectController extends Controller
             'price_author' => $request->price_author ?? null,
             'price_client' => $request->price_client ?? null,
             'start_date_project' => $request->start_date_project ?? null,
+            'date_notification' => $request->date_notification ?? null,
             'contract' => $request->contract ?? null,
             'contract_exist' => $request->contract_exist ?? null,
             'comment' => $request->comment ?? null,

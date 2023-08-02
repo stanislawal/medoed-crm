@@ -30,7 +30,8 @@ class Project extends Model
         'start_date_project', // дата начала проекта
         'end_date_project', // дата конца проекта
         'total_symbols', //общее кол-во символов
-        'date_last_change',
+        'date_last_change', // дата последнего прописывания
+        'date_notification', // дата последнего прописывания
         'price_per', //цена за 1000 знаков
         'progress_symbols', //сколько написано символов
         'contract', // договор

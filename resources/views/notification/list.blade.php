@@ -17,28 +17,50 @@
                         <select name="type" id="" class="form-select form-select-sm">
                             <option value="">Все типы</option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::ASSIGNED_PROJECT) selected @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::ASSIGNED_PROJECT }}">Назначен проект</option>
+                                @if(request()->type == \App\Constants\NotificationTypeConstants::ASSIGNED_PROJECT) selected
+                                @endif
+                                value="{{ \App\Constants\NotificationTypeConstants::ASSIGNED_PROJECT }}">Назначен проект
+                            </option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT) selected @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT }}">Изменение цены в проекте</option>
+                                @if(request()->type == \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT) selected
+                                @endif
+                                value="{{ \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT }}">Изменение
+                                цены в проекте
+                            </option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE) selected @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE }}">Изменения в базе статей</option>
+                                @if(request()->type == \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE) selected
+                                @endif
+                                value="{{ \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE }}">Изменения в базе
+                                статей
+                            </option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK) selected @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK }}">Связаться с клиентов (7 дней)</option>
+                                @if(request()->type == \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK) selected
+                                @endif
+                                value="{{ \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK }}">Связаться с
+                                клиентов (7 дней)
+                            </option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH) selected @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH }}">Связаться с клиентов (30 дней)</option>
+                                @if(request()->type == \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH) selected
+                                @endif
+                                value="{{ \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH }}">Связаться
+                                с клиентов (30 дней)
+                            </option>
+
+                            <option
+                                @if(request()->type == \App\Constants\NotificationTypeConstants::PROJECT_PAYMENT) selected
+                                @endif
+                                value="{{ \App\Constants\NotificationTypeConstants::PROJECT_PAYMENT }}">Оплата
+                            </option>
                         </select>
                     </div>
 
                     <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">
                         <select name="is_viewed" class="form-select form-select-sm">
                             <option value="">Все</option>
-                            <option  @if(request()->is_viewed == '1') selected @endif value="1">Только прочитанные</option>
-                            <option  @if(request()->is_viewed == '0') selected @endif value="0">Только непрочитанные</option>
+                            <option @if(request()->is_viewed == '1') selected @endif value="1">Только прочитанные
+                            </option>
+                            <option @if(request()->is_viewed == '0') selected @endif value="0">Только непрочитанные
+                            </option>
                         </select>
                     </div>
 
@@ -56,7 +78,8 @@
                         <div class="d-flex">
                             <h4 class="card-title"><i class="fa fa-bell text-18 pe-2"></i>Уведомления</h4>
                             @if(!empty(request()->type))
-                                <a href="{{ route('notification.browse_in_type', ['type' => request()->type ?? '']) }}" class="btn btn-sm btn-primary ml-3">Прочитать все</a>
+                                <a href="{{ route('notification.browse_in_type', ['type' => request()->type ?? '']) }}"
+                                   class="btn btn-sm btn-primary ml-3">Прочитать все</a>
                             @endif
                         </div>
                         <div>Всего записей: <strong>{{ $notifications->total() }}</strong></div>
@@ -88,7 +111,6 @@
                                     @if(!$item['is_viewed'])
                                         <a href="{{ route('notification.browse', ['id' => $item['id']]) }}">
                                             <div class="browse">
-
                                                 <i class="fas fa-eye" title="Пометить как прочитанное"></i>
                                             </div>
                                         </a>
@@ -114,7 +136,6 @@
                                     @if(!$item['is_viewed'])
                                         <a href="{{ route('notification.browse', ['id' => $item['id']]) }}">
                                             <div class="browse">
-
                                                 <i class="fas fa-eye" title="Пометить как прочитанное"></i>
                                             </div>
                                         </a>
@@ -140,7 +161,6 @@
                                     @if(!$item['is_viewed'])
                                         <a href="{{ route('notification.browse', ['id' => $item['id']]) }}">
                                             <div class="browse">
-
                                                 <i class="fas fa-eye" title="Пометить как прочитанное"></i>
                                             </div>
                                         </a>
@@ -166,7 +186,6 @@
                                     @if(!$item['is_viewed'])
                                         <a href="{{ route('notification.browse', ['id' => $item['id']]) }}">
                                             <div class="browse">
-
                                                 <i class="fas fa-eye" title="Пометить как прочитанное"></i>
                                             </div>
                                         </a>
@@ -192,7 +211,31 @@
                                     @if(!$item['is_viewed'])
                                         <a href="{{ route('notification.browse', ['id' => $item['id']]) }}">
                                             <div class="browse">
+                                                <i class="fas fa-eye" title="Пометить как прочитанное"></i>
+                                            </div>
+                                        </a>
+                                    @endif
+                                </div>
 
+                                @break
+
+                            @case('PROJECT_PAYMENT')
+
+                                <div class="d-flex notification-item @if(!$item['is_viewed']) not-viewed @endif">
+                                    <div class="icon bg-primary">
+                                        <i class="fas fa-ruble-sign text-white"></i>
+                                    </div>
+                                    <div class="description">
+                                        <div class="text-notify">
+                                            <span>Время оплаты по проекту: </span>
+                                            <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
+                                               class="text-primary">{{ $item['projects']['project_name'] ?? null }}</a>
+                                            <div class="time">{{ $item['date_time'] }}</div>
+                                        </div>
+                                    </div>
+                                    @if(!$item['is_viewed'])
+                                        <a href="{{ route('notification.browse', ['id' => $item['id']]) }}">
+                                            <div class="browse">
                                                 <i class="fas fa-eye" title="Пометить как прочитанное"></i>
                                             </div>
                                         </a>

@@ -46,6 +46,7 @@ class CheckProjects extends Command
     {
         $this->projectWeek();
         $this->projectMonth();
+        $this->payment();
     }
 
     /**
@@ -108,6 +109,29 @@ class CheckProjects extends Command
                 NotificationTypeConstants::WRITE_TO_CLIENT_MONTH,
                 '',
                 $projectId
+            );
+        }
+    }
+
+    /**
+     * уведомление об необходимости оплатить по проекту
+     *
+     * @return void
+     */
+    private function payment()
+    {
+        $projects = Project::on()->select(['id'])
+            ->whereNotNull('date_notification')
+            ->where('date_notification', now()->format('Y-m-d'))
+            ->get()
+            ->pluck('id');
+
+
+        foreach ($projects as $project) {
+            $this->notificationController->createNotification(
+                NotificationTypeConstants::PROJECT_PAYMENT,
+                '',
+                $project
             );
         }
     }

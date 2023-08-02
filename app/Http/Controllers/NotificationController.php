@@ -101,7 +101,7 @@ class NotificationController extends Controller
      * @param $type
      * @param $userId
      * @param $id
-     * @param $data
+     * @param $message
      * @return void
      */
     public function createNotification($type, $userId, $id, $message = null)
@@ -130,6 +130,11 @@ class NotificationController extends Controller
             // отписать клиенту через месяц
             case NotificationTypeConstants::WRITE_TO_CLIENT_MONTH :
                 $this->writeToClient($userId, $id, NotificationTypeConstants::WRITE_TO_CLIENT_MONTH);
+                break;
+
+            // уведомление об необходимости оплатить по проекту
+            case NotificationTypeConstants::PROJECT_PAYMENT :
+                $this->projectPayment($userId, $id, NotificationTypeConstants::PROJECT_PAYMENT);
                 break;
         }
 
@@ -229,6 +234,34 @@ class NotificationController extends Controller
      * @return void
      */
     private function writeToClient($userId, $projectId, $type)
+    {
+        $recipients = $this->getAllAdmin();
+
+        foreach ($recipients as $recipient) {
+            $notifications[] = [
+                'date_time' => now(),
+                'type' => $type,
+                'recipient_id' => $recipient,
+                'message' => null,
+                'project_id' => $projectId,
+                'article_id' => null
+            ];
+        }
+
+        if (count($notifications) > 0) {
+            Notification::on()->insert($notifications);
+        }
+    }
+
+    /**
+     * Уведмоление об необходимости оплатить по проекту
+     *
+     * @param $userId
+     * @param $projectId
+     * @param $type
+     * @return void
+     */
+    private function projectPayment($userId, $projectId, $type)
     {
         $recipients = $this->getAllAdmin();
 

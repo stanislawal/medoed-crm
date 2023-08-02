@@ -293,11 +293,28 @@
                            class="form-control form-control-sm" name="payment_terms">
                 </div>
             </div>
+
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Счёт для оплаты</label>
                 <div class="col-sm-9">
                     <input disabled type="text" value="{{$projectInfo['invoice_for_payment']}}"
                            class="form-control form-control-sm" name="invoice_for_payment">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дата последнего прописывания</label>
+                <div class="col-sm-9">
+                    <input disabled type="date" value="{{$projectInfo['date_last_change']}}"
+                           class="form-control form-control-sm" name="date_last_change">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дата уведомления</label>
+                <div class="col-sm-9">
+                    <input disabled type="date" value="{{$projectInfo['date_notification']}}"
+                           class="form-control form-control-sm" name="date_notification">
                 </div>
             </div>
 
