@@ -180,7 +180,7 @@
                             <thead>
                             <tr>
                                 <th></th>
-                                {{--                                <th>ID</th>--}}
+                                <th>ID</th>
                                 <th style="min-width: 200px;">Проект</th>
                                 @role('Администратор')
                                 <th style="min-width: 150px;">Заказчик(и)</th>
@@ -219,11 +219,13 @@
                             @foreach($articles as $article)
                                 <tr class="row_{{ $article['id'] }}"
                                     data-url="{{ route('article.update', ['article' => $article['id']]) }}">
-                                    <td><input type="checkbox" name="check"
-                                               @if((bool)$article['check']) checked @endif
-                                        >
-                                    </td>
-                                    {{--                                    <td>{{ $article['id'] }}</td>--}}
+
+                                    {{--Checkbox--}}
+                                    <td><input type="checkbox" name="check" @if((bool)$article['check']) checked @endif></td>
+
+                                    {{--ID--}}
+                                    <td>{{ $article['id'] }}</td>
+
                                     {{--Имя проекта--}}
                                     <td>
                                         <div>
@@ -239,40 +241,42 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            {{--                                            @dd($article)--}}
                                         </div>
                                     </td>
-                                    @role('Администратор')
-                                    <td class="td-client">
-                                        {{--                                        Заказчик--}}
 
-                                        @foreach($article['articleProject']['projectClients'] ?? [] as $client)
-                                            {{$client['name'] ?? ''}}
-                                        @endforeach
-                                    </td>
+                                    {{--Заказчик--}}
+                                    @role('Администратор')
+                                        <td class="td-client">
+                                            @foreach($article['articleProject']['projectClients'] ?? [] as $client)
+                                                {{$client['name'] ?? ''}}
+                                            @endforeach
+                                        </td>
                                     @endrole
 
+                                    {{--Название статьи--}}
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            {{--                                            Название статьи--}}
                                             <input class="form-control form-control-sm" name="article"
                                                    value="{{$article['article'] ?? ''}}">
                                         </div>
                                     </td>
-                                    {{--                                    ЗБП--}}
+
+                                    {{--ЗБП--}}
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <input class="form-control form-control-sm" name="without_space"
                                                    value="{{$article['without_space'] ?? ''}}">
                                         </div>
                                     </td>
-                                    {{--                                    Цена заказчика--}}
+
+                                    {{--Цена заказчика--}}
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <input class="form-control form-control-sm" name="price_client"
                                                    value="{{$article['price_client'] ?? ''}}"></div>
                                     </td>
-                                    {{--                                    Валюта--}}
+
+                                    {{--Валюта--}}
                                     <td>
                                         <div>
                                             <select class="form-select form-select-sm" name="id_currency">
@@ -284,52 +288,46 @@
                                         </div>
                                     </td>
 
+                                    {{--менеджер--}}
                                     @unlessrole('Менеджер')
-                                    <td>
-
-                                        <div>
-                                            <select class="form-select form-select-sm select-2"
-                                                    data-class="row_{{ $article['id'] }}" name="manager_id">
-                                                <option value="" data-author="" data-client="">Не выбрано</option>
-                                                @foreach($managers as $manager)
-                                                    <option value="{{ $manager['id'] }}"
-                                                            @if($manager['id'] == ($article['articleManager']['id'] ?? "")) selected @endif>
-                                                        {{ $manager['full_name'] }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </td>
+                                        <td>
+                                            <div>
+                                                <select class="form-select form-select-sm select-2"
+                                                        data-class="row_{{ $article['id'] }}" name="manager_id">
+                                                    <option value="" data-author="" data-client="">Не выбрано</option>
+                                                    @foreach($managers as $manager)
+                                                        <option value="{{ $manager['id'] }}"
+                                                                @if($manager['id'] == ($article['articleManager']['id'] ?? "")) selected @endif>
+                                                            {{ $manager['full_name'] }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </td>
                                     @endunlessrole
 
-
-                                    {{--                                    ВАЛОВЫЙ ДОХОД--}}
+                                    {{--ВАЛОВЫЙ ДОХОД--}}
                                     @role('Администратор')
-                                    <td>
-                                        {{$article['gross_income'] + 0 ?? ''}}
-                                    </td>
+                                        <td>
+                                            {{$article['gross_income'] + 0 ?? ''}}
+                                        </td>
                                     @endrole
 
-
+                                    {{--Автор--}}
                                     <td class="td-author">
-                                        {{--                                        Автор--}}
-                                        <select class="form-select form-select-sm select-2"
-                                                name="select_authors">
-
+                                        <select class="form-select form-select-sm select-2" name="select_authors">
+                                            <option value="" data-author="" data-client="">Не выбрано</option>
                                             @foreach($authors as $author)
                                                 <option value="{{$author['id']}}"
-                                                        @if(in_array($author['id'], collect($article['articleAuthor'])->pluck('id')->toArray()))
-                                                            selected
-                                                    @endif>
-
+                                                        @if(in_array($author['id'], collect($article['articleAuthor'])->pluck('id')->toArray())) selected @endif>
                                                     {{$author['full_name'] ?? ''}}
                                                 </option>
 
                                             @endforeach
                                         </select>
-
                                     </td>
-                                    {{--                                    Цена автора--}}
+
+                                    {{--Цена автора--}}
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <input class="form-control form-control-sm" name="price_author"
@@ -337,9 +335,8 @@
                                         </div>
                                     </td>
 
-
+                                    {{--Редактор--}}
                                     <td class="td-author">
-                                        {{--                                        Редактор--}}
                                         <select class="form-select form-select-sm select-2" multiple
                                                 name="select_redactors[]">
 
@@ -354,9 +351,9 @@
 
                                             @endforeach
                                         </select>
-
                                     </td>
-                                    {{--                                    Цена редактора--}}
+
+                                    {{--Цена редактора--}}
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <input class="form-control form-control-sm" name="price_redactor"
@@ -373,27 +370,26 @@
                                                     class="fas fa-external-link-alt"></i></a>
                                         </div>
                                     </td>
+
+                                    {{--Дата--}}
                                     <td class="text-center">{{ \Carbon\Carbon::parse($article['created_at'])->format('Y-m-d H:i') }}</td>
+
+
                                     @role('Администратор')
-                                    <td>
-                                        <div class="form-group col-12 d-flex justify-content-between destroy">
-                                            <a href="{{route('article.destroy', ['article' => $article['id']])}}"
-                                               class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
-                                                    class="fas fa-minus"></i></a>
-                                        </div>
-                                    </td>
+                                        <td>
+                                            <div class="form-group col-12 d-flex justify-content-between destroy">
+                                                <a href="{{route('article.destroy', ['article' => $article['id']])}}"
+                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
+                                                        class="fas fa-minus"></i></a>
+                                            </div>
+                                        </td>
                                     @endrole
                                     <td>
-                                        {{-- <div class="btn btn-sm btn-primary edit"
-                                             onclick="edit('row_{{ $article['id'] }}')">
-                                            <i class="fas fa-pen"></i>
-                                        </div> --}}
                                         <div class="btn btn-sm btn-success save"
                                              onclick="save('row_{{ $article['id'] }}')">
                                             <i class="fas fa-save"></i>
                                         </div>
                                     </td>
-
                                 </tr>
                             @endforeach
                             </tbody>
