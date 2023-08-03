@@ -100,29 +100,13 @@
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Дата</label>
-                            <input class="form-control form-control-sm" type="month" name="month"
-                                value="{{ request()->month ?? null }}">
-                        </div>
-
-                        <div class="form-group col-12 col-md-4 col-lg-3">
-                            <label for="" class="form-label">Диапазон дат</label>
-                            <div class="input-group">
-                                <input type="date" class="form-control form-control-sm" name="start_date"
-                                    value="{{ request()->start_date ?? null }}" placeholder="От">
-                                <input type="date" class="form-control form-control-sm" name="end_date"
-                                    value="{{ request()->end_date ?? null }}" placeholder="До">
-                            </div>
+                            <input class="form-control form-control-sm" type="month" name="month" required
+                                value="{{ request()->month ?? now()->format('Y-m') }}">
                         </div>
 
                         <div class="col-12 p-0">
                             <div class="form-group col-12">
                                 <div class="w-100 d-flex justify-content-end">
-
-                                    @if (!empty(request()->all() && count(request()->all())) > 0)
-                                        <a href="{{ route('report_client.index') }}"
-                                            class="btn btn-sm btn-danger mr-3">Сбросить
-                                            фильтр</a>
-                                    @endif
                                     <button class="btn btn-sm btn-success">Искать</button>
                                 </div>
                             </div>
@@ -140,7 +124,7 @@
                     <div class="row">
                         <div class="col-12 col-sm-6 col-xl-4 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ number_format($statistics['finish_duty'], 2, '.', ' ') }}
+                                <div class="text-24"><strong>{{ number_format($statistics['finish_duty'] + $remainderDuty->sum('remainder_duty'), 2, '.', ' ') }}
                                         ₽</strong></div>
                                 <div class="text-12 nowrap-dot">Общий долг:</div>
                             </div>
@@ -238,6 +222,7 @@
                         <thead>
                             <tr>
                                 <th></th>
+                                <th>ID</th>
                                 <th>Состояние</th>
                                 <th class="fw-bold" style="min-width: 120px;">Долг</th>
                                 <th>Проект</th>
@@ -265,6 +250,7 @@
                                             <i class="fas fa-grip-horizontal"></i>
                                         </a>
                                     </td>
+                                    <td>{{ $item['id'] }}</td>
                                     <td class="text-center">
                                         <select class="form-select form-select-sm"
                                             style="min-width: 170px; background-color: {{ $item['project_status_payment']['color'] ?? '#ffffff' }}70 "
@@ -282,11 +268,11 @@
                                         </select>
                                     </td>
                                     <td class="fw-bolder">
-                                        @if ($item['finish_duty'] + $item['duty'] < 0)
+                                        @if ($item['finish_duty'] + $item['duty'] + ($remainderDuty->where('id', $item['id'])->first()['remainder_duty'] ?? 0) < 0)
                                             <span
-                                                class="text-danger">{{ number_format($item['finish_duty'] + $item['duty'] + 0 ?? '-', 2, '.', ' ') }}</span>
+                                                class="text-danger">{{ number_format($item['finish_duty'] + $item['duty'] + ($remainderDuty->where('id', $item['id'])->first()['remainder_duty'] ?? 0) ?? '-', 2, '.', ' ') }}</span>
                                         @else
-                                            {{ number_format($item['finish_duty'] + $item['duty'] + 0 ?? '-', 2, '.', ' ') }}
+                                            {{ number_format($item['finish_duty'] + $item['duty'] + ($remainderDuty->where('id', $item['id'])->first()['remainder_duty'] ?? 0) ?? '-', 2, '.', ' ') }}
                                         @endif
                                     </td>
                                     <td>{{ $item['project_name'] ?? '-' }}</td>

@@ -210,6 +210,7 @@
                                         </a>
                                     </th>
                                     <th></th>
+                                    <th>ID</th>
                                     @role('Администратор')
                                     <th>@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name', 'routeName' => 'project.index'] )</th>
                                     @endrole
@@ -241,18 +242,18 @@
                                 </thead>
                                 <tbody>
 
-                                @foreach ($projects as $key => $project)
+                                @foreach ($projects as $project)
                                     <tr>
-                                        {{--                                        <td style="padding: 0 10px 0 12px!important">{{ $key + 1 }}</td>--}}
-                                        <td style="padding: 0 10px 0 12px!important"><input type="checkbox" name="check"
-                                                                                            @if((bool)$project['check']) checked
-                                                                                            @endif onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
+                                        <td style="padding: 0 10px 0 12px!important">
+                                            <input type="checkbox" name="check" @if((bool)$project['check']) checked @endif
+                                            onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important"><a
                                                 href="{{route('project.edit',['project'=> $project['id']])}}"><i
                                                     class="fas fa-grip-horizontal"></i></a>
 
                                         </td>
+                                        <td>{{ $project['id'] }}</td>
                                         @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important"><textarea disabled
                                                                                                style="border: none; width: 100px; border-radius: 10px; background-color: rgba(255,255,255,0);"

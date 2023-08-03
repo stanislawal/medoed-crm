@@ -3,6 +3,7 @@
 namespace App\Repositories\Report;
 
 use App\Models\Article;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use App\Models\Project\Project;
 
@@ -98,4 +99,45 @@ class ClientRepositories
         return $report;
     }
 
+    /**
+     * Возвращает остаток долга клиента до указанной даты
+     *
+     * @param $date
+     * @param $projectId
+     * @return Builder
+     */
+    public static function getDuty($date, $projectId = null)
+    {
+        $date = Carbon::parse($date)->startOfMonth()->subDay()->toDateString();
+
+        $projects = Project::on()
+            ->selectRaw("
+                projects.id,
+                coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client
+        ")->from('projects')
+            ->leftJoin('articles', function($leftJoin) use ($date){
+                $leftJoin->on('articles.project_id', '=', 'projects.id')
+                    ->whereRaw("articles.created_at <= '{$date}'");
+            })
+            ->when(!is_null($projectId), function ($where) use ($projectId) {
+                $where->where('projects.id', $projectId);
+            })
+            ->groupBy(['projects.id']);
+
+        $projects = Project::on()->selectRaw("
+            projects.id,
+            (
+                projects.sum_price_client -
+                coalesce(sum(payment.sber_a + payment.sber_d + payment.sber_k + payment.tinkoff_a + payment.privat + payment.um + payment.wmz + payment.birja), 0)
+            ) as remainder_duty
+        ")->fromSub($projects, 'projects')
+            ->leftJoin('payment', function ($leftJoin) use ($date) {
+                $leftJoin->on('payment.project_id', '=', 'projects.id')
+                    ->where('mark', true)
+                    ->whereRaw("payment.date <= '{$date}'");
+            })
+            ->groupBy(['projects.id']);
+
+        return $projects;
+    }
 }

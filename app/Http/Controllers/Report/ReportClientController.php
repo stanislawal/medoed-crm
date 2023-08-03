@@ -61,6 +61,10 @@ class ReportClientController extends Controller
 
         $clients = Client::on()->get()->toArray();
 
+        $remainderDuty = ClientRepositories::getDuty(
+            Carbon::parse($request->month)->toDateString()
+        )->get()->toArray();
+
         return view('report.client.list', [
             'reports' => $reports,
             'statistics' => $statistics,
@@ -68,7 +72,8 @@ class ReportClientController extends Controller
             'statusPayments' => StatusPaymentProject::on()->get()->toArray(),
             'managers' => $managers,
             'project' => $project,
-            'clients' => $clients
+            'clients' => $clients,
+            'remainderDuty' => collect($remainderDuty),
         ]);
     }
 
@@ -85,14 +90,6 @@ class ReportClientController extends Controller
         // менеджер
         if (!empty($request->manager_id)) {
             $reports->where('manager_id', $request->manager_id);
-        }
-
-        // диапазон дат
-        if (!empty($request->start_date) && !empty($request->end_date)) {
-            $reports->whereBetween('created_at', [
-                Carbon::parse($request->start_date)->startOfDay()->toDateTimeString(),
-                Carbon::parse($request->end_date)->endOfDay()->toDateTimeString()
-            ]);
         }
 
         // долг
@@ -127,11 +124,10 @@ class ReportClientController extends Controller
             });
         }
 
-        if (!empty($request->month)) {
-            $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
-            $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
-            $reports->whereBetween('projects.created_at', [$startDate, $endDate]);
-        }
+        $reports->whereBetween('projects.created_at', [
+            Carbon::parse($request->month ?? now())->startOfMonth()->toDateTimeString(),
+            Carbon::parse($request->month ?? now())->endOfMonth()->toDateTimeString()
+        ]);
     }
 
     /**
@@ -172,13 +168,19 @@ class ReportClientController extends Controller
 
         $project = Project::on()->select(['duty', 'id', 'project_name'])->find($id);
 
+        $remainderDuty = ClientRepositories::getDuty(
+            $request->month,
+            $id
+        )->first()->remainder_duty;
+
         return view('report.client.item', [
             'report' => collect($report),
             'clients' => $clients,
             'payment' => $payment,
             'paymentHistory' => $paymentHistory,
             'projectId' => $id,
-            'project' => $project
+            'project' => $project,
+            'remainderDuty' => $remainderDuty,
         ]);
     }
 }

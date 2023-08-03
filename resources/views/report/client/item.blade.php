@@ -10,7 +10,7 @@
             @include('Answer.validator_response')
             <div class="w-100 shadow border rounded p-3">
 
-                <form action="">
+                <form action="" class="check__field">
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-3">
                             <input class="form-control form-control-sm" type="month" name="month"
@@ -73,7 +73,7 @@
                     <div class="col-12 col-sm-6 col-md-4  col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ number_format($report->sum('price_article') - collect($payment)->sum('amount') + $project['duty'], 2, '.', ' ') }}</strong>
+                                <strong>{{ number_format($report->sum('price_article') - collect($payment)->sum('amount') + $project['duty'] + $remainderDuty, 2, '.', ' ') }}</strong>
                             </div>
                             <div class="text-12 nowrap-dot">Долг:</div>
                         </div>
