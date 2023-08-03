@@ -112,6 +112,7 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Сбер А</th>
                                 <th>Тинькофф А</th>
                                 <th>Сбер Д</th>
@@ -125,40 +126,41 @@
                         </thead>
                         <tbody>
                             @forelse($paymentHistory as $item)
-                                <tr>
-                                    <td @if ($item['sber_a'] > 0) class="text-primary fw-bold" @endif>
+                                <tr @if(!$item['mark']) style="background-color: #cd30304a" @endif>
+                                    <td>{{ $item['id'] }}</td>
+                                    <td class="nowrap @if($item['sber_a'] > 0) text-primary fw-bold @endif">
                                         {{ $item['sber_a'] }}
                                         <span>₽</span>
                                     </td>
-                                    <td @if ($item['tinkoff_a'] > 0) class="text-primary fw-bold" @endif>
+                                    <td class="nowrap @if($item['tinkoff_a'] > 0) text-primary fw-bold @endif">
                                         {{ $item['tinkoff_a'] }}
                                         <span>₽</span>
                                     </td>
-                                    <td @if ($item['sber_d'] > 0) class="text-primary fw-bold" @endif>
+                                    <td class="nowrap @if($item['sber_d'] > 0) text-primary fw-bold @endif">
                                         {{ $item['sber_d'] }}
                                         <span>₽</span>
                                     </td>
-                                    <td @if ($item['sber_k'] > 0) class="text-primary fw-bold" @endif>
+                                    <td class="nowrap @if($item['sber_k'] > 0) text-primary fw-bold @endif">
                                         {{ $item['sber_k'] }}
                                         <span>₽</span>
                                     </td>
-                                    <td @if ($item['privat'] > 0) class="text-primary fw-bold" @endif>
+                                    <td class="nowrap @if($item['privat'] > 0) text-primary fw-bold @endif">
                                         {{ $item['privat'] }}
                                         <span>₽</span>
                                     </td>
-                                    <td @if ($item['um'] > 0) class="text-primary fw-bold" @endif>
+                                    <td class="nowrap @if($item['um'] > 0) text-primary fw-bold @endif">
                                         {{ $item['um'] }}
                                         <span>₽</span>
                                     </td>
-                                    <td @if ($item['wmz'] > 0) class="text-primary fw-bold" @endif>
+                                    <td class="nowrap @if($item['wmz'] > 0) text-primary fw-bold @endif">
                                         {{ $item['wmz'] }}
                                         <span>₽</span>
                                     </td>
-                                    <td @if ($item['birja'] > 0) class="text-primary fw-bold" @endif>
+                                    <td class="nowrap @if($item['birja'] > 0) text-primary fw-bold @endif">
                                         {{ $item['birja'] }}
                                         <span>₽</span>
                                     </td>
-                                    <td>{{ $item['created_at'] }}</td>
+                                    <td>{{ $item['date'] }}</td>
                                 </tr>
                             @empty
                                 <tr>

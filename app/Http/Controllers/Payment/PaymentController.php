@@ -33,8 +33,8 @@ class PaymentController extends Controller
                 $where->where('create_user_id', UserHelper::getUserId());
             })
             ->with(['project', 'status'])
-            ->get()
-            ->toArray();
+            ->orderByDesc('id')
+            ->paginate(50);
 
         return view('Payment.create_payment', [
             'projects' => $projects,
@@ -82,8 +82,7 @@ class PaymentController extends Controller
     {
         return view('Payment.moderation_payment', [
             'projects' => Project::on()->select(['id', 'project_name'])->get()->toArray(),
-            'paymentList' => Payment::on()->with(['project', 'status'])->orderBy('id','DESC')->get
-                ()->toArray(),
+            'paymentList' => Payment::on()->with(['project', 'status'])->orderByDesc('id')->paginate(50),
             'statuses' => StatusPayment::on()->get()->toArray()
         ]);
     }

@@ -22,11 +22,15 @@
                 </div>
 
                 <div class="card-body">
+                    <div class="w-100 d-flex justify-content-center mb-3">
+                        {{ $paymentList->appends(request()->input())->links('vendor.pagination.custom')  }}
+                    </div>
                     <div class="table-responsive">
                         <table id="basic-datatables"
                                class="display table table-head-bg-info table-center">
                             <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Состояние</th>
                                 <th>Дата</th>
                                 <th>Сбер А</th>
@@ -49,6 +53,9 @@
                                 <tr
                                     class="row_{{ $payment['id'] }}"
                                     data-url="{{ route('payment.update', ['id' => $payment['id']]) }}">
+                                    <td>
+                                        {{ $payment['id'] }}
+                                    </td>
                                     <td>
                                         <div>
                                             <select style="background-color: {{ $payment['status']['color'] }}70" class="form-select form-select-sm" name="status_payment_id"
@@ -156,6 +163,10 @@
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="w-100 d-flex justify-content-center">
+                        {{ $paymentList->appends(request()->input())->links('vendor.pagination.custom')  }}
                     </div>
                 </div>
             </div>

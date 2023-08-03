@@ -28,35 +28,35 @@
                         <div class="row">
                             <div class="col-4 mb-2">
                                 <label for="">Сбер А</label>
-                                <input type="number" name="sber_a" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                                <input type="number" name="sber_a" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
                                 <label for="">Тинькофф А</label>
-                                <input type="number" name="tinkoff_a" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                                <input type="number" name="tinkoff_a" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
                                 <label for="">Сбер Д</label>
-                                <input type="number" name="sber_d" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                                <input type="number" name="sber_d" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
                                 <label for="">Сбер К</label>
-                                <input type="number" name="sber_k" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                                <input type="number" name="sber_k" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
                                 <label for="">Приват</label>
-                                <input type="number" name="privat" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                                <input type="number" name="privat" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
                                 <label for="">ЮМ</label>
-                                <input type="number" name="um" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                                <input type="number" name="um" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
                                 <label for="">ВМЗ</label>
-                                <input type="number" name="wmz" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                                <input type="number" name="wmz" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
                                 <label for="">Биржи</label>
-                                <input type="number" name="birja" class="form-control form-control-sm" min="0" step="0.01" value="0">
+                                <input type="number" name="birja" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                         </div>
                     </div>

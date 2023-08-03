@@ -142,7 +142,6 @@ class ReportClientController extends Controller
      */
     public function show(Request $request, $id)
     {
-
         $payment = Payment::on()->selectRaw("
             project_id,
             sum(sber_a + tinkoff_a + sber_d + sber_k + privat + um + wmz + birja) as amount,
@@ -151,8 +150,19 @@ class ReportClientController extends Controller
             ->groupBy(['project_id'])
             ->where('project_id', $id)
             ->where('mark', true)
+            ->whereBetween('date', [
+                Carbon::parse($request->month)->startOfMonth()->toDateTimeString(),
+                Carbon::parse($request->month)->endOfMonth()->toDateTimeString(),
+            ])
             ->get()
             ->toArray();
+
+        $paymentHistory = Payment::on()->where('project_id', $id)
+            ->whereBetween('date', [
+                Carbon::parse($request->month)->startOfMonth()->toDateTimeString(),
+                Carbon::parse($request->month)->endOfMonth()->toDateTimeString(),
+            ])
+            ->get()->toArray();
 
         $clients = Client::on()->whereHas('projectClients', function ($where) use ($id) {
             $where->where('projects.id', $id);
@@ -166,7 +176,7 @@ class ReportClientController extends Controller
             'report' => collect($report),
             'clients' => $clients,
             'payment' => $payment,
-            'paymentHistory' => Payment::on()->where('project_id', $id)->get()->toArray(),
+            'paymentHistory' => $paymentHistory,
             'projectId' => $id,
             'project' => $project
         ]);
