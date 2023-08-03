@@ -275,7 +275,7 @@
                                             </option>
                                             @foreach ($statusPayments as $status)
                                                 <option value="{{ $status['id'] }}"
-                                                    @if ($status['id'] == ($item['project_status_payment']['id'] ?? 0)) selected @endif>
+                                                    @if ($status['id'] == ($item['projectStatusPayment']['id'] ?? 0)) selected @endif>
                                                     {{ $status['name'] }}
                                                 </option>
                                             @endforeach

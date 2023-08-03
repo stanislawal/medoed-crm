@@ -31,8 +31,9 @@ window.editCheckProject = function (el, url) {
 }
 
 window.editStatusPaymentProject = function(el, url){
-    const statusPaymentId = $(el).val();
-    ajax('post', url, {status_payment_id : statusPaymentId})
+    const value = $(el).val();
+    const columnName = $(el).attr('name')
+    ajax('post', url, {[columnName]: value})
 }
 
 window.ajaxStatus = true;

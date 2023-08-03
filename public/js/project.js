@@ -37,10 +37,9 @@ window.editCheckProject = function (el, url) {
   });
 };
 window.editStatusPaymentProject = function (el, url) {
-  var statusPaymentId = $(el).val();
-  ajax('post', url, {
-    status_payment_id: statusPaymentId
-  });
+  var value = $(el).val();
+  var columnName = $(el).attr('name');
+  ajax('post', url, _defineProperty({}, columnName, value));
 };
 window.ajaxStatus = true;
 window.ajax = function (method, url, params) {
