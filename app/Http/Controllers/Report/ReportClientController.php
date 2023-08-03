@@ -29,8 +29,6 @@ class ReportClientController extends Controller
         $reportQuery = ClientRepositories::getReport();
         $statistict = ClientRepositories::getReport();
 
-
-
         // фильтр
         $this->filter($reportQuery, $request);
         $this->filter($statistict, $request);
@@ -89,14 +87,12 @@ class ReportClientController extends Controller
             $reports->where('manager_id', $request->manager_id);
         }
 
-        // дата с какой
-        if (!empty($request->start_date)) {
-            $reports->where('created_at', '>=', Carbon::parse($request->start_date)->startOfDay()->format('Y-m-d H:i:s'));
-        }
-
-        // дата до какой
-        if (!empty($request->end_date)) {
-            $reports->where('created_at', '<=', Carbon::parse($request->end_date)->endOfDay()->format('Y-m-d H:i:s'));
+        // диапазон дат
+        if (!empty($request->start_date) && !empty($request->end_date)) {
+            $reports->whereBetween('created_at', [
+                Carbon::parse($request->start_date)->startOfDay()->toDateTimeString(),
+                Carbon::parse($request->end_date)->endOfDay()->toDateTimeString()
+            ]);
         }
 
         // долг
@@ -131,7 +127,7 @@ class ReportClientController extends Controller
             });
         }
 
-        if(!empty($request->month)) {
+        if (!empty($request->month)) {
             $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
             $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
             $reports->whereBetween('projects.created_at', [$startDate, $endDate]);

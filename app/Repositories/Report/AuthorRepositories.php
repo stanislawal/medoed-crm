@@ -98,7 +98,10 @@ class AuthorRepositories
             ")->from('articles')
             ->leftJoin('projects', 'projects.id', '=', 'articles.project_id')
             ->leftJoin('cross_article_authors as cross', 'cross.article_id', 'articles.id')
-            ->whereBetween('articles.created_at', [$startDate, $endDate])
+            ->whereBetween('articles.created_at', [
+                Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
+                Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
+            ])
             ->groupBy('articles.id');
 
         // сортируем статьи принадлежащие данному пользователю

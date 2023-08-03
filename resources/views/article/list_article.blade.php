@@ -200,7 +200,7 @@
                                 <th style="min-width: 150px;">Редактор</th>
                                 <th style="min-width: 100px;">Цена редактора</th>
                                 <th style="min-width: 200px;">Ссылка на текст</th>
-                                <th>Дата создания</th>
+                                <th style="min-width: 110px;">Дата создания</th>
                                 @role('Администратор')
                                 <th>Удалить</th>
                                 @endrole
@@ -373,7 +373,7 @@
                                                     class="fas fa-external-link-alt"></i></a>
                                         </div>
                                     </td>
-                                    <td>{{ \Carbon\Carbon::parse($article['created_at'])->format('Y-m-d H:i') }}</td>
+                                    <td class="text-center">{{ \Carbon\Carbon::parse($article['created_at'])->format('Y-m-d H:i') }}</td>
                                     @role('Администратор')
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">

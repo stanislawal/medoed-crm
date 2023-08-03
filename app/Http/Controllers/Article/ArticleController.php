@@ -237,6 +237,7 @@ class ArticleController extends Controller
         $articles->when(!empty($request->manager_id), function ($where) use ($request) {
             $where->where('manager_id', $request->manager_id);
         });
+
         $articles->whereBetween('created_at', $this->getDate($request));
 
         $articles->when(!empty($request->date_article), function ($where) use ($request) {
@@ -266,7 +267,7 @@ class ArticleController extends Controller
         }
 
         if ($request->has('date_before')) {
-            $endDate = Carbon::parse($request->date_before)->startOfDay();
+            $endDate = Carbon::parse($request->date_before)->endOfDay();
         } else {
             $endDate = Carbon::parse(now())->endOfMonth();
         }
