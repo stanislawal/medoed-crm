@@ -68,11 +68,9 @@ class AuthorRepositories
             ->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
                 $orderBy->orderBy($request->sort, $request->direction);
             })
-            ->when(!empty($request->author_id), function (Builder $where) use ($request){
+            ->when(!empty($request->author_id), function (Builder $where) use ($request) {
                 $where->where('authors.id', $request->author_id);
             });
-
-
         return $authors;
     }
 
@@ -116,18 +114,39 @@ class AuthorRepositories
         return $articles;
     }
 
-    public static function getDuty($date = null, $authorId = null)
+    /**
+     * Возвращает долг до указанной даты по авторам
+     *
+     * @param $date
+     * @param $authorId
+     * @return mixed
+     */
+    public static function getDuty($date, $authorId = null)
     {
-        $dateTo = Carbon::parse($date)->endOfDay()->toDateTimeString();
+        $dateTo = Carbon::parse($date)->endOfDay()->toDateString();
 
         $articles = Article::on()->selectRaw("
-            articles.id,
-            articles.created_at,
-            (articles.without_space * (articles.price_author/1000)) as payment_author,
-            payment_amount
+            id,
+            created_at,
+            coalesce((without_space * (price_author/1000)), 0) as payment_author,
+            coalesce(payment_amount, 0) as payment_amount,
+            coalesce(((without_space * (price_author/1000)) - payment_amount), 0) as remainder_duty
         ")->from('articles')
-        ->whereNotNull('articles.project_id');
+            ->whereNotNull('project_id')
+        ->whereRaw("CAST(created_at as DATE) <= '{$dateTo}'")
+        ->orderByDesc('created_at');
 
+        $dutyBuAuthor = User::on()->selectRaw("
+            users.id as author_id,
+            coalesce(sum(articles.remainder_duty), 0) as remainder_duty
+        ")->from('users')
+            ->leftJoin('cross_article_authors as cross', 'cross.user_id', '=', 'users.id')
+            ->leftJoinSub($articles, 'articles', 'articles.id', '=', 'cross.article_id')
+        ->groupBy(['users.id'])
+        ->when(!is_null($authorId), function($where) use ($authorId){
+            $where->where('users.id', $authorId);
+        });
 
+        return $dutyBuAuthor;
     }
 }

@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($indicators['duty'] + $user['duty'], 2, '.', ' ' ) }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($indicators['duty'] + $user['duty'] + $remainderDuty, 2, '.', ' ' ) }}</strong></div>
                             <div class="text-12 nowrap-dot">Долг:</div>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ $user['payment'] }}</strong></div>
+                                <strong>{{ $user['payment'] ?? "-" }}</strong></div>
                             <div class="text-12 nowrap-dot">Счет:</div>
                         </div>
                     </div>

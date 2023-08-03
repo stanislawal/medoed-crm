@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($indicators['duty'], 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24"><strong>{{number_format($indicators['duty'] + $remainderDuty->sum('remainder_duty'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Итого к выплате:</div>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                                 <td>{{ $author['full_name'] }}</td>
                                 <td>{{number_format($author['without_space']+0, 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['amount']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($author['duty']+0, 2, '.', ' ')  }}</td>
+                                <td>{{number_format($author['duty'] + ($remainderDuty->where('author_id', $author['id'])->first()['remainder_duty'] ?? 0), 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['gross_income']+0, 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['margin']+0, 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['avg_price']+0, 2, '.', ' ') }}</td>

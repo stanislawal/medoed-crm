@@ -7,7 +7,6 @@ use App\Models\Article;
 use App\Models\Rate\Rate;
 use App\Models\User;
 use App\Repositories\Report\AuthorRepositories;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -38,12 +37,15 @@ class ReportAuthorController extends Controller
             ->first()
             ->toArray();
 
+        $remainderDuty =  AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $request->author_id)->get()->toArray();
+
         return view('report.author.list', [
             'rates' => Rate::on()->get(),
             'reports' => $reports,
             'indicators' => $indicators,
             'diffInWeekdays' => $diffInWeekdays,
-            'authors' => $authors
+            'authors' => $authors,
+            'remainderDuty' => collect($remainderDuty),
         ]);
     }
 
@@ -56,12 +58,11 @@ class ReportAuthorController extends Controller
      */
     public function show(Request $request, $id)
     {
-
         $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
         $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
 
-        $articles = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id)
-            ->paginate(20);
+        $articles = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id)->paginate(50);
+
         $indicators = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id);
 
         $indicators = Article::on()->selectRaw("
@@ -90,11 +91,13 @@ class ReportAuthorController extends Controller
             ->first()
             ->toArray();
 
+        $remainderDuty =  AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $id)->first()->remainder_duty ?? 0;
+
         return view('report.author.item', [
             'articles' => $articles,
             'user' => $user,
-            'indicators' => $indicators
+            'indicators' => $indicators,
+            'remainderDuty' => $remainderDuty,
         ]);
     }
-
 }
