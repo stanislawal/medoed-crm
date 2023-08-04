@@ -26,8 +26,8 @@ class ReportClientController extends Controller
     public function index(Request $request)
     {
         // получить запрос отчета
-        $reportQuery = ClientRepositories::getReport();
-        $statistict = ClientRepositories::getReport();
+        $reportQuery = ClientRepositories::getReport($request);
+        $statistict = ClientRepositories::getReport($request);
 
         // фильтр
         $this->filter($reportQuery, $request);
@@ -123,11 +123,6 @@ class ReportClientController extends Controller
                 $where->where('clients.id', $request->client_id);
             });
         }
-
-        $reports->whereBetween('projects.created_at', [
-            Carbon::parse($request->month ?? now())->startOfMonth()->toDateTimeString(),
-            Carbon::parse($request->month ?? now())->endOfMonth()->toDateTimeString()
-        ]);
     }
 
     /**

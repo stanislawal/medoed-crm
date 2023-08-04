@@ -15,8 +15,9 @@ class ClientRepositories
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function getReport()
+    public static function getReport($request)
     {
+
         $reports = Project::on()
             ->selectRaw("
                 projects.*,
@@ -31,7 +32,14 @@ class ClientRepositories
                coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client,
                 coalesce(SUM((articles.price_author *(articles.without_space/1000))), 0) as sum_price_author
         ")->from('projects')
-            ->leftJoin('articles', 'articles.project_id', '=', 'projects.id')
+            ->leftJoin('articles', function ($leftJoin) use ($request){
+
+                $leftJoin->on('articles.project_id', '=', 'projects.id')
+                    ->whereBetween('articles.created_at', [
+                        Carbon::parse($request->month ?? now())->startOfMonth()->toDateTimeString(),
+                        Carbon::parse($request->month ?? now())->endOfMonth()->toDateTimeString()
+                    ]);
+            })
             ->groupBy(['projects.id']);
 
         $reports = Project::on()

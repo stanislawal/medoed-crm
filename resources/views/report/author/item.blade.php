@@ -8,7 +8,7 @@
         @include('Answer.custom_response')
         @include('Answer.validator_response')
         <div class="w-100 shadow border rounded p-3">
-            <form action="">
+            <form action="" class="check__field">
                 <div class="row">
                     <div class="col-12 col-md-4 col-lg-3">
                         <input class="form-control form-control-sm" type="month" name="month"
