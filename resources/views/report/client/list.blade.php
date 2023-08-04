@@ -246,7 +246,7 @@
                             @foreach ($reports as $item)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('client_project.show', ['project' => $item['id']]) }}">
+                                        <a href="{{ route('client_project.show', ['project' => $item['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}">
                                             <i class="fas fa-grip-horizontal"></i>
                                         </a>
                                     </td>
@@ -268,12 +268,7 @@
                                         </select>
                                     </td>
                                     <td class="fw-bolder">
-                                        @if ($item['finish_duty'] + $item['duty'] + ($remainderDuty->where('id', $item['id'])->first()['remainder_duty'] ?? 0) < 0)
-                                            <span
-                                                class="text-danger">{{ number_format($item['finish_duty'] + $item['duty'] + ($remainderDuty->where('id', $item['id'])->first()['remainder_duty'] ?? 0) ?? '-', 2, '.', ' ') }}</span>
-                                        @else
-                                            {{ number_format($item['finish_duty'] + $item['duty'] + ($remainderDuty->where('id', $item['id'])->first()['remainder_duty'] ?? 0) ?? '-', 2, '.', ' ') }}
-                                        @endif
+                                        <span @if(($item['finish_duty'] + $item['duty']) < 0) class="text-danger" @endif>{{ number_format($item['finish_duty'] + $item['duty']  ?? '-', 2, '.', ' ') }}</span>
                                     </td>
                                     <td>{{ $item['project_name'] ?? '-' }}</td>
                                     <td>
