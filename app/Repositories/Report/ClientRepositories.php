@@ -43,8 +43,7 @@ class ClientRepositories
                         Carbon::parse($request->month ?? now())->endOfMonth()->toDateTimeString()
                     ]);
             })
-            ->groupBy(['projects.id'])
-        ->where('projects.id', 20);
+            ->groupBy(['projects.id']);
 
         $reports = Project::on()
             ->selectRaw("
