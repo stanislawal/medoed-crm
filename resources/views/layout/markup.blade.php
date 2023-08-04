@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('title')
-    @yield('')
+    @yield('title')
 @endsection
 
 @section('html')

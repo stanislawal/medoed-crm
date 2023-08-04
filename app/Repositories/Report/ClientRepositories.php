@@ -3,6 +3,7 @@
 namespace App\Repositories\Report;
 
 use App\Models\Article;
+use App\Models\Payment\Payment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use App\Models\Project\Project;
@@ -20,8 +21,11 @@ class ClientRepositories
 
         $reports = Project::on()
             ->selectRaw("
-                projects.*,
-                SUM(articles.without_space) as sum_without_space,
+                projects.id,
+                projects.duty,
+                projects.project_name,
+                projects.manager_id,
+                coalesce(SUM(articles.without_space), 0) as sum_without_space,
                 SUM(
                     (COALESCE(articles.without_space, 0) * (COALESCE(articles.price_client, 0) / 1000))
                 ) as sum_gross_income,
@@ -30,17 +34,17 @@ class ClientRepositories
                     COALESCE(projects.end_date_project, CURRENT_DATE())
                 )) as date_diff,
                coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client,
-                coalesce(SUM((articles.price_author *(articles.without_space/1000))), 0) as sum_price_author
+               coalesce(SUM((articles.price_author *(articles.without_space/1000))), 0) as sum_price_author
         ")->from('projects')
             ->leftJoin('articles', function ($leftJoin) use ($request){
-
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
                     ->whereBetween('articles.created_at', [
                         Carbon::parse($request->month ?? now())->startOfMonth()->toDateTimeString(),
                         Carbon::parse($request->month ?? now())->endOfMonth()->toDateTimeString()
                     ]);
             })
-            ->groupBy(['projects.id']);
+            ->groupBy(['projects.id'])
+        ->where('projects.id', 20);
 
         $reports = Project::on()
             ->selectRaw("
@@ -63,15 +67,25 @@ class ClientRepositories
             ), 0) as finish_duty
         ")
             ->fromSub($reports, 'project')
-            ->leftJoin('payment', function ($leftJoin) {
+            ->leftJoin('payment', function ($leftJoin) use ($request){
                 $leftJoin->on('payment.project_id', '=', 'project.id')
-                    ->where('payment.mark', true);
+                    ->where('payment.mark', 1)
+                    ->whereBetween('payment.date', [
+                        Carbon::parse($request->month ?? now())->startOfMonth()->toDateTimeString(),
+                        Carbon::parse($request->month ?? now())->endOfMonth()->toDateString()
+                    ]);
             })
             ->groupBy(['project.id']);
 
-        $reports = Project::on()->select('projects.*')
+        $reports = Project::on()->selectRaw("
+            projects.*,
+            get_duty.remainder_duty
+        ")
             ->with(['projectStatus', 'projectStatusPayment', 'projectClients', 'projectUser:id,full_name'])
-            ->fromSub($reports, 'projects');
+            ->fromSub($reports, 'projects')
+            ->leftJoinSub(self::getDuty(Carbon::parse($request->month)->toDateString()), 'get_duty', function($leftJoin){
+                $leftJoin->on('get_duty.id', '=', 'projects.id');
+            });
 
         return $reports;
     }
@@ -101,8 +115,6 @@ class ClientRepositories
             ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')
             ->where('projects.id', $id)
             ->with(['articleAuthor:id,full_name']);
-
-
         return $report;
     }
 

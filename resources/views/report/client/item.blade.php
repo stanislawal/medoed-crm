@@ -164,7 +164,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="text-center text-gray">Нет операций</td>
+                                    <td colspan="10" class="text-center text-gray">Нет операций</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -173,7 +173,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="w-100 shadow border rounded">
         <div class="card mb-0">
@@ -201,7 +200,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($report as $item)
+                            @forelse($report as $item)
                                 <tr>
                                     <td class="text-center">{{ $item['id'] }}</td>
                                     <td>
@@ -219,7 +218,11 @@
                                     <td class="nowrap">{{ number_format($item['price_author'] + 0, 2, '.', ' ') }}</td>
                                     <td class="nowrap">{{ number_format($item['margin'] + 0, 2, '.', ' ') }}</td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="9" class="text-center text-gray">Нет данных</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

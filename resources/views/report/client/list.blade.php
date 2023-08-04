@@ -1,4 +1,9 @@
 @extends('layout.markup')
+
+@section('title')
+    Свод по Заказчикам
+@endsection
+
 @section('custom_css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
@@ -129,7 +134,6 @@
                                 <div class="text-12 nowrap-dot">Общий долг:</div>
                             </div>
                         </div>
-
 
                         <div class="col-12 col-sm-6 col-xl-4 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
@@ -268,7 +272,9 @@
                                         </select>
                                     </td>
                                     <td class="fw-bolder">
-                                        <span @if(($item['finish_duty'] + $item['duty']) < 0) class="text-danger" @endif>{{ number_format($item['finish_duty'] + $item['duty']  ?? '-', 2, '.', ' ') }}</span>
+                                        <span @if(($item['finish_duty'] + $item['duty']) < 0) class="text-danger" @endif>
+                                            {{ number_format($item['finish_duty'] + $item['duty'] + $item['remainder_duty'] ?? '-', 2, '.', ' ') }}
+                                        </span>
                                     </td>
                                     <td>{{ $item['project_name'] ?? '-' }}</td>
                                     <td>

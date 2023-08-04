@@ -36,9 +36,14 @@ class ReportClientController extends Controller
         // результат запроса
         $reports = $reportQuery->paginate(20);
 
+
+//        $remainderDuty = ClientRepositories::getDuty(
+//            Carbon::parse($request->month)->toDateString()
+//        )->get()->toArray();
+
         // расчеты
         $statistics = Project::on()->selectRaw("
-             (sum(result.finish_duty) + sum(result.duty)) as finish_duty,
+             (sum(result.finish_duty) + sum(result.duty) + sum(result.remainder_duty)) as finish_duty,
              sum(result.sum_without_space) as sum_without_space,
              sum(result.sum_gross_income) as sum_gross_income,
              sum(result.profit) as profit,
@@ -61,10 +66,6 @@ class ReportClientController extends Controller
 
         $clients = Client::on()->get()->toArray();
 
-        $remainderDuty = ClientRepositories::getDuty(
-            Carbon::parse($request->month)->toDateString()
-        )->get()->toArray();
-
         return view('report.client.list', [
             'reports' => $reports,
             'statistics' => $statistics,
@@ -73,7 +74,7 @@ class ReportClientController extends Controller
             'managers' => $managers,
             'project' => $project,
             'clients' => $clients,
-            'remainderDuty' => collect($remainderDuty),
+//            'remainderDuty' => collect($remainderDuty),
         ]);
     }
 
@@ -114,7 +115,7 @@ class ReportClientController extends Controller
 
         // менеджер
         if (!empty($request->project_id)) {
-            $reports->where('id', $request->project_id);
+            $reports->where('projects.id', $request->project_id);
         }
 
         // менеджер
@@ -133,18 +134,19 @@ class ReportClientController extends Controller
      */
     public function show(Request $request, $id)
     {
+        // общая сумма оплаты за проект
         $payment = Payment::on()->selectRaw("
             project_id,
             sum(sber_a + tinkoff_a + sber_d + sber_k + privat + um + wmz + birja) as amount,
             count(id) as count_operation
         ")
-            ->groupBy(['project_id'])
             ->where('project_id', $id)
             ->where('mark', true)
             ->whereBetween('date', [
                 Carbon::parse($request->month)->startOfMonth()->toDateTimeString(),
                 Carbon::parse($request->month)->endOfMonth()->toDateTimeString(),
             ])
+            ->groupBy(['project_id'])
             ->get()
             ->toArray();
 
