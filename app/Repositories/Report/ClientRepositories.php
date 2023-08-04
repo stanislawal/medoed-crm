@@ -137,7 +137,7 @@ class ClientRepositories
         ")->from('projects')
             ->leftJoin('articles', function($leftJoin) use ($date){
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
-                    ->whereRaw("articles.created_at <= '{$date}'");
+                    ->whereRaw("CAST(articles.created_at as DATE) <= '{$date}'");
             })
             ->when(!is_null($projectId), function ($where) use ($projectId) {
                 $where->where('projects.id', $projectId);
