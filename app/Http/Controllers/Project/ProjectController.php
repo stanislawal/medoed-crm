@@ -13,6 +13,7 @@ use App\Models\Currency;
 use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Cross\CrossProjectClient;
 use App\Models\Project\Mood;
+use App\Models\Project\NotifiProject;
 use App\Models\Project\Project;
 use App\Models\Project\Style;
 use App\Models\Project\Theme;
@@ -196,7 +197,6 @@ class ProjectController extends Controller
     //Страница редактирования одной записи
     public function edit($project)
     {
-
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
         $themes = Theme::on()->get()->toArray(); //Достаем все темы проектов
         $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
@@ -231,6 +231,8 @@ class ProjectController extends Controller
             return $item;
         })->toArray();
 
+        $notifiProject = NotifiProject::on()->where('project_id', $project)->get()->pluck('day')->toArray() ?? [];
+
         return view('project.project_edit', [
             'projectInfo' => $projectInfo,
             'statuses' => $statuses,
@@ -241,6 +243,7 @@ class ProjectController extends Controller
             'managers' => $managers,
             'authors' => $authors,
             'socialNetwork' => $socialNetwork,
+            'notifiProject' => $notifiProject,
         ]);
     }
 
@@ -280,6 +283,7 @@ class ProjectController extends Controller
 
         $this->updateAuthorForProject($project, $request->author_id ?? []);
         $this->updateClientsForProject($project, $request->client_id ?? []);
+        $this->updateNotifiProject($project, $request);
 
         if (!empty($request->manager_id) && $oldProject['manager_id'] != $request->manager_id) {
             (new NotificationController())->createNotification(
@@ -342,6 +346,28 @@ class ProjectController extends Controller
         }
     }
 
+    private function updateNotifiProject($projectId, $request)
+    {
+        if (!is_null($request->days) || !is_null($request->weekday)) {
+
+            NotifiProject::on()->where('project_id', $projectId)->delete();
+
+            $list = array_merge($request->days ?? [], $request->weekday ?? []);
+
+            if(count($list) > 0){
+                $data = [];
+                foreach ($list as $item) {
+                    $data[] = [
+                        'project_id' => $projectId,
+                        'day' => $item
+                    ];
+                }
+
+                NotifiProject::on()->insert($data);
+            }
+        }
+    }
+
     public function partialUpdate($id, Request $request)
     {
 
@@ -351,7 +377,7 @@ class ProjectController extends Controller
             Project::on()->where('id', $id)->update($param);
         }
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return response()->json(['result' => true]);
         }
 
@@ -388,7 +414,7 @@ class ProjectController extends Controller
         });
 
         $projects->when(!empty($request->author_id), function ($where) use ($request) {
-            $where->whereHas('projectAuthor', function ($where) use ($request){
+            $where->whereHas('projectAuthor', function ($where) use ($request) {
                 $where->where('users.id', $request->author_id);
             });
         });

@@ -317,6 +317,29 @@
                            class="form-control form-control-sm" name="date_notification">
                 </div>
             </div>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дни оплаты</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <div class="w-50">
+                            <select class="form-control form-control-sm input-group select-2" multiple name="days[]" disabled>
+                                <option value="">Не выбрано</option>
+                                @for($i = 1; $i <= 31; $i++)
+                                    <option @if(in_array($i, $notifiProject ?? [])) selected @endif  value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="w-50">
+                            <select class="form-control form-control-sm select-2" multiple name="weekday[]" disabled>
+                                <option value="">Не выбрано</option>
+                                @foreach(\App\Helpers\DateHelper::getWeekdayList() as $key => $value)
+                                    <option @if(in_array((string)$key, $notifiProject)) selected @endif  value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <hr class="bg-primary">
 

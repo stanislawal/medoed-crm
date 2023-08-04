@@ -44,8 +44,8 @@ class CheckProjects extends Command
      */
     public function handle()
     {
-        $this->projectWeek();
-        $this->projectMonth();
+//        $this->projectWeek();
+//        $this->projectMonth();
         $this->payment();
     }
 
@@ -123,9 +123,16 @@ class CheckProjects extends Command
         $projects = Project::on()->select(['id'])
             ->whereNotNull('date_notification')
             ->where('date_notification', now()->format('Y-m-d'))
+            ->orWhere(function($where){
+                $where->whereHas('notifiProject', function($where){
+                    $where->whereIn('day', [
+                        now()->format('j'),
+                        now()->format('l')
+                    ]);
+                });
+            })
             ->get()
             ->pluck('id');
-
 
         foreach ($projects as $project) {
             $this->notificationController->createNotification(

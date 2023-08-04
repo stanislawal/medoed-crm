@@ -54,6 +54,10 @@ class Project extends Model
     public $timestamps = true;
 
 
+    public function notifiProject(){
+        return $this->hasMany(NotifiProject::class, 'project_id');
+    }
+
     public function projectAuthor()
     {
         //Отношение многие ко многим. первый параметр - связь с конечной таблице. второй параметр - название промежуточной таблицы.
