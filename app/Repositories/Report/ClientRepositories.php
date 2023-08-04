@@ -78,8 +78,8 @@ class ClientRepositories
 
     public static function getByProject($id, $request)
     {
-        $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
-        $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
+        $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->toDateTimeString();
+        $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->toDateTimeString();
         $report = Article::on()->selectRaw("
               id,
               article as article_name,
@@ -89,7 +89,7 @@ class ClientRepositories
               (without_space * ((price_client *(without_space/1000)) / 1000)) as gross_income,
               price_author,
               created_at
-        ");
+        ")->whereBetween('articles.created_at', [$startDate, $endDate]);
 
         $report = Article::on()->selectRaw("
                 projects.project_name,
@@ -100,7 +100,6 @@ class ClientRepositories
             ->from('projects')
             ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')
             ->where('projects.id', $id)
-            ->whereBetween('articles.created_at', [$startDate, $endDate])
             ->with(['articleAuthor:id,full_name']);
 
 
