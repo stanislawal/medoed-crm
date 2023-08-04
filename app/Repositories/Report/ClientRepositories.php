@@ -25,6 +25,7 @@ class ClientRepositories
                 projects.duty,
                 projects.project_name,
                 projects.manager_id,
+                projects.status_payment_id,
                 projects.payment_terms,
                 coalesce(SUM(articles.without_space), 0) as sum_without_space,
                 SUM(
