@@ -44,8 +44,8 @@ class CheckProjects extends Command
      */
     public function handle()
     {
-//        $this->projectWeek();
-//        $this->projectMonth();
+        $this->projectWeek();
+        $this->projectMonth();
         $this->payment();
     }
 
