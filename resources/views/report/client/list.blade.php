@@ -124,7 +124,7 @@
                     <div class="row">
                         <div class="col-12 col-sm-6 col-xl-4 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ number_format($statistics['finish_duty'] + $remainderDuty->sum('remainder_duty'), 2, '.', ' ') }}
+                                <div class="text-24"><strong>{{ number_format($statistics['finish_duty'], 2, '.', ' ') }}
                                         ₽</strong></div>
                                 <div class="text-12 nowrap-dot">Общий долг:</div>
                             </div>
