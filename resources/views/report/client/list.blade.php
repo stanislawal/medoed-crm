@@ -272,7 +272,7 @@
                                         </select>
                                     </td>
                                     <td class="fw-bolder">
-                                        <span @if(($item['finish_duty'] + $item['duty']) < 0) class="text-danger" @endif>
+                                        <span @if(($item['finish_duty'] + $item['duty'] + $item['remainder_duty']) < 0) class="text-danger" @endif>
                                             {{ number_format($item['finish_duty'] + $item['duty'] + $item['remainder_duty'] ?? '-', 2, '.', ' ') }}
                                         </span>
                                     </td>
