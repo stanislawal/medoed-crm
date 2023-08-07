@@ -19,8 +19,9 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
+
         $projects = Project::on()
             ->when(UserHelper::isManager(), function ($where) {
                 $where->where('manager_id', UserHelper::getUserId());
@@ -33,8 +34,12 @@ class PaymentController extends Controller
                 $where->where('create_user_id', UserHelper::getUserId());
             })
             ->with(['project', 'status'])
-            ->orderByDesc('id')
-            ->paginate(50);
+            ->orderByDesc('id');
+
+        $this->filter($paymentList, $request);
+
+        $paymentList = $paymentList->paginate(50);
+
 
         return view('Payment.create_payment', [
             'projects' => $projects,
@@ -49,7 +54,7 @@ class PaymentController extends Controller
 
         return response()->json([
             'result' => true,
-            'html' => view('Render.Payment.select_article' ,['articles' => $articles])->render()
+            'html' => view('Render.Payment.select_article', ['articles' => $articles])->render()
         ]);
     }
 
@@ -78,11 +83,18 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function moderation()
+    public function moderation(Request $request)
     {
+        $paymentList = Payment::on()->with(['project', 'status'])->orderByDesc('id');
+
+        $this->filter($paymentList, $request);
+
+        $paymentList = $paymentList->paginate(50);
+
+
         return view('Payment.moderation_payment', [
             'projects' => Project::on()->select(['id', 'project_name'])->get()->toArray(),
-            'paymentList' => Payment::on()->with(['project', 'status'])->orderByDesc('id')->paginate(50),
+            'paymentList' => $paymentList,
             'statuses' => StatusPayment::on()->get()->toArray()
         ]);
     }
@@ -98,7 +110,7 @@ class PaymentController extends Controller
     {
 
         $params = collect($request->all())
-            ->only(['mark', 'back_duty', 'status_payment_id', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a' , 'privat', 'um',
+            ->only(['mark', 'back_duty', 'status_payment_id', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a', 'privat', 'um',
                 'wmz', 'birja', 'project_id', 'comment'])
             ->toArray();
 
@@ -133,6 +145,21 @@ class PaymentController extends Controller
             return redirect()->back()->with(['error' => 'Невозможно удалить заявку.']);
         }
 
+    }
+
+    private function filter(&$query, $request)
+    {
+        $query->when(!empty($request->project_id), function($query) use ($request){
+            $query->where('project_id', $request->project_id);
+        });
+
+        $query->when(!empty($request->date), function($query) use ($request){
+            $query->where('date', $request->date);
+        });
+
+        $query->when(!empty($request->invoice), function ($query) use ($request){
+           $query->where($request->invoice, '!=', 0);
+        });
     }
 
     private function hasMark($id)

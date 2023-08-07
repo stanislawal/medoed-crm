@@ -5,6 +5,7 @@ namespace App\Models\Payment;
 use App\Models\Article;
 use App\Models\Project\Project;
 use App\Models\StatusPayment;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -132,6 +132,15 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/pragmarx/version" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-ctype 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/process 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/finder 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/event-dispatcher 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-kernel 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/graham-campbell/result-type 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php80 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/var-dumper 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/css-selector 2" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

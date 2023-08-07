@@ -134,6 +134,15 @@
       <path value="$PROJECT_DIR$/vendor/dragonmantank/cron-expression" />
       <path value="$PROJECT_DIR$/vendor/graham-campbell/result-type" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype 2" />
+      <path value="$PROJECT_DIR$/vendor/symfony/process 2" />
+      <path value="$PROJECT_DIR$/vendor/symfony/finder 2" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher 2" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-kernel 2" />
+      <path value="$PROJECT_DIR$/vendor/graham-campbell/result-type 2" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80 2" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring 2" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-dumper 2" />
+      <path value="$PROJECT_DIR$/vendor/symfony/css-selector 2" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4">

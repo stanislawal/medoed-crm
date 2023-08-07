@@ -233,11 +233,13 @@
                                             <span class="sub-item">Заказчики</span>
                                         </a>
                                     </li>
+                                    @role('Администратор')
                                     <li>
                                         <a href="{{ route('report_author.index') }}">
                                             <span class="sub-item">Авторы</span>
                                         </a>
                                     </li>
+                                    @endrole
                                 </ul>
                             </div>
                         </li>

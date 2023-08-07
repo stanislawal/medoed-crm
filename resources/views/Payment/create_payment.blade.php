@@ -10,6 +10,59 @@
             @include('Answer.validator_response')
         </div>
 
+        {{--    ФИЛЬТР --}}
+        <div class="mb-3">
+            <div class="w-100 shadow border rounded p-3">
+                <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i
+                        class="fa fa-search search-icon mr-2"></i>Поиск
+                </div>
+
+                <form action="" class="check__field">
+                    @csrf
+                    <div class="row m-0" id="search">
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Проект</label>
+                            <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
+                                    name="project_id">
+                                <option value=" " selected>Не выбрано</option>
+                                @foreach ($projects as $project_info)
+                                    <option @if ($project_info['id'] == request()->project_id) selected @endif
+                                    value="{{ $project_info['id'] }}">{{ $project_info['project_name']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div  class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Счёт</label>
+                            <select class="form-select form-select-sm" name="invoice">
+                                <option value="">Не выбрано</option>
+                                <option value="sber_a">Сбер А</option>
+                                <option value="tinkoff_a">Тинькофф А</option>
+                                <option value="sber_d">Сбер Д</option>
+                                <option value="sber_k">Сбер К</option>
+                                <option value="privat">Приват</option>
+                                <option value="um">ЮМ</option>
+                                <option value="wmz">ВМЗ</option>
+                                <option value="birja">Биржи</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label class="form-label">Дата</label>
+                            <div class="input-group">
+                                <input type="date" name="date" class="form-control form-control-sm"
+                                       value="{{ request()->date ?? null}}">
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-success">Искать</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="w-100">
             <div class="card shadow border bg-white rounded">
                 <div class="card-header">
@@ -58,7 +111,8 @@
                                     </td>
                                     <td>
                                         <div>
-                                            <select style="background-color: {{ $payment['status']['color'] }}70" class="form-select form-select-sm" name="status_payment_id"
+                                            <select style="background-color: {{ $payment['status']['color'] }}70"
+                                                    class="form-select form-select-sm" name="status_payment_id"
                                                     disabled>
                                                 @foreach($statuses as $status)
                                                     <option value="{{ $status['id'] }}"
@@ -181,7 +235,7 @@
 
     <script src="{{asset('js/payment.js')}}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("#select2insidemodal").select2({
                 dropdownParent: $("#create_payment")
             });
