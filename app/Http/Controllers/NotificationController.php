@@ -177,9 +177,10 @@ class NotificationController extends Controller
      */
     private function changeArticle($userId, $articleId, $message)
     {
-        $recipients = User::on()->whereHas('roles', function ($query) {
-            $query->where('id', 1);
-        })->get()->pluck('id'); // получить всех админов
+        $recipients = $this->getAllAdmin();
+
+        if ($userId != '')
+            $recipients[] = $userId;
 
         $notifications = [];
         foreach ($recipients as $recipient) {
@@ -209,6 +210,9 @@ class NotificationController extends Controller
     {
         $recipients = $this->getAllAdmin();
 
+        if ($userId != '')
+            $recipients[] = $userId;
+
         $notifications = [];
         foreach ($recipients as $recipient) {
             $notifications[] = [
@@ -237,6 +241,9 @@ class NotificationController extends Controller
     {
         $recipients = $this->getAllAdmin();
 
+        if ($userId != '')
+            $recipients[] = $userId;
+
         foreach ($recipients as $recipient) {
             $notifications[] = [
                 'date_time' => now(),
@@ -264,6 +271,9 @@ class NotificationController extends Controller
     private function projectPayment($userId, $projectId, $type)
     {
         $recipients = $this->getAllAdmin();
+
+        if ($userId != '')
+            $recipients[] = $userId;
 
         foreach ($recipients as $recipient) {
             $notifications[] = [

@@ -291,7 +291,9 @@ class ProjectController extends Controller
                 $request->manager_id,
                 $project
             );
-        } else if ($attr['price_client'] != $oldProject['price_client']) {
+        }
+
+        if ($attr['price_client'] != $oldProject['price_client']) {
             (new NotificationController())->createNotification(
                 NotificationTypeConstants::CHANGE_PRICE_PROJECT,
                 '',
@@ -354,7 +356,7 @@ class ProjectController extends Controller
 
             $list = array_merge($request->days ?? [], $request->weekday ?? []);
 
-            if(count($list) > 0){
+            if (count($list) > 0) {
                 $data = [];
                 foreach ($list as $item) {
                     $data[] = [

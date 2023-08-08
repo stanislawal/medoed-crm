@@ -64,25 +64,24 @@ class CheckProjects extends Command
             ->where('type', NotificationTypeConstants::WRITE_TO_CLIENT_WEEK)
             ->whereRaw("DATE(date_time) = '{$currentDate}'")->get()->pluck('project_id');
 
-        $projectWeek = Project::on()->select(['id'])
+        $projectWeek = Project::on()->select(['id', 'manager_id'])
             ->whereNotIn('status_id', [3, 5]) // кроме статусов "ушел", "стоп"
             ->whereNotNull('date_last_change')
             ->where('date_last_change', $date)
             ->whereNotIn('id', $notInProjectId)
-            ->get()
-            ->pluck('id');
+            ->get();
 
-        foreach ($projectWeek as $projectId) {
+        foreach ($projectWeek as $project) {
             $this->notificationController->createNotification(
                 NotificationTypeConstants::WRITE_TO_CLIENT_WEEK,
-                '',
-                $projectId
+                $project->manager_id,
+                $project->id
             );
         }
     }
 
     /**
-     * Создатьу уведомление по проектам, в которых дата последнего прописывания неделя
+     * Создатьу уведомление по проектам, в которых дата последнего прописывания месяц
      *
      * @return void
      */
@@ -96,19 +95,18 @@ class CheckProjects extends Command
             ->where('type', NotificationTypeConstants::WRITE_TO_CLIENT_MONTH)
             ->whereRaw("DATE(date_time) = '{$currentDate}'")->get()->pluck('project_id');
 
-        $projectWeek = Project::on()->select(['id'])
+        $projectWeek = Project::on()->select(['id', 'manager_id'])
             ->where('status_id', '3') // только статус "стоп"
             ->whereNotNull('date_last_change')
             ->where('date_last_change', $date)
             ->whereNotIn('id', $notInProjectId)
-            ->get()
-            ->pluck('id');
+            ->get();
 
-        foreach ($projectWeek as $projectId) {
+        foreach ($projectWeek as $project) {
             $this->notificationController->createNotification(
                 NotificationTypeConstants::WRITE_TO_CLIENT_MONTH,
-                '',
-                $projectId
+                $project->manager_id,
+                $project->id
             );
         }
     }
@@ -120,7 +118,7 @@ class CheckProjects extends Command
      */
     private function payment()
     {
-        $projects = Project::on()->select(['id'])
+        $projects = Project::on()->select(['id', 'manager_id'])
             ->whereNotNull('date_notification')
             ->where('date_notification', now()->format('Y-m-d'))
             ->orWhere(function($where){
@@ -131,14 +129,13 @@ class CheckProjects extends Command
                     ]);
                 });
             })
-            ->get()
-            ->pluck('id');
+            ->get();
 
         foreach ($projects as $project) {
             $this->notificationController->createNotification(
                 NotificationTypeConstants::PROJECT_PAYMENT,
-                '',
-                $project
+                $project->manager_id,
+                $project->id
             );
         }
     }
