@@ -141,6 +141,21 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring 2" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/var-dumper 2" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/css-selector 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/mime 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/console 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-idn 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-intl-normalizer 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/string 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/routing 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-iconv 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/error-handler 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-foundation 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ramsey/collection 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/tijsverkoyen/css-to-inline-styles 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpoption/phpoption 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/maximebf/debugbar 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/fakerphp/faker 2" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/dbal 2" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

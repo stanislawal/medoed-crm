@@ -18,6 +18,9 @@ class BankSeeder extends Seeder
             ['name' => 'Сбербанк'],
             ['name' => 'ЮMoney'],
             ['name' => 'Тинькофф'],
+            ['name' => 'Приват'],
+            ['name' => 'Открытие'],
+            ['name' => 'Самозанятость'],
         ];
 
         foreach ($data as $bank) {

@@ -150,6 +150,7 @@ class NotificationController extends Controller
      */
     private function assignedProject($userId, $projectId)
     {
+        $recipients = $this->getAllAdmin();
         $recipients[] = $userId;
 
         $notifications = [];

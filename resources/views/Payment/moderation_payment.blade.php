@@ -112,6 +112,7 @@
                                             <select style="background-color: {{ $payment['status']['color'] }}70" class="form-select form-select-sm" name="status_payment_id" disabled>
                                                 @foreach($statuses as $status)
                                                     <option value="{{ $status['id'] }}"
+
                                                             @if($payment['status_payment_id'] === $status['id']) selected @endif
                                                             value="{{ $status['id'] }}">{{ $status['name'] }}</option>
                                                 @endforeach

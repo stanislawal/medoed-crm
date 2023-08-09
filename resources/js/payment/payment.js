@@ -111,3 +111,13 @@ $('select[name="project_id"]').change(function () {
     $('.' + className + ' .td-author').text(author);
 });
 
+$('input[name="mark"]').change(function (){
+   const mark = $(this)
+    const select = mark.parent('div').parent('td').parent('tr').children('td').children('div').children('select');
+    if (mark.is(':checked')){
+        select.children('option[value="4"]').prop('selected', true)
+        // $('#select option[value=2]').prop('selected', true);
+    }
+
+});
+
