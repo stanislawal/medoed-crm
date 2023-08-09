@@ -200,8 +200,8 @@
                                 <th style="min-width: 150px;">Менеджер</th>
                                 @endunlessrole
 
-                                @role('Администратор')
-                                <th style="min-width: 100px;">ВД</th>@endrole
+
+                                <th style="min-width: 100px;">ВД</th>
                                 <th style="min-width: 150px;">Автор</th>
                                 <th style="min-width: 100px;">Цена автора</th>
                                 <th style="min-width: 150px;">Редактор</th>
