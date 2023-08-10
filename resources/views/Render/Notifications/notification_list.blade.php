@@ -112,9 +112,9 @@
                         <div class="description">
                             <div class="text-notify">
                                 <span>Изменение в базе статей: <br></span>
-                                <div> {!! $item['message'] ?? '' !!}</div>
+                                <div> {!! $item['message'] !!}</div>
                                 <a href="{{ route('article.index', ['article' => $item['articles']['article']]) }}"
-                                   class="text-primary">{{ $item['articles']['article'] }}</a></div>
+                                   class="text-primary">{{ $item['articles']['article'] ?? null}}</a></div>
                             <div class="time">{{ $item['date_time'] }}</div>
                         </div>
                         <div class="browse"
