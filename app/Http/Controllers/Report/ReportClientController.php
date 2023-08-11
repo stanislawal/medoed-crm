@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Client\Client;
@@ -28,6 +29,15 @@ class ReportClientController extends Controller
         // получить запрос отчета
         $reportQuery = ClientRepositories::getReport($request);
         $statistict = ClientRepositories::getReport($request);
+
+
+        $reportQuery->when(UserHelper::isManager(), function ($where) {
+            $where->where('manager_id', UserHelper::getUserId());
+        });
+
+        $statistict->when(UserHelper::isManager(), function ($where) {
+            $where->where('manager_id', UserHelper::getUserId());
+        });
 
         // фильтр
         $this->filter($reportQuery, $request);

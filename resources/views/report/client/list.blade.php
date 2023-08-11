@@ -294,7 +294,7 @@
                                 @role('Администратор')
                                 <td>{{ number_format($item['profit'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                 @endrole
-                                <td>{!! $item['project_user']['full_name'] ?? '<span class="test-12 fst-italic text-gray">Пусто</span>' !!}</td>
+                                <td>{!! $item['projectUser']['full_name'] ?? '<span class="test-12 fst-italic text-gray">Пусто</span>' !!}</td>
                                 <td>{{ $item['payment_terms'] ?? '-' }} </td>
                                 <td>{{ $item['date_diff'] . ' дней' ?? '-' }}</td>
                                 <td>{{ number_format($item['sum_price_client'] + 0 ?? '-', 2, '.', ' ') }}</td>
