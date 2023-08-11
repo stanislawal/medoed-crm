@@ -51,16 +51,15 @@
                             <div class="text-12 nowrap-dot">Сдано ЗБП:</div>
                         </div>
                     </div>
+                   @role('Администратор')
                     <div class="col-12 col-sm-6 col-md-4  col-xl-3 mb-2">
 
-                      @role('Администратор')
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
                             <div class="text-24">
                                 <strong>{{ number_format($report->sum('margin'), 2, '.', ' ') }}</strong>
                             </div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
-                        @endrole
 
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
                             <div class="text-24">
@@ -68,8 +67,24 @@
                             </div>
                             <div class="text-12 nowrap-dot">Долг:</div>
                         </div>
-
                     </div>
+                    @endrole
+
+                    @role('Менеджер')
+                    <div class="col-12 col-sm-6 col-md-4  col-xl-3 mb-2">
+
+                        <div style="height: 72px;" class="px-3 py-2 mb-3">
+
+                        </div>
+
+                        <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{ number_format($report->sum('price_article') - collect($payment)->sum('amount') + $project['duty'] + $remainderDuty, 2, '.', ' ') }}</strong>
+                            </div>
+                            <div class="text-12 nowrap-dot">Долг:</div>
+                        </div>
+                    </div>
+                    @endrole
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
                             <div class="text-24">
