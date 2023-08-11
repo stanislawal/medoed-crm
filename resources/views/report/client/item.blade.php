@@ -53,12 +53,14 @@
                     </div>
                     <div class="col-12 col-sm-6 col-md-4  col-xl-3 mb-2">
 
+                      @role('Администратор')
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
                             <div class="text-24">
                                 <strong>{{ number_format($report->sum('margin'), 2, '.', ' ') }}</strong>
                             </div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
+                        @endrole
 
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
                             <div class="text-24">
