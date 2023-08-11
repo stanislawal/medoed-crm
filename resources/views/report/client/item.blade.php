@@ -74,7 +74,7 @@
                     <div class="col-12 col-sm-6 col-md-4  col-xl-3 mb-2">
 
                         <div style="height: 72px;" class="px-3 py-2 mb-3">
-
+Ò
                         </div>
 
                         <div style="background-color: rgba(255,0,0,0.48);" class="px-3 py-2 shadow border mb-3  rounded">
