@@ -61,11 +61,11 @@
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
 
-                        <div class="px-3 py-2 shadow border mb-3 bg-danger rounded">
+                        <div style="background-color: rgba(255,0,0,0.48);" class="px-3 py-2 shadow border mb-3 rounded">
                             <div class="text-24">
                                 <strong>{{ number_format($report->sum('price_article') - collect($payment)->sum('amount') + $project['duty'] + $remainderDuty, 2, '.', ' ') }}</strong>
                             </div>
-                            <div style="background-color: rgba(255,0,0,0.48);" class="text-12 nowrap-dot">Долг:</div>
+                            <div  class="text-12 nowrap-dot">Долг:</div>
                         </div>
                     </div>
                     @endrole
@@ -74,7 +74,7 @@
                     <div class="col-12 col-sm-6 col-md-4  col-xl-3 mb-2">
 
                         <div style="height: 72px;" class="px-3 py-2 mb-3">
-Ò
+
                         </div>
 
                         <div style="background-color: rgba(255,0,0,0.48);" class="px-3 py-2 shadow border mb-3  rounded">
