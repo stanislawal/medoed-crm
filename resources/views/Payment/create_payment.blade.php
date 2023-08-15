@@ -86,6 +86,8 @@
                                 <th>ID</th>
                                 <th>Состояние</th>
                                 <th>Дата</th>
+                                <th>Удалить</th>
+                                <th>Изменить</th>
                                 <th>Сбер А</th>
                                 <th>Тинькофф А</th>
                                 <th>Сбер Д</th>
@@ -96,8 +98,7 @@
                                 <th>Биржи</th>
                                 <th>Проект</th>
                                 <th>Комментарий</th>
-                                <th>Удалить</th>
-                                <th>Изменить</th>
+
                             </tr>
 
                             </thead>
@@ -125,6 +126,32 @@
                                     </td>
                                     <td class="nowrap">
                                         {{ $payment['date'] }}
+                                    </td>
+                                    <td class="text-center">
+                                        @if((bool)!$payment['mark'])
+                                            <div class="form-group col-12 d-flex justify-content-between destroy">
+                                                <a href="{{route('payment.delete', ['id' => $payment['id']])}}"
+                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
+                                                        class="fas fa-minus"></i></a>
+                                            </div>
+                                        @else
+                                            <span class="text-12 font-weight-bold">Недоступно</span>
+                                        @endif
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if((bool)!$payment['mark'])
+                                            <div class="btn btn-sm btn-primary edit"
+                                                 onclick="edit('row_{{ $payment['id'] }}')">
+                                                <i class="fas fa-pen"></i>
+                                            </div>
+                                            <div class="btn btn-sm btn-success save" style="display: none;"
+                                                 onclick="save('row_{{ $payment['id'] }}', true)">
+                                                <i class="fas fa-save"></i>
+                                            </div>
+                                        @else
+                                            <span class="text-12 font-weight-bold">Недоступно</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <div>
@@ -187,32 +214,7 @@
                                         </div>
                                     </td>
 
-                                    <td class="text-center">
-                                        @if((bool)!$payment['mark'])
-                                            <div class="form-group col-12 d-flex justify-content-between destroy">
-                                                <a href="{{route('payment.delete', ['id' => $payment['id']])}}"
-                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
-                                                        class="fas fa-minus"></i></a>
-                                            </div>
-                                        @else
-                                            <span class="text-12 font-weight-bold">Недоступно</span>
-                                        @endif
-                                    </td>
 
-                                    <td class="text-center">
-                                        @if((bool)!$payment['mark'])
-                                            <div class="btn btn-sm btn-primary edit"
-                                                 onclick="edit('row_{{ $payment['id'] }}')">
-                                                <i class="fas fa-pen"></i>
-                                            </div>
-                                            <div class="btn btn-sm btn-success save" style="display: none;"
-                                                 onclick="save('row_{{ $payment['id'] }}', true)">
-                                                <i class="fas fa-save"></i>
-                                            </div>
-                                        @else
-                                            <span class="text-12 font-weight-bold">Недоступно</span>
-                                        @endif
-                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
