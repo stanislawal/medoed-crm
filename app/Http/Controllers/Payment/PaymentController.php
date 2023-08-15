@@ -89,6 +89,7 @@ class PaymentController extends Controller
 
         $this->filter($paymentList, $request);
 
+
         $paymentList = $paymentList->paginate(50);
 
 
@@ -149,6 +150,7 @@ class PaymentController extends Controller
 
     private function filter(&$query, $request)
     {
+//        dd($request->all());
         $query->when(!empty($request->project_id), function($query) use ($request){
             $query->where('project_id', $request->project_id);
         });
@@ -160,6 +162,15 @@ class PaymentController extends Controller
         $query->when(!empty($request->invoice), function ($query) use ($request){
            $query->where($request->invoice, '!=', 0);
         });
+
+        $query->when(!is_null($request->is_mark_payment), function ($query) use ($request){
+           $query->where('mark',(bool)$request->is_mark_payment);
+        });
+
+        $query->when(!is_null($request->is_mark_back_duty), function ($query) use ($request){
+            $query->where('back_duty',(bool)$request->is_mark_back_duty);
+        });
+
     }
 
     private function hasMark($id)

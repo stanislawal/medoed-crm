@@ -55,6 +55,24 @@
                                            value="{{ request()->date ?? null}}">
                                 </div>
                             </div>
+
+                            <div  class="form-group col-12 col-md-4 col-lg-3">
+                                <label for="" class="form-label">Метка оплаты</label>
+                                <select class="form-select form-select-sm" name="is_mark_payment">
+                                    <option value="">Не выбрано</option>
+                                    <option value="1">С меткой</option>
+                                    <option value="0">Без метки</option>
+                                </select>
+                            </div>
+
+                            <div  class="form-group col-12 col-md-4 col-lg-3">
+                                <label for="" class="form-label">Списание</label>
+                                <select class="form-select form-select-sm" name="is_mark_back_duty">
+                                    <option value="">Не выбрано</option>
+                                    <option value="1">С меткой</option>
+                                    <option value="0">Без метки</option>
+                                </select>
+                            </div>
                             <div>
                                 <button class="btn btn-sm btn-success">Искать</button>
                             </div>
