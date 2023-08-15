@@ -14,6 +14,8 @@ window.save = function (className, moder = false) {
         'status_payment_id': tr.find('select[name="status_payment_id"]').val(),
         'tinkoff_a': tr.find('input[name="tinkoff_a"]').val(),
         'sber_a': tr.find('input[name="sber_a"]').val(),
+        'sber_d': tr.find('input[name="sber_d"]').val(),
+        'sber_k': tr.find('input[name="sber_k"]').val(),
         'privat': tr.find('input[name="privat"]').val(),
         'um': tr.find('input[name="um"]').val(),
         'wmz': tr.find('input[name="wmz"]').val(),

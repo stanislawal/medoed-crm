@@ -23,7 +23,8 @@
 
                             <div class="form-group col-12 col-md-4 col-lg-3">
                                 <label for="" class="form-label">Проект</label>
-                                <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
+                                <select class="form-control border form-control-sm select-2"
+                                        title="Пожалуйста, выберите"
                                         name="project_id">
                                     <option value=" " selected>Не выбрано</option>
                                     @foreach ($projects as $project_info)
@@ -33,7 +34,7 @@
                                 </select>
                             </div>
 
-                            <div  class="form-group col-12 col-md-4 col-lg-3">
+                            <div class="form-group col-12 col-md-4 col-lg-3">
                                 <label for="" class="form-label">Счёт</label>
                                 <select class="form-select form-select-sm" name="invoice">
                                     <option value="">Не выбрано</option>
@@ -56,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <div  class="form-group col-12 col-md-4 col-lg-3">
+                            <div class="form-group col-12 col-md-4 col-lg-3">
                                 <label for="" class="form-label">Метка оплаты</label>
                                 <select class="form-select form-select-sm" name="is_mark_payment">
                                     <option value="">Не выбрано</option>
@@ -65,7 +66,7 @@
                                 </select>
                             </div>
 
-                            <div  class="form-group col-12 col-md-4 col-lg-3">
+                            <div class="form-group col-12 col-md-4 col-lg-3">
                                 <label for="" class="form-label">Списание</label>
                                 <select class="form-select form-select-sm" name="is_mark_back_duty">
                                     <option value="">Не выбрано</option>
@@ -98,9 +99,15 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Состояние</th>
-                                <th style="font-size:8px!important; min-width: 10px; !important; padding: 0 3px 0 12px !important;">Метка оплаты</th>
-                                <th style="font-size:8px!important; min-width: 10px; !important; padding: 0 3px 0 12px !important;">Списание</th>
+                                <th style="font-size:8px!important; min-width: 10px; !important; padding: 0 3px 0 12px !important;">
+                                    Метка оплаты
+                                </th>
+                                <th style="font-size:8px!important; min-width: 10px; !important; padding: 0 3px 0 12px !important;">
+                                    Списание
+                                </th>
                                 <th>Дата</th>
+                                <th></th>
+                                <th></th>
                                 <th style="min-width: 120px;">Сбер А</th>
                                 <th style="min-width: 120px;">Тинькофф А</th>
                                 <th style="min-width: 120px;">Сбер Д</th>
@@ -109,10 +116,9 @@
                                 <th style="min-width: 120px;">ЮМ</th>
                                 <th style="min-width: 120px;">ВМЗ</th>
                                 <th style="min-width: 120px;">Биржи</th>
-                                <th >Проект</th>
+                                <th>Проект</th>
                                 <th>Комментарий</th>
-                                <th></th>
-                                <th></th>
+
                             </tr>
 
 
@@ -127,30 +133,52 @@
                                     </td>
                                     <td>
                                         <div>
-                                            <select style="background-color: {{ $payment['status']['color'] }}70" class="form-select form-select-sm" name="status_payment_id" disabled>
+                                            <select style="background-color: {{ $payment['status']['color'] }}70"
+                                                    class="form-select form-select-sm" name="status_payment_id"
+                                                    disabled>
                                                 @foreach($statuses as $status)
                                                     <option value="{{ $status['id'] }}"
 
-                                                            @if($payment['status_payment_id'] === $status['id']) selected @endif
+                                                            @if($payment['status_payment_id'] === $status['id']) selected
+                                                            @endif
                                                             value="{{ $status['id'] }}">{{ $status['name'] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </td>
-                                    <td >
+                                    <td>
                                         <div>
-                                            <input type="checkbox" name="mark" @if((bool)$payment['mark']) checked @endif disabled>
+                                            <input type="checkbox" name="mark" @if((bool)$payment['mark']) checked
+                                                   @endif disabled>
                                         </div>
                                     </td>
                                     <td>
                                         <div>
-                                            <input type="checkbox" name="back_duty" @if((bool)$payment['back_duty']) checked @endif disabled>
+                                            <input type="checkbox" name="back_duty"
+                                                   @if((bool)$payment['back_duty']) checked @endif disabled>
                                         </div>
                                     </td>
                                     <td class="nowrap">
                                         {{ $payment['date'] }}
                                     </td>
-                                    <td >
+                                    <td>
+                                        <div class="btn btn-sm btn-primary edit"
+                                             onclick="edit('row_{{ $payment['id'] }}')">
+                                            <i class="fas fa-pen"></i>
+                                        </div>
+                                        <div class="btn btn-sm btn-success save" style="display: none;"
+                                             onclick="save('row_{{ $payment['id'] }}', true)">
+                                            <i class="fas fa-save"></i>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group col-12 d-flex justify-content-between destroy">
+                                            <a href="{{route('payment.delete', ['id' => $payment['id']])}}"
+                                               class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
+                                                    class="fas fa-minus"></i></a>
+                                        </div>
+                                    </td>
+                                    <td>
                                         <div>
                                             <input type="number" name="sber_a" class="form-control form-control-sm"
                                                    value="{{ $payment['sber_a'] }}" disabled>
@@ -211,24 +239,7 @@
                                         </div>
                                     </td>
 
-                                    <td>
-                                        <div class="form-group col-12 d-flex justify-content-between destroy">
-                                            <a href="{{route('payment.delete', ['id' => $payment['id']])}}"
-                                               class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
-                                                    class="fas fa-minus"></i></a>
-                                        </div>
-                                    </td>
 
-                                    <td>
-                                        <div class="btn btn-sm btn-primary edit"
-                                             onclick="edit('row_{{ $payment['id'] }}')">
-                                            <i class="fas fa-pen"></i>
-                                        </div>
-                                        <div class="btn btn-sm btn-success save" style="display: none;"
-                                             onclick="save('row_{{ $payment['id'] }}', true)">
-                                            <i class="fas fa-save"></i>
-                                        </div>
-                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
