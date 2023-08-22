@@ -94,6 +94,26 @@
                     </div>
                 </div>
             </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Событие (0)
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div>
+                            <form action="">
+                                <label for=""></label>
+                                <input>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            </div>
         </div>
         <form action="{{route('project.update', ['project' => $projectInfo['id']])}}" method="POST"
               class="mb-5" data-form-name="edit__project">

@@ -86,6 +86,7 @@
                                 <th>ID</th>
                                 <th>Состояние</th>
                                 <th>Дата</th>
+                                <th>Проект</th>
                                 <th>Удалить</th>
                                 <th>Изменить</th>
                                 <th>Сбер А</th>
@@ -96,11 +97,9 @@
                                 <th>ЮМ</th>
                                 <th>ВМЗ</th>
                                 <th>Биржи</th>
-                                <th>Проект</th>
+
                                 <th>Комментарий</th>
-
                             </tr>
-
                             </thead>
                             <tbody>
                             @foreach($paymentList as $payment)
@@ -126,6 +125,9 @@
                                     </td>
                                     <td class="nowrap">
                                         {{ $payment['date'] }}
+                                    </td>
+                                    <td>
+                                        {{ $payment['project']['project_name'] ?? ''}}
                                     </td>
                                     <td class="text-center">
                                         @if((bool)!$payment['mark'])
@@ -203,9 +205,7 @@
                                         </div>
                                     </td>
 
-                                    <td>
-                                        {{ $payment['project']['project_name'] ?? ''}}
-                                    </td>
+
 
                                     <td>
                                         <div>

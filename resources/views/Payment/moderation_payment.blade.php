@@ -106,6 +106,7 @@
                                     Списание
                                 </th>
                                 <th>Дата</th>
+                                <th>Проект</th>
                                 <th></th>
                                 <th></th>
                                 <th style="min-width: 120px;">Сбер А</th>
@@ -116,7 +117,7 @@
                                 <th style="min-width: 120px;">ЮМ</th>
                                 <th style="min-width: 120px;">ВМЗ</th>
                                 <th style="min-width: 120px;">Биржи</th>
-                                <th>Проект</th>
+
                                 <th>Комментарий</th>
 
                             </tr>
@@ -160,6 +161,9 @@
                                     </td>
                                     <td class="nowrap">
                                         {{ $payment['date'] }}
+                                    </td>
+                                    <td>
+                                        {{ $payment['project']['project_name'] ?? ''}}
                                     </td>
                                     <td>
                                         <div class="btn btn-sm btn-primary edit"
@@ -228,9 +232,7 @@
                                         </div>
                                     </td>
 
-                                    <td>
-                                        {{ $payment['project']['project_name'] ?? ''}}
-                                    </td>
+
 
                                     <td>
                                         <div>

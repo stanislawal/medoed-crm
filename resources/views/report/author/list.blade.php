@@ -18,11 +18,13 @@
             <form action="" class="check__field">
                 <div class="row">
                     <div class="col-12 col-md-4 col-lg-3">
+                        <label class="form-label" for="">Дата</label>
                         <input class="form-control form-control-sm" type="month" name="month"
                                value="{{ request()->month ?? now()->format('Y-m') }}">
                     </div>
 
                     <div class="col-12 col-md-4 col-lg-3">
+                        <label class="form-label" for="">Автор</label>
                         <select class="form-select form-select-sm select-2"
                                 name="author_id">
                             <option value="">Не выбрано</option>
@@ -32,6 +34,19 @@
                                             selected
                                     @endif>
                                     {{$author['full_name'] ?? ''}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-4 col-lg-3">
+                        <label class="form-label" for="">Банк</label>
+                        <select class="form-select form-select-sm select-2"
+                                name="bank">
+                            <option value="">Не выбрано</option>
+                            @foreach($banks as $bank)
+                                <option value="{{$bank['id']}}">
+                                    {{$bank['name'] ?? ''}}
                                 </option>
                             @endforeach
                         </select>
@@ -132,6 +147,7 @@
                 <div class="w-100 d-flex justify-content-center mb-3">
                     {{ $reports->appends(request()->input())->links('vendor.pagination.custom')  }}
                 </div>
+{{--                @dd($authors)--}}
                 <div class="table-responsive">
                     <table id="basic-datatables"
                            class="display table table-hover table-head-bg-info table-center table-cut">

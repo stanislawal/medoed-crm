@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\Bank;
 use App\Models\Rate\Rate;
 use App\Models\User;
 use App\Repositories\Report\AuthorRepositories;
@@ -25,7 +26,7 @@ class ReportAuthorController extends Controller
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
-
+        $banks = Bank::on()->get();
         $indicators = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays);
         $indicators = User::on()->selectRaw("
             sum(authors.margin) as margin,
@@ -46,6 +47,7 @@ class ReportAuthorController extends Controller
             'diffInWeekdays' => $diffInWeekdays,
             'authors' => $authors,
             'remainderDuty' => collect($remainderDuty),
+            'banks' => $banks,
         ]);
     }
 
