@@ -7,6 +7,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Option\StatusPaymentController;
 use App\Http\Controllers\Payment\PaymentController;
+use App\Http\Controllers\Project\ProjectEventController;
 use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Report\ReportAuthorController;
 use App\Http\Controllers\Report\ReportClientController;
@@ -58,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::get('project/delete-checkboxes', [ProjectController::class, 'deleteCheckbox'])->name('project.delete_checkboxes');
 
     # Статьи (articles)
+    Route::get('article/change_ignore/{id}', [ArticleController::class, 'changeIgnoreArticle'])->name('change_ignore_article');
     Route::resource('article', ArticleController::class);
     Route::get('article-destroy/{article}', [ArticleController::class, 'destroy'])->name('article.destroy');
 
@@ -134,6 +136,11 @@ Route::middleware('auth')->group(function () {
         Route::get('list', [NotificationController::class, 'index'])->name('notification.index');
     });
     #----------------------------------------УВЕДОМЛЕНИЯ----------------------------------------
+
+    #----------------------------------------СОБЫТИЕ ДЛЯ ПРОЕКТА----------------------------------------
+    Route::resource('project-event', ProjectEventController::class)->only(['store', 'destroy']);
+    #----------------------------------------СОБЫТИЕ ДЛЯ ПРОЕКТА----------------------------------------
+
 
     #----------------------------------------ПОЛЬЗОВАТЕЛИ ОНЛАЙН----------------------------------------
     Route::post('user-active', [UserController::class, 'userActive']);

@@ -25,7 +25,8 @@ class Article extends BaseModel
         'price_redactor', //цена автора
         'check', //галочка
         'payment_amount', // сумма оплаты
-        'payment_date' // дата оплаты
+        'payment_date', // дата оплаты
+        'ignore' // игнорировать в своде авторов статью
     ];
 
     public $timestamps = true;

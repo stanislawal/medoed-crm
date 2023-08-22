@@ -228,6 +228,14 @@ class ArticleController extends Controller
         return redirect()->back()->with(['success' => 'Статья успешно удалена']);
     }
 
+    // Обновляет статус игнора статьи у автора
+    public function changeIgnoreArticle(Request $request, $id)
+    {
+        $ignore = $request->ignore ?? false;
+        Article::on()->where('id', $id)->update(['ignore' => $ignore]);
+        return redirect()->back();
+    }
+
     private function filter(&$articles, $request)
     {
         $articles->when(!empty($request->article), function ($where) use ($request) {
@@ -282,19 +290,19 @@ class ArticleController extends Controller
     {
         $change = "";
 
-        if($oldArticle['without_space'] != $newArticle['without_space']){
+        if ($oldArticle['without_space'] != $newArticle['without_space']) {
             $change = $change . 'ЗБП: <strong>' . $oldArticle['without_space'] . "/" . $newArticle['without_space'] . '</strong><br> ';
         }
 
-        if($oldArticle['price_client'] != $newArticle['price_client']){
+        if ($oldArticle['price_client'] != $newArticle['price_client']) {
             $change = $change . 'Цена заказчика: <strong>' . $oldArticle['price_client'] . "/" . $newArticle['price_client'] . '</strong><br> ';
         }
 
-        if($oldArticle['price_author'] != $newArticle['price_author']){
+        if ($oldArticle['price_author'] != $newArticle['price_author']) {
             $change = $change . 'Цена автора: <strong>' . $oldArticle['price_author'] . "/" . $newArticle['price_author'] . '</strong><br> ';
         }
 
-        if($change != ''){
+        if ($change != '') {
             (new NotificationController())->createNotification(
                 NotificationTypeConstants::CHANGE_ARTICLE,
                 '',

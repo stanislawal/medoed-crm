@@ -53,8 +53,13 @@ class Project extends Model
 
     public $timestamps = true;
 
+    public function projectEvent()
+    {
+        return $this->hasMany(ProjectEvent::class, 'project_id');
+    }
 
-    public function notifiProject(){
+    public function notifiProject()
+    {
         return $this->hasMany(NotifiProject::class, 'project_id');
     }
 
@@ -82,7 +87,8 @@ class Project extends Model
         return $this->belongsTo(StatusPaymentProject::class, 'status_payment_id');
     }
 
-    public function payment(){
+    public function payment()
+    {
         return $this->hasMany(Payment::class, 'project_id');
     }
 

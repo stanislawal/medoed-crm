@@ -60,8 +60,11 @@ class ReportAuthorController extends Controller
      */
     public function show(Request $request, $id)
     {
+
         $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
         $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
+
+        $ignoreArticleList = AuthorRepositories::getIgnoreArticles($startDate, $endDate, $id)->get()->toArray();
 
         $articles = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id)->paginate(50);
 
@@ -100,6 +103,7 @@ class ReportAuthorController extends Controller
             'user' => $user,
             'indicators' => $indicators,
             'remainderDuty' => $remainderDuty,
+            'ignoreArticleList' => $ignoreArticleList
         ]);
     }
 }

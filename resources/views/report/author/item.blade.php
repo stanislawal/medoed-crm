@@ -84,19 +84,66 @@
                 </div>
             </div>
         </div>
-        <div>
-            <div>
 
-                <form action="{{route('user.update', ['user' => $user['id']] )}}" method="post">
-                    @method('PUT')
-                    @csrf
-                    <label class="mb-2" for="">Добавить долг</label>
-                    <input class="mb-2 form-control form-control-sm col-1" name="duty" step="0.01" type="number"
-                           value="{{ $user['duty'] }}">
-                    <button class="mb-2 btn btn-sm btn-success">Обновить</button>
-                </form>
+        <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        <strong class="text-14 text-danger">Статьи в игноре ({{ count($ignoreArticleList) }})</strong>
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-cut" id="basic-datatables">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Дата</th>
+                                    <th>Проект</th>
+                                    <th>Статья</th>
+                                    <th>Объем</th>
+                                    <th>Цена</th>
+                                    <th>Сумма</th>
+                                    <th>Оплата</th>
+                                    <th>Дата оплаты</th>
+                                    <th>Цена заказчика</th>
+                                    <th>Стоимость проекта</th>
+                                    <th>Маржа</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($ignoreArticleList as $item)
+                                    <tr>
+                                        <td>{{ $item['id'] }}</td>
+                                        <td>{{ \Illuminate\Support\Carbon::parse($item['created_at'])->format('d.m.Y') }}</td>
+                                        <td>{{ $item['article_project']['project_name'] }}</td>
+                                        <td>{{ $item['article'] }}</td>
+                                        <td>{{ number_format($item['without_space']+0, 2, '.', ' ')}}</td>
+                                        <td>{{ number_format($item['price_author']+0, 2, '.', ' ') }}</td>
+                                        <td>{{ number_format($item['price']+0, 2, '.', ' ') }}</td>
+                                        <td>{{ number_format($item['payment_amount']+0, 2, '.', ' ') }}</td>
+                                        <td>{{ $item['payment_date'] ?? '-' }}</td>
+                                        <td>{{number_format($item['price_client']+0, 2, '.', ' ')  }}</td>
+                                        <td>{{number_format($item['price_article']+0, 2, '.', ' ')  }}</td>
+                                        <td>{{number_format($item['margin']+0, 2, '.', ' ')  }}</td>
+                                        <td><a href="{{ route('change_ignore_article', ['id' => $item['id'],'ignore' => false]) }}" class="btn btn-sm btn-success from_ignore">Из игнора</a></td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="10" class="text-center text-gray">Нет статей в игноре</td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         {{--    ТАБЛИЦА--}}
         <div class="w-100 shadow border rounded">
             <div class=>
@@ -115,6 +162,7 @@
                                class="display table table-hover table-head-bg-info table-center table-cut">
                             <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Дата</th>
                                 <th>Проект</th>
                                 <th>Статья</th>
@@ -126,11 +174,13 @@
                                 <th>Цена заказчика</th>
                                 <th>Стоимость проекта</th>
                                 <th>Маржа</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($articles as $article)
                                 <tr>
+                                    <td>{{ $article['id'] }}</td>
                                     <td>{{ \Illuminate\Support\Carbon::parse($article['created_at'])->format('d.m.Y') }}</td>
                                     <td>{{ $article['project_name'] }}</td>
                                     <td>{{ $article['article'] }}</td>
@@ -154,6 +204,7 @@
                                     <td>{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
+                                    <td><a href="{{ route('change_ignore_article', ['id' => $article['id'],'ignore' => true]) }}" class="btn btn-sm btn-danger to_ignore">В игнор</a></td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -170,6 +221,21 @@
 
 @section('custom_js')
     <script src="{{ asset('js/author.js') }}"></script>
+    <script>
+        $('.to_ignore').click(function(){
+            var res = confirm('Вы действительно хотите перенести заявку в игнор?')
+            if (!res) {
+                event.preventDefault();
+            }
+        });
+
+        $('.from_ignore').click(function(){
+            var res = confirm('Вы действительно хотите убрать заявку из игнор?')
+            if (!res) {
+                event.preventDefault();
+            }
+        });
+    </script>
 {{--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
 {{--    <script src="{{asset('js/select2.js')}}"></script>--}}
 {{--    <script src="{{asset('js/project.js')}}"></script>--}}

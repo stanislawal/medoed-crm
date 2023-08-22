@@ -154,7 +154,7 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th>Банк</th>
+                            <th>@include('components.table.sort', ['title' => 'Банк', 'column'       => 'bank', 'routeName' => 'report_author.index'])</th>
                             <th>@include('components.table.sort', ['title' => 'Автор', 'column'       => 'full_name', 'routeName' => 'report_author.index'])</th>
                             <th>@include('components.table.sort', ['title' => 'Объем', 'column'       => 'without_space', 'routeName' => 'report_author.index'])</th>
                             <th>@include('components.table.sort', ['title' => 'Гонорар', 'column'     => 'amount', 'routeName' => 'report_author.index'])</th>

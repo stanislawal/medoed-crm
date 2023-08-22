@@ -212,7 +212,7 @@ class ProjectController extends Controller
         })->get();
 
         $projectInfo = Project::on()
-            ->with(['projectTheme', 'projectAuthor', 'projectUser', 'projectStatus', 'projectClients.socialNetwork'])
+            ->with(['projectTheme', 'projectAuthor', 'projectUser', 'projectStatus', 'projectClients.socialNetwork', 'projectEvent'])
             ->find($project)
             ->toArray();
 

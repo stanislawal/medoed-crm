@@ -37,6 +37,7 @@ class AuthorRepositories
                 Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                 Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
             ])
+            ->where('ignore', false)
             ->groupBy('articles.id');
 
         $authors = User::on()
@@ -74,7 +75,7 @@ class AuthorRepositories
         return $authors;
     }
 
-    public static function getReportByAuthor($startDate, $endDate, $id)
+    public static function getReportByAuthor($startDate, $endDate, $userId)
     {
         $articles = Article::on()
             ->selectraw("
@@ -103,15 +104,37 @@ class AuthorRepositories
                 Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                 Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
             ])
+            ->where('ignore', false)
             ->groupBy('articles.id');
 
         // сортируем статьи принадлежащие данному пользователю
         $articles = Article::on()->selectRaw("articles.*, cross.article_id")->fromSub($articles, 'articles')
             ->leftJoin('cross_article_authors as cross', 'cross.article_id', 'articles.id')
-            ->where('cross.user_id', $id)
+            ->where('cross.user_id', $userId)
             ->orderByDesc('articles.created_at');
 
         return $articles;
+    }
+
+    public static function getIgnoreArticles($startDate, $endDate, $userI)
+    {
+        return Article::on()
+            ->selectRaw("
+                articles.*,
+                (articles.without_space * (articles.price_author/1000)) as price,
+                (articles.without_space * (articles.price_client/1000)) as price_article,
+                (
+                    (articles.without_space * (articles.price_client/1000))
+                    -
+                    (articles.without_space * (articles.price_author/1000))
+                ) as margin
+            ")
+            ->with(['articleProject'])
+            ->whereHas('articleAuthor', function ($where) use ($userI) {
+                $where->where('users.id', $userI);
+            })
+            ->where('ignore', true)
+            ->orderByDesc('articles.created_at');
     }
 
     /**
@@ -133,8 +156,8 @@ class AuthorRepositories
             coalesce(((without_space * (price_author/1000)) - payment_amount), 0) as remainder_duty
         ")->from('articles')
             ->whereNotNull('project_id')
-        ->whereRaw("CAST(created_at as DATE) <= '{$dateTo}'")
-        ->orderByDesc('created_at');
+            ->whereRaw("CAST(created_at as DATE) <= '{$dateTo}'")
+            ->orderByDesc('created_at');
 
         $dutyBuAuthor = User::on()->selectRaw("
             users.id as author_id,
@@ -142,10 +165,10 @@ class AuthorRepositories
         ")->from('users')
             ->leftJoin('cross_article_authors as cross', 'cross.user_id', '=', 'users.id')
             ->leftJoinSub($articles, 'articles', 'articles.id', '=', 'cross.article_id')
-        ->groupBy(['users.id'])
-        ->when(!is_null($authorId), function($where) use ($authorId){
-            $where->where('users.id', $authorId);
-        });
+            ->groupBy(['users.id'])
+            ->when(!is_null($authorId), function ($where) use ($authorId) {
+                $where->where('users.id', $authorId);
+            });
 
         return $dutyBuAuthor;
     }
