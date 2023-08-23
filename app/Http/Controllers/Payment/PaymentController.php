@@ -91,13 +91,19 @@ class PaymentController extends Controller
 
         $paymentList = $paymentList->paginate(50);
 
-        $notModerationCountPayment = Payment::on()->where('mark', false)->count();
+        $paymentInfo = Payment::on()->selectRaw("
+            count(id) as count_payment,
+            sum(sber_a+sber_d+sber_k+tinkoff_a+privat+um+wmz+birja) as sum_payment
+        ")
+            ->where('mark', false)
+            ->first()
+            ->toArray();
 
         return view('Payment.moderation_payment', [
             'projects' => Project::on()->select(['id', 'project_name'])->get()->toArray(),
             'paymentList' => $paymentList,
             'statuses' => StatusPayment::on()->get()->toArray(),
-            'notModerationCountPayment' => $notModerationCountPayment
+            'paymentInfo' => $paymentInfo
         ]);
     }
 

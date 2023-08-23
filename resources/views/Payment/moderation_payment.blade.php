@@ -82,7 +82,6 @@
                 </div>
             </div>
 
-
             <div class="mb-2">
                 <div class="row">
                     <div class="col-12">
@@ -90,15 +89,24 @@
                             <div class="col-12 col-sm-6 col-xl-4 mb-2">
                                 <div class="px-3 py-2 shadow border bg-white rounded">
                                     <div class="text-24">
-                                        <strong>{{ $notModerationCountPayment }}</strong>
+                                        <strong> {{ $paymentInfo['count_payment'] }} </strong>
                                     </div>
                                     <div class="text-12 nowrap-dot">Непроверенные оплаты:</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                                <div class="px-3 py-2 shadow border bg-white rounded">
+                                    <div class="text-24">
+                                        <strong>{{$paymentInfo['sum_payment']}}</strong>
+                                    </div>
+                                    <div class="text-12 nowrap-dot">Сумма непроверенных оплат:</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
 
             <div class="card shadow border bg-white rounded">
