@@ -92,6 +92,9 @@
                     </div>
 
                     @forelse($notifications as $item)
+
+                        @php $item = $item->toArray() @endphp
+
                         @switch($item['type'])
 
                             @case('ASSIGNED_PROJECT')

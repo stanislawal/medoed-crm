@@ -285,7 +285,9 @@ class ProjectController extends Controller
         $this->updateClientsForProject($project, $request->client_id ?? []);
         $this->updateNotifiProject($project, $request);
 
-        if (!empty($request->manager_id) && $oldProject['manager_id'] != $request->manager_id) {
+        $newProject = Project::on()->find($project);
+
+        if ($newProject['manager_id'] != $oldProject['manager_id']) {
             (new NotificationController())->createNotification(
                 NotificationTypeConstants::ASSIGNED_PROJECT,
                 $request->manager_id,
@@ -293,7 +295,7 @@ class ProjectController extends Controller
             );
         }
 
-        if ($attr['price_client'] != $oldProject['price_client']) {
+        if ($newProject['price_client'] != $oldProject['price_client']) {
             (new NotificationController())->createNotification(
                 NotificationTypeConstants::CHANGE_PRICE_PROJECT,
                 '',

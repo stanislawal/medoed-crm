@@ -38,12 +38,13 @@ class ClientRepositories
                coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client,
                coalesce(SUM((articles.price_author *(articles.without_space/1000))), 0) as sum_price_author
         ")->from('projects')
-            ->leftJoin('articles', function ($leftJoin) use ($request){
+            ->leftJoin('articles', function ($leftJoin) use ($request) {
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
                     ->whereBetween('articles.created_at', [
                         Carbon::parse($request->month ?? now())->startOfMonth()->toDateTimeString(),
                         Carbon::parse($request->month ?? now())->endOfMonth()->toDateTimeString()
-                    ]);
+                    ])
+                    ->where('articles.ignore', false);
             })
             ->groupBy(['projects.id']);
 
@@ -69,7 +70,7 @@ class ClientRepositories
             ), 0) as finish_duty
         ")
             ->fromSub($reports, 'project')
-            ->leftJoin('payment', function ($leftJoin) use ($request){
+            ->leftJoin('payment', function ($leftJoin) use ($request) {
                 $leftJoin->on('payment.project_id', '=', 'project.id')
                     ->where('payment.mark', 1)
                     ->whereBetween('payment.date', [
@@ -85,7 +86,7 @@ class ClientRepositories
         ")
             ->with(['projectStatus', 'projectStatusPayment', 'projectClients', 'projectUser:id,full_name'])
             ->fromSub($reports, 'projects')
-            ->leftJoinSub(self::getDuty(Carbon::parse($request->month)->toDateString()), 'get_duty', function($leftJoin){
+            ->leftJoinSub(self::getDuty(Carbon::parse($request->month)->toDateString()), 'get_duty', function ($leftJoin) {
                 $leftJoin->on('get_duty.id', '=', 'projects.id');
             });
 
@@ -105,7 +106,9 @@ class ClientRepositories
               (without_space * ((price_client *(without_space/1000)) / 1000)) as gross_income,
               price_author,
               created_at
-        ")->whereBetween('articles.created_at', [$startDate, $endDate]);
+        ")
+            ->whereBetween('articles.created_at', [$startDate, $endDate])
+            ->where('articles.ignore', false);
 
         $report = Article::on()->selectRaw("
                 projects.project_name,
@@ -136,9 +139,10 @@ class ClientRepositories
                 projects.id,
                 coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client
         ")->from('projects')
-            ->leftJoin('articles', function($leftJoin) use ($date){
+            ->leftJoin('articles', function ($leftJoin) use ($date) {
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
-                    ->whereRaw("CAST(articles.created_at as DATE) <= '{$date}'");
+                    ->whereRaw("CAST(articles.created_at as DATE) <= '{$date}'")
+                    ->where('articles.ignore', false);
             })
             ->when(!is_null($projectId), function ($where) use ($projectId) {
                 $where->where('projects.id', $projectId);

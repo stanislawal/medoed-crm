@@ -22,7 +22,7 @@ class Notification extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'date_time' => 'datetime:Y-m-d H:i'
+        'date_time' => 'datetime:d.m.Y H:i'
     ];
 
     public function projects() {

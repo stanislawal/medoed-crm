@@ -1,7 +1,7 @@
 @extends('layout.markup')
 
 @section('title')
-    Свод по Авторам
+    Свод по авторам
 @endsection
 
 @section('custom_css')

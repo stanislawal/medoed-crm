@@ -33,7 +33,7 @@
                                 <a href="{{ route('project.edit', ['project' => $item['projects']['id']]) }}"
                                    class="text-primary">{{ $item['projects']['project_name'] }}</a>
                             </div>
-                            <div class="time">23.07.2023 15:37</div>
+                            <div class="time">{{ $item['date_time'] }}</div>
                         </div>
                         <div class="browse"
                              onclick="browseNotification(this, '{{ route('notification.browse', ['id' => $item['id']]) }}')">

@@ -3,6 +3,10 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 
+@section('title')
+    Свод по заказчику - проект {{ $project['project_name'] }}
+@endsection
+
 @section('content')
     <div class="mb-2">
         <div class="mb-3">
