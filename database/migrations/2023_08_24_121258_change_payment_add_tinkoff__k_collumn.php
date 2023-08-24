@@ -14,7 +14,7 @@ class ChangePaymentAddTinkoffKCollumn extends Migration
     public function up()
     {
         Schema::table('payment', function(Blueprint $table){
-            $table->decimal('tinkoff_л', 8,1)->default(0)->nullable()->after('tinkoff_a');
+            $table->decimal('tinkoff_k', 8,1)->default(0)->nullable()->after('tinkoff_a');
         });
     }
 
