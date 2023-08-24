@@ -90,7 +90,7 @@
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                        <strong class="text-14 text-danger">Статьи в игноре ({{ count($ignoreArticleList) }})</strong>
+                        <strong class="text-14 text-danger">Списанные статьи ({{ count($ignoreArticleList) }})</strong>
                     </button>
                 </h2>
                 <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
@@ -129,11 +129,11 @@
                                         <td>{{number_format($item['price_client']+0, 2, '.', ' ')  }}</td>
                                         <td>{{number_format($item['price_article']+0, 2, '.', ' ')  }}</td>
                                         <td>{{number_format($item['margin']+0, 2, '.', ' ')  }}</td>
-                                        <td><a href="{{ route('change_ignore_article', ['id' => $item['id'],'ignore' => false]) }}" class="btn btn-sm btn-success from_ignore">Из игнора</a></td>
+                                        <td><a href="{{ route('change_ignore_article', ['id' => $item['id'],'ignore' => false]) }}" class="btn btn-sm btn-success from_ignore">Из списания</a></td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="10" class="text-center text-gray">Нет статей в игноре</td>
+                                        <td colspan="10" class="text-center text-gray">Нет статей в списании</td>
                                     </tr>
                                 @endforelse
                                 </tbody>
@@ -204,7 +204,7 @@
                                     <td>{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
-                                    <td><a href="{{ route('change_ignore_article', ['id' => $article['id'],'ignore' => true]) }}" class="btn btn-sm btn-danger to_ignore">В игнор</a></td>
+                                    <td><a href="{{ route('change_ignore_article', ['id' => $article['id'],'ignore' => true]) }}" class="btn btn-sm btn-danger to_ignore">Списать</a></td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -223,14 +223,14 @@
     <script src="{{ asset('js/author.js') }}"></script>
     <script>
         $('.to_ignore').click(function(){
-            var res = confirm('Вы действительно хотите перенести заявку в игнор?')
+            var res = confirm('Вы действительно хотите перенести статью в списание?')
             if (!res) {
                 event.preventDefault();
             }
         });
 
         $('.from_ignore').click(function(){
-            var res = confirm('Вы действительно хотите убрать заявку из игнор?')
+            var res = confirm('Вы действительно хотите убрать статью из списания?')
             if (!res) {
                 event.preventDefault();
             }

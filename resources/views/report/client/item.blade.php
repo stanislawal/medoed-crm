@@ -137,6 +137,7 @@
                                 <th>ID</th>
                                 <th>Сбер А</th>
                                 <th>Тинькофф А</th>
+                                <th>Тинькофф K</th>
                                 <th>Сбер Д</th>
                                 <th>Сбер К</th>
                                 <th>Приват</th>
@@ -156,6 +157,10 @@
                                     </td>
                                     <td class="nowrap @if($item['tinkoff_a'] > 0) text-primary fw-bold @endif">
                                         {{ $item['tinkoff_a'] }}
+                                        <span>₽</span>
+                                    </td>
+                                    <td class="nowrap @if($item['tinkoff_k'] > 0) text-primary fw-bold @endif">
+                                        {{ $item['tinkoff_k'] }}
                                         <span>₽</span>
                                     </td>
                                     <td class="nowrap @if($item['sber_d'] > 0) text-primary fw-bold @endif">

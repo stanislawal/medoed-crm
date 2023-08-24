@@ -39,6 +39,7 @@
                                 <option value="">Не выбрано</option>
                                 <option value="sber_a">Сбер А</option>
                                 <option value="tinkoff_a">Тинькофф А</option>
+                                <option value="tinkoff_k">Тинькофф K</option>
                                 <option value="sber_d">Сбер Д</option>
                                 <option value="sber_k">Сбер К</option>
                                 <option value="privat">Приват</option>
@@ -91,6 +92,7 @@
                                 <th>Изменить</th>
                                 <th>Сбер А</th>
                                 <th>Тинькофф А</th>
+                                <th>Тинькофф К</th>
                                 <th>Сбер Д</th>
                                 <th>Сбер К</th>
                                 <th>Приват</th>
@@ -165,6 +167,12 @@
                                         <div>
                                             <input type="number" name="tinkoff_a" class="min-input"
                                                    value="{{ $payment['tinkoff_a'] }}" disabled>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <input type="number" name="tinkoff_k" class="min-input"
+                                                   value="{{ $payment['tinkoff_k'] }}" disabled>
                                         </div>
                                     </td>
                                     <td>

@@ -58,6 +58,7 @@ class ClientRepositories
                 SUM(
                     COALESCE(payment.sber_a, 0) +
                     COALESCE(payment.tinkoff_a, 0) +
+                    COALESCE(payment.tinkoff_k, 0) +
                     COALESCE(payment.sber_d, 0) +
                     COALESCE(payment.sber_k, 0) +
                     COALESCE(payment.privat, 0) +
@@ -148,7 +149,7 @@ class ClientRepositories
             projects.id,
             (
                 projects.sum_price_client -
-                coalesce(sum(payment.sber_a + payment.sber_d + payment.sber_k + payment.tinkoff_a + payment.privat + payment.um + payment.wmz + payment.birja), 0)
+                coalesce(sum(payment.sber_a + payment.sber_d + payment.sber_k + payment.tinkoff_a + payment.tinkoff_k + payment.privat + payment.um + payment.wmz + payment.birja), 0)
             ) as remainder_duty
         ")->fromSub($projects, 'projects')
             ->leftJoin('payment', function ($leftJoin) use ($date) {

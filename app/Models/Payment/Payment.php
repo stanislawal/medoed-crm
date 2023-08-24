@@ -20,6 +20,7 @@ class   Payment extends Model
         'date',
         'sber_a',
         'tinkoff_a',
+        'tinkoff_k',
         'sber_d',
         'sber_k',
         'privat',

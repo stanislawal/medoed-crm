@@ -67,7 +67,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $params = collect($request->all())
-            ->only(['project_id', 'date', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a', 'privat', 'um', 'wmz', 'birja', 'comment'])
+            ->only(['project_id', 'date', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a', 'tinkoff_k', 'privat', 'um', 'wmz', 'birja', 'comment'])
             ->toArray();
 
         $params['status_payment_id'] = 1;
@@ -93,7 +93,7 @@ class PaymentController extends Controller
 
         $paymentInfo = Payment::on()->selectRaw("
             count(id) as count_payment,
-            sum(sber_a+sber_d+sber_k+tinkoff_a+privat+um+wmz+birja) as sum_payment
+            sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja) as sum_payment
         ")
             ->where('mark', false)
             ->first()
@@ -118,7 +118,7 @@ class PaymentController extends Controller
     {
 
         $params = collect($request->all())
-            ->only(['mark', 'back_duty', 'status_payment_id', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a', 'privat', 'um',
+            ->only(['mark', 'back_duty', 'status_payment_id', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a', 'tinkoff_k', 'privat', 'um',
                 'wmz', 'birja', 'project_id', 'comment'])
             ->toArray();
 
