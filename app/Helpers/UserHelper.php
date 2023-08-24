@@ -29,6 +29,11 @@ class UserHelper
         return auth()->user()->hasRole('Менеджер');
     }
 
+    public static function isAuthor()
+    {
+        return auth()->user()->hasRole('Автор');
+    }
+
     public static function getRoleName($userId = null)
     {
         if (is_null($userId)) {

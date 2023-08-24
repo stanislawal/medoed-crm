@@ -26,6 +26,7 @@ class ReportAuthorController extends Controller
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
+
         $banks = Bank::on()->get();
         $indicators = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays);
         $indicators = User::on()->selectRaw("
@@ -38,7 +39,7 @@ class ReportAuthorController extends Controller
             ->first()
             ->toArray();
 
-        $remainderDuty =  AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $request->author_id)->get()->toArray();
+        $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $request->author_id)->get()->toArray();
 
         return view('report.author.list', [
             'rates' => Rate::on()->get(),
@@ -96,7 +97,7 @@ class ReportAuthorController extends Controller
             ->first()
             ->toArray();
 
-        $remainderDuty =  AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $id)->first()->remainder_duty ?? 0;
+        $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $id)->first()->remainder_duty ?? 0;
 
         return view('report.author.item', [
             'articles' => $articles,

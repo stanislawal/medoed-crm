@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Report;
 
+use App\Helpers\UserHelper;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -71,6 +72,9 @@ class AuthorRepositories
             })
             ->when(!empty($request->author_id), function (Builder $where) use ($request) {
                 $where->where('authors.id', $request->author_id);
+            })
+            ->when(UserHelper::isAuthor(), function (Builder $where) use ($request) {
+                $where->where('authors.id', UserHelper::getUserId());
             });
         return $authors;
     }

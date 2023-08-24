@@ -42,15 +42,18 @@
 
                         <li class="nav-item dropdown hidden-caret submenu show">
                             <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
-                               data-bs-toggle="offcanvas" data-bs-target="#notificationContainer" aria-controls="offcanvasRight">
+                               data-bs-toggle="offcanvas" data-bs-target="#notificationContainer"
+                               aria-controls="offcanvasRight">
                                 <i class="fa fa-bell"></i>
-                                <span class="notification bg-danger count-notification">{{ count($notifications) }}</span>
+                                <span
+                                    class="notification bg-danger count-notification">{{ count($notifications) }}</span>
                             </a>
                         </li>
 
                         <li class="nav-item submenu me-3">
                             <a href="#" class="nav-link quick-sidebar-toggler" type="button"
-                               data-bs-toggle="offcanvas" data-bs-target="#userActiveContainer" aria-controls="offcanvasRight">
+                               data-bs-toggle="offcanvas" data-bs-target="#userActiveContainer"
+                               aria-controls="offcanvasRight">
                                 <i class="fas fa-users"></i>
                                 <span class="notification" id="countActiveUsers">0</span>
                             </a>
@@ -88,6 +91,7 @@
                                 <i class="fa fa-ellipsis-h"></i>
                             </span>
                         </li>
+                        @unlessrole('Автор')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#base">
                                 <i class="fas fa-layer-group"></i>
@@ -111,7 +115,9 @@
                                 </ul>
                             </div>
                         </li>
+                        @endunlessrole
 
+                        @unlessrole('Автор')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#sidebarLayouts">
                                 <i class="fas fa-th-list"></i>
@@ -135,6 +141,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endunlessrole
                         @role('Администратор')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#user">
@@ -218,8 +225,9 @@
                             </div>
                         </li>
 
+                        @endhasanyrole
 
-
+                        @hasanyrole('Администратор|Менеджер|Автор')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#result">
                                 <i class="fas fa-book-open"></i>
@@ -228,23 +236,25 @@
                             </a>
                             <div class="collapse" id="result">
                                 <ul class="nav nav-collapse">
+                                    @unlessrole('Автор')
                                     <li>
                                         <a href="{{ route('report_client.index') }}">
                                             <span class="sub-item">Заказчики</span>
                                         </a>
                                     </li>
-                                    @role('Администратор')
+                                    @endunlessrole
+                                    @hasanyrole('Администратор|Автор')
                                     <li>
                                         <a href="{{ route('report_author.index') }}">
                                             <span class="sub-item">Авторы</span>
                                         </a>
                                     </li>
-                                    @endrole
+                                    @endhasanyrole
                                 </ul>
                             </div>
                         </li>
-
                         @endhasanyrole
+
                         @hasanyrole('Администратор|Менеджер')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#payment">

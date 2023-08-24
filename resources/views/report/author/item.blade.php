@@ -47,16 +47,20 @@
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($indicators['payment_amount'], 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($indicators['payment_amount'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Выплачено:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($indicators['duty'] + $user['duty'] + $remainderDuty, 2, '.', ' ' ) }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($indicators['duty'] + $user['duty'] + $remainderDuty, 2, '.', ' ' ) }}</strong>
+                            </div>
                             <div class="text-12 nowrap-dot">Долг:</div>
                         </div>
                     </div>
+                    @role('Администратор')
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
@@ -84,11 +88,13 @@
                                 <strong>{{ $user['payment'] ?? "-" }}</strong></div>
                             <div class="text-12 nowrap-dot">Счет:</div>
                         </div>
+                        @endrole
                     </div>
                 </div>
             </div>
         </div>
 
+        @role('Админмстратор')
         <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -133,7 +139,9 @@
                                         <td>{{number_format($item['price_client']+0, 2, '.', ' ')  }}</td>
                                         <td>{{number_format($item['price_article']+0, 2, '.', ' ')  }}</td>
                                         <td>{{number_format($item['margin']+0, 2, '.', ' ')  }}</td>
-                                        <td><a href="{{ route('change_ignore_article', ['id' => $item['id'],'ignore' => false]) }}" class="btn btn-sm btn-success from_ignore">Из списания</a></td>
+                                        <td>
+                                            <a href="{{ route('change_ignore_article', ['id' => $item['id'],'ignore' => false]) }}"
+                                               class="btn btn-sm btn-success from_ignore">Из списания</a></td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -147,6 +155,7 @@
                 </div>
             </div>
         </div>
+        @endrole
 
         {{--    ТАБЛИЦА--}}
         <div class="w-100 shadow border rounded">
@@ -193,14 +202,16 @@
                                     <td>{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
                                     <td class="bg-grey2">
                                         <div>
-                                            <input type="number" step="0.01" style="width: 70px;" class="min-input" name="payment_amount"
+                                            <input type="number" step="0.01" style="width: 70px;" class="min-input"
+                                                   name="payment_amount"
                                                    onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
                                                    value="{{ $article['payment_amount'] ?? 0 }}">
                                         </div>
                                     </td>
                                     <td class="bg-grey2">
                                         <div>
-                                            <input type="date" style="width: 100px;" class="min-input" name="payment_date"
+                                            <input type="date" style="width: 100px;" class="min-input"
+                                                   name="payment_date"
                                                    onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
                                                    value="{{ $article['payment_date'] ?? null }}">
                                         </div>
@@ -208,7 +219,9 @@
                                     <td>{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
-                                    <td><a href="{{ route('change_ignore_article', ['id' => $article['id'],'ignore' => true]) }}" class="btn btn-sm btn-danger to_ignore">Списать</a></td>
+                                    <td>
+                                        <a href="{{ route('change_ignore_article', ['id' => $article['id'],'ignore' => true]) }}"
+                                           class="btn btn-sm btn-danger to_ignore">Списать</a></td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -226,21 +239,21 @@
 @section('custom_js')
     <script src="{{ asset('js/author.js') }}"></script>
     <script>
-        $('.to_ignore').click(function(){
+        $('.to_ignore').click(function () {
             var res = confirm('Вы действительно хотите перенести статью в списание?')
             if (!res) {
                 event.preventDefault();
             }
         });
 
-        $('.from_ignore').click(function(){
+        $('.from_ignore').click(function () {
             var res = confirm('Вы действительно хотите убрать статью из списания?')
             if (!res) {
                 event.preventDefault();
             }
         });
     </script>
-{{--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
-{{--    <script src="{{asset('js/select2.js')}}"></script>--}}
-{{--    <script src="{{asset('js/project.js')}}"></script>--}}
+    {{--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
+    {{--    <script src="{{asset('js/select2.js')}}"></script>--}}
+    {{--    <script src="{{asset('js/project.js')}}"></script>--}}
 @endsection

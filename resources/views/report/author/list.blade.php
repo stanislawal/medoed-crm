@@ -14,7 +14,6 @@
         @include('Answer.custom_response')
         @include('Answer.validator_response')
         <div class="w-100 shadow border rounded p-3">
-
             <form action="" class="check__field">
                 <div class="row">
                     <div class="col-12 col-md-4 col-lg-3">
@@ -24,20 +23,29 @@
                     </div>
 
                     <div class="col-12 col-md-4 col-lg-3">
-                        <label class="form-label" for="">Автор</label>
-                        <select class="form-select form-select-sm select-2"
-                                name="author_id">
-                            <option value="">Не выбрано</option>
-                            @foreach($authors as $author)
-                                <option value="{{$author['id']}}"
-                                        @if ($author['id'] == request()->author_id ?? null)
-                                            selected
-                                    @endif>
-                                    {{$author['full_name'] ?? ''}}
-                                </option>
-                            @endforeach
-                        </select>
+                        @if(\App\Helpers\UserHelper::isAuthor())
+                            <label class="form-label">Автор</label>
+                            <select class="form-control form-control-sm">
+                                <option>{{ auth()->user()->full_name }}</option>
+                            </select>
                     </div>
+                        @else
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <label class="form-label" for="">Автор</label>
+                            <select class="form-select form-select-sm select-2"
+                                    name="author_id">
+                                <option value="">Не выбрано</option>
+                                @foreach($authors as $author)
+                                    <option value="{{$author['id']}}"
+                                            @if ($author['id'] == request()->author_id ?? null)
+                                                selected
+                                        @endif>
+                                        {{$author['full_name'] ?? ''}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @endif
 
                     <div class="col-12 col-md-4 col-lg-3">
                         <label class="form-label" for="">Банк</label>
@@ -60,13 +68,15 @@
         </div>
     </div>
 
+
     <div class="mb-2">
         <div class="row">
             <div class="col-12 col-md-9">
                 <div class="row">
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($indicators['margin'], 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($indicators['margin'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
                     </div>
@@ -78,19 +88,23 @@
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($indicators['without_space'], 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($indicators['without_space'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общий объем збп:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($indicators['amount'], 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($indicators['amount'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общая сумма гонораров:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{number_format($indicators['duty'] + $remainderDuty->sum('remainder_duty'), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{number_format($indicators['duty'] + $remainderDuty->sum('remainder_duty'), 2, '.', ' ')  }}</strong>
+                            </div>
                             <div class="text-12 nowrap-dot">Итого к выплате:</div>
                         </div>
                     </div>
@@ -147,7 +161,7 @@
                 <div class="w-100 d-flex justify-content-center mb-3">
                     {{ $reports->appends(request()->input())->links('vendor.pagination.custom')  }}
                 </div>
-{{--                @dd($authors)--}}
+                {{--                @dd($authors)--}}
                 <div class="table-responsive">
                     <table id="basic-datatables"
                            class="display table table-hover table-head-bg-info table-center table-cut">
@@ -155,10 +169,11 @@
                         <tr>
                             <th></th>
                             <th>@include('components.table.sort', ['title' => 'Банк', 'column'       => 'bank', 'routeName' => 'report_author.index'])</th>
+                            <th>К выплате</th>
                             <th>@include('components.table.sort', ['title' => 'Автор', 'column'       => 'full_name', 'routeName' => 'report_author.index'])</th>
                             <th>@include('components.table.sort', ['title' => 'Объем', 'column'       => 'without_space', 'routeName' => 'report_author.index'])</th>
                             <th>@include('components.table.sort', ['title' => 'Гонорар', 'column'     => 'amount', 'routeName' => 'report_author.index'])</th>
-                            <th>К выплате</th>
+
                             <th>@include('components.table.sort', ['title' => 'ВД', 'column'          => 'gross_income', 'routeName' => 'report_author.index'])</th>
                             <th>@include('components.table.sort', ['title' => 'Маржа', 'column'       => 'margin', 'routeName' => 'report_author.index'])</th>
                             <th>Ср. цена</th>
@@ -174,10 +189,10 @@
                                     </a>
                                 </td>
                                 <td>{{ $author['bank'] ?? '-' }}</td>
+                                <td class="text-danger">{{number_format($author['duty'] + ($remainderDuty->where('author_id', $author['id'])->first()['remainder_duty'] ?? 0), 2, '.', ' ')  }}</td>
                                 <td>{{ $author['full_name'] }}</td>
                                 <td>{{number_format($author['without_space']+0, 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['amount']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($author['duty'] + ($remainderDuty->where('author_id', $author['id'])->first()['remainder_duty'] ?? 0), 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['gross_income']+0, 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['margin']+0, 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['avg_price']+0, 2, '.', ' ') }}</td>
