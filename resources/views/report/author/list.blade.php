@@ -28,9 +28,7 @@
                             <select class="form-control form-control-sm">
                                 <option>{{ auth()->user()->full_name }}</option>
                             </select>
-                    </div>
-                        @else
-                        <div class="col-12 col-md-4 col-lg-3">
+                    @else
                             <label class="form-label" for="">Автор</label>
                             <select class="form-select form-select-sm select-2"
                                     name="author_id">
@@ -44,9 +42,8 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
-                        @endif
-
+                    @endif
+                    </div>
                     <div class="col-12 col-md-4 col-lg-3">
                         <label class="form-label" for="">Банк</label>
                         <select class="form-select form-select-sm select-2"

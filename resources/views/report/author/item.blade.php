@@ -202,7 +202,7 @@
                                     <td>{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
                                     <td class="bg-grey2">
                                         <div>
-                                            <input type="number" step="0.01" style="width: 70px;" class="min-input"
+                                            <input @if(\App\Helpers\UserHelper::isAuthor()) disabled @endif type="number" step="0.01" style="width: 70px;" class="min-input"
                                                    name="payment_amount"
                                                    onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
                                                    value="{{ $article['payment_amount'] ?? 0 }}">
@@ -210,7 +210,7 @@
                                     </td>
                                     <td class="bg-grey2">
                                         <div>
-                                            <input type="date" style="width: 100px;" class="min-input"
+                                            <input @if(\App\Helpers\UserHelper::isAuthor()) disabled @endif type="date" style="width: 100px;" class="min-input"
                                                    name="payment_date"
                                                    onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
                                                    value="{{ $article['payment_date'] ?? null }}">
