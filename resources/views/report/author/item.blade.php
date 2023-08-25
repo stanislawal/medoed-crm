@@ -184,9 +184,13 @@
                                 <th>Сумма</th>
                                 <th>Оплата</th>
                                 <th>Дата оплаты</th>
+                                @role('Администратор')
                                 <th>Цена заказчика</th>
+                                @endrole
                                 <th>Стоимость проекта</th>
+                                @role('Администратор')
                                 <th>Маржа</th>
+                                @endrole
                                 <th></th>
                             </tr>
                             </thead>
@@ -202,7 +206,9 @@
                                     <td>{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
                                     <td class="bg-grey2">
                                         <div>
-                                            <input @if(\App\Helpers\UserHelper::isAuthor()) disabled @endif type="number" step="0.01" style="width: 70px;" class="min-input"
+                                            <input @if(\App\Helpers\UserHelper::isAuthor()) disabled
+                                                   @endif type="number" step="0.01" style="width: 70px;"
+                                                   class="min-input"
                                                    name="payment_amount"
                                                    onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
                                                    value="{{ $article['payment_amount'] ?? 0 }}">
@@ -210,15 +216,21 @@
                                     </td>
                                     <td class="bg-grey2">
                                         <div>
-                                            <input @if(\App\Helpers\UserHelper::isAuthor()) disabled @endif type="date" style="width: 100px;" class="min-input"
+                                            <input @if(\App\Helpers\UserHelper::isAuthor()) disabled @endif type="date"
+                                                   style="width: 100px;" class="min-input"
                                                    name="payment_date"
                                                    onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
                                                    value="{{ $article['payment_date'] ?? null }}">
                                         </div>
                                     </td>
+                                    @role('Администратор')
                                     <td>{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
+                                    @endrole
                                     <td>{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
+                                    @role('Администратор')
                                     <td>{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
+                                    @endrole
+
                                     <td>
                                         <a href="{{ route('change_ignore_article', ['id' => $article['id'],'ignore' => true]) }}"
                                            class="btn btn-sm btn-danger to_ignore">Списать</a></td>
