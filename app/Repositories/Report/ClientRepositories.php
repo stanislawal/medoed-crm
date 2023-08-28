@@ -16,7 +16,7 @@ class ClientRepositories
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function getReport($request)
+    public static function getReport($request, $startDate, $endDate)
     {
 
         $reports = Project::on()
@@ -38,11 +38,11 @@ class ClientRepositories
                coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client,
                coalesce(SUM((articles.price_author *(articles.without_space/1000))), 0) as sum_price_author
         ")->from('projects')
-            ->leftJoin('articles', function ($leftJoin) use ($request) {
+            ->leftJoin('articles', function ($leftJoin) use ($startDate, $endDate) {
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
                     ->whereBetween('articles.created_at', [
-                        Carbon::parse($request->month ?? now())->startOfMonth()->toDateTimeString(),
-                        Carbon::parse($request->month ?? now())->endOfMonth()->toDateTimeString()
+                        Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
+                        Carbon::parse($endDate)->endOfDay()->toDateTimeString()
                     ])
                     ->where('articles.ignore', false);
             })
@@ -70,12 +70,12 @@ class ClientRepositories
             ), 0) as finish_duty
         ")
             ->fromSub($reports, 'project')
-            ->leftJoin('payment', function ($leftJoin) use ($request) {
+            ->leftJoin('payment', function ($leftJoin) use ($startDate, $endDate) {
                 $leftJoin->on('payment.project_id', '=', 'project.id')
                     ->where('payment.mark', 1)
                     ->whereBetween('payment.date', [
-                        Carbon::parse($request->month ?? now())->startOfMonth()->toDateTimeString(),
-                        Carbon::parse($request->month ?? now())->endOfMonth()->toDateString()
+                        Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
+                        Carbon::parse($endDate)->endOfDay()->toDateTimeString()
                     ]);
             })
             ->groupBy(['project.id']);

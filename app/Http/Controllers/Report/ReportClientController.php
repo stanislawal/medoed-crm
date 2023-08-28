@@ -26,9 +26,11 @@ class ReportClientController extends Controller
      */
     public function index(Request $request)
     {
+        [$startDate, $endDate] = $this->monthElseRange($request);
+
         // получить запрос отчета
-        $reportQuery = ClientRepositories::getReport($request);
-        $statistict = ClientRepositories::getReport($request);
+        $reportQuery = ClientRepositories::getReport($request, $startDate, $endDate);
+        $statistict = ClientRepositories::getReport($request, $startDate, $endDate);
 
 
         $reportQuery->when(UserHelper::isManager(), function ($where) {
@@ -46,10 +48,6 @@ class ReportClientController extends Controller
         // результат запроса
         $reports = $reportQuery->paginate(20);
 
-
-//        $remainderDuty = ClientRepositories::getDuty(
-//            Carbon::parse($request->month)->toDateString()
-//        )->get()->toArray();
 
         // расчеты
         $statistics = Project::on()->selectRaw("
@@ -189,5 +187,19 @@ class ReportClientController extends Controller
             'project' => $project,
             'remainderDuty' => $remainderDuty,
         ]);
+    }
+
+    public function monthElseRange($request)
+    {
+
+        if (!empty($request->month)) {
+            $startDate = Carbon::parse($request->month)->startOfMonth()->format('Y-m-d');
+            $endDate = Carbon::parse($request->month)->endOfMonth()->format('Y-m-d');
+        } else {
+            $startDate = Carbon::parse($request->start_date ?? '')->format('Y-m-d');
+            $endDate = Carbon::parse($request->end_date ?? '')->format('Y-m-d');
+        }
+
+        return [$startDate, $endDate];
     }
 }

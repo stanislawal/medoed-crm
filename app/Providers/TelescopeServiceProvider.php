@@ -21,6 +21,11 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 
 
         Telescope::filter(function (IncomingEntry $entry) {
+            //фильтрация user active
+            if (request()->path() == 'user-active') {
+                return false;
+            }
+
             if ($this->app->environment('local')) {
                 return true;
             }
@@ -33,11 +38,15 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         });
     }
 
+
+
     /**
      * Prevent sensitive request details from being logged by Telescope.
      */
     protected function hideSensitiveRequestDetails(): void
     {
+
+
         if ($this->app->environment('local')) {
             return;
         }
@@ -64,4 +73,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
             ]);
         });
     }
+
 }
+

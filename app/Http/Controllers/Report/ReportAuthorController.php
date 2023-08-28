@@ -16,8 +16,8 @@ class ReportAuthorController extends Controller
 
     public function index(Request $request)
     {
-        $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
-        $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
+        [$startDate, $endDate] = $this->monthElseRange($request);
+
         $diffInWeekdays = Carbon::parse($startDate)->diffInWeekdays(Carbon::parse($endDate)) + 1;
 
         $reports = AuthorRepositories::getReport($request, $startDate, $endDate,
@@ -61,9 +61,7 @@ class ReportAuthorController extends Controller
      */
     public function show(Request $request, $id)
     {
-
-        $startDate = Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d');
-        $endDate = Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d');
+        [$startDate, $endDate] = $this->monthElseRange($request);
 
         $ignoreArticleList = AuthorRepositories::getIgnoreArticles($startDate, $endDate, $id)->get()->toArray();
 
@@ -106,5 +104,18 @@ class ReportAuthorController extends Controller
             'remainderDuty' => $remainderDuty,
             'ignoreArticleList' => $ignoreArticleList
         ]);
+    }
+
+    public function monthElseRange($request){
+
+        if(!empty($request->month)){
+            $startDate = Carbon::parse($request->month)->startOfMonth()->format('Y-m-d');
+            $endDate = Carbon::parse($request->month)->endOfMonth()->format('Y-m-d');
+        }else{
+            $startDate = Carbon::parse($request->start_date)->format('Y-m-d');
+            $endDate = Carbon::parse($request->end_date)->format('Y-m-d');
+        }
+
+        return [$startDate, $endDate];
     }
 }

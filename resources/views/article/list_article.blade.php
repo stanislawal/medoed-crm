@@ -59,11 +59,20 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-12 col-md-6 col-lg-4">
-                                <label class="form-label">Статья</label>
-                                <input type="text" name="article" class="form-control form-control-sm"
-                                       value="{{ request()->article ?? "" }}">
-                            </div>
+                                <div class="form-group col-12 col-md-6 col-lg-4">
+                                    <label class="form-label">Статья</label>
+                                    <select class="form-select form-select-sm select-2"
+                                            name="article">
+                                        <option value="">Не выбрано</option>
+                                        @foreach($articles as $article)
+                                            <option value="{{ $article['article'] }}"
+
+                                                    @if($article['id'] == request()->article_id ?? '') selected @endif>
+                                                {{ $article['article'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label class="form-label">Авторы</label>

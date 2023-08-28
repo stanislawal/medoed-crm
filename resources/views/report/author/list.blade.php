@@ -19,7 +19,15 @@
                     <div class="col-12 col-md-4 col-lg-3">
                         <label class="form-label" for="">Дата</label>
                         <input class="form-control form-control-sm" type="month" name="month"
-                               value="{{ request()->month ?? now()->format('Y-m') }}">
+                               value="{{ request()->month ?? "" }}">
+                    </div>
+
+                    <div class="col-12 col-md-4 col-lg-3">
+                        <label class="form-label" for="">Промежуток</label>
+                        <div class="input-group">
+                            <input type="date" name="start_date" class="form-control form-control-sm" placeholder="От" value="{{ request()->start_date ?? '' }}">
+                            <input type="date" name="end_date" class="form-control form-control-sm" placeholder="До" value="{{ request()->end_date ?? '' }}">
+                        </div>
                     </div>
 
                     <div class="col-12 col-md-4 col-lg-3">
