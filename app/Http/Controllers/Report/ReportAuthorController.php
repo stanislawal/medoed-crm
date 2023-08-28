@@ -112,8 +112,8 @@ class ReportAuthorController extends Controller
             $startDate = Carbon::parse($request->month)->startOfMonth()->format('Y-m-d');
             $endDate = Carbon::parse($request->month)->endOfMonth()->format('Y-m-d');
         }else{
-            $startDate = Carbon::parse($request->start_date ?? now())->format('Y-m-d');
-            $endDate = Carbon::parse($request->end_date ?? now())->format('Y-m-d');
+            $startDate = Carbon::parse($request->start_date ?? now()->startOfMonth())->format('Y-m-d');
+            $endDate = Carbon::parse($request->end_date ?? now()->endOfMonth())->format('Y-m-d');
         }
 
         return [$startDate, $endDate];
