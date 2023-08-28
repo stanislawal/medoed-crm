@@ -19,6 +19,19 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         $this->hideSensitiveRequestDetails();
 
         Telescope::filter(function (IncomingEntry $entry) {
+            if ($entry->type === EntryType::REQUEST) {
+                $requestUrl = $entry->content['uri'] ?? null;
+
+                // Замените "/your-url" на нужный вам URL
+                if ($requestUrl !== '/user-active') {
+                    return false; // Пропустить запись
+                }
+            }
+
+            return true; // Отобразить запись
+        });
+
+        Telescope::filter(function (IncomingEntry $entry) {
             if ($this->app->environment('local')) {
                 return true;
             }
