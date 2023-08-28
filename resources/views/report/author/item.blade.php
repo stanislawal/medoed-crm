@@ -186,12 +186,10 @@
                                 <th>Дата оплаты</th>
                                 @role('Администратор')
                                 <th>Цена заказчика</th>
-                                @endrole
                                 <th>Стоимость проекта</th>
-                                @role('Администратор')
                                 <th>Маржа</th>
-                                @endrole
                                 <th></th>
+                                @endrole
                             </tr>
                             </thead>
                             <tbody>
@@ -225,15 +223,12 @@
                                     </td>
                                     @role('Администратор')
                                     <td>{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
-                                    @endrole
                                     <td>{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
-                                    @role('Администратор')
                                     <td>{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
-                                    @endrole
-
                                     <td>
                                         <a href="{{ route('change_ignore_article', ['id' => $article['id'],'ignore' => true]) }}"
                                            class="btn btn-sm btn-danger to_ignore">Списать</a></td>
+                                    @endrole
                                 </tr>
                             @endforeach
                             </tbody>
