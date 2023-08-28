@@ -86,7 +86,7 @@ class ClientRepositories
         ")
             ->with(['projectStatus', 'projectStatusPayment', 'projectClients', 'projectUser:id,full_name'])
             ->fromSub($reports, 'projects')
-            ->leftJoinSub(self::getDuty(Carbon::parse($request->month)->toDateString()), 'get_duty', function ($leftJoin) {
+            ->leftJoinSub(self::getDuty(Carbon::parse($startDate)->subDay()->toDateString()), 'get_duty', function ($leftJoin) {
                 $leftJoin->on('get_duty.id', '=', 'projects.id');
             });
 
@@ -132,8 +132,6 @@ class ClientRepositories
      */
     public static function getDuty($date, $projectId = null)
     {
-        $date = Carbon::parse($date)->startOfMonth()->subDay()->toDateString();
-
         $projects = Project::on()
             ->selectRaw("
                 projects.id,

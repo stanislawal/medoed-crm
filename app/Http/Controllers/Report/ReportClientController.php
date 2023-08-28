@@ -174,7 +174,7 @@ class ReportClientController extends Controller
         $project = Project::on()->select(['duty', 'id', 'project_name'])->find($id);
 
         $remainderDuty = ClientRepositories::getDuty(
-            $request->month,
+            Carbon::parse($request->month)->startOfMonth()->toDateString(),
             $id
         )->first()->remainder_duty;
 

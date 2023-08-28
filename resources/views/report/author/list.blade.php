@@ -65,7 +65,7 @@
                         </select>
                     </div>
 
-                    <div class="col-12 col-md-4 col-lg-3">
+                    <div class="col-12 mt-3">
                         <button class="btn btn-sm btn-success">Загрузить</button>
                     </div>
                 </div>
