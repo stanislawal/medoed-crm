@@ -334,7 +334,7 @@
                                                 @endforeach
                                             @endforeach
                                         </td>
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_clients'][0]['contact_info'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['projectClients'][0]['contact_info'] ?? '------'}}</td>
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectTheme']['name'] ?? ''}}
                                         </td>
 
