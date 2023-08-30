@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        @role('Админмстратор')
+        @role('Администратор')
         <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
