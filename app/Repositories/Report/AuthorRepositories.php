@@ -161,6 +161,7 @@ class AuthorRepositories
         ")->from('articles')
             ->whereNotNull('project_id')
             ->whereRaw("CAST(created_at as DATE) <= '{$dateTo}'")
+            ->where('ignore', false)
             ->orderByDesc('created_at');
 
         $dutyBuAuthor = User::on()->selectRaw("
