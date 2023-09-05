@@ -3,7 +3,6 @@
 namespace App\Repositories\Report;
 
 use App\Models\Article;
-use App\Models\Payment\Payment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use App\Models\Project\Project;
@@ -25,6 +24,8 @@ class ClientRepositories
                 projects.duty,
                 projects.project_name,
                 projects.manager_id,
+                projects.theme_id,
+                projects.style_id,
                 projects.status_payment_id,
                 projects.payment_terms,
                 coalesce(SUM(articles.without_space), 0) as sum_without_space,
@@ -84,7 +85,14 @@ class ClientRepositories
             projects.*,
             get_duty.remainder_duty
         ")
-            ->with(['projectStatus', 'projectStatusPayment', 'projectClients', 'projectUser:id,full_name'])
+            ->with([
+                'projectStatus',
+                'projectStatusPayment',
+                'projectClients',
+                'projectUser:id,full_name',
+                'projectTheme:id,name',
+                'projectStyle:id,name'
+            ])
             ->fromSub($reports, 'projects')
             ->leftJoinSub(self::getDuty(Carbon::parse($startDate)->subDay()->toDateString()), 'get_duty', function ($leftJoin) {
                 $leftJoin->on('get_duty.id', '=', 'projects.id');

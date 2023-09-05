@@ -107,18 +107,46 @@
                         </div>
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Тема</label>
+                            <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
+                                    name="theme_id">
+                                <option value="">Не выбрано</option>
+                                @foreach ($themes as $theme)
+                                    <option @if ($theme['id'] == request()->theme_id) selected
+                                            @endif value="{{ $theme['id'] }}">
+                                        {{ $theme['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Приоритет</label>
+                            <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
+                                    name="style_id">
+                                <option value="">Не выбрано</option>
+                                @foreach ($priorities as $priority)
+                                    <option @if ($priority['id'] == request()->style_id) selected
+                                            @endif value="{{ $priority['id'] }}">
+                                        {{ $priority['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Дата</label>
                             <input class="form-control form-control-sm" type="month" name="month"
                                    value="{{ request()->month ?? "" }}">
                         </div>
 
-                            <div class="col-12 col-md-4 col-lg-3">
-                                <label class="form-label" for="">Промежуток</label>
-                                <div class="input-group">
-                                    <input type="date" name="start_date" class="form-control form-control-sm" placeholder="От" value="{{ request()->start_date ?? '' }}">
-                                    <input type="date" name="end_date" class="form-control form-control-sm" placeholder="До" value="{{ request()->end_date ?? '' }}">
-                                </div>
+                        <div class="col-12 col-md-4 col-lg-3">
+                            <label class="form-label" for="">Промежуток</label>
+                            <div class="input-group">
+                                <input type="date" name="start_date" class="form-control form-control-sm"
+                                       placeholder="От" value="{{ request()->start_date ?? '' }}">
+                                <input type="date" name="end_date" class="form-control form-control-sm" placeholder="До"
+                                       value="{{ request()->end_date ?? '' }}">
                             </div>
+                        </div>
 
                         <div class="col-12 p-0">
                             <div class="form-group col-12">
@@ -243,6 +271,8 @@
                             <th>Состояние</th>
                             <th class="fw-bold" style="min-width: 120px;">Долг</th>
                             <th>Проект</th>
+                            <th>Тема</th>
+                            <th>Приоритет</th>
                             <th>Заказчик</th>
                             <th style="min-width: 120px;">Объем ЗБП</th>
                             <th style="min-width: 120px;">ВД</th>
@@ -292,6 +322,8 @@
                                         </span>
                                 </td>
                                 <td>{{ $item['project_name'] ?? '-' }}</td>
+                                <td>{{ $item['projectTheme']['name'] ?? '' }}</td>
+                                <td>{{ $item['projectStyle']['name'] ?? '-' }}</td>
                                 <td>
                                     @foreach ($item['projectClients'] as $client)
                                         {{ $client['name'] }}

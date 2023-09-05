@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Export\Export;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Article;
 use App\Models\Client\Client;
 use App\Models\Payment\Payment;
 use App\Models\Project\Project;
+use App\Models\Project\Style;
+use App\Models\Project\Theme;
 use App\Models\Rate\Rate;
 use App\Models\StatusPaymentProject;
 use App\Models\User;
 use App\Repositories\Report\ClientRepositories;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportClientController extends Controller
 {
@@ -26,12 +28,12 @@ class ReportClientController extends Controller
      */
     public function index(Request $request)
     {
+
         [$startDate, $endDate] = $this->monthElseRange($request);
 
         // получить запрос отчета
         $reportQuery = ClientRepositories::getReport($request, $startDate, $endDate);
         $statistict = ClientRepositories::getReport($request, $startDate, $endDate);
-
 
         $reportQuery->when(UserHelper::isManager(), function ($where) {
             $where->where('manager_id', UserHelper::getUserId());
@@ -47,7 +49,6 @@ class ReportClientController extends Controller
 
         // результат запроса
         $reports = $reportQuery->paginate(20);
-
 
         // расчеты
         $statistics = Project::on()->selectRaw("
@@ -74,6 +75,10 @@ class ReportClientController extends Controller
 
         $clients = Client::on()->get()->toArray();
 
+        $themes = Theme::on()->get()->toArray();
+
+        $priorities = Style::on()->get()->toArray();
+
         return view('report.client.list', [
             'reports' => $reports,
             'statistics' => $statistics,
@@ -82,7 +87,8 @@ class ReportClientController extends Controller
             'managers' => $managers,
             'project' => $project,
             'clients' => $clients,
-//            'remainderDuty' => collect($remainderDuty),
+            'themes' => $themes,
+            'priorities' => $priorities,
         ]);
     }
 
@@ -131,6 +137,16 @@ class ReportClientController extends Controller
             $reports->whereHas('projectClients', function ($where) use ($request) {
                 $where->where('clients.id', $request->client_id);
             });
+        }
+
+        // тема
+        if (!empty($request->theme_id)) {
+            $reports->where('projects.theme_id', $request->theme_id);
+        }
+
+        // приоритет
+        if (!empty($request->style_id)) {
+            $reports->where('projects.style_id', $request->style_id);
         }
     }
 
@@ -201,5 +217,70 @@ class ReportClientController extends Controller
         }
 
         return [$startDate, $endDate];
+    }
+
+    public function exportAll(Request $request){
+
+        [$startDate, $endDate] = $this->monthElseRange($request);
+
+        // получить запрос отчета
+        $reportQuery = ClientRepositories::getReport($request, $startDate, $endDate);
+        $statistict = ClientRepositories::getReport($request, $startDate, $endDate);
+
+        $reportQuery->when(UserHelper::isManager(), function ($where) {
+            $where->where('manager_id', UserHelper::getUserId());
+        });
+
+        $statistict->when(UserHelper::isManager(), function ($where) {
+            $where->where('manager_id', UserHelper::getUserId());
+        });
+
+        // фильтр
+        $this->filter($reportQuery, $request);
+        $this->filter($statistict, $request);
+
+        // результат запроса
+//        $reports = $reportQuery->get()
+//            ->map(function ($item){
+//               return [$item->id, $item->remainder_duty, $item->project_name, $item->заказчик,
+//                   $item->sum_without_space, $item->sum_gross_income, $item->маржа, $item->менеджер, $item->payment_terms, $item->sum_price_client, $item->sum_price_author, $item->symbol_in_day,
+//                $item->дата ]
+//            });
+
+//        dd($reports);
+
+        // расчеты
+        $statistics = Project::on()->selectRaw("
+             (sum(result.finish_duty) + sum(result.duty) + sum(result.remainder_duty)) as finish_duty,
+             sum(result.sum_without_space) as sum_without_space,
+             sum(result.sum_gross_income) as sum_gross_income,
+             sum(result.profit) as profit,
+             (sum(result.sum_price_client) / count(result.id)) as middle_check,
+             sum(result.symbol_in_day) as sum_symbols_in_day
+        ")->fromSub($statistict, 'result')
+            ->get()
+            ->first();
+
+        $data = [
+            ['Дата', '29.10.3492'],
+            ['Долг', '123123'],
+            ['ЗБП', '12321354536'],
+            ['ВД', '123145654654623'],
+            [''],
+            ['ID', 'Состояние', 'Долг', 'Проект', 'Заказчик'],
+            ['value', 'value', 'value', 'value', 'value'],
+            ['value1', 'value', 'value', 'value', 'value'],
+            ['value2', 'value', 'value', 'value', 'value'],
+            ['value3', 'value', 'value', 'value', 'value'],
+        ];
+
+        $export = new Export($data);
+
+        return Excel::download($export, 'excel_client_report.xlsx');
+
+    }
+
+    public function exportById(){
+
     }
 }
