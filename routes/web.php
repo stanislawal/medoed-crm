@@ -105,7 +105,7 @@ Route::middleware('auth')->group(function () {
     });
   #----------------------------------------ОТЧЕТЫ----------------------------------------
   Route::resource('report_client', ReportClientController::class );
-  Route::resource('report_author', ReportAuthorController::class );
+  Route::resource('report_author', ReportAuthorController::class )->middleware('role:Администратор');;
   Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
 
   #----------------------------------------ОТЧЕТЫ----------------------------------------
@@ -145,4 +145,7 @@ Route::middleware('auth')->group(function () {
     #----------------------------------------ПОЛЬЗОВАТЕЛИ ОНЛАЙН----------------------------------------
     Route::post('user-active', [UserController::class, 'userActive']);
     #----------------------------------------ПОЛЬЗОВАТЕЛИ ОНЛАЙН----------------------------------------
+
+    Route::get('export', [ReportClientController::class, 'exportAll']);
+
 });

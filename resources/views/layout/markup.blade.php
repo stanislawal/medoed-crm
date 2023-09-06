@@ -247,13 +247,21 @@
                                         </a>
                                     </li>
                                     @endunlessrole
-                                    @hasanyrole('Администратор|Автор')
+                                    @role('Администратор')
                                     <li>
                                         <a href="{{ route('report_author.index') }}">
                                             <span class="sub-item">Авторы</span>
                                         </a>
                                     </li>
-                                    @endhasanyrole
+                                    @endrole
+
+                                    @role('Автор')
+                                    <li>
+                                        <a href="{{ route('report_author.show', ['report_author' => auth()->user()->id, 'month' => request()->month ?? now()->format('Y-m')]) }}">
+                                        Авторы</a>
+                                    </li>
+                                    @endrole
+
                                 </ul>
                             </div>
                         </li>
