@@ -99,11 +99,20 @@ class PaymentController extends Controller
             ->first()
             ->toArray();
 
+        $paymentInfoBackDuty = Payment::on()->selectRaw("
+            count(id) as count_payment,
+            sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja) as sum_back_duty
+        ")
+            ->where('back_duty', false)
+            ->first()
+            ->toArray();
+
         return view('Payment.moderation_payment', [
             'projects' => Project::on()->select(['id', 'project_name'])->get()->toArray(),
             'paymentList' => $paymentList,
             'statuses' => StatusPayment::on()->get()->toArray(),
-            'paymentInfo' => $paymentInfo
+            'paymentInfo' => $paymentInfo,
+            'paymentInfoBackDuty' => $paymentInfoBackDuty
         ]);
     }
 

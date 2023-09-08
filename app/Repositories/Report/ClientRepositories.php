@@ -83,8 +83,16 @@ class ClientRepositories
 
         $reports = Project::on()->selectRaw("
             projects.*,
-            get_duty.remainder_duty
+            get_duty.remainder_duty,
+            cast((projects.finish_duty + get_duty.remainder_duty + projects.duty) as decimal(12,3)) as all_sum_duty
         ")
+            ->fromSub($reports, 'projects')
+            ->leftJoinSub(self::getDuty(Carbon::parse($startDate)->subDay()->toDateString()), 'get_duty', function ($leftJoin) {
+                $leftJoin->on('get_duty.id', '=', 'projects.id');
+            });
+
+        $reports = Project::on()->selectRaw("projects.*")
+            ->fromSub($reports, 'projects')
             ->with([
                 'projectStatus',
                 'projectStatusPayment',
@@ -92,11 +100,7 @@ class ClientRepositories
                 'projectUser:id,full_name',
                 'projectTheme:id,name',
                 'projectStyle:id,name'
-            ])
-            ->fromSub($reports, 'projects')
-            ->leftJoinSub(self::getDuty(Carbon::parse($startDate)->subDay()->toDateString()), 'get_duty', function ($leftJoin) {
-                $leftJoin->on('get_duty.id', '=', 'projects.id');
-            });
+            ]);
 
         return $reports;
     }

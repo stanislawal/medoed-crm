@@ -44,6 +44,7 @@ class AuthorRepositories
         $authors = User::on()
             ->selectRaw("
                 users.id,
+                users.working_day,
                 banks.name as bank,
                 users.full_name,
                 sum(articles.without_space_author) as without_space,

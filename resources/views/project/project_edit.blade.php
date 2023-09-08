@@ -42,8 +42,8 @@
 
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Сфера деятельности</label>
-                                        <input class="form-control form-control-sm" type="text" name="scope_work"
-                                               value="{{ $item['scope_work'] }}"/>
+                                        <textarea class="form-control form-control-sm" type="text" name="scope_work"
+                                                  >{{ $item['scope_work'] }}</textarea>
                                     </div>
 
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
@@ -66,8 +66,8 @@
 
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Портрет и общая хар-ка</label>
-                                        <input class="form-control form-control-sm" type="text" name="characteristic"
-                                               value="{{ $item['characteristic'] }}"/>
+                                        <textarea class="form-control form-control-sm" type="text" name="characteristic"
+                                               >{{ $item['characteristic'] }}</textarea>
                                     </div>
                                 </div>
 
@@ -354,7 +354,7 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label">Как платит</label>
+            <label class="col-sm-3 col-form-label">Условия оплаты</label>
             <div class="col-sm-9">
                 <input type="text" class="form-control form-control-sm" name="pay_info"
                        disabled value="{{ $projectInfo['pay_info'] ?? '' }}">

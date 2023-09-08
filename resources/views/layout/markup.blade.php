@@ -36,7 +36,7 @@
                         @php
                             $notifications = \App\Models\Notification::on()->where('recipient_id', \App\Helpers\UserHelper::getUserId())
                             ->where('is_viewed', false)
-                            ->with(['projects:id,project_name', 'articles:id,article'])
+                            ->with(['projects:id,project_name,manager_id', 'articles:id,article', 'projects.projectUser:id,full_name'])
                             ->orderBy('date_time', 'desc')->get();
                         @endphp
 

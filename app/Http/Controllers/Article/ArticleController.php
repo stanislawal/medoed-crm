@@ -44,6 +44,8 @@ class ArticleController extends Controller
             $where->where('manager_id', UserHelper::getUserId());
         });
 
+        $articles->where('ignore', false);
+
         $this->filter($articles, $request);
 
         $authors = User::on()->whereHas('roles', function ($query) {

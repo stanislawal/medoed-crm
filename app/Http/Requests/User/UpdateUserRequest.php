@@ -54,6 +54,10 @@ class UpdateUserRequest extends FormRequest
               'nullable',
               'numeric'
             ],
+            'working_day' => [
+                'nullable',
+                'numeric'
+            ],
             'duty' => [
                 'nullable',
                 'numeric'

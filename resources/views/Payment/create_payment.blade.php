@@ -44,7 +44,7 @@
                                 <option value="sber_k">Сбер К</option>
                                 <option value="privat">Приват</option>
                                 <option value="um">ЮМ</option>
-                                <option value="wmz">ВМЗ</option>
+                                <option value="wmz">Сбер КА</option>
                                 <option value="birja">Биржи</option>
                             </select>
                         </div>
@@ -97,7 +97,7 @@
                                 <th>Сбер К</th>
                                 <th>Приват</th>
                                 <th>ЮМ</th>
-                                <th>ВМЗ</th>
+                                <th>Сбер КА</th>
                                 <th>Биржи</th>
 
                                 <th>Комментарий</th>

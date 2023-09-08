@@ -89,6 +89,12 @@
                         name="link_author">
                 </div>
 
+                <div class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
+                    <label for="" class="form-label">Рабочий день</label>
+                    <input type="text" class="form-control form-control-sm" value="{{ $user['working_day'] }}"
+                           name="working_day">
+                </div>
+
                 <div class=" m-0 p-3">
                     <button class="btn btn-sm btn-success" type="submit">Редактировать</button>
                 </div>

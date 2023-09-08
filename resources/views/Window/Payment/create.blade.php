@@ -55,7 +55,7 @@
                                 <input type="number" name="um" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
-                                <label for="">ВМЗ</label>
+                                <label for="">Сбер КА</label>
                                 <input type="number" name="wmz" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">

@@ -45,7 +45,7 @@
                                     <option value="sber_k">Сбер К</option>
                                     <option value="privat">Приват</option>
                                     <option value="um">ЮМ</option>
-                                    <option value="wmz">ВМЗ</option>
+                                    <option value="wmz">Сбер КА</option>
                                     <option value="birja">Биржи</option>
                                 </select>
                             </div>
@@ -103,6 +103,14 @@
                                     <div class="text-12 nowrap-dot">Сумма непроверенных оплат:</div>
                                 </div>
                             </div>
+                            <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                                <div class="px-3 py-2 shadow border bg-white rounded">
+                                    <div class="text-24">
+                                        <strong>{{$paymentInfoBackDuty['sum_back_duty']}}</strong>
+                                    </div>
+                                    <div class="text-12 nowrap-dot">Сумма списаний:</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -145,7 +153,7 @@
                                 <th style="min-width: 120px;">Сбер К</th>
                                 <th style="min-width: 120px;">Приват</th>
                                 <th style="min-width: 120px;">ЮМ</th>
-                                <th style="min-width: 120px;">ВМЗ</th>
+                                <th style="min-width: 120px;">Сбер КА</th>
                                 <th style="min-width: 120px;">Биржи</th>
 
                                 <th>Комментарий</th>

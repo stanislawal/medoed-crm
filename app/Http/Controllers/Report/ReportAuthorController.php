@@ -40,7 +40,6 @@ class ReportAuthorController extends Controller
             ->toArray();
 
         $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $request->author_id)->get()->toArray();
-
         return view('report.author.list', [
             'rates' => Rate::on()->get(),
             'reports' => $reports,

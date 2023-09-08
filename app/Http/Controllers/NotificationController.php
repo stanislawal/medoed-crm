@@ -18,7 +18,7 @@ class NotificationController extends Controller
         $viewed = $request->is_viewed ?? null;
 
         $notification = Notification::on()
-            ->with(['projects:id,project_name', 'articles:id,article'])
+            ->with(['projects:id,project_name,manager_id', 'articles:id,article', 'projects.projectUser:id,full_name'])
             ->where('recipient_id', UserHelper::getUserId())
             ->when(!is_null($type), function ($where) use ($type) {
                 $where->where('type', $type);
@@ -44,7 +44,7 @@ class NotificationController extends Controller
     public function getHtml()
     {
         $notifications = Notification::on()
-            ->with(['projects:id,project_name', 'articles:id,article'])
+            ->with(['projects:id,project_name,manager_id', 'articles:id,article', 'projects.projectUser:id,full_name'])
             ->where('recipient_id', UserHelper::getUserId())
             ->where('is_viewed', false)
             ->orderBy('date_time', 'desc')

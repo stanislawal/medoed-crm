@@ -109,12 +109,15 @@ class ReportClientController extends Controller
 
         // долг
         if (!is_null($request->duty_from ?? null) || !is_null($request->duty_to ?? null)) {
-            $reports->whereBetween('finish_duty', [(float)$request->duty_from ?? 0, (float)$request->duty_to ?? 999999999]);
+            $reports->whereBetween('all_sum_duty', [(float)$request->duty_from ?? -9999999, (float)
+                $request->duty_to
+                ?? 9999999]);
         }
 
         // объем ЗБП
         if (!empty($request->sum_without_space_from) || !empty($request->sum_without_space_to)) {
-            $reports->whereBetween('sum_without_space', [$request->sum_without_space_from ?? 0, $request->sum_without_space_to ?? 999999999]);
+            $reports->whereBetween('sum_without_space', [$request->sum_without_space_from ?? 0,
+                $request->sum_without_space_to ?? 999999999]);
         }
 
         // маржа
@@ -219,7 +222,8 @@ class ReportClientController extends Controller
         return [$startDate, $endDate];
     }
 
-    public function exportAll(Request $request){
+    public function exportAll(Request $request)
+    {
 
         [$startDate, $endDate] = $this->monthElseRange($request);
 
@@ -239,17 +243,53 @@ class ReportClientController extends Controller
         $this->filter($reportQuery, $request);
         $this->filter($statistict, $request);
 
-        // результат запроса
-//        $reports = $reportQuery->get()
-//            ->map(function ($item){
-//               return [$item->id, $item->remainder_duty, $item->project_name, $item->заказчик,
-//                   $item->sum_without_space, $item->sum_gross_income, $item->маржа, $item->менеджер, $item->payment_terms, $item->sum_price_client, $item->sum_price_author, $item->symbol_in_day,
-//                $item->дата ]
-//            });
+        $results = $this->getResults($statistict);
+        $headers = $this->getHeaders();
+        $table = $this->getTableForExport($reportQuery);
 
-//        dd($reports);
+        $export = array_merge($results, $headers, $table);
 
-        // расчеты
+
+        $export = new Export($export);
+
+        return Excel::download($export, 'excel_client_report.xlsx');
+
+    }
+
+    public function exportById()
+    {
+
+    }
+
+    private function getTableForExport(Builder $reportQuery)
+    {
+        return $reportQuery->get()
+            ->map(function ($item) {
+                $clients = '';
+                foreach ($item->projectClients as $client)
+                    $clients = $clients . ' ' . $client->name;
+                return [
+                    $item->id,
+                    $item->remainder_duty,
+                    $item->project_name,
+                    $item->projectTheme['name'] ?? '',
+                    $item->projectStyle['name'] ?? '',
+                    $clients,
+                    $item->sum_without_space,
+                    $item->sum_gross_income,
+                    $item->profit,
+                    $item->projectUser['full_name'] ?? '',
+                    $item->payment_terms,
+                    $item->sum_price_client,
+                    $item->sum_price_author,
+                    $item->symbol_in_day,
+                    Carbon::parse($item->created_at)->format('d.m.Y') ?? '-'
+                ];
+            })->toArray();
+    }
+
+    private function getResults(Builder $statistict)
+    {
         $statistics = Project::on()->selectRaw("
              (sum(result.finish_duty) + sum(result.duty) + sum(result.remainder_duty)) as finish_duty,
              sum(result.sum_without_space) as sum_without_space,
@@ -261,26 +301,20 @@ class ReportClientController extends Controller
             ->get()
             ->first();
 
-        $data = [
-            ['Дата', '29.10.3492'],
-            ['Долг', '123123'],
-            ['ЗБП', '12321354536'],
-            ['ВД', '123145654654623'],
-            [''],
-            ['ID', 'Состояние', 'Долг', 'Проект', 'Заказчик'],
-            ['value', 'value', 'value', 'value', 'value'],
-            ['value1', 'value', 'value', 'value', 'value'],
-            ['value2', 'value', 'value', 'value', 'value'],
-            ['value3', 'value', 'value', 'value', 'value'],
+        return [
+            ['Общий долг', $statistics['finish_duty']],
+            ['Общий объем ЗБП', $statistics['sum_without_space']],
+            ['ВД', $statistics['sum_gross_income']],
+            ['Маржа', $statistics['profit']],
+            ['Средний чек', $statistics['middle_check']],
         ];
-
-        $export = new Export($data);
-
-        return Excel::download($export, 'excel_client_report.xlsx');
-
     }
 
-    public function exportById(){
-
+    private function getHeaders()
+    {
+        return [
+            [' '],
+            ['ID', 'Долг', 'Проект', 'Тема', 'Приоритетность', 'Заказчик', 'ЗБП', 'ВД', 'Маржа', 'Менеджер', 'Условия оплаты', 'Цена заказчика', 'Цена автора', 'Символов в день', 'Дата']
+        ];
     }
 }

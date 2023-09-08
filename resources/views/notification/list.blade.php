@@ -180,9 +180,11 @@
                                     </div>
                                     <div class="description">
                                         <div class="text-notify">
-                                            <span>Необходимо связаться с заказчиком (прошло 7 дней). Проект:</span>
+                                            <span>Необходимо связаться с заказчиком (прошло 7 дней).<br> Проект:</span>
                                             <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
                                                class="text-primary">{{ $item['projects']['project_name'] ?? null }}</a>
+                                            <br>
+                                            <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
                                             <div class="time">{{ $item['date_time'] }}</div>
                                         </div>
                                     </div>
@@ -205,9 +207,11 @@
                                     </div>
                                     <div class="description">
                                         <div class="text-notify">
-                                            <span>Необходимо связаться с заказчиком (прошло 30 дней). Проект:</span>
+                                            <span>Необходимо связаться с заказчиком (прошло 30 дней).<br> Проект:</span>
                                             <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
                                                class="text-primary">{{ $item['projects']['project_name'] ?? null }}</a>
+                                            <br>
+                                            <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
                                             <div class="time">{{ $item['date_time'] }}</div>
                                         </div>
                                     </div>
