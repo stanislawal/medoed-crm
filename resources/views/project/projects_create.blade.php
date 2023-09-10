@@ -96,6 +96,13 @@
                 </div>
             </div>
             <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Состояние проекта</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="4" class="form-control form-control-sm" name="project_status_text"
+                        placeholder="Укажите комментарий к проекту"></textarea>
+                </div>
+            </div>
+            <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Сфера бизнеса</label>
                 <div class="col-sm-9">
                     <textarea type="text" class="form-control form-control-sm" name="business_area"></textarea>

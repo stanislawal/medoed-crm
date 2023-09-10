@@ -11,6 +11,7 @@ window.save = function (className, moder = false) {
 
 
     var attr = {
+        'date': tr.find('input[name="date"]').val(),
         'status_payment_id': tr.find('select[name="status_payment_id"]').val(),
         'tinkoff_a': tr.find('input[name="tinkoff_a"]').val(),
         'tinkoff_k': tr.find('input[name="tinkoff_k"]').val(),
@@ -114,10 +115,10 @@ $('select[name="project_id"]').change(function () {
     $('.' + className + ' .td-author').text(author);
 });
 
-$('input[name="mark"]').change(function (){
-   const mark = $(this)
+$('input[name="mark"]').change(function () {
+    const mark = $(this)
     const select = mark.parent('div').parent('td').parent('tr').children('td').children('div').children('select');
-    if (mark.is(':checked')){
+    if (mark.is(':checked')) {
         select.children('option[value="4"]').prop('selected', true)
         // $('#select option[value=2]').prop('selected', true);
     }

@@ -128,7 +128,7 @@ class PaymentController extends Controller
 
         $params = collect($request->all())
             ->only(['mark', 'back_duty', 'status_payment_id', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a', 'tinkoff_k', 'privat', 'um',
-                'wmz', 'birja', 'project_id', 'comment'])
+                'wmz', 'birja', 'project_id', 'comment', 'date'])
             ->toArray();
 
         $hasMark = $this->hasMark($id);

@@ -264,6 +264,13 @@
             </div>
         </div>
         <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Состояние проекта текст</label>
+            <div class="col-sm-9">
+                    <textarea type="text" rows="4" class="form-control form-control-sm" name="project_status_text"
+                              disabled>{{ $projectInfo['project_status_text'] ?? '' }}</textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Сфера бизнеса</label>
             <div class="col-sm-9">
                     <textarea type="text" disabled
@@ -284,7 +291,7 @@
                     <textarea disabled type="text"
                               class="form-control form-control-sm"
                               name="project_perspective">{{ $projectInfo['project_perspective'] }}</textarea>
-            </div>
+            </div>A
         </div>
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Назначить авторов</label>

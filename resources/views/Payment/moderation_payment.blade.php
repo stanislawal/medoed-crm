@@ -117,7 +117,6 @@
             </div>
 
 
-
             <div class="card shadow border bg-white rounded">
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
@@ -198,7 +197,8 @@
                                         </div>
                                     </td>
                                     <td class="nowrap">
-                                        {{ $payment['date'] }}
+                                        <input class="form-control form-control-sm" disabled name="date"
+                                               type="date" value="{{$payment['date']}}">
                                     </td>
                                     <td>
                                         {{ $payment['project']['project_name'] ?? ''}}
@@ -275,7 +275,6 @@
                                                    value="{{ $payment['birja'] }}" disabled>
                                         </div>
                                     </td>
-
 
 
                                     <td>

@@ -73,8 +73,20 @@
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Название проекта</label>
-                                    <input type="text" class="form-control form-control-sm" name="project_name"
-                                           value="{{ request()->project_name ?? '' }}">
+                                    <div>
+                                        <select class="form-select form-select-sm select-2" name="project_name">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($projectsList as $item)
+                                                <option value="{{ $item['project_name'] }}"
+                                                @if($item['project_name'] == request()->project_name) selected @endif>
+                                                    {{ $item['project_name'] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+{{--                                    <input type="text" class="form-control form-control-sm" name="project_name"--}}
+{{--                                           value="{{ request()->project_name ?? '' }}">--}}
                                 </div>
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
@@ -225,6 +237,7 @@
                                     <th>Дата оплаты</th>
                                     <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
                                     <th style="min-width: 300px !important;">Комментарий</th>
+                                    <th style="min-width: 300px !important;">Состояние проекта</th>
                                     <th>Автор</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client', 'routeName' => 'project.index'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
@@ -308,6 +321,14 @@
                                                           onchange="editCommentProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
                                                           type="text"
                                                 >{{$project['comment']}}</textarea>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 0 10px 0 12px!important">
+                                            <div class="d-flex align-items-center">
+                                                <textarea style="width: 100%; height: 100%; border: none"
+                                                          onchange="editCommentProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
+                                                          type="text"
+                                                >{{$project['project_status_text']}}</textarea>
                                             </div>
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">

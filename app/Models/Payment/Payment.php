@@ -30,7 +30,7 @@ class   Payment extends Model
         'number',
         'project_id',
         'comment',
-        'create_user_id'
+        'create_user_id',
     ];
 
     protected $casts = [

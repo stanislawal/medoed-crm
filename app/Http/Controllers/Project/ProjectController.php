@@ -41,7 +41,7 @@ class ProjectController extends Controller
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
-
+        $projectsList = Project::on()->select('id', 'project_name')->get();
 
         $projects = Project::on()
             ->selectRaw("
@@ -84,6 +84,7 @@ class ProjectController extends Controller
             'style' => $style,
             'managers' => $managers,
             'authors' => $authors,
+            'projectsList' => $projectsList
         ]);
 
     }
@@ -276,6 +277,7 @@ class ProjectController extends Controller
             'style_id' => $request->style_id ?? null,
             'type_task' => $request->type_task ?? null,
             'dop_info' => $request->dop_info ?? null,
+            'date_last_change' => $request->date_last_change ?? null,
             'created_user_id' => UserHelper::getUserId()
         ];
 

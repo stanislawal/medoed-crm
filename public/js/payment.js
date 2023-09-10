@@ -14,6 +14,7 @@ window.save = function (className) {
   var tr = $('tr.' + className);
   var url = tr.attr('data-url');
   var attr = {
+    'date': tr.find('input[name="date"]').val(),
     'status_payment_id': tr.find('select[name="status_payment_id"]').val(),
     'tinkoff_a': tr.find('input[name="tinkoff_a"]').val(),
     'tinkoff_k': tr.find('input[name="tinkoff_k"]').val(),

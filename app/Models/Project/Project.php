@@ -38,6 +38,7 @@ class Project extends Model
         'check', // галочка
         'contract_exist', // договор если да
         'comment', // комментарий к проекту
+        'project_status_text', // комментарий к проекту
         'style_id', // id стиля текса
         'status_payment_id', // id статуса оплаты проекта
         'status_id', //id состояния проекта
