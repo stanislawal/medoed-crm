@@ -35,6 +35,9 @@ class ReportClientController extends Controller
         $reportQuery = ClientRepositories::getReport($request, $startDate, $endDate);
         $statistict = ClientRepositories::getReport($request, $startDate, $endDate);
 
+        // Текущий рабочий день
+        $diffInCurrentDay = \Illuminate\Support\Carbon::parse($startDate)->diffInWeekdays(Carbon::parse(now())) + 1;
+
         $reportQuery->when(UserHelper::isManager(), function ($where) {
             $where->where('manager_id', UserHelper::getUserId());
         });
@@ -82,6 +85,7 @@ class ReportClientController extends Controller
         return view('report.client.list', [
             'reports' => $reports,
             'statistics' => $statistics,
+            'diffInCurrentDay' => $diffInCurrentDay,
             'rates' => $rates,
             'statusPayments' => StatusPaymentProject::on()->get()->toArray(),
             'managers' => $managers,

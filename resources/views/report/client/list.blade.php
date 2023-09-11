@@ -285,7 +285,6 @@
                             <th style="min-width: 120px;">Цена проекта</th>
                             <th style="min-width: 120px;">Цена автора</th>
                             <th>Знаки в день</th>
-                            <th>Дата</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -338,8 +337,7 @@
                                 <td>{{ $item['date_diff'] . ' дней' ?? '-' }}</td>
                                 <td>{{ number_format($item['sum_price_client'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                 <td>{{ number_format($item['sum_price_author'] + 0 ?? '-', 2, '.', ' ') }}</td>
-                                <td>{!! $item['symbol_in_day'] ?? '<span class="test-12 fst-italic text-gray">Пусто</span>' !!}</td>
-                                <td>{{ \Carbon\Carbon::parse($item['created_at'])->format('d.m.Y') ?? '-' }}</td>
+                                <td>{{ number_format(($item['sum_without_space'] / $diffInCurrentDay) + 0 ?? '-', 2, '.', ' ') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

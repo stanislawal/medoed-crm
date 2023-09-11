@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="">Описанеи события</label>
+                        <label for="">Описание события</label>
                         <textarea class="form-control form-control-sm" required name="comment" cols="30" rows="3"></textarea>
                     </div>
 
