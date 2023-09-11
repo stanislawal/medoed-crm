@@ -28,7 +28,6 @@ class ReportClientController extends Controller
      */
     public function index(Request $request)
     {
-
         [$startDate, $endDate] = $this->monthElseRange($request);
 
         // получить запрос отчета
@@ -289,7 +288,7 @@ class ReportClientController extends Controller
                     $item->sum_price_client,
                     $item->sum_price_author,
                     $item->symbol_in_day,
-                    Carbon::parse($item->created_at)->format('d.m.Y') ?? '-'
+
                 ];
             })->toArray();
     }
@@ -301,7 +300,7 @@ class ReportClientController extends Controller
              sum(result.sum_without_space) as sum_without_space,
              sum(result.sum_gross_income) as sum_gross_income,
              sum(result.profit) as profit,
-             (sum(result.sum_price_client) / count(result.id)) as middle_check,
+             (sum(result.sum_gross_income) / (sum(result.sum_without_space) / 1000)) as middle_check,
              sum(result.symbol_in_day) as sum_symbols_in_day
         ")->fromSub($statistict, 'result')
             ->get()
@@ -314,13 +313,14 @@ class ReportClientController extends Controller
             ['Маржа', $statistics['profit']],
             ['Средний чек', $statistics['middle_check']],
         ];
+
     }
 
     private function getHeaders()
     {
         return [
             [' '],
-            ['ID', 'Долг', 'Проект', 'Тема', 'Приоритетность', 'Заказчик', 'ЗБП', 'ВД', 'Маржа', 'Менеджер', 'Условия оплаты', 'Цена заказчика', 'Цена автора', 'Символов в день', 'Дата']
+            ['ID', 'Долг', 'Проект', 'Тема', 'Приоритетность', 'Заказчик', 'ЗБП', 'ВД', 'Маржа', 'Менеджер', 'Условия оплаты', 'Цена заказчика', 'Цена автора', 'Символов в день']
         ];
     }
 }

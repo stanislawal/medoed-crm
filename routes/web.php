@@ -146,6 +146,6 @@ Route::middleware('auth')->group(function () {
     Route::post('user-active', [UserController::class, 'userActive']);
     #----------------------------------------ПОЛЬЗОВАТЕЛИ ОНЛАЙН----------------------------------------
 
-    Route::get('export', [ReportClientController::class, 'exportAll']);
+    Route::get('report/client/export', [ReportClientController::class, 'exportAll'])->name('report.client_all');
 
 });

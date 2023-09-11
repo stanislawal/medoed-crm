@@ -150,7 +150,9 @@
 
                         <div class="col-12 p-0">
                             <div class="form-group col-12">
-                                <div class="w-100 d-flex justify-content-end">
+                                <div class="w-100 d-flex justify-content-end" style="gap: 10px">
+                                    <a
+                                        href="{{ route('report.client_all', (request()->all() ?? [])) }}" class="btn btn-sm btn-warning">Экспортировать</a>
                                     <button class="btn btn-sm btn-success">Искать</button>
                                 </div>
                             </div>
