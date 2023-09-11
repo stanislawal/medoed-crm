@@ -206,7 +206,7 @@
                                 <td>{{number_format($author['avg_price']+0, 2, '.', ' ') }}</td>
                                 <td style="background-color: rgba(106,111,113,0.7)!important;">{{$author['working_day']}}</td>
                                 <td style="background-color: rgba(106,111,113,0.7)!important; color: rgb(255,255,255)!important" >{{number_format($author['without_space'] / $diffInCurrentDay, 2, '.', ' ') }}</td>
-                                <td style="background-color: rgba(255,165,0,0.91)!important; color: black!important;">({{number_format(($author['without_space'] / $diffInCurrentDay) - $author['working_day'], 2, '.', ' ') }})</td>
+                                <td style="background-color: rgba(255,165,0,0.91)!important; color: black!important;">{{number_format(($author['without_space'] / $diffInCurrentDay) - $author['working_day'], 2, '.', ' ') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

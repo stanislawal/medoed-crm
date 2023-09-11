@@ -291,7 +291,7 @@
                     <textarea disabled type="text"
                               class="form-control form-control-sm"
                               name="project_perspective">{{ $projectInfo['project_perspective'] }}</textarea>
-            </div>A
+            </div>
         </div>
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Назначить авторов</label>
