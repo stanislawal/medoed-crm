@@ -136,6 +136,7 @@ class ProjectController extends Controller
                 'contract' => $request->contract ?? null,
                 'contract_exist' => $request->contract_exist ?? null,
                 'comment' => $request->comment ?? null,
+                'project_status_text' => $request->project_status_text ?? null,
                 'business_area' => $request->business_area ?? null,
                 'link_site' => $request->link_site ?? null,
                 'invoice_for_payment' => $request->invoice_for_payment ?? null,
@@ -269,6 +270,7 @@ class ProjectController extends Controller
             'contract' => $request->contract ?? null,
             'contract_exist' => $request->contract_exist ?? null,
             'comment' => $request->comment ?? null,
+            'project_status_text' => $request->project_status_text ?? null,
             'business_area' => $request->business_area ?? null,
             'link_site' => $request->link_site ?? null,
             'invoice_for_payment' => $request->invoice_for_payment ?? null,
@@ -377,7 +379,7 @@ class ProjectController extends Controller
     public function partialUpdate($id, Request $request)
     {
 
-        $param = $request->only(['status_id', 'comment', 'date_last_change', 'check', 'status_payment_id', 'duty', 'date_notification']);
+        $param = $request->only(['status_id', 'comment', 'date_last_change', 'check', 'status_payment_id', 'duty', 'date_notification', 'project_status_text']);
 
         if (count($param) > 0) {
             Project::on()->where('id', $id)->update($param);

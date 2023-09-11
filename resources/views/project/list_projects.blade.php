@@ -325,8 +325,8 @@
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             <div class="d-flex align-items-center">
-                                                <textarea style="width: 100%; height: 100%; border: none"
-                                                          onchange="editCommentProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
+                                                <textarea name="project_status_text" style="width: 100%; height: 100%; border: none"
+                                                          onchange="editStatusTextProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
                                                           type="text"
                                                 >{{$project['project_status_text']}}</textarea>
                                             </div>

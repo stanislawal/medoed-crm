@@ -8,6 +8,11 @@ window.editCommentProject = function (el, url) {
     ajax('post', url, {comment: comment})
 }
 
+window.editStatusTextProject = function (el, url) {
+    const project_status_text = $(el).val();
+    ajax('post', url, {project_status_text: project_status_text})
+}
+
 window.editDateLastChangeProject = function (el, url) {
     const lastChange = $(el).val();
     ajax('post', url, {date_last_change: lastChange})

@@ -16,6 +16,12 @@ window.editCommentProject = function (el, url) {
     comment: comment
   });
 };
+window.editStatusTextProject = function (el, url) {
+  var project_status_text = $(el).val();
+  ajax('post', url, {
+    project_status_text: project_status_text
+  });
+};
 window.editDateLastChangeProject = function (el, url) {
   var lastChange = $(el).val();
   ajax('post', url, {
