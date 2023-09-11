@@ -17,9 +17,9 @@ window.editCommentProject = function (el, url) {
   });
 };
 window.editStatusTextProject = function (el, url) {
-  var project_status_text = $(el).val();
+  var projectStatusText = $(el).val();
   ajax('post', url, {
-    project_status_text: project_status_text
+    project_status_text: projectStatusText
   });
 };
 window.editDateLastChangeProject = function (el, url) {
