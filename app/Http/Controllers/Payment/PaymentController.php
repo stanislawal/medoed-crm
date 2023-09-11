@@ -103,7 +103,7 @@ class PaymentController extends Controller
             count(id) as count_payment,
             sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja) as sum_back_duty
         ")
-            ->where('back_duty', false)
+            ->where('back_duty', true)
             ->first()
             ->toArray();
 
