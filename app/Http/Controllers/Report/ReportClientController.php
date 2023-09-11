@@ -46,6 +46,8 @@ class ReportClientController extends Controller
             $where->where('manager_id', UserHelper::getUserId());
         });
 
+
+
         // фильтр
         $this->filter($reportQuery, $request);
         $this->filter($statistict, $request);
@@ -59,7 +61,7 @@ class ReportClientController extends Controller
              sum(result.sum_without_space) as sum_without_space,
              sum(result.sum_gross_income) as sum_gross_income,
              sum(result.profit) as profit,
-             (sum(result.sum_price_client) / count(result.id)) as middle_check,
+             (sum(result.sum_gross_income) / (sum(result.sum_without_space) / 1000)) as middle_check,
              sum(result.symbol_in_day) as sum_symbols_in_day
         ")->fromSub($statistict, 'result')
             ->get()
