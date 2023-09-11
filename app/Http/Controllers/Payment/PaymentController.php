@@ -107,6 +107,14 @@ class PaymentController extends Controller
             ->first()
             ->toArray();
 
+        $paymentInDay = Payment::on()->selectRaw("
+           sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja) as sum_payment_in_day
+        ")
+            ->where('date', $request->date ?? '')
+            ->first()
+            ->toArray();
+
+
         $paymentInfoBackDuty = Payment::on()->selectRaw("
             count(id) as count_payment,
             sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja) as sum_back_duty
@@ -121,6 +129,7 @@ class PaymentController extends Controller
             'statuses' => StatusPayment::on()->get()->toArray(),
             'paymentInfo' => $paymentInfo,
             'paymentNowInfo' => $paymentNowInfo,
+            'paymentInDay' => $paymentInDay,
             'paymentInfoBackDuty' => $paymentInfoBackDuty
         ]);
     }
