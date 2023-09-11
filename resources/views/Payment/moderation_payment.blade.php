@@ -111,6 +111,15 @@
                                     <div class="text-12 nowrap-dot">Сумма списаний:</div>
                                 </div>
                             </div>
+
+                            <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                                <div class="px-3 py-2 shadow border bg-white rounded">
+                                    <div class="text-24">
+                                        <strong>{{$paymentNowInfo['payment_now']}}</strong>
+                                    </div>
+                                    <div class="text-12 nowrap-dot">Сумма сегодняшних оплат:</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

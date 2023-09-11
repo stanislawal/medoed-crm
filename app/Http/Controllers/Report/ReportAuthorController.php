@@ -19,6 +19,7 @@ class ReportAuthorController extends Controller
         [$startDate, $endDate] = $this->monthElseRange($request);
 
         $diffInWeekdays = Carbon::parse($startDate)->diffInWeekdays(Carbon::parse($endDate)) + 1;
+        $diffInCurrentDay = Carbon::parse($startDate)->diffInWeekdays(Carbon::parse(now())) + 1;
 
         $reports = AuthorRepositories::getReport($request, $startDate, $endDate,
             $diffInWeekdays)->paginate(50);
@@ -45,6 +46,7 @@ class ReportAuthorController extends Controller
             'reports' => $reports,
             'indicators' => $indicators,
             'diffInWeekdays' => $diffInWeekdays,
+            'diffInCurrentDay' => $diffInCurrentDay,
             'authors' => $authors,
             'remainderDuty' => collect($remainderDuty),
             'banks' => $banks,

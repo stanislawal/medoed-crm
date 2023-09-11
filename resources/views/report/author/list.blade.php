@@ -87,8 +87,8 @@
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{$diffInWeekdays}}</strong></div>
-                            <div class="text-12 nowrap-dot">Количество рабочих дней:</div>
+                            <div class="text-24"><strong>{{$diffInWeekdays}} / {{$diffInCurrentDay}}</strong></div>
+                            <div class="text-12 nowrap-dot">Количество рабочих дней / Текущий день:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
@@ -205,8 +205,8 @@
                                 <td>{{number_format($author['margin']+0, 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['avg_price']+0, 2, '.', ' ') }}</td>
                                 <td style="background-color: rgba(106,111,113,0.7)!important;">{{$author['working_day']}}</td>
-                                <td style="background-color: rgba(106,111,113,0.7)!important; color: rgb(255,255,255)!important" >{{number_format($author['without_space'] / $diffInWeekdays, 2, '.', ' ') }}</td>
-                                <td style="background-color: rgba(255,165,0,0.91)!important; color: black!important;">({{number_format(($author['without_space'] / $diffInWeekdays) - $author['working_day'], 2, '.', ' ') }})</td>
+                                <td style="background-color: rgba(106,111,113,0.7)!important; color: rgb(255,255,255)!important" >{{number_format($author['without_space'] / $diffInCurrentDay, 2, '.', ' ') }}</td>
+                                <td style="background-color: rgba(255,165,0,0.91)!important; color: black!important;">({{number_format(($author['without_space'] / $diffInCurrentDay) - $author['working_day'], 2, '.', ' ') }})</td>
                             </tr>
                         @endforeach
                         </tbody>
