@@ -111,7 +111,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Дата</th>
-{{--                                    <th>Проект</th>--}}
+                                    <th>Проект</th>
                                     <th>Статья</th>
                                     <th>Объем</th>
                                     <th>Цена</th>
@@ -129,7 +129,7 @@
                                     <tr>
                                         <td>{{ $item['id'] }}</td>
                                         <td>{{ \Illuminate\Support\Carbon::parse($item['created_at'])->format('d.m.Y') }}</td>
-{{--                                        <td>{{ $item['article_project']['project_name'] }}</td>--}}
+                                        <td>{{ $item['article_project']['project_name'] }}</td>
                                         <td>{{ $item['article'] }}</td>
                                         <td>{{ number_format($item['without_space']+0, 2, '.', ' ')}}</td>
                                         <td>{{ number_format($item['price_author']+0, 2, '.', ' ') }}</td>
@@ -177,7 +177,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Дата</th>
-                                <th>Проект</th>
+{{--                                <th>Проект</th>--}}
                                 <th>Статья</th>
                                 <th>Объем</th>
                                 <th>Цена</th>
@@ -197,7 +197,7 @@
                                 <tr>
                                     <td>{{ $article['id'] }}</td>
                                     <td>{{ \Illuminate\Support\Carbon::parse($article['created_at'])->format('d.m.Y') }}</td>
-                                    <td>{{ $article['project_name'] }}</td>
+{{--                                    <td>{{ $article['project_name'] }}</td>--}}
                                     <td>{{ $article['article'] }}</td>
                                     <td class="nowrap">{{number_format($article['without_space_all']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['price_author']+0, 2, '.', ' ')  }}</td>
