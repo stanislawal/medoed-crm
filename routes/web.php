@@ -91,9 +91,6 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('add_option_socialnetwork', SocialNetworkController::class);
         Route::get('add_option_socialnetwork-destroy/{socialnetwork}', [SocialNetworkController::class, 'destroy'])->name('add_option_socialnetwork.destroy');
-        # Заказчики (clients)
-
-
 
 
         #----------------------------------------ВАЛЮТА----------------------------------------
@@ -105,7 +102,7 @@ Route::middleware('auth')->group(function () {
     });
   #----------------------------------------ОТЧЕТЫ----------------------------------------
   Route::resource('report_client', ReportClientController::class );
-  Route::resource('report_author', ReportAuthorController::class )->middleware('role:Администратор');;
+  Route::resource('report_author', ReportAuthorController::class );
   Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
 
   #----------------------------------------ОТЧЕТЫ----------------------------------------
