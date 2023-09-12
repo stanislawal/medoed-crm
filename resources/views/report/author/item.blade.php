@@ -177,7 +177,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Дата</th>
-{{--                                <th>Проект</th>--}}
+                                @role('Администратор')
+                                <th>Проект</th>
+                                @endrole
                                 <th>Статья</th>
                                 <th>Объем</th>
                                 <th>Цена</th>
@@ -197,7 +199,9 @@
                                 <tr>
                                     <td>{{ $article['id'] }}</td>
                                     <td>{{ \Illuminate\Support\Carbon::parse($article['created_at'])->format('d.m.Y') }}</td>
-{{--                                    <td>{{ $article['project_name'] }}</td>--}}
+                                    @role('Администратор')
+                                    <td>{{ $article['project_name'] }}</td>
+                                    @endrole
                                     <td>{{ $article['article'] }}</td>
                                     <td class="nowrap">{{number_format($article['without_space_all']+0, 2, '.', ' ')  }}</td>
                                     <td>{{number_format($article['price_author']+0, 2, '.', ' ')  }}</td>
