@@ -253,6 +253,11 @@
                                             <span class="sub-item">Авторы</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('report_redactor.index') }}">
+                                            <span class="sub-item">Редакторы</span>
+                                        </a>
+                                    </li>
                                     @endrole
 
                                     @role('Автор')

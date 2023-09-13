@@ -183,7 +183,9 @@ class ArticleController extends Controller
             'price_redactor',
             'price_client',
             'payment_amount',
-            'payment_date'
+            'payment_date',
+            'redactor_payment_amount',
+            'redactor_payment_date'
         ]);
 
         Article::on()->where('id', $id)->update($attr);

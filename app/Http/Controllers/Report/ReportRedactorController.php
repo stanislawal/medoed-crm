@@ -8,12 +8,12 @@ use App\Models\Bank;
 use App\Models\Rate\Rate;
 use App\Models\User;
 use App\Repositories\Report\AuthorRepositories;
+use App\Repositories\Report\RedactorRepositories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
-class ReportAuthorController extends Controller
+class ReportRedactorController extends Controller
 {
-
     public function index(Request $request)
     {
         [$startDate, $endDate] = $this->monthElseRange($request);
@@ -21,62 +21,60 @@ class ReportAuthorController extends Controller
         $diffInWeekdays = Carbon::parse($startDate)->diffInWeekdays(Carbon::parse($endDate)) + 1;
         $diffInCurrentDay = Carbon::parse($startDate)->diffInWeekdays(Carbon::parse(now())) + 1;
 
-        $reports = AuthorRepositories::getReport($request, $startDate, $endDate,
+        $reports = RedactorRepositories::getReport($request, $startDate, $endDate,
             $diffInWeekdays)->paginate(50);
 
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
 
-        $banks = Bank::on()->get();
-        $indicators = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays);
+        $indicators = RedactorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays);
         $indicators = User::on()->selectRaw("
-            sum(authors.margin) as margin,
             sum(authors.without_space) as without_space,
             sum(authors.amount) as amount,
-            sum(authors.gross_income) as gross_income,
             sum(authors.duty) as duty
         ")->fromSub($indicators, 'authors')
             ->first()
             ->toArray();
 
-        $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $request->author_id)->get()->toArray();
-        return view('report.author.author_list', [
+        $remainderDuty = RedactorRepositories::getDuty(Carbon::parse($startDate)->subDay())->get()->toArray();
+
+        return view('report.redactor.redactor_list',
+        [
             'rates' => Rate::on()->get(),
+            'banks' => Bank::on()->get(),
+            'authors' => $authors,
             'reports' => $reports,
             'indicators' => $indicators,
             'diffInWeekdays' => $diffInWeekdays,
             'diffInCurrentDay' => $diffInCurrentDay,
-            'authors' => $authors,
             'remainderDuty' => collect($remainderDuty),
-            'banks' => $banks,
         ]);
     }
 
     /**
-     * Возвращает отчет по указанному автору
-     *
      * @param Request $request
-     * @param $id
+     * @param $redactorId
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $redactorId)
     {
         [$startDate, $endDate] = $this->monthElseRange($request);
 
-        $ignoreArticleList = AuthorRepositories::getIgnoreArticles($startDate, $endDate, $id)->get()->toArray();
+        $ignoreArticleList = RedactorRepositories::getIgnoreArticles($startDate, $endDate, $redactorId)->get()
+            ->toArray();
 
-        $articles = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id)->paginate(50);
+        $articles = RedactorRepositories::getReportByRedactor($startDate, $endDate, $redactorId)
+            ->paginate(50);
 
-        $indicators = AuthorRepositories::getReportByAuthor($startDate, $endDate, $id);
-
+        $indicators = RedactorRepositories::getReportByRedactor($startDate, $endDate, $redactorId);
         $indicators = Article::on()->selectRaw("
-            sum(report.without_space_author) as without_space_author,
-            sum(report.price) as price,
-            sum(report.price_article) as price_article,
-            sum(report.margin) as margin,
-            sum(report.payment_amount) as payment_amount,
-            (sum(report.price) - sum(report.payment_amount)) as duty
+            coalesce(sum(report.without_space), 0) as without_space,
+            coalesce(sum(report.price), 0) as price,
+            coalesce(sum(report.price_article), 0) as price_article,
+            coalesce(sum(report.margin), 0) as margin,
+            coalesce(sum(report.redactor_payment_amount), 0) as redactor_payment_amount,
+            coalesce((sum(report.price) - sum(report.redactor_payment_amount)), 0) as duty
         ")->fromSub($indicators, 'report')
             ->first()
             ->toArray();
@@ -91,19 +89,19 @@ class ReportAuthorController extends Controller
             ")
             ->from('users')
             ->leftJoin('banks', 'banks.id', '=', 'users.bank_id')
-            ->where('users.id', $id)
+            ->where('users.id', $redactorId)
             ->get()
             ->first()
             ->toArray();
 
-        $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $id)->first()->remainder_duty ?? 0;
+        $remainderDuty = RedactorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $redactorId)->first()->remainder_duty ?? 0;
 
-        return view('report.author.author_item', [
+        return view('report.redactor.redactor_item', [
+            'indicators' => $indicators,
+            'ignoreArticleList' => $ignoreArticleList,
             'articles' => $articles,
             'user' => $user,
-            'indicators' => $indicators,
             'remainderDuty' => $remainderDuty,
-            'ignoreArticleList' => $ignoreArticleList
         ]);
     }
 

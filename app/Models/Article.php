@@ -24,8 +24,10 @@ class Article extends BaseModel
         'price_author', //цена автора
         'price_redactor', //цена автора
         'check', //галочка
-        'payment_amount', // сумма оплаты
-        'payment_date', // дата оплаты
+        'payment_amount', // сумма оплаты автору
+        'payment_date', // дата оплаты автору
+        'redactor_payment_amount', // сумма оплаты редактору
+        'redactor_payment_date', // дата оплаты редактору
         'ignore' // игнорировать в своде авторов статью
     ];
 

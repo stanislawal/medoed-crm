@@ -11,6 +11,7 @@ use App\Http\Controllers\Project\ProjectEventController;
 use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Report\ReportAuthorController;
 use App\Http\Controllers\Report\ReportClientController;
+use App\Http\Controllers\Report\ReportRedactorController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Option\StyleController;
@@ -103,6 +104,7 @@ Route::middleware('auth')->group(function () {
   #----------------------------------------ОТЧЕТЫ----------------------------------------
   Route::resource('report_client', ReportClientController::class );
   Route::resource('report_author', ReportAuthorController::class );
+  Route::resource('report_redactor', ReportRedactorController::class );
   Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
 
   #----------------------------------------ОТЧЕТЫ----------------------------------------

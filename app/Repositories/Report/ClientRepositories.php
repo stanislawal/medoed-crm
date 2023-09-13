@@ -37,7 +37,8 @@ class ClientRepositories
                     COALESCE(projects.end_date_project, CURRENT_DATE())
                 )) as date_diff,
                coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client,
-               coalesce(SUM((articles.price_author *(articles.without_space/1000))), 0) as sum_price_author
+               coalesce(SUM((articles.price_author *(articles.without_space/1000))), 0) as sum_price_author,
+               coalesce(SUM((articles.price_redactor *(articles.without_space/1000))), 0) as sum_price_redactor
         ")->from('projects')
             ->leftJoin('articles', function ($leftJoin) use ($startDate, $endDate) {
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
@@ -53,7 +54,7 @@ class ClientRepositories
             ->selectRaw("
             project.*,
             (sum_without_space / date_diff) as symbol_in_day,
-            (sum_price_client - sum_price_author) as profit,
+            (sum_price_client - sum_price_author - sum_price_redactor) as profit,
             coalesce((
                 sum_price_client
                 -

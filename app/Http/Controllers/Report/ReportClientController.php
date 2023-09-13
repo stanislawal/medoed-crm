@@ -45,8 +45,6 @@ class ReportClientController extends Controller
             $where->where('manager_id', UserHelper::getUserId());
         });
 
-
-
         // фильтр
         $this->filter($reportQuery, $request);
         $this->filter($statistict, $request);
@@ -83,7 +81,7 @@ class ReportClientController extends Controller
 
         $priorities = Style::on()->get()->toArray();
 
-        return view('report.client.list', [
+        return view('report.client.client_list', [
             'reports' => $reports,
             'statistics' => $statistics,
             'diffInCurrentDay' => $diffInCurrentDay,
@@ -202,7 +200,7 @@ class ReportClientController extends Controller
             $id
         )->first()->remainder_duty;
 
-        return view('report.client.item', [
+        return view('report.client.client_item', [
             'report' => collect($report),
             'clients' => $clients,
             'payment' => $payment,
@@ -258,11 +256,6 @@ class ReportClientController extends Controller
         $export = new Export($export);
 
         return Excel::download($export, 'excel_client_report.xlsx');
-
-    }
-
-    public function exportById()
-    {
 
     }
 
