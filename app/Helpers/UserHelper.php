@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 
+use App\Models\CrossArticleRedactor;
 use App\Models\User;
 
 class UserHelper
@@ -34,6 +35,11 @@ class UserHelper
         return auth()->user()->hasRole('Автор');
     }
 
+    public static function isRedactor()
+    {
+        return (boolean)CrossArticleRedactor::on()->where('user_id', self::getUserId())->count();
+    }
+
     public static function getRoleName($userId = null)
     {
         if (is_null($userId)) {
@@ -43,62 +49,6 @@ class UserHelper
         }
 
         return $roles[0] ?? null;
-    }
-
-    public static function getMonth()
-    {
-        $month = [
-            [
-                'month' => 1,
-                'name' => 'Январь'
-            ],
-            [
-                'month' => 2,
-                'name' => 'Февраль'
-            ],
-            [
-                'month' => 3,
-                'name' => 'Март'
-            ],
-            [
-                'month' => 4,
-                'name' => 'Апрель'
-            ],
-            [
-                'month' => 5,
-                'name' => 'Май'
-            ],
-            [
-                'month' => 6,
-                'name' => 'Июнь'
-            ],
-            [
-                'month' => 7,
-                'name' => 'Июль'
-            ],
-            [
-                'month' => 8,
-                'name' => 'Август'
-            ],
-            [
-                'month' => 9,
-                'name' => 'Сентябрь'
-            ],
-            [
-                'month' => 10,
-                'name' => 'Октябрь'
-            ],
-            [
-                'month' => 11,
-                'name' => 'Ноябрь'
-            ],
-            [
-                'month' => 12,
-                'name' => 'Декабрь'
-            ],
-
-        ];
-        return $month;
     }
 
 

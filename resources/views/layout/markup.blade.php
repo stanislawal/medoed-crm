@@ -5,6 +5,7 @@
 @endsection
 
 @section('html')
+
     <div class="wrapper">
         <div class="main-header">
             <!-- Logo Header -->
@@ -245,6 +246,7 @@
                                         </a>
                                     </li>
                                     @endunlessrole
+
                                     @role('Администратор')
                                     <li>
                                         <a href="{{ route('report_author.index') }}">
@@ -261,10 +263,16 @@
                                     @role('Автор')
                                     <li>
                                         <a href="{{ route('report_author.show', ['report_author' => auth()->user()->id, 'month' => request()->month ?? now()->format('Y-m')]) }}">
-                                        Авторы</a>
+                                            <span class="sub-item">Авторы</span> </a>
                                     </li>
+                                    @if(\App\Helpers\UserHelper::isRedactor())
+                                        <li>
+                                            <a href="{{ route('report_redactor.show', ['report_redactor' => auth()->user()->id, 'month' => now()->format('Y-m')]) }}">
+                                                <span class="sub-item">Редакторы</span>
+                                            </a>
+                                        </li>
+                                    @endif
                                     @endrole
-
                                 </ul>
                             </div>
                         </li>
@@ -319,8 +327,8 @@
         </div>
 
         @unlessrole('Автор')
-            @include('NavComponents.UserActive.users')
-            @include('NavComponents.Notification.notification', ['notifications' => $notifications])
+        @include('NavComponents.UserActive.users')
+        @include('NavComponents.Notification.notification', ['notifications' => $notifications])
         @endunlessrole
     </div>
 @endsection
