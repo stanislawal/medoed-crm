@@ -52,9 +52,7 @@ class ArticleController extends Controller
             $query->where('id', 3);
         })->get();
 
-        $list = $articles->get()->toArray();
-
-        $statistics = $this->calculate($list, $request);
+        $statistics = $this->calculate($articles, $request);
 
         $articles = $articles->paginate(50);
 
@@ -72,9 +70,16 @@ class ArticleController extends Controller
         ]);
     }
 
-    private function calculate($articles, $request)
+    private function calculate(Builder $builder, $request)
     {
-        $list = collect($articles);
+        $result = Article::on()->selectRaw("
+            sum(articles.without_space) as sum_without_space,
+            sum(articles.gross_income) as sum_gross_income,
+            sum(
+                if(cast(articles.created_at as date) = '" . now()->format('Y-m-d') . "', articles.without_space, 0)
+            ) as passed
+        ")->fromSub($builder, 'articles')
+            ->first();
 
         [$dateStart, $dateEnd] = $this->getDate($request);
 
@@ -82,21 +87,17 @@ class ArticleController extends Controller
 
         if (($dateStart < now()) && ($dateEnd > now())) {
             $currentDay = $dateStart->diff(now())->days + 1;
-            $expectation = (int)($list->sum('without_space') / $currentDay * $countDays);
-            $passed = $list->filter(function ($item) {
-
-                return Carbon::parse($item['created_at'])->format('Y-m-d') == now()->format('Y-m-d');
-
-            })->sum('without_space') ?? 0 / $currentDay;
+            $expectation = $result['sum_without_space'] / $currentDay * $countDays;
+            $passed = $result['passed'] / $currentDay;
         }
 
-        $result = [
+        $indicators = [
             "count_days_in_range" => $countDays,
-            "current_day_in_range" => $currentDay ?? "Текущий день не входит в диапазон",
-            "expectation" => $expectation ?? "Невозможно вычислить",
-            "passed" => $passed ?? 0,
-            "sum_gross_income" => $list->sum('gross_income'),
-            "sum_without_space" => $list->sum('without_space')
+            "current_day_in_range" => $currentDay ?? '-',
+            "expectation" => $expectation ?? "-",
+            "passed" => $passed ?? '-',
+            "sum_gross_income" => $result['sum_gross_income'],
+            "sum_without_space" => $result['sum_without_space']
         ];
 
         $salary = UserHelper::getUser()->manager_salary ?? 0;
@@ -106,10 +107,10 @@ class ArticleController extends Controller
         }
 
         if (UserHelper::isManager() || !is_null($request->manager_id)) {
-            $result["manager_salary"] = $result['passed'] / 1000 * $salary;
+            $indicators["manager_salary"] = ((int)$result['sum_without_space'] ?? 0) / 1000 * $salary;
         }
 
-        return $result;
+        return $indicators;
     }
 
     public function create()
