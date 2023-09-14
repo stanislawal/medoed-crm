@@ -40,10 +40,6 @@
                             ->orderBy('date_time', 'desc')->get();
                         @endphp
 
-                        @role('Администратор')
-                        <a class="text-success" href="https://medoed-crm.ru/telescope/requests">Action</a>
-                        @endrole
-
                         <li class="nav-item dropdown hidden-caret submenu show">
                             <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                                data-bs-toggle="offcanvas" data-bs-target="#notificationContainer"
@@ -320,7 +316,9 @@
             </div>
         </div>
 
-        @include('NavComponents.UserActive.users')
+        @unlessrole('Автор')
+            @include('NavComponents.UserActive.users')
+        @endunlessrole
         @include('NavComponents.Notification.notification', ['notifications' => $notifications])
     </div>
 @endsection

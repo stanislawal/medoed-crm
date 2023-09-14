@@ -27,8 +27,6 @@ class RedactorRepositories
                     (articles.without_space * (articles.price_client/1000))
                     -
                     (articles.without_space * (articles.price_redactor/1000))
-                    -
-                    (articles.without_space * (articles.price_author/1000))
                 ) as margin
             ")->from('articles')
             ->leftJoin('projects', 'projects.id', '=', 'articles.project_id')
@@ -89,8 +87,6 @@ class RedactorRepositories
                     (articles.without_space * (articles.price_client/1000))
                     -
                     (articles.without_space * (articles.price_redactor/1000))
-                    -
-                    (articles.without_space * (articles.price_author/1000))
                 ) as margin
             ")->from('articles')
             ->leftJoin('projects', 'projects.id', '=', 'articles.project_id')

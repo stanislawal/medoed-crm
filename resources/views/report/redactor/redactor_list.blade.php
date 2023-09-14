@@ -87,21 +87,21 @@
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ $indicators['without_space'] }}</strong></div>
+                                <strong>{{ number_format($indicators['without_space'] ?? 0, 2, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Общий объем збп:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ $indicators['amount'] }}</strong></div>
+                                <strong>{{ number_format($indicators['amount'] ?? 0, 2, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Общая сумма гонораров:</div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-4 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ $indicators['duty'] }}</strong>
+                                <strong>{{ number_format(($indicators['duty'] + collect($remainderDuty)->sum('remainder_duty')), 2, '.', ' ') }}</strong>
                             </div>
                             <div class="text-12 nowrap-dot">Итого к выплате:</div>
                         </div>
