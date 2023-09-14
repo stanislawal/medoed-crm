@@ -145,7 +145,7 @@ class RedactorRepositories
 
         $articles = Article::on()->selectRaw("
             id,
-            ((without_space * (price_redactor/1000)) - coalesce(redactor_payment_date, 0)) duty_article
+            ((without_space * (price_redactor/1000)) - coalesce(redactor_payment_amount, 0)) as duty_article
         ")->from('articles')
             ->whereNotNull('project_id')
             ->whereRaw("CAST(created_at as DATE) <= '{$dateTo}'")

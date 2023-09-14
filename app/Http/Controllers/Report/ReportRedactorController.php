@@ -7,7 +7,6 @@ use App\Models\Article;
 use App\Models\Bank;
 use App\Models\Rate\Rate;
 use App\Models\User;
-use App\Repositories\Report\AuthorRepositories;
 use App\Repositories\Report\RedactorRepositories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
