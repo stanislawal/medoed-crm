@@ -89,6 +89,21 @@
                                 </select>
                             </div>
 
+                                <div class="form-group col-12 col-md-6 col-lg-4">
+                                    <label class="form-label">Редакторы</label>
+                                    <select class="form-select form-select-sm select-2" multiple
+                                            name="redactor_id[]">
+                                        @foreach($redactors as $redactor)
+                                            <option value="{{$redactor['id']}}"
+                                                    @if (in_array($redactor['id'], request()->redactor_id ?? []))
+                                                        selected
+                                                @endif>
+                                                {{$redactor['full_name'] ?? ''}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label class="form-label">Проект</label>
                                 <select class="form-select form-select-sm select-2"

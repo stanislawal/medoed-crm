@@ -60,7 +60,13 @@ class ArticleController extends Controller
             ->with(['projectAuthor', 'projectClients'])
             ->get()->toArray();
 
-        $redactors = [];
+        $redactors = User::on()
+            ->select(['id', 'full_name'])
+            ->whereIn('id', CrossArticleRedactor::on()->selectRaw("DISTINCT user_id as id")->get()
+                ->pluck('id') ?? [])
+            ->get()
+            ->toArray();
+
 
         return view('article.list_article', [
             'articles' => $articles,
@@ -268,6 +274,12 @@ class ArticleController extends Controller
         $articles->when(!empty($request->author_id), function ($where) use ($request) {
             $where->wherehas('articleAuthor', function ($where) use ($request) {
                 $where->whereIn('users.id', $request->author_id);
+            });
+        });
+
+        $articles->when(!empty($request->redactor_id), function ($where) use ($request) {
+            $where->wherehas('articleRedactor', function ($where) use ($request) {
+                $where->whereIn('users.id', $request->redactor_id);
             });
         });
 
