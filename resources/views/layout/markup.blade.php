@@ -32,6 +32,7 @@
             <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
                 <div class="container-fluid">
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                        @unlessrole('Автор')
 
                         @php
                             $notifications = \App\Models\Notification::on()->where('recipient_id', \App\Helpers\UserHelper::getUserId())
@@ -58,6 +59,7 @@
                                 <span class="notification" id="countActiveUsers">0</span>
                             </a>
                         </li>
+                        @endunlessrole
 
                         <a href="{{ route('logout') }}" onclick="window.exitConfirm()">
                             <button class="btn btn-sm btn-warning" style="color:black!important;"><i
@@ -318,7 +320,7 @@
 
         @unlessrole('Автор')
             @include('NavComponents.UserActive.users')
+            @include('NavComponents.Notification.notification', ['notifications' => $notifications])
         @endunlessrole
-        @include('NavComponents.Notification.notification', ['notifications' => $notifications])
     </div>
 @endsection
