@@ -60,6 +60,8 @@ class ArticleController extends Controller
             ->with(['projectAuthor', 'projectClients'])
             ->get()->toArray();
 
+        $redactors = [];
+
         return view('article.list_article', [
             'articles' => $articles,
             'currency' => $currency,
@@ -67,6 +69,7 @@ class ArticleController extends Controller
             'managers' => $managers,
             'statistics' => $statistics,
             'authors' => $authors,
+            'redactors' => $redactors,
         ]);
     }
 
@@ -83,19 +86,18 @@ class ArticleController extends Controller
 
         [$dateStart, $dateEnd] = $this->getDate($request);
 
-        $countDays = $dateStart->diff($dateEnd)->days + 1;
-
+        $countDays = $dateStart->diffInWeekdays($dateEnd);
         if (($dateStart < now()) && ($dateEnd > now())) {
-            $currentDay = $dateStart->diff(now())->days + 1;
+            $currentDay = $dateStart->diffInWeekdays(now()) + 1;
             $expectation = $result['sum_without_space'] / $currentDay * $countDays;
-            $passed = $result['passed'] / $currentDay;
+            $passed = $result['passed'];
         }
 
         $indicators = [
             "count_days_in_range" => $countDays,
-            "current_day_in_range" => $currentDay ?? '-',
-            "expectation" => $expectation ?? "-",
-            "passed" => $passed ?? '-',
+            "current_day_in_range" => $currentDay ?? 0,
+            "expectation" => $expectation ?? 0,
+            "passed" => $passed ?? 0,
             "sum_gross_income" => $result['sum_gross_income'],
             "sum_without_space" => $result['sum_without_space']
         ];

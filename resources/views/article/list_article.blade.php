@@ -115,7 +115,6 @@
             </div>
         </div>
 
-
         <div class="mb-2">
             <div class="row">
                 <div class="col-12">
@@ -123,31 +122,31 @@
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
                                 <div class="text-24"><strong>{{ $statistics['count_days_in_range'] }}</strong></div>
-                                <div class="text-12 nowrap-dot">Дней в месяце:</div>
+                                <div class="text-12 nowrap-dot">Рабочих дней в месяце:</div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
                                 <div class="text-24"><strong>{{ $statistics['current_day_in_range'] }}</strong></div>
-                                <div class="text-12 nowrap-dot">Текущий день месяца:</div>
+                                <div class="text-12 nowrap-dot">Текущий рабочий день месяца:</div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ $statistics['expectation'] }}</strong></div>
+                                <div class="text-24"><strong>{{ number_format($statistics['expectation'] ?? 0, 2, '.', ' ') }}</strong></div>
                                 <div class="text-12 nowrap-dot">Ожидаемый объем ЗБП:</div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ $statistics['passed'] }}</strong></div>
+                                <div class="text-24"><strong>{{ number_format($statistics['passed'] ?? 0, 2, '.', ' ') }}</strong></div>
                                 <div class="text-12 nowrap-dot">Сдано за сегодня:</div>
                             </div>
                         </div>
 
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ $statistics['sum_without_space'] }}</strong></div>
+                                <div class="text-24"><strong>{{ number_format($statistics['sum_without_space'] ?? 0, 2, '.', ' ') }}</strong></div>
                                 <div class="text-12 nowrap-dot">Всего ЗБП:</div>
                             </div>
                         </div>
@@ -156,7 +155,7 @@
                         @role('Администратор')
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ (int)$statistics['sum_gross_income'] }}</strong></div>
+                                <div class="text-24"><strong>{{ number_format((int)$statistics['sum_gross_income'] ?? 0, 2, '.', ' ') }}</strong></div>
                                 <div class="text-12 nowrap-dot">Валовый доход (сумма):</div>
                             </div>
                         </div>
@@ -166,7 +165,7 @@
                         @if(\App\Helpers\UserHelper::isManager() || !is_null(request()->manager_id))
                             <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                                 <div class="px-3 py-2 shadow border bg-white rounded">
-                                    <div class="text-24"><strong>{{ $statistics['manager_salary'] }}</strong></div>
+                                    <div class="text-24"><strong>{{ number_format($statistics['manager_salary'] ?? 0, 2, '.', ' ') }}</strong></div>
                                     <div class="text-12 nowrap-dot">Расчет менеджера:</div>
                                 </div>
                             </div>
