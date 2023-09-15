@@ -113,7 +113,9 @@
                                     <th>ID</th>
                                     @endrole
                                     <th>Дата</th>
+                                    @role('Администратор')
                                     <th>Проект</th>
+                                    @endrole
                                     <th>Статья</th>
                                     <th>Объем</th>
                                     <th>Цена</th>
@@ -135,7 +137,9 @@
                                         <td>{{ $item['id'] }}</td>
                                         @endrole
                                         <td>{{ \Illuminate\Support\Carbon::parse($item['created_at'])->format('d.m.Y') }}</td>
+                                        @role('Администратор')
                                         <td>{{ $item['article_project']['project_name'] }}</td>
+                                        @endrole
                                         <td>{{ $item['article'] }}</td>
                                         <td>{{ number_format($item['without_space']+0, 2, '.', ' ')}}</td>
                                         <td>{{ number_format($item['price_author']+0, 2, '.', ' ') }}</td>
