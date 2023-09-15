@@ -109,31 +109,42 @@
                             <table class="table table-hover table-cut" id="basic-datatables">
                                 <thead>
                                 <tr>
+                                    @role('Администратор')
                                     <th>ID</th>
+                                    @endrole
                                     <th>Дата</th>
+                                    @role('Администратор')
                                     <th>Проект</th>
+                                    @endrole
                                     <th>Статья</th>
                                     <th>Объем</th>
                                     <th>Цена</th>
                                     <th>Сумма</th>
+                                    @role('Администратор')
                                     <th>Оплата</th>
                                     <th>Дата оплаты</th>
                                     <th>Цена заказчика</th>
                                     <th>Стоимость проекта</th>
                                     <th>Маржа</th>
                                     <th></th>
+                                    @endrole
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @forelse($ignoreArticleList as $item)
                                     <tr>
+                                        @role('Администратор')
                                         <td>{{ $item['id'] }}</td>
+                                        @endrole
                                         <td>{{ \Illuminate\Support\Carbon::parse($item['created_at'])->format('d.m.Y') }}</td>
+                                        @role('Администратор')
                                         <td>{{ $item['article_project']['project_name'] }}</td>
+                                        @endrole
                                         <td>{{ $item['article'] }}</td>
                                         <td>{{ number_format($item['without_space']+0, 2, '.', ' ')}}</td>
                                         <td>{{ number_format($item['price_redactor']+0, 2, '.', ' ') }}</td>
                                         <td>{{ number_format($item['price']+0, 2, '.', ' ') }}</td>
+                                        @role('Администратор')
                                         <td>{{ number_format($item['redactor_payment_amount']+0, 2, '.', ' ') }}</td>
                                         <td>{{ $item['redactor_payment_date'] ?? '-' }}</td>
                                         <td>{{number_format($item['price_client']+0, 2, '.', ' ')  }}</td>
@@ -141,7 +152,9 @@
                                         <td>{{number_format($item['margin']+0, 2, '.', ' ')  }}</td>
                                         <td>
                                             <a href="{{ route('change_ignore_article', ['id' => $item['id'],'ignore' => false]) }}"
-                                               class="btn btn-sm btn-success from_ignore">Из списания</a></td>
+                                               class="btn btn-sm btn-success from_ignore">Из списания</a>
+                                        </td>
+                                        @endrole
                                     </tr>
                                 @empty
                                     <tr>
