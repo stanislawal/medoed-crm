@@ -21,6 +21,7 @@
                                 value="{{ request()->month ?? now()->format('Y-m') }}">
                         </div>
                         <div class="col-12 col-md-4 col-lg-3">
+                            <a href="{{ route('report.client_item', array_merge(['id' => $project['id']], (request()->all() ?? [])))}}" class="btn btn-sm btn-warning mr-2">Экспортировать</a>
                             <button class="btn btn-sm btn-success">Загрузить</button>
                         </div>
                     </div>

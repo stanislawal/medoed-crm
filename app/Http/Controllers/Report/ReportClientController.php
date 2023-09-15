@@ -17,6 +17,7 @@ use App\Repositories\Report\ClientRepositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportClientController extends Controller
@@ -225,9 +226,98 @@ class ReportClientController extends Controller
         return [$startDate, $endDate];
     }
 
+    #---------Экспорт одного проекта--------------
+
+    public function exportItem(Request $request, $id)
+    {
+        $report = ClientRepositories::getByProject($id, $request)->get();
+        $headers = $this->headersItem();
+        $results = $this->resultsItem($id, $request, $report);
+        $table = $this->getTableForExportItem($report);
+
+        $export = array_merge($results, $headers, $table);
+
+        $export = new Export($export);
+
+        return Excel::download($export, "export_client_report_{$id}.xlsx");
+
+    }
+
+    private function resultsItem($id, $request, $report)
+    {
+        $payment = Payment::on()->selectRaw("
+            project_id,
+            sum(sber_a + tinkoff_a + tinkoff_k + sber_d + sber_k + privat + um + wmz + birja) as amount,
+            count(id) as count_operation
+        ")
+            ->where('project_id', $id)
+            ->where('mark', true)
+            ->whereBetween('date', [
+                Carbon::parse($request->month)->startOfMonth()->toDateTimeString(),
+                Carbon::parse($request->month)->endOfMonth()->toDateTimeString(),
+            ])
+            ->groupBy(['project_id'])
+            ->get();
+
+        $remainderDuty = ClientRepositories::getDuty(
+            Carbon::parse($request->month)->startOfMonth()->subDay()->toDateString(),
+            $id
+        )->first()->remainder_duty;
+        $project = Project::on()->select(['duty', 'id', 'project_name'])->find($id);
+
+        $clientList = Client::on()->whereHas('projectClients', function ($where) use ($id) {
+            $where->where('projects.id', $id);
+        })->get();
+
+        $clients = '';
+        foreach ($clientList as $client) {
+            $clients = $clients . ' ' . $client->name;
+        }
+        return [
+            ['Проект', $project['project_name']],
+            ['Заказчик', $clients],
+            ['Маржа', $report->sum('margin')],
+            ['Сдано ЗБП', $report->sum('without_space')],
+            ['Долг', $report->sum('price_article') - $payment->sum('amount') + $remainderDuty],
+            [' ']
+        ];
+
+    }
+
+    private function headersItem()
+    {
+        return [
+            [' '],
+            ['ID', 'Автор', 'Дата сдачи статьи', 'Название статьи', 'ЗБП', 'Цена заказчика', 'Cумма', 'Цена автора', 'Маржа']
+        ];
+    }
+
+    private function getTableForExportItem(Collection $report)
+    {
+        return $report
+            ->map(function ($item) {
+
+                return [
+                    $item->id,
+                    $item->articleAuthor->first()['full_name'],
+                    $item->created_at,
+                    $item->article_name,
+                    $item->without_space,
+                    $item->price_client,
+                    $item->price_article,
+                    $item->price_author,
+                    $item->margin,
+                ];
+            })->toArray();
+    }
+
+    #---------Экспорт одного проекта--------------
+
+
+    #---------Экспорт всего свода заказчиков--------------
+
     public function exportAll(Request $request)
     {
-
         [$startDate, $endDate] = $this->monthElseRange($request);
 
         // получить запрос отчета
@@ -256,7 +346,6 @@ class ReportClientController extends Controller
         $export = new Export($export);
 
         return Excel::download($export, 'excel_client_report.xlsx');
-
     }
 
     private function getTableForExport(Builder $reportQuery)
@@ -298,7 +387,6 @@ class ReportClientController extends Controller
         ")->fromSub($statistict, 'result')
             ->get()
             ->first();
-
         return [
             ['Общий долг', $statistics['finish_duty']],
             ['Общий объем ЗБП', $statistics['sum_without_space']],
@@ -317,3 +405,4 @@ class ReportClientController extends Controller
         ];
     }
 }
+#---------Экспорт всего свода заказчиков--------------
