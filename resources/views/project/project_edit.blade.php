@@ -523,7 +523,7 @@
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{asset('js/select2.js')}}"></script>
-    <script src="{{asset('js/files.js')}}"></script>
+    <script src="{{asset('js/files.js')}}?v=@version"></script>
     <script>
         $('.select-contract').change(function () {
             if ($(this).val() === '0') {
