@@ -43,7 +43,7 @@
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Сфера деятельности</label>
                                         <textarea class="form-control form-control-sm" type="text" name="scope_work"
-                                                  >{{ $item['scope_work'] }}</textarea>
+                                        >{{ $item['scope_work'] }}</textarea>
                                     </div>
 
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
@@ -67,7 +67,7 @@
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Портрет и общая хар-ка</label>
                                         <textarea class="form-control form-control-sm" type="text" name="characteristic"
-                                               >{{ $item['characteristic'] }}</textarea>
+                                        >{{ $item['characteristic'] }}</textarea>
                                     </div>
                                 </div>
 
@@ -162,14 +162,12 @@
                 </div>
             </div>
 
-
-
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button"
                             data-bs-toggle="collapse" data-bs-target="#files" aria-expanded="true"
                             aria-controls="collapseOne">
-                        Документы (0)
+                        Документы ({{ count($projectInfo['files']) }})
                     </button>
                 </h2>
                 <div id="files" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
@@ -178,29 +176,16 @@
                             Добавить новый документ
                         </div>
                         <div class="my-3">
-                            <input type="file" name="file" class="form-control form-control-sm" onchange="saveFile(event, {{ $projectInfo['id'] }}, '{{ route('project_file.upload') }}')">
+                            <input type="file" name="file" class="form-control form-control-sm"
+                                   onchange="saveFile(event, {{ $projectInfo['id'] }}, '{{ route('project_file.upload') }}')">
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <div class="btn btn-sm btn-success">Загрузить</div>
-                        </div>
-
                         <div class="border-bottom my-3"></div>
                         <div class="container__files">
-                            <div class="item">
-                                <div class="file">
-                                    <div class="name">file_name</div>
-                                    <div class="format">.pdf</div>
-                                </div>
-                                <div class="delete_file pointer">
-                                    <img src="{{ asset('img/svg/delete.svg') }}" width="24" alt="delete file">
-                                </div>
-                            </div>
+                            @include('Render.Project.file_list', ['files' => $projectInfo['files'], 'projectId' => $projectInfo['id']])
                         </div>
                     </div>
                 </div>
             </div>
-
-
 
         </div>
     </div>

@@ -108,6 +108,8 @@
                                             <span>Вам назначен проект:</span>
                                             <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
                                                class="text-primary">{{ $item['projects']['project_name'] }}</a>
+                                            <br>
+                                            <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
                                         </div>
                                         <div class="time">{{ $item['date_time'] }}</div>
                                     </div>
@@ -133,6 +135,8 @@
                                             <span>Изменение цены заказчика в проекте:</span>
                                             <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
                                                class="text-primary">{{ $item['projects']['project_name'] }}</a>
+                                            <br>
+                                            <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
                                         </div>
                                         <div class="time">{{ $item['date_time'] }}</div>
                                     </div>
@@ -237,6 +241,8 @@
                                             <span>Время оплаты по проекту: </span>
                                             <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
                                                class="text-primary">{{ $item['projects']['project_name'] ?? null }}</a>
+                                            <br>
+                                            <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
                                             <div class="time">{{ $item['date_time'] }}</div>
                                         </div>
                                     </div>

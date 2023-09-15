@@ -11,7 +11,8 @@ class File extends Model
 
     protected $fillable = [
         'project_id',
-        'url'
+        'url',
+        'file_name'
     ];
 
     public $timestamps = true;

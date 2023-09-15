@@ -189,12 +189,6 @@ class ProjectController extends Controller
         }
     }
 
-    //Вывести информацию об одной записи
-    public function show($project)
-    {
-
-    }
-
     //Страница редактирования одной записи
     public function edit($project)
     {
@@ -213,7 +207,15 @@ class ProjectController extends Controller
         })->get();
 
         $projectInfo = Project::on()
-            ->with(['projectTheme', 'projectAuthor', 'projectUser', 'projectStatus', 'projectClients.socialNetwork', 'projectEvent'])
+            ->with([
+                'projectTheme',
+                'projectAuthor',
+                'projectUser',
+                'projectStatus',
+                'projectClients.socialNetwork',
+                'projectEvent',
+                'files'
+            ])
             ->find($project)
             ->toArray();
 

@@ -12,27 +12,43 @@ class FilesProjectController
     {
         $projectId = $request->project_id;
         $file = $request->file;
-        $fileName = $file->getClientOriginName();
+        $fileName = $file->getClientOriginalName();
+
+        $has = (boolean)File::on()->where('project_id', $projectId)->where('file_name', $fileName)->count();
+
+        if ($has) {
+            return response()->json([
+                'result' => false,
+                'message' => "Файл с таким названием уже существует"
+            ]);
+        }
 
         $url = Storage::disk('public')->putFileAs('project_' . $projectId, $file, $fileName);
 
         File::on()->create([
             'project_id' => $projectId,
-            'url' => $url
+            'url' => $url,
+            'file_name' => $fileName
         ]);
 
         return $this->getFileList($projectId);
     }
 
-    public function deleteFile()
+    public function deleteFile(Request $request, $id)
     {
+        $file = File::on()->find($id);
+        Storage::disk('public')->delete($file['url']);
+        $file->delete();
+        return $this->getFileList($request->project_id);
     }
 
     private function getFileList($projectId)
     {
+        $files = File::on()->where('project_id', $projectId)->get()->toArray();
+
         return response()->json([
             'result' => true,
-            'html' => ''
+            'html' => view('Render.Project.file_list', ['files' => $files, 'projectId' => $projectId])->render()
         ]);
     }
 }
