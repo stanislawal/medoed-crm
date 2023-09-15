@@ -94,7 +94,7 @@
             </div>
         </div>
 
-        @role('Администратор')
+
         <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -127,13 +127,16 @@
                                 <tbody>
                                 @forelse($ignoreArticleList as $item)
                                     <tr>
+                                        @role('Администратор')
                                         <td>{{ $item['id'] }}</td>
+                                        @endrole
                                         <td>{{ \Illuminate\Support\Carbon::parse($item['created_at'])->format('d.m.Y') }}</td>
                                         <td>{{ $item['article_project']['project_name'] }}</td>
                                         <td>{{ $item['article'] }}</td>
                                         <td>{{ number_format($item['without_space']+0, 2, '.', ' ')}}</td>
                                         <td>{{ number_format($item['price_author']+0, 2, '.', ' ') }}</td>
                                         <td>{{ number_format($item['price']+0, 2, '.', ' ') }}</td>
+                                        @role('Администратор')
                                         <td>{{ number_format($item['payment_amount']+0, 2, '.', ' ') }}</td>
                                         <td>{{ $item['payment_date'] ?? '-' }}</td>
                                         <td>{{number_format($item['price_client']+0, 2, '.', ' ')  }}</td>
@@ -142,6 +145,7 @@
                                         <td>
                                             <a href="{{ route('change_ignore_article', ['id' => $item['id'],'ignore' => false]) }}"
                                                class="btn btn-sm btn-success from_ignore">Из списания</a></td>
+                                        @endrole
                                     </tr>
                                 @empty
                                     <tr>
@@ -155,7 +159,6 @@
                 </div>
             </div>
         </div>
-        @endrole
 
         {{--    ТАБЛИЦА--}}
         <div class="w-100 shadow border rounded">
