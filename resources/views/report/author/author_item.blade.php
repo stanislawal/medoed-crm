@@ -109,19 +109,23 @@
                             <table class="table table-hover table-cut" id="basic-datatables">
                                 <thead>
                                 <tr>
+                                    @role('Администратор')
                                     <th>ID</th>
+                                    @endrole
                                     <th>Дата</th>
                                     <th>Проект</th>
                                     <th>Статья</th>
                                     <th>Объем</th>
                                     <th>Цена</th>
                                     <th>Сумма</th>
+                                    @role('Администратор')
                                     <th>Оплата</th>
                                     <th>Дата оплаты</th>
                                     <th>Цена заказчика</th>
                                     <th>Стоимость проекта</th>
                                     <th>Маржа</th>
                                     <th></th>
+                                    @endrole
                                 </tr>
                                 </thead>
                                 <tbody>
