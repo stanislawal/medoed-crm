@@ -29,6 +29,8 @@ mix.js('resources/js/notification/notification.js', 'public/js');
 mix.js('resources/js/socket/socket.js', 'public/js');
 // report author item
 mix.js('resources/js/reports/author.js', 'public/js');
+// project files
+mix.js('resources/js/project/files.js', 'public/js');
 
 
 //---------------------CSS-----------------

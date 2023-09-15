@@ -127,4 +127,12 @@ class Project extends Model
         return $this->belongsToMany(Client::class, CrossProjectClient::class, 'project_id', 'client_id');
     }
 
+    /**
+     * Связь с файлом
+     */
+    public function files()
+    {
+        return $this->hasMany(File::class, 'project_id');
+    }
+
 }

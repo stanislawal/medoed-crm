@@ -116,12 +116,12 @@
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
+                            data-bs-toggle="collapse" data-bs-target="#events" aria-expanded="true"
                             aria-controls="collapseOne">
                         Событие ({{ count($projectInfo['project_event'] ) }})
                     </button>
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div id="events" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#create_event">
                             Добавить событие
@@ -161,6 +161,46 @@
                     </div>
                 </div>
             </div>
+
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#files" aria-expanded="true"
+                            aria-controls="collapseOne">
+                        Документы (0)
+                    </button>
+                </h2>
+                <div id="files" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="text-center text-16">
+                            Добавить новый документ
+                        </div>
+                        <div class="my-3">
+                            <input type="file" name="file" class="form-control form-control-sm" onchange="saveFile(event, {{ $projectInfo['id'] }}, '{{ route('project_file.upload') }}')">
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <div class="btn btn-sm btn-success">Загрузить</div>
+                        </div>
+
+                        <div class="border-bottom my-3"></div>
+                        <div class="container__files">
+                            <div class="item">
+                                <div class="file">
+                                    <div class="name">file_name</div>
+                                    <div class="format">.pdf</div>
+                                </div>
+                                <div class="delete_file pointer">
+                                    <img src="{{ asset('img/svg/delete.svg') }}" width="24" alt="delete file">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
         </div>
     </div>
@@ -498,6 +538,7 @@
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{asset('js/select2.js')}}"></script>
+    <script src="{{asset('js/files.js')}}"></script>
     <script>
         $('.select-contract').change(function () {
             if ($(this).val() === '0') {

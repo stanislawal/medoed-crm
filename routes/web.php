@@ -7,6 +7,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Option\StatusPaymentController;
 use App\Http\Controllers\Payment\PaymentController;
+use App\Http\Controllers\Project\FilesProjectController;
 use App\Http\Controllers\Project\ProjectEventController;
 use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Report\ReportAuthorController;
@@ -95,20 +96,23 @@ Route::middleware('auth')->group(function () {
 
 
         #----------------------------------------ВАЛЮТА----------------------------------------
-        Route::prefix('rate')->group(function (){
+        Route::prefix('rate')->group(function () {
             Route::get('/', [RateController::class, 'index'])->name('rate.index');
             Route::post('/update', [RateController::class, 'update'])->name('rate.update');
         });
         #----------------------------------------ВАЛЮТА----------------------------------------
     });
-  #----------------------------------------ОТЧЕТЫ----------------------------------------
-  Route::resource('report_client', ReportClientController::class );
-  Route::resource('report_author', ReportAuthorController::class );
-  Route::resource('report_redactor', ReportRedactorController::class );
-  Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
+    #----------------------------------------ОТЧЕТЫ----------------------------------------
+    Route::resource('report_client', ReportClientController::class);
+    Route::resource('report_author', ReportAuthorController::class);
+    Route::resource('report_redactor', ReportRedactorController::class);
+    Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
+    #----------------------------------------ОТЧЕТЫ----------------------------------------
 
-  #----------------------------------------ОТЧЕТЫ----------------------------------------
-
+    #----------------------------------------Файлы----------------------------------------
+    Route::post('project/file/upload', [FilesProjectController::class, 'saveFile'])->name('project_file.upload');
+    Route::post('project/file/delete/{id}', [FilesProjectController::class, 'deleteFile'])->name('project_file.delete');
+    #----------------------------------------Файлы----------------------------------------
 
     #----------------------------------------ОПЛАТА----------------------------------------
     Route::prefix('payment')->group(function () {
@@ -128,7 +132,7 @@ Route::middleware('auth')->group(function () {
     #----------------------------------------ОПЛАТА----------------------------------------
 
     #----------------------------------------УВЕДОМЛЕНИЯ----------------------------------------
-    Route::prefix('notification')->group(function(){
+    Route::prefix('notification')->group(function () {
         Route::get('browse/{id}', [NotificationController::class, 'browse'])->name('notification.browse');
         Route::get('browse/all/{type}', [NotificationController::class, 'browseInType'])->name('notification.browse_in_type');
         Route::get('get-html', [NotificationController::class, 'getHtml'])->name('notification.get_html');
