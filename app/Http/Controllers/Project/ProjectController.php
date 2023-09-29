@@ -61,6 +61,7 @@ class ProjectController extends Controller
 
         $projects->leftJoin('users', 'users.id', '=', 'projects.manager_id');
 
+        $projects->leftJoin('styles', 'styles.id', '=', 'projects.style_id');
         $projects->leftJoin('statuses', 'statuses.id', '=', 'projects.status_id');
         $projects->leftJoin('themes', 'themes.id', '=', 'projects.theme_id');
 

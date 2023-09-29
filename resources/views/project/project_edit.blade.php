@@ -42,7 +42,7 @@
 
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Сфера деятельности</label>
-                                        <textarea class="form-control form-control-sm" type="text" name="scope_work"
+                                        <textarea style="resize:both!important; height: 58px; width: 344px;" type="text" name="scope_work"
                                         >{{ $item['scope_work'] }}</textarea>
                                     </div>
 
@@ -66,7 +66,7 @@
 
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Портрет и общая хар-ка</label>
-                                        <textarea class="form-control form-control-sm" type="text" name="characteristic"
+                                        <textarea style="resize:both!important; height: 58px; width: 344px;" type="text" name="characteristic"
                                         >{{ $item['characteristic'] }}</textarea>
                                     </div>
                                 </div>

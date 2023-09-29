@@ -236,8 +236,8 @@
                                     <th>Дата последнего прописывания</th>
                                     <th>Дата оплаты</th>
                                     <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
-                                    <th style="min-width: 300px !important;">Комментарий</th>
                                     <th style="min-width: 300px !important;">Состояние проекта</th>
+                                    <th style="min-width: 300px !important;">Перспектива проекта</th>
                                     <th>Автор</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client', 'routeName' => 'project.index'] )</th>
                                     <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
