@@ -41,7 +41,7 @@
                                     </div>
 
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
-                                        <label class="form-label">Сфера деятельности</label>
+                                        <label class="form-label">Сфера бизнеса клиента</label>
                                         <textarea style="resize:both!important; height: 58px; width: 344px;" type="text" name="scope_work"
                                         >{{ $item['scope_work'] }}</textarea>
                                     </div>
@@ -296,7 +296,7 @@
             </div>
         </div>
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label">Сфера бизнеса</label>
+            <label class="col-sm-3 col-form-label">Сфера бизнеса проекта</label>
             <div class="col-sm-9">
                     <textarea type="text" disabled
                               class="form-control form-control-sm"
