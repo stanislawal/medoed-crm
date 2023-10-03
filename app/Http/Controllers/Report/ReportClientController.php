@@ -168,7 +168,17 @@ class ReportClientController extends Controller
         // общая сумма оплаты за проект
         $payment = Payment::on()->selectRaw("
             project_id,
-            sum(sber_a + tinkoff_a + tinkoff_k + sber_d + sber_k + privat + um + wmz + birja) as amount,
+            sum(
+                coalesce(sber_a, 0) +
+                coalesce(tinkoff_a, 0) +
+                coalesce(tinkoff_k, 0) +
+                coalesce(sber_d, 0) +
+                coalesce(sber_k, 0) +
+                coalesce(privat, 0) +
+                coalesce(um, 0) +
+                coalesce(wmz, 0) +
+                coalesce(birja, 0)
+            ) as amount,
             count(id) as count_operation
         ")
             ->where('project_id', $id)
