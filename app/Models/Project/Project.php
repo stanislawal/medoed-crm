@@ -50,6 +50,7 @@ class Project extends Model
         'type_task', //Тип задачи
         'dop_info', //Дополнительная информация
         'duty', // временный долг
+        'nds', // подпись о неразглашении
     ];
 
     public $timestamps = true;

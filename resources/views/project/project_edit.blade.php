@@ -470,13 +470,6 @@
             </div>
         </div>
 
-        {{--            <div class="row mb-3">--}}
-        {{--                <label class="col-sm-3 col-form-label">Портрет заказчика</label>--}}
-        {{--                <div class="col-sm-9">--}}
-        {{--                    <input type="text" class="form-control form-control-sm" required value="{{ $projectInfo['characteristic'] }}" name="characteristic">--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Договор</label>
             <div class="col-sm-9">
@@ -495,6 +488,20 @@
                        value="{{$projectInfo['contract_exist']}}" name="contract_exist">
             </div>
         </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Подпись NDA</label>
+            <div class="col-sm-9">
+                <select class="form-select form-select-sm select-contract" name="nds"
+                        disabled>
+                    <option value="1" @if($projectInfo['nds'] == true) selected @endif>Да
+                    </option>
+                    <option value="0" @if($projectInfo['nds'] == false) selected @endif>Нет
+                    </option>
+                </select>
+            </div>
+        </div>
+
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">Настроение</label>
             <div class="col-sm-9">

@@ -118,6 +118,15 @@
                                 </div>
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
+                                    <label for="" class="form-label">NDA</label>
+                                    <select class="form-select form-select-sm" name="nds">
+                                        <option value="">Не выбрано</option>
+                                        <option value="1">Да</option>
+                                        <option value="0">Нет</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Состояние</label>
                                     <select class="form-control select-2" multiple
                                             name="status_id[]" id="">
@@ -243,6 +252,7 @@
                                     <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
                                     <th>Маржа</th>
                                     <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract', 'routeName' => 'project.index'] )</th>
+                                    <th>@include('components.table.sort', ['title' => 'NDA', 'column' => 'nds', 'routeName' => 'project.index'] )</th>
                                     <th>Место ведения диалога</th>
 {{--                                    <th>Контакт</th>--}}
                                     <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name', 'routeName' => 'project.index'] )</th>
@@ -346,6 +356,11 @@
                                         <td style="padding: 0 10px 0 12px!important">{{ ((int)$project['price_per'] - (int)$project['price_author'])}}</td>
 
                                         <td style="padding: 0 10px 0 12px!important">@if($project['contract'] == 0)
+                                                Нет
+                                            @else
+                                                Да
+                                            @endif</td>
+                                        <td style="padding: 0 10px 0 12px!important">@if($project['nds'] == 0)
                                                 Нет
                                             @else
                                                 Да

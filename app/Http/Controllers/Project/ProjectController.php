@@ -135,6 +135,7 @@ class ProjectController extends Controller
                 'price_client' => $request->price_client ?? null,
                 'start_date_project' => $request->start_date_project ?? null,
                 'contract' => $request->contract ?? null,
+                'nds' => $request->nds ?? null,
                 'contract_exist' => $request->contract_exist ?? null,
                 'comment' => $request->comment ?? null,
                 'business_area' => $request->business_area ?? null,
@@ -270,6 +271,7 @@ class ProjectController extends Controller
             'start_date_project' => $request->start_date_project ?? null,
             'date_notification' => $request->date_notification ?? null,
             'contract' => $request->contract ?? null,
+            'nds' => $request->nds ?? null,
             'contract_exist' => $request->contract_exist ?? null,
             'comment' => $request->comment ?? null,
             'business_area' => $request->business_area ?? null,
@@ -442,6 +444,10 @@ class ProjectController extends Controller
 
         $projects->when(!empty($request->contract), function ($where) use ($request) {
             $where->where('contract', $request->contract);
+        });
+
+        $projects->when(!empty($request->nds), function ($where) use ($request) {
+            $where->where('nds', $request->nds);
         });
 
         $projects->when(!empty($request->status_id), function ($where) use ($request) {

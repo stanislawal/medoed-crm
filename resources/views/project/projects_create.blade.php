@@ -232,6 +232,21 @@
             </div>
 
             <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Подпись NDA</label>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm select-contract" name="nds"
+                            >
+                        <option value="1">
+                            Да
+                        </option>
+                        <option selected  value="0" >
+                            Нет
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Настроение</label>
                 <div class="col-sm-9">
                     <select class="form-control form-control-sm" name="mood_id">
