@@ -236,7 +236,7 @@
                                         </a>
                                     </th>
                                     <th></th>
-                                    <th>ID</th>
+                                    <th>@include('components.table.sort', ['title' => 'NDA', 'column' => 'nds', 'routeName' => 'project.index'] )</th>
                                     @role('Администратор')
                                     <th>@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name', 'routeName' => 'project.index'] )</th>
                                     @endrole
@@ -252,7 +252,8 @@
                                     <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
                                     <th>Маржа</th>
                                     <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract', 'routeName' => 'project.index'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'NDA', 'column' => 'nds', 'routeName' => 'project.index'] )</th>
+                                    <th>ID</th>
+
                                     <th>Место ведения диалога</th>
 {{--                                    <th>Контакт</th>--}}
                                     <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name', 'routeName' => 'project.index'] )</th>
@@ -281,7 +282,11 @@
                                                     class="fas fa-grip-horizontal"></i></a>
 
                                         </td>
-                                        <td>{{ $project['id'] }}</td>
+                                        <td style="padding: 0 10px 0 12px!important">@if($project['nds'] == 0)
+                                                Нет
+                                            @else
+                                                Да
+                                            @endif</td>
                                         @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important"><textarea disabled
                                                                                                style="border: none; width: 100px; border-radius: 10px; background-color: rgba(255,255,255,0);"
@@ -360,11 +365,8 @@
                                             @else
                                                 Да
                                             @endif</td>
-                                        <td style="padding: 0 10px 0 12px!important">@if($project['nds'] == 0)
-                                                Нет
-                                            @else
-                                                Да
-                                            @endif</td>
+                                        <td>{{ $project['id'] }}</td>
+
                                         <td style="padding: 0 10px 0 12px!important">
                                             @foreach($project['projectClients'] as $client )
                                                 @foreach($client['socialNetwork'] as $social_network)
