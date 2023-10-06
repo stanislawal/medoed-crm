@@ -35,7 +35,7 @@
                                 @method('PUT')
                                 <td>{{$item['id']}}</td>
                                 <td><div><input class="form-control form-control-sm" name="name" value="{{$item['name']}}"></div></td>
-                                <td><button class="btn btn-sm btn-success">Сохранить</button></td>
+{{--                                <td><button class="btn btn-sm btn-success">Сохранить</button></td>--}}
                             </form>
 
                                <td> <div class="form-group col-12 d-flex justify-content-between destroy">

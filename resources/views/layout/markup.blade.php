@@ -180,11 +180,11 @@
                                             <span class="sub-item">Состояния проекта</span>
                                         </a>
                                     </li>
-{{--                                    <li>--}}
-{{--                                        <a href="{{ route('status_payment.index') }}">--}}
-{{--                                            <span class="sub-item">Состояния оплаты проекта</span>--}}
-{{--                                        </a>--}}
-{{--                                    </li>--}}
+                                    <li>
+                                        <a href="{{ route('status_payment.index') }}">
+                                            <span class="sub-item">Состояния оплаты проекта</span>
+                                        </a>
+                                    </li>
                                     <li>
                                         <a href="{{ route('add_option_theme.index') }}">
                                             <span class="sub-item">Темы</span>
