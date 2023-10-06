@@ -263,7 +263,7 @@
                         <tr>
                             <th></th>
                             <th>ID</th>
-                            <th>Состояние</th>
+{{--                            <th>Состояние</th>--}}
                             <th class="fw-bold" style="min-width: 120px;">Долг</th>
                             <th>Проект</th>
                             <th>Тема</th>
@@ -291,22 +291,22 @@
                                     </a>
                                 </td>
                                 <td>{{ $item['id'] }}</td>
-                                <td class="text-center">
-                                    <select class="form-select form-select-sm"
-                                            style="min-width: 170px; background-color: {{ $item['project_status_payment']['color'] ?? '#ffffff' }}70 "
-                                            name="status_payment_id"
-                                            onchange="editStatusPaymentProject(this, '{{ route('project.partial_update', ['id' => $item['id']]) }}')">
-                                        <option value="">
-                                            Не выбрано
-                                        </option>
-                                        @foreach ($statusPayments as $status)
-                                            <option value="{{ $status['id'] }}"
-                                                    @if ($status['id'] == ($item['projectStatusPayment']['id'] ?? 0)) selected @endif>
-                                                {{ $status['name'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </td>
+{{--                                <td class="text-center">--}}
+{{--                                    <select class="form-select form-select-sm"--}}
+{{--                                            style="min-width: 170px; background-color: {{ $item['project_status_payment']['color'] ?? '#ffffff' }}70 "--}}
+{{--                                            name="status_payment_id"--}}
+{{--                                            onchange="editStatusPaymentProject(this, '{{ route('project.partial_update', ['id' => $item['id']]) }}')">--}}
+{{--                                        <option value="">--}}
+{{--                                            Не выбрано--}}
+{{--                                        </option>--}}
+{{--                                        @foreach ($statusPayments as $status)--}}
+{{--                                            <option value="{{ $status['id'] }}"--}}
+{{--                                                    @if ($status['id'] == ($item['projectStatusPayment']['id'] ?? 0)) selected @endif>--}}
+{{--                                                {{ $status['name'] }}--}}
+{{--                                            </option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </td>--}}
 
                                 <td class="fw-bolder">
                                         <span
