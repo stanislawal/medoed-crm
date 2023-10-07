@@ -78,15 +78,15 @@
                                             <option value="">Не выбрано</option>
                                             @foreach($projectsList as $item)
                                                 <option value="{{ $item['project_name'] }}"
-                                                @if($item['project_name'] == request()->project_name) selected @endif>
+                                                        @if($item['project_name'] == request()->project_name) selected @endif>
                                                     {{ $item['project_name'] }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
 
-{{--                                    <input type="text" class="form-control form-control-sm" name="project_name"--}}
-{{--                                           value="{{ request()->project_name ?? '' }}">--}}
+                                    {{--                                    <input type="text" class="form-control form-control-sm" name="project_name"--}}
+                                    {{--                                           value="{{ request()->project_name ?? '' }}">--}}
                                 </div>
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
@@ -229,6 +229,7 @@
                                    class="display table table-hover table-head-bg-info table-center table-cut">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>
                                         <a href="{{ route('project.delete_checkboxes') }}" type="submit"
                                            class="text-white ">
@@ -252,18 +253,13 @@
                                     <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
                                     <th>Маржа</th>
                                     <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract', 'routeName' => 'project.index'] )</th>
-                                    <th>ID</th>
-
                                     <th>Место ведения диалога</th>
-{{--                                    <th>Контакт</th>--}}
+
                                     <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name', 'routeName' => 'project.index'] )</th>
                                     <th style="max-width: 80px;">@include('components.table.sort', ['title' => 'Приор', 'column' => 'styles|name', 'routeName' => 'project.index'] )</th>
                                     @role('Администратор')
                                     <th>Дата поступления</th>
                                     @endrole
-
-
-                                    {{--                                    <th>@include('components.table.sort', ['title' => 'Цена за 1000', 'column' => 'price_per'] )</th>--}}
                                     @role('Администратор')
                                     <th>Удалить</th>
                                     @endrole
@@ -273,9 +269,11 @@
 
                                 @foreach ($projects as $project)
                                     <tr>
+                                        <td>{{ $project['id'] }}</td>
                                         <td style="padding: 0 10px 0 12px!important">
-                                            <input type="checkbox" name="check" @if((bool)$project['check']) checked @endif
-                                            onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
+                                            <input type="checkbox" name="check" @if((bool)$project['check']) checked
+                                                   @endif
+                                                   onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important"><a
                                                 href="{{route('project.edit',['project'=> $project['id']])}}"><i
@@ -292,7 +290,9 @@
                                                                                                style="border: none; width: 100px; border-radius: 10px; background-color: rgba(255,255,255,0);"
                                             >{{$project['projectUser']['full_name'] ?? '------'}}</textarea></td>
                                         @endrole
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['project_name'] ?? '------'}}</td>
+                                        <td style="padding: 0 10px 0 12px!important"><a
+                                                href="{{ route('client_project.show', ['project' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}">{{$project['project_name'] ?? '------'}}</a>
+                                        </td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             @forelse ($project['projectClients'] as $client)
                                                 {{ $client['name'] }}
@@ -365,7 +365,7 @@
                                             @else
                                                 Да
                                             @endif</td>
-                                        <td>{{ $project['id'] }}</td>
+
 
                                         <td style="padding: 0 10px 0 12px!important">
                                             @foreach($project['projectClients'] as $client )
@@ -374,7 +374,7 @@
                                                 @endforeach
                                             @endforeach
                                         </td>
-{{--                                        <td style="padding: 0 10px 0 12px!important">{{$project['projectClients'][0]['contact_info'] ?? '------'}}</td>--}}
+                                        {{--                                        <td style="padding: 0 10px 0 12px!important">{{$project['projectClients'][0]['contact_info'] ?? '------'}}</td>--}}
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectTheme']['name'] ?? ''}}
                                         </td>
 

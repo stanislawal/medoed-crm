@@ -83,8 +83,8 @@ Route::middleware('auth')->group(function () {
         Route::get('add_option_status-destroy/{id}', [StatusController::class, 'update'])->name('add_option_status.update');
 
         // Добавить статус оплаты проекта
-//        Route::resource('status_payment', StatusPaymentController::class)->only(['index', 'store']);
-//        Route::get('/status_payment-destroy/{id}', [StatusPaymentController::class, 'destroy'])->name('status_payment.destroy');
+        Route::resource('status_payment', StatusPaymentController::class)->only(['index', 'store']);
+        Route::get('/status_payment-destroy/{id}', [StatusPaymentController::class, 'destroy'])->name('status_payment.destroy');
 
         Route::resource('add_option_theme', ThemeController::class);
         Route::get('add_option_theme-destroy/{theme}', [ThemeController::class, 'destroy'])->name('add_option_theme.destroy');

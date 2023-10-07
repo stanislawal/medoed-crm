@@ -22,7 +22,6 @@
                         <tr>
                             <th>#id</th>
                             <th>Название состояния</th>
-                            <th>Сохранить</th>
                             <th>Удалить</th>
                         </tr>
                     </thead>
@@ -34,7 +33,7 @@
                                 @csrf
                                 @method('PUT')
                                 <td>{{$item['id']}}</td>
-                                <td><div><input class="form-control form-control-sm" name="name" value="{{$item['name']}}"></div></td>
+                                <td>{{$item['name']}}</td>
 {{--                                <td><button class="btn btn-sm btn-success">Сохранить</button></td>--}}
                             </form>
 
