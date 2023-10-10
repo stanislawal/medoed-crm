@@ -31,7 +31,7 @@
                             <div class="text-notify">
                                 <span>Вам назначен проект:</span>
                                 <a href="{{ route('project.edit', ['project' => $item['projects']['id']]) }}"
-                                   class="text-primary">{{ $item['projects']['project_name'] }}</a>
+                                   class="text-primary">{{ $item['projects']['project_name'] ?? ''}}</a>
                                 <br>
                                 <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
                                 <div class="time">{{ $item['date_time'] }}</div>
