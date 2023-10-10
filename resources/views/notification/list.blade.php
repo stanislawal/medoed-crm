@@ -107,7 +107,7 @@
                                         <div class="text-notify">
                                             <span>Вам назначен проект:</span>
                                             <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
-                                               class="text-primary">{{ $item['projects']['project_name'] }}</a>
+                                               class="text-primary">{{ $item['projects']['project_name']  ?? ''}}</a>
                                             <br>
                                             <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
                                         </div>
@@ -134,7 +134,7 @@
                                         <div class="text-notify">
                                             <span>Изменение цены заказчика в проекте:</span>
                                             <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
-                                               class="text-primary">{{ $item['projects']['project_name'] }}</a>
+                                               class="text-primary">{{ $item['projects']['project_name'] ?? '' }}</a>
                                             <br>
                                             <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
                                         </div>
