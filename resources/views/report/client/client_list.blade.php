@@ -209,7 +209,14 @@
                             <div class="text-12 nowrap-dot">Средняя цена:</div>
                         </div>
                     </div>
-
+                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{ number_format($paymentMonth['all_sum'], 2, '.', ' ') }}</strong>
+                            </div>
+                            <div class="text-12 nowrap-dot">Сумма оплат (текущий месяц):</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-md-3">
@@ -265,12 +272,13 @@
                             <th></th>
                             <th>ID</th>
                             <th>Состояние</th>
-                            <th class="fw-bold" style="min-width: 120px;">Долг</th>
+                            <th class="fw-bold"
+                                style="min-width: 120px;">@include('components.table.sort', ['title' => 'Долг', 'column' => 'duty_for_sort', 'routeName' => 'report_client.index'])</th>
                             <th>Проект</th>
                             <th>Тема</th>
                             <th>Приоритет</th>
                             <th>Заказчик</th>
-                            <th style="min-width: 120px;">Объем ЗБП</th>
+                            <th style="min-width: 120px;">@include('components.table.sort', ['title' => 'Объем ЗБП', 'column' => 'sum_without_space', 'routeName' => 'report_client.index'])</th>
                             <th style="min-width: 120px;">ВД</th>
                             @role('Администратор')
                             <th style="min-width: 120px;">Маржа</th>

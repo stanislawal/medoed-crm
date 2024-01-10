@@ -82,17 +82,30 @@ class ReportClientController extends Controller
 
         $priorities = Style::on()->get()->toArray();
 
+        $paymentMonth = Payment::on()->selectRaw("
+            count(id) as count_payment,
+            coalesce(sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja), 0) as all_sum
+        ")
+            ->where('mark', true)
+            ->whereBetween('date', [
+                Carbon::parse(now())->startOfMonth()->format('Y-m-d'),
+                Carbon::parse(now())->endOfMonth()->format('Y-m-d'),
+            ])
+            ->first()
+            ->toArray();
+
         return view('report.client.client_list', [
-            'reports' => $reports,
-            'statistics' => $statistics,
+            'reports'          => $reports,
+            'statistics'       => $statistics,
             'diffInCurrentDay' => $diffInCurrentDay,
-            'rates' => $rates,
-            'statusPayments' => StatusPaymentProject::on()->get()->toArray(),
-            'managers' => $managers,
-            'project' => $project,
-            'clients' => $clients,
-            'themes' => $themes,
-            'priorities' => $priorities,
+            'rates'            => $rates,
+            'statusPayments'   => StatusPaymentProject::on()->get()->toArray(),
+            'managers'         => $managers,
+            'project'          => $project,
+            'clients'          => $clients,
+            'themes'           => $themes,
+            'priorities'       => $priorities,
+            'paymentMonth'     => $paymentMonth,
         ]);
     }
 
@@ -114,14 +127,14 @@ class ReportClientController extends Controller
         // долг
         if (!is_null($request->duty_from ?? null) || !is_null($request->duty_to ?? null)) {
             $reports->whereBetween('all_sum_duty', [(float)$request->duty_from ?? -9999999, (float)
-                $request->duty_to
-                ?? 9999999]);
+                                                    $request->duty_to
+                                                        ?? 9999999]);
         }
 
         // объем ЗБП
         if (!empty($request->sum_without_space_from) || !empty($request->sum_without_space_to)) {
             $reports->whereBetween('sum_without_space', [$request->sum_without_space_from ?? 0,
-                $request->sum_without_space_to ?? 999999999]);
+                                                         $request->sum_without_space_to ?? 999999999]);
         }
 
         // маржа
@@ -155,6 +168,12 @@ class ReportClientController extends Controller
         if (!empty($request->style_id)) {
             $reports->where('projects.style_id', $request->style_id);
         }
+
+        // сортировка
+        $reports->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
+            $orderBy->orderBy($request->sort, $request->direction);
+        });
+
     }
 
     /**
@@ -212,13 +231,13 @@ class ReportClientController extends Controller
         )->first()->remainder_duty;
 
         return view('report.client.client_item', [
-            'report' => collect($report),
-            'clients' => $clients,
-            'payment' => $payment,
+            'report'         => collect($report),
+            'clients'        => $clients,
+            'payment'        => $payment,
             'paymentHistory' => $paymentHistory,
-            'projectId' => $id,
-            'project' => $project,
-            'remainderDuty' => $remainderDuty,
+            'projectId'      => $id,
+            'project'        => $project,
+            'remainderDuty'  => $remainderDuty,
         ]);
     }
 

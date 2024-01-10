@@ -40,7 +40,7 @@
                                 <option value="sber_a">Сбер А</option>
                                 <option value="tinkoff_a">Тинькофф А</option>
                                 <option value="tinkoff_k">Тинькофф K</option>
-                                <option value="sber_d">Сбер Д</option>
+                                <option value="sber_d">Тинькофф Д</option>
                                 <option value="sber_k">Сбер К</option>
                                 <option value="privat">Приват</option>
                                 <option value="um">ЮМ</option>
@@ -93,7 +93,7 @@
                                 <th>Сбер А</th>
                                 <th>Тинькофф А</th>
                                 <th>Тинькофф К</th>
-                                <th>Сбер Д</th>
+                                <th>Тиньеофф Д</th>
                                 <th>Сбер К</th>
                                 <th>Приват</th>
                                 <th>ЮМ</th>

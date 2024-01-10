@@ -39,7 +39,7 @@
                                 <input type="number" required name="tinkoff_k" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
-                                <label for="">Сбер Д</label>
+                                <label for="">Тиньеофф Д</label>
                                 <input type="number" required name="sber_d" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">

@@ -26,9 +26,8 @@ class UserController extends Controller
         $users->orderBy('id', 'desc');
         $users = $users->paginate(50);
 
-
         $roles = Role::on()->get()->toArray();
-//        dd($users);
+
         return view('user.list_users', [
             'users' => $users,
             'roles' => $roles,
@@ -58,7 +57,7 @@ class UserController extends Controller
             'link_author' => $request->link_author ?? null,
             'payment' => $request->payment ?? null,
             'bank_id' => $request->bank_id ?? null,
-            'is_work' => true,
+
         ];
 
         $user = User::on()->create($attr);

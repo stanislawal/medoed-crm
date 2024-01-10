@@ -17,31 +17,30 @@
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Ф.И.О</label>
                     <input type="text" value="{{ $user['full_name'] ?? '-' }}" class="form-control form-control-sm"
-                        name="full_name">
+                           name="full_name">
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Логин</label>
                     <input type="text" value="{{ $user['login'] ?? '-' }}" class="form-control form-control-sm"
-                        name="login">
+                           name="login">
                 </div>
 
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Пароль</label>
                     <div class="input-group">
-                        <input type="password" value="{{ $user['visual_password'] }}" id="password-input" name="password"
-                            class="form-control form-control-sm" placeholder="Пароль">
+                        <input type="password" value="{{ $user['visual_password'] }}" id="password-input"
+                               name="password"
+                               class="form-control form-control-sm" placeholder="Пароль">
                         <div class="input-group-append">
                             <span class="input-group-text password-toggle-icon"><i class="fas fa-eye"></i></span>
                         </div>
                     </div>
                 </div>
 
-
-
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Контактная информация </label>
                     <input type="text" value="{{ $user['contact_info'] }}" class="form-control form-control-sm"
-                        name="contact_info">
+                           name="contact_info">
                 </div>
 
                 <div class="form-group col-12 col-lg-6">
@@ -52,51 +51,63 @@
                                 <option value="">Выберите банк</option>
                                 @foreach ($banks as $bank)
                                     <option {{ $bank['id'] == $user['bank_id'] ? 'selected' : '' }}
-                                        value="{{ $bank['id'] }}">{{ $bank['name'] }}</option>
+                                            value="{{ $bank['id'] }}">{{ $bank['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <input type="text" value="{{ $user['payment'] }}" class="form-control form-control-sm"
-                            name="payment">
+                               name="payment">
                     </div>
                 </div>
 
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Дата рождения</label>
                     <input type="date" class="form-control form-control-sm" name="birthday"
-                        value="{{ $user['birthday'] }}">
+                           value="{{ $user['birthday'] }}">
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Роль</label>
                     <select class="form-select form-select-sm select-manager" name="role" id="">
                         @foreach ($roles as $role)
-                            <option @if (\App\Helpers\UserHelper::getRoleName($user['id']) == $role['name']) selected @endif value="{{ $role['name'] }}">
+                            <option @if (\App\Helpers\UserHelper::getRoleName($user['id']) == $role['name']) selected
+                                    @endif value="{{ $role['name'] }}">
                                 {{ $role['name'] }}</option>
                         @endforeach
 
                     </select>
                 </div>
 
-                <div class="form-group col-12 col-lg-6 input-manager @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Менеджер') d-none @endif">
+                <div class="form-group col-12 col-lg-6 input-author">
+                    <label for="" class="form-label">Статус работы</label>
+                    <select name="is_work" class="form-select form-select-sm">
+                        <option value="1" @if($user['is_work'] == 1) selected @endif>Работает</option>
+                        <option value="0" @if($user['is_work'] == 0) selected @endif>Не работает</option>
+                    </select>
+                </div>
+
+                <div
+                    class="form-group col-12 col-lg-6 input-manager @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Менеджер') d-none @endif">
                     <label for="" class="form-label">Ставка менеджера</label>
                     <input type="number" class="form-control form-control-sm" value="{{ $user['manager_salary'] }}"
-                        name="manager_salary">
+                           name="manager_salary">
                 </div>
 
-                <div class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
+                <div
+                    class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
                     <label for="" class="form-label">Ссылка на анкету</label>
                     <input type="text" class="form-control form-control-sm" value="{{ $user['link_author'] }}"
-                        name="link_author">
+                           name="link_author">
                 </div>
 
-                <div class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
+                <div
+                    class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
                     <label for="" class="form-label">Рабочий день</label>
                     <input type="text" class="form-control form-control-sm" value="{{ $user['working_day'] }}"
                            name="working_day">
                 </div>
 
                 <div class=" m-0 p-3">
-                    <button class="btn btn-sm btn-success" type="submit">Редактировать</button>
+                    <button class="btn btn-sm btn-success" type="submit">Сохранить</button>
                 </div>
             </div>
         </div>
@@ -105,7 +116,7 @@
 
 @section('custom_js')
     <script>
-        $('.select-manager').change(function() {
+        $('.select-manager').change(function () {
             if ($(this).val() === 'Менеджер') {
                 $('.input-manager').removeClass('d-none');
 
@@ -113,7 +124,7 @@
                 $('.input-manager').addClass('d-none');
             }
         });
-        $('.select-manager').change(function() {
+        $('.select-manager').change(function () {
             if ($(this).val() === 'Автор') {
                 $('.input-author').removeClass('d-none');
 
@@ -125,7 +136,7 @@
         let password_input = document.getElementById("password-input");
         let password_toggle_icon = document.querySelector(".password-toggle-icon");
 
-        password_toggle_icon.addEventListener("click", function() {
+        password_toggle_icon.addEventListener("click", function () {
             if (password_input.type === "password") {
                 password_input.type = "text";
                 password_toggle_icon.innerHTML = '<i class="fas fa-eye-slash"></i>';

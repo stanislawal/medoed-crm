@@ -22,7 +22,8 @@ class ReportAuthorController extends Controller
         $diffInCurrentDay = Carbon::parse($startDate)->diffInWeekdays(Carbon::parse(now())) + 1;
 
         $reports = AuthorRepositories::getReport($request, $startDate, $endDate,
-            $diffInWeekdays)->paginate(50);
+            $diffInWeekdays)
+            ->paginate(50);
 
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
@@ -42,14 +43,14 @@ class ReportAuthorController extends Controller
 
         $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $request->author_id)->get()->toArray();
         return view('report.author.author_list', [
-            'rates' => Rate::on()->get(),
-            'reports' => $reports,
-            'indicators' => $indicators,
-            'diffInWeekdays' => $diffInWeekdays,
+            'rates'            => Rate::on()->get(),
+            'reports'          => $reports,
+            'indicators'       => $indicators,
+            'diffInWeekdays'   => $diffInWeekdays,
             'diffInCurrentDay' => $diffInCurrentDay,
-            'authors' => $authors,
-            'remainderDuty' => collect($remainderDuty),
-            'banks' => $banks,
+            'authors'          => $authors,
+            'remainderDuty'    => collect($remainderDuty),
+            'banks'            => $banks,
         ]);
     }
 
@@ -99,20 +100,21 @@ class ReportAuthorController extends Controller
         $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $id)->first()->remainder_duty ?? 0;
 
         return view('report.author.author_item', [
-            'articles' => $articles,
-            'user' => $user,
-            'indicators' => $indicators,
-            'remainderDuty' => $remainderDuty,
+            'articles'          => $articles,
+            'user'              => $user,
+            'indicators'        => $indicators,
+            'remainderDuty'     => $remainderDuty,
             'ignoreArticleList' => $ignoreArticleList
         ]);
     }
 
-    public function monthElseRange($request){
+    public function monthElseRange($request)
+    {
 
-        if(!empty($request->month)){
+        if (!empty($request->month)) {
             $startDate = Carbon::parse($request->month)->startOfMonth()->format('Y-m-d');
             $endDate = Carbon::parse($request->month)->endOfMonth()->format('Y-m-d');
-        }else{
+        } else {
             $startDate = Carbon::parse($request->start_date ?? now()->startOfMonth())->format('Y-m-d');
             $endDate = Carbon::parse($request->end_date ?? now()->endOfMonth())->format('Y-m-d');
         }

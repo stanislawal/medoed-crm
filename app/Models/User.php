@@ -32,7 +32,6 @@ class User extends Authenticatable
         'is_work',
         'payment', //реквизиты оплаты
         'bank_id',
-        'bank_id',
         'working_day',
 
     ];

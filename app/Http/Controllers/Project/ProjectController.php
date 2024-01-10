@@ -19,6 +19,7 @@ use App\Models\Project\Style;
 use App\Models\Project\Theme;
 use App\Models\Status;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cookie;
@@ -42,6 +43,8 @@ class ProjectController extends Controller
             $query->where('id', 3);
         })->get();
         $projectsList = Project::on()->select('id', 'project_name')->get();
+
+        $socialNetworks = SocialNetwork::on()->get();
 
         $projects = Project::on()
             ->selectRaw("
@@ -77,15 +80,16 @@ class ProjectController extends Controller
 
 
         return view('project.list_projects', [
-            'projects' => $projects,
-            'statuses' => $statuses,
-            'moods' => $moods,
-            'themes' => $themes,
-            'clients' => $clients,
-            'style' => $style,
-            'managers' => $managers,
-            'authors' => $authors,
-            'projectsList' => $projectsList
+            'projects'       => $projects,
+            'statuses'       => $statuses,
+            'moods'          => $moods,
+            'themes'         => $themes,
+            'clients'        => $clients,
+            'style'          => $style,
+            'managers'       => $managers,
+            'authors'        => $authors,
+            'projectsList'   => $projectsList,
+            'socialNetworks' => $socialNetworks,
         ]);
 
     }
@@ -108,12 +112,12 @@ class ProjectController extends Controller
         //передаем данные в view
         return view('project.projects_create', [
             'statuses' => $statuses,
-            'moods' => $moods,
-            'themes' => $themes,
-            'clients' => $clients,
-            'style' => $style,
+            'moods'    => $moods,
+            'themes'   => $themes,
+            'clients'  => $clients,
+            'style'    => $style,
             'managers' => $managers,
-            'authors' => $authors,
+            'authors'  => $authors,
         ]);
     }
 
@@ -123,31 +127,31 @@ class ProjectController extends Controller
         DB::beginTransaction();
         try {
             $attr = [
-                'manager_id' => $request->manager_id ?? null,
-                'theme_id' => $request->theme_id ?? null,
-                'total_symbols' => $request->total_symbols ?? null,
-                'price_per' => $request->price_per ?? null,
-                'project_name' => $request->project_name ?? null,
-                'mood_id' => $request->mood_id ?? null,
-                'status_id' => $request->status_id ?? null,
-                'pay_info' => $request->pay_info ?? null,
-                'price_author' => $request->price_author ?? null,
-                'price_client' => $request->price_client ?? null,
-                'start_date_project' => $request->start_date_project ?? null,
-                'contract' => $request->contract ?? null,
-                'nds' => $request->nds ?? null,
-                'contract_exist' => $request->contract_exist ?? null,
-                'comment' => $request->comment ?? null,
-                'business_area' => $request->business_area ?? null,
-                'link_site' => $request->link_site ?? null,
+                'manager_id'          => $request->manager_id ?? null,
+                'theme_id'            => $request->theme_id ?? null,
+                'total_symbols'       => $request->total_symbols ?? null,
+                'price_per'           => $request->price_per ?? null,
+                'project_name'        => $request->project_name ?? null,
+                'mood_id'             => $request->mood_id ?? null,
+                'status_id'           => $request->status_id ?? null,
+                'pay_info'            => $request->pay_info ?? null,
+                'price_author'        => $request->price_author ?? null,
+                'price_client'        => $request->price_client ?? null,
+                'start_date_project'  => $request->start_date_project ?? null,
+                'contract'            => $request->contract ?? null,
+                'nds'                 => $request->nds ?? null,
+                'contract_exist'      => $request->contract_exist ?? null,
+                'comment'             => $request->comment ?? null,
+                'business_area'       => $request->business_area ?? null,
+                'link_site'           => $request->link_site ?? null,
                 'invoice_for_payment' => $request->invoice_for_payment ?? null,
                 'project_perspective' => $request->project_perspective ?? null,
-                'payment_terms' => $request->payment_terms ?? null,
-                'style_id' => $request->style_id ?? null,
-                'type_task' => $request->type_task ?? null,
-                'dop_info' => $request->dop_info ?? null,
-//                'characteristic' => $request->characteristic ?? null,
-                'created_user_id' => UserHelper::getUserId()
+                'payment_terms'       => $request->payment_terms ?? null,
+                'style_id'            => $request->style_id ?? null,
+                'type_task'           => $request->type_task ?? null,
+                'dop_info'            => $request->dop_info ?? null,
+                //                'characteristic' => $request->characteristic ?? null,
+                'created_user_id'     => UserHelper::getUserId()
             ];
 
             $project_id = Project::on()->create($attr)->id;
@@ -158,7 +162,7 @@ class ProjectController extends Controller
                 foreach ($request->client_id as $client) {
                     $clients[] = [
                         'project_id' => $project_id,
-                        'client_id' => $client
+                        'client_id'  => $client
                     ];
                 }
 
@@ -171,7 +175,7 @@ class ProjectController extends Controller
                 foreach ($request->author_id as $author) {
                     $authors[] = [
                         'project_id' => $project_id,
-                        'user_id' => $author
+                        'user_id'    => $author
                     ];
                 }
 
@@ -229,7 +233,7 @@ class ProjectController extends Controller
             $data = collect($item['social_network'])->map(function ($item) {
                 return [
                     'socialnetrowk_id' => $item['id'],
-                    'link' => $item['pivot']['description']
+                    'link'             => $item['pivot']['description']
                 ];
             })->toArray();
             $item['json'] = json_encode($data);
@@ -239,14 +243,14 @@ class ProjectController extends Controller
         $notifiProject = NotifiProject::on()->where('project_id', $project)->get()->pluck('day')->toArray() ?? [];
 
         return view('project.project_edit', [
-            'projectInfo' => $projectInfo,
-            'statuses' => $statuses,
-            'moods' => $moods,
-            'themes' => $themes,
-            'clients' => $clients,
-            'style' => $style,
-            'managers' => $managers,
-            'authors' => $authors,
+            'projectInfo'   => $projectInfo,
+            'statuses'      => $statuses,
+            'moods'         => $moods,
+            'themes'        => $themes,
+            'clients'       => $clients,
+            'style'         => $style,
+            'managers'      => $managers,
+            'authors'       => $authors,
             'socialNetwork' => $socialNetwork,
             'notifiProject' => $notifiProject,
         ]);
@@ -258,32 +262,32 @@ class ProjectController extends Controller
         $oldProject = Project::on()->find($project);
 
         $attr = [
-            'manager_id' => $request->manager_id ?? null,
-            'theme_id' => $request->theme_id ?? null,
-            'total_symbols' => $request->total_symbols ?? null,
-            'price_per' => $request->price_per ?? null,
-            'project_name' => $request->project_name ?? null,
-            'mood_id' => $request->mood_id ?? null,
-            'status_id' => $request->status_id ?? null,
-            'pay_info' => $request->pay_info ?? null,
-            'price_author' => $request->price_author ?? null,
-            'price_client' => $request->price_client ?? null,
-            'start_date_project' => $request->start_date_project ?? null,
-            'date_notification' => $request->date_notification ?? null,
-            'contract' => $request->contract ?? null,
-            'nds' => $request->nds ?? null,
-            'contract_exist' => $request->contract_exist ?? null,
-            'comment' => $request->comment ?? null,
-            'business_area' => $request->business_area ?? null,
-            'link_site' => $request->link_site ?? null,
+            'manager_id'          => $request->manager_id ?? null,
+            'theme_id'            => $request->theme_id ?? null,
+            'total_symbols'       => $request->total_symbols ?? null,
+            'price_per'           => $request->price_per ?? null,
+            'project_name'        => $request->project_name ?? null,
+            'mood_id'             => $request->mood_id ?? null,
+            'status_id'           => $request->status_id ?? null,
+            'pay_info'            => $request->pay_info ?? null,
+            'price_author'        => $request->price_author ?? null,
+            'price_client'        => $request->price_client ?? null,
+            'start_date_project'  => $request->start_date_project ?? null,
+            'date_notification'   => $request->date_notification ?? null,
+            'contract'            => $request->contract ?? null,
+            'nds'                 => $request->nds ?? null,
+            'contract_exist'      => $request->contract_exist ?? null,
+            'comment'             => $request->comment ?? null,
+            'business_area'       => $request->business_area ?? null,
+            'link_site'           => $request->link_site ?? null,
             'invoice_for_payment' => $request->invoice_for_payment ?? null,
             'project_perspective' => $request->project_perspective ?? null,
-            'payment_terms' => $request->payment_terms ?? null,
-            'style_id' => $request->style_id ?? null,
-            'type_task' => $request->type_task ?? null,
-            'dop_info' => $request->dop_info ?? null,
-            'date_last_change' => $request->date_last_change ?? null,
-            'created_user_id' => UserHelper::getUserId()
+            'payment_terms'       => $request->payment_terms ?? null,
+            'style_id'            => $request->style_id ?? null,
+            'type_task'           => $request->type_task ?? null,
+            'dop_info'            => $request->dop_info ?? null,
+            'date_last_change'    => $request->date_last_change ?? null,
+            'created_user_id'     => UserHelper::getUserId()
         ];
 
         Project::on()->where('id', $project)->update($attr);
@@ -329,7 +333,7 @@ class ProjectController extends Controller
 
         foreach ($authorsId as $authorId) {
             $authors[] = [
-                'user_id' => $authorId,
+                'user_id'    => $authorId,
                 'project_id' => $projectId
             ];
         }
@@ -348,7 +352,7 @@ class ProjectController extends Controller
         foreach ($clientsId as $clientId) {
             $clients[] = [
                 'project_id' => $projectId,
-                'client_id' => $clientId
+                'client_id'  => $clientId
             ];
         }
 
@@ -370,7 +374,7 @@ class ProjectController extends Controller
                 foreach ($list as $item) {
                     $data[] = [
                         'project_id' => $projectId,
-                        'day' => $item
+                        'day'        => $item
                     ];
                 }
 
@@ -407,6 +411,12 @@ class ProjectController extends Controller
         if (count($request->all()) == 0) {
             $this->setFilter($request);
         }
+
+        $projects->when(!empty($request->social_network_id), function (Builder $where) use ($request) {
+            $where->whereHas('projectClients.socialNetwork', function ($where) use ($request) {
+                $where->where('social_networks.id', $request->social_network_id);
+            });
+        });
 
         $projects->when(!empty($request->except_status_id), function ($where) use ($request) {
             $where->whereNotIn('projects.status_id', $request->except_status_id);

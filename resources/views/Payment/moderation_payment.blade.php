@@ -108,7 +108,7 @@
                                     <div class="text-24">
                                         <strong>{{$paymentInfoBackDuty['sum_back_duty']}}</strong>
                                     </div>
-                                    <div class="text-12 nowrap-dot">Сумма списаний:</div>
+                                    <div class="text-12 nowrap-dot">Сумма списаний (текущий месяц):</div>
                                 </div>
                             </div>
 
@@ -132,7 +132,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="card shadow border bg-white rounded">
                 <div class="card-header">
@@ -165,7 +164,7 @@
                                 <th style="min-width: 120px;">Сбер А</th>
                                 <th style="min-width: 120px;">Тинькофф А</th>
                                 <th style="min-width: 120px;">Тинькофф K</th>
-                                <th style="min-width: 120px;">Сбер Д</th>
+                                <th style="min-width: 120px;">Тинькофф Д</th>
                                 <th style="min-width: 120px;">Сбер К</th>
                                 <th style="min-width: 120px;">Приват</th>
                                 <th style="min-width: 120px;">ЮМ</th>

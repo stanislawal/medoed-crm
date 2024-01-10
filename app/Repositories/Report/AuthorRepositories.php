@@ -44,8 +44,10 @@ class AuthorRepositories
         $authors = User::on()
             ->selectRaw("
                 users.id,
+                users.is_work,
                 users.working_day,
                 banks.name as bank,
+                banks.id as bank_id,
                 users.full_name,
                 sum(articles.without_space_author) as without_space,
                 sum(articles.price) as amount,
@@ -71,6 +73,15 @@ class AuthorRepositories
             ->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
                 $orderBy->orderBy($request->sort, $request->direction);
             })
+
+            ->when(!empty($request->status_work), function (Builder $where) use ($request) {
+                $where->where('authors.is_work', $request->status_work);
+            })
+
+            ->when(!empty($request->bank_id), function (Builder $where) use ($request) {
+                $where->where('authors.bank_id', $request->bank_id);
+            })
+
             ->when(!empty($request->author_id), function (Builder $where) use ($request) {
                 $where->where('authors.id', $request->author_id);
             })

@@ -16,27 +16,29 @@
         <div class="w-100 shadow border rounded p-3">
             <form action="" class="check__field">
                 <div class="row">
-                    <div class="col-12 col-md-4 col-lg-3">
+                    <div class="col-12 col-md-4 col-lg-3 mb-3">
                         <label class="form-label" for="">Дата</label>
                         <input class="form-control form-control-sm" type="month" name="month"
                                value="{{ request()->month ?? "" }}">
                     </div>
 
-                    <div class="col-12 col-md-4 col-lg-3">
+                    <div class="col-12 col-md-4 col-lg-3 mb-3">
                         <label class="form-label" for="">Промежуток</label>
                         <div class="input-group">
-                            <input type="date" name="start_date" class="form-control form-control-sm" placeholder="От" value="{{ request()->start_date ?? '' }}">
-                            <input type="date" name="end_date" class="form-control form-control-sm" placeholder="До" value="{{ request()->end_date ?? '' }}">
+                            <input type="date" name="start_date" class="form-control form-control-sm" placeholder="От"
+                                   value="{{ request()->start_date ?? '' }}">
+                            <input type="date" name="end_date" class="form-control form-control-sm" placeholder="До"
+                                   value="{{ request()->end_date ?? '' }}">
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-4 col-lg-3">
+                    <div class="col-12 col-md-4 col-lg-3 mb-3">
                         @if(\App\Helpers\UserHelper::isAuthor())
                             <label class="form-label">Автор</label>
                             <select class="form-control form-control-sm">
                                 <option>{{ auth()->user()->full_name }}</option>
                             </select>
-                    @else
+                        @else
                             <label class="form-label" for="">Автор</label>
                             <select class="form-select form-select-sm select-2"
                                     name="author_id">
@@ -50,29 +52,39 @@
                                     </option>
                                 @endforeach
                             </select>
-                    @endif
+                        @endif
                     </div>
-                    <div class="col-12 col-md-4 col-lg-3">
+                    <div class="col-12 col-md-4 col-lg-3 mb-3">
                         <label class="form-label" for="">Банк</label>
                         <select class="form-select form-select-sm select-2"
-                                name="bank">
+                                name="bank_id">
                             <option value="">Не выбрано</option>
                             @foreach($banks as $bank)
-                                <option value="{{$bank['id']}}">
+                                <option value="{{$bank['id']}}" @if(request()->bank_id == $bank['id']) selected @endif>
                                     {{$bank['name'] ?? ''}}
                                 </option>
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="col-12 mt-3">
+                    <div class="col-12 col-md-4 col-lg-3 mb-3">
+                        <label class="form-label" for="">Статус работы</label>
+                        <select class="form-select form-select-sm" name="status_work">
+                            <option value="">Не выбрано</option>
+                            <option value="1" @if(request()->status_work == '1') selected @endif>Только работающие
+                            </option>
+                            <option value="0" @if(request()->status_work == '0') selected @endif>Только не работающие
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
                         <button class="btn btn-sm btn-success">Загрузить</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
 
     <div class="mb-2">
         <div class="row">
@@ -183,8 +195,12 @@
                             <th>@include('components.table.sort', ['title' => 'Маржа', 'column'       => 'margin', 'routeName' => 'report_author.index'])</th>
                             <th>Ср. цена</th>
                             <th style="background-color: rgba(106,111,113,0.7)!important;">Раб. день</th>
-                            <th style="background-color: rgba(106,111,113,0.7)!important; color: rgba(56,65,244,0.91)!important">Факт V/раб. день</th>
-                            <th style="background-color: rgba(0,0,0,0.7)!important; color: orange!important;">Недозагрузка</th>
+                            <th style="background-color: rgba(106,111,113,0.7)!important; color: rgba(56,65,244,0.91)!important">
+                                Факт V/раб. день
+                            </th>
+                            <th style="background-color: rgba(0,0,0,0.7)!important; color: orange!important;">
+                                Недозагрузка
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -205,7 +221,7 @@
                                 <td>{{number_format($author['margin']+0, 2, '.', ' ')  }}</td>
                                 <td>{{number_format($author['avg_price']+0, 2, '.', ' ') }}</td>
                                 <td style="background-color: rgba(106,111,113,0.7)!important;">{{$author['working_day']}}</td>
-                                <td style="background-color: rgba(106,111,113,0.7)!important; color: rgb(255,255,255)!important" >{{number_format($author['without_space'] / $diffInCurrentDay, 2, '.', ' ') }}</td>
+                                <td style="background-color: rgba(106,111,113,0.7)!important; color: rgb(255,255,255)!important">{{number_format($author['without_space'] / $diffInCurrentDay, 2, '.', ' ') }}</td>
                                 <td style="background-color: rgba(255,165,0,0.91)!important; color: black!important;">{{number_format(($author['without_space'] / $diffInCurrentDay) - $author['working_day'], 2, '.', ' ') }}</td>
                             </tr>
                         @endforeach

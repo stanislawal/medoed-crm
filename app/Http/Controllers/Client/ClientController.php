@@ -107,7 +107,7 @@ class ClientController extends Controller
 
         CrossClientSocialNetwork::on()->where('client_id', $client)->delete();
 
-        $socialnetworks = json_decode($request->socialnetwork_info, TRUE);
+        $socialnetworks = json_decode(($request->socialnetwork_info ?? '[]'), TRUE);
 
         if(count($socialnetworks) > 0){
             $attr = [];

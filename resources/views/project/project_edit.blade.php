@@ -42,7 +42,8 @@
 
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Сфера бизнеса клиента</label>
-                                        <textarea style="resize:both!important; height: 58px; width: 344px;" type="text" name="scope_work"
+                                        <textarea style="resize:both!important; height: 58px; width: 344px;" type="text"
+                                                  name="scope_work"
                                         >{{ $item['scope_work'] }}</textarea>
                                     </div>
 
@@ -66,7 +67,8 @@
 
                                     <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
                                         <label class="form-label">Портрет и общая хар-ка</label>
-                                        <textarea style="resize:both!important; height: 58px; width: 344px;" type="text" name="characteristic"
+                                        <textarea style="resize:both!important; height: 58px; width: 344px;" type="text"
+                                                  name="characteristic"
                                         >{{ $item['characteristic'] }}</textarea>
                                     </div>
                                 </div>
@@ -508,7 +510,8 @@
                 <select class="form-control form-control-sm" name="mood_id" disabled
                         value="{{ $projectInfo['mood_id'] ?? '' }}">
                     @foreach ($moods as $mood)
-                        <option value="{{$mood['id']}}">{{$mood['name']}}</option>
+                        <option @if($mood['id'] == $projectInfo['mood_id']) selected
+                                @endif value="{{$mood['id']}}">{{$mood['name']}}</option>
                     @endforeach
                 </select>
             </div>
@@ -524,7 +527,6 @@
             </div>
         </dic>
     </form>
-    </div>
 @endsection
 
 @section('custom_js')

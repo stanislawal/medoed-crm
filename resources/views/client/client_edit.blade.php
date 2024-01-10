@@ -51,11 +51,11 @@
                         <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
                         <textarea id="characteristic" name="characteristic" class="form-control">{{$clients['characteristic']}}</textarea>
                     </div>
+
                     <div class="form-group col-12 mb-2">
-                        <button class="btn btn-success btn-sm mr-3 w-auto">Редактировать</button>
+                        <button class="btn btn-success btn-sm mr-3 w-auto">Сохранить</button>
                     </div>
                 </div>
-
 
             </div>
         </div>

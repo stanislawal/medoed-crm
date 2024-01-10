@@ -74,6 +74,10 @@ class UpdateUserRequest extends FormRequest
             'bank_id' => [
                 'nullable',
                 'numeric'
+            ],
+            'is_work' => [
+                'nullable',
+                'string'
             ]
         ];
     }

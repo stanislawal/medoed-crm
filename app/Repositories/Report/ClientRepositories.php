@@ -92,7 +92,12 @@ class ClientRepositories
                 $leftJoin->on('get_duty.id', '=', 'projects.id');
             });
 
-        $reports = Project::on()->selectRaw("projects.*")
+        $reports = Project::on()->selectRaw("
+            projects.*,
+            (
+                projects.finish_duty + coalesce(projects.remainder_duty, 0) + coalesce(projects.duty, 0)
+            ) as duty_for_sort
+        ")
             ->fromSub($reports, 'projects')
             ->with([
                 'projectStatus',

@@ -42,9 +42,9 @@ class PaymentController extends Controller
 
 
         return view('Payment.create_payment', [
-            'projects' => $projects,
+            'projects'    => $projects,
             'paymentList' => $paymentList,
-            'statuses' => StatusPayment::on()->get()->toArray()
+            'statuses'    => StatusPayment::on()->get()->toArray()
         ]);
     }
 
@@ -54,7 +54,7 @@ class PaymentController extends Controller
 
         return response()->json([
             'result' => true,
-            'html' => view('Render.Payment.select_article', ['articles' => $articles])->render()
+            'html'   => view('Render.Payment.select_article', ['articles' => $articles])->render()
         ]);
     }
 
@@ -117,19 +117,23 @@ class PaymentController extends Controller
 
         $paymentInfoBackDuty = Payment::on()->selectRaw("
             count(id) as count_payment,
-            sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja) as sum_back_duty
+            coalesce(sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja), 0) as sum_back_duty
         ")
             ->where('back_duty', true)
+            ->whereBetween('date', [
+                Carbon::parse(now())->startOfMonth()->format('Y-m-d'),
+                Carbon::parse(now())->endOfMonth()->format('Y-m-d'),
+            ])
             ->first()
             ->toArray();
 
         return view('Payment.moderation_payment', [
-            'projects' => Project::on()->select(['id', 'project_name'])->get()->toArray(),
-            'paymentList' => $paymentList,
-            'statuses' => StatusPayment::on()->get()->toArray(),
-            'paymentInfo' => $paymentInfo,
-            'paymentNowInfo' => $paymentNowInfo,
-            'paymentInDay' => $paymentInDay,
+            'projects'            => Project::on()->select(['id', 'project_name'])->get()->toArray(),
+            'paymentList'         => $paymentList,
+            'statuses'            => StatusPayment::on()->get()->toArray(),
+            'paymentInfo'         => $paymentInfo,
+            'paymentNowInfo'      => $paymentNowInfo,
+            'paymentInDay'        => $paymentInDay,
             'paymentInfoBackDuty' => $paymentInfoBackDuty
         ]);
     }
@@ -146,7 +150,7 @@ class PaymentController extends Controller
 
         $params = collect($request->all())
             ->only(['mark', 'back_duty', 'status_payment_id', 'sber_a', 'sber_d', 'sber_k', 'tinkoff_a', 'tinkoff_k', 'privat', 'um',
-                'wmz', 'birja', 'project_id', 'comment', 'date'])
+                    'wmz', 'birja', 'project_id', 'comment', 'date'])
             ->toArray();
 
         $hasMark = $this->hasMark($id);
@@ -185,24 +189,24 @@ class PaymentController extends Controller
     private function filter(&$query, $request)
     {
 //        dd($request->all());
-        $query->when(!empty($request->project_id), function($query) use ($request){
+        $query->when(!empty($request->project_id), function ($query) use ($request) {
             $query->where('project_id', $request->project_id);
         });
 
-        $query->when(!empty($request->date), function($query) use ($request){
+        $query->when(!empty($request->date), function ($query) use ($request) {
             $query->where('date', $request->date);
         });
 
-        $query->when(!empty($request->invoice), function ($query) use ($request){
-           $query->where($request->invoice, '!=', 0);
+        $query->when(!empty($request->invoice), function ($query) use ($request) {
+            $query->where($request->invoice, '!=', 0);
         });
 
-        $query->when(!is_null($request->is_mark_payment), function ($query) use ($request){
-           $query->where('mark',(bool)$request->is_mark_payment);
+        $query->when(!is_null($request->is_mark_payment), function ($query) use ($request) {
+            $query->where('mark', (bool)$request->is_mark_payment);
         });
 
-        $query->when(!is_null($request->is_mark_back_duty), function ($query) use ($request){
-            $query->where('back_duty',(bool)$request->is_mark_back_duty);
+        $query->when(!is_null($request->is_mark_back_duty), function ($query) use ($request) {
+            $query->where('back_duty', (bool)$request->is_mark_back_duty);
         });
 
     }
