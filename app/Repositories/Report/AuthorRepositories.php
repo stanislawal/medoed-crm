@@ -74,7 +74,7 @@ class AuthorRepositories
                 $orderBy->orderBy($request->sort, $request->direction);
             })
 
-            ->when(!empty($request->status_work), function (Builder $where) use ($request) {
+            ->when(!is_null($request->status_work), function (Builder $where) use ($request) {
                 $where->where('authors.is_work', $request->status_work);
             })
 
