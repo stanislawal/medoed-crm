@@ -47,16 +47,16 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $attr = [
-            'full_name' => $request->full_name,
-            'login' => $request->login,
-            'password' => Hash::make($request->password),
-            'contact_info' => $request->contact_info,
-            'birthday' => $request->birthday,
+            'full_name'      => $request->full_name,
+            'login'          => $request->login,
+            'password'       => Hash::make($request->password),
+            'contact_info'   => $request->contact_info,
+            'birthday'       => $request->birthday,
             'manager_salary' => $request->manager_salary ?? null,
-            'working_day' => $request->working_day ?? null,
-            'link_author' => $request->link_author ?? null,
-            'payment' => $request->payment ?? null,
-            'bank_id' => $request->bank_id ?? null,
+            'working_day'    => $request->working_day ?? null,
+            'link_author'    => $request->link_author ?? null,
+            'payment'        => $request->payment ?? null,
+            'bank_id'        => $request->bank_id ?? null,
 
         ];
 
@@ -73,7 +73,7 @@ class UserController extends Controller
     public function edit($id)
     {
         return view('user.user_edit', [
-            'user' => User::on()->find($id)->toArray(),
+            'user'  => User::on()->find($id)->toArray(),
             'banks' => Bank::on()->get(),
             'roles' => Role::on()->get()
         ]);
@@ -90,17 +90,15 @@ class UserController extends Controller
             $attr['password'] = Hash::make($attr['password']);
         }
 
-        if (!is_null($attr['role'] ?? null)){
+        if (!is_null($attr['role'] ?? null)) {
             $user = User::on()->find($id);
             $user->syncRoles([$attr['role']]); // удалить все роли у пользователя, и назначить новые из массива
         }
 
-
         User::on()->where('id', $id)->update($attr->except('role')->toArray());
 
-        return redirect()->back()->with(['success' => 'Message']);
+        return redirect()->back()->with(['success' => 'Пользователь успешно обновлен.']);
     }
-
 
     public function destroy($user)
     {
@@ -126,7 +124,7 @@ class UserController extends Controller
         UserActive::on()->updateOrCreate([
             'user_id' => UserHelper::getUserId(),
         ], [
-            'user_id' => UserHelper::getUserId(),
+            'user_id'   => UserHelper::getUserId(),
             'date_time' => now()
         ]);
 
@@ -137,8 +135,8 @@ class UserController extends Controller
 
         return response()->json([
             'result' => true,
-            'html' => view('NavComponents.UserActive.user_list', ['userActive' => $userActive])->render(),
-            'count' => count($userActive)
+            'html'   => view('NavComponents.UserActive.user_list', ['userActive' => $userActive])->render(),
+            'count'  => count($userActive)
         ]);
     }
 }

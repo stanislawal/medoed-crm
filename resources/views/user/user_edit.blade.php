@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+
+    <div class="mb-2">
+        @include('Answer.custom_response')
+        @include('Answer.validator_response')
+    </div>
     <form action="{{ route('user.update', ['user' => $user['id']]) }}" method="POST">
         @method('PUT')
         {{--            @dd($user) --}}

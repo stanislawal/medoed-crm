@@ -48,7 +48,7 @@ class UpdateUserRequest extends FormRequest
             ],
             'role' => [
                 'nullable',
-                Rule::in(['Администратор', 'Менеджер', 'Автор']),
+                Rule::exists('roles', 'name')
             ],
             'manager_salary' => [
               'nullable',
