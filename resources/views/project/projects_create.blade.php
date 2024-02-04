@@ -193,6 +193,18 @@
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Назначить авторов</label>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm select-2" multiple name="author_id[]">
+                        <option value="">Не выбрано</option>
+                        @foreach ($authors as $author)
+                            <option value="{{$author['id']}}">{{$author['full_name']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
@@ -233,18 +245,6 @@
                 <div class="col-sm-9">
                     <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
                               placeholder="Комментарий"></textarea>
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Назначить авторов</label>
-                <div class="col-sm-9">
-                    <select class="form-select form-select-sm select-2" multiple name="author_id[]">
-                        <option value="">Не выбрано</option>
-                        @foreach ($authors as $author)
-                            <option value="{{$author['id']}}">{{$author['full_name']}}</option>
-                        @endforeach
-                    </select>
                 </div>
             </div>
 

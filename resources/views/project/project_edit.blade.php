@@ -417,6 +417,21 @@
                 </div>
             </div>
 
+            <div class="row mb-2">
+                <label class="col-sm-3 col-form-label">Назначить авторов</label>
+                <div class="col-sm-9">
+                    <select class="form-control form-control-sm select-2" multiple name="author_id[]"
+                            disabled>
+                        @foreach ($authors as $author)
+                            <option
+                                @if(in_array($author['id'], collect($projectInfo['project_author'])->pluck('id')->toArray()))
+                                    selected
+                                @endif value="{{$author['id']}}">{{$author['full_name']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
@@ -463,20 +478,7 @@
                 </div>
             </div>
 
-            <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Назначить авторов</label>
-                <div class="col-sm-9">
-                    <select class="form-control form-control-sm select-2" multiple name="author_id[]"
-                            disabled>
-                        @foreach ($authors as $author)
-                            <option
-                                @if(in_array($author['id'], collect($projectInfo['project_author'])->pluck('id')->toArray()))
-                                    selected
-                                @endif value="{{$author['id']}}">{{$author['full_name']}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+
 
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Условия оплаты</label>
