@@ -565,6 +565,15 @@
                 </div>
             </div>
 
+            @if(count($projectInfo['project_clients']) > 0)
+                <div class="row mb-2">
+                    <label class="col-sm-3 col-form-label">Портрет и общая хар-ка заказчика</label>
+                    <div class="col-sm-9 py-2">
+                        {{$projectInfo['project_clients'][0]['characteristic'] ?? ''}}
+                    </div>
+                </div>
+            @endif
+
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Договор</label>
                 <div class="col-sm-9">
