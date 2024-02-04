@@ -60,44 +60,59 @@
         <div class="row m-0">
             <div class="col-12">
                 <div class="shadow border rounded row mb-3">
-                    <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">О клиенте
-                    </div>
+                    <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">О клиенте</div>
 
-
-                    <div class="form-group col-12 col-lg-6">
-                        <label for="" class="form-label">Контактное лицо</label>
+                    <div class="mb-3 col-12 col-lg-6 mt-2">
+                        <label for="" class="form-label">Контактное лицо / должность</label>
                         <input type="text" value="{{$clients['name']}}" class="form-control form-control-sm"
                                name="name">
                     </div>
 
-                    <div class="form-group col-12 col-lg-6">
-                        <label for="" class="form-label">Сфера деятельности</label>
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label for="" class="form-label">Сфера деятельности компании</label>
                         <input type="text" value="{{$clients['scope_work']}}" class="form-control form-control-sm"
                                name="scope_work">
                     </div>
 
-                    <div class="form-group col-12 col-lg-6">
-                        <label for="" class="form-label">Название компании</label>
-                        <input type="text" value="{{$clients['company_name']}}" class="form-control form-control-sm"
-                               name="company_name">
+                    <div class="col-12 mb-3 col-lg-6">
+                        <label for="" class="form-label">ЛПР / контакты</label>
+                        <input type="text" class="form-control form-control-sm" name="lpr_contacts" value="{{ $clients['lpr_contacts'] ?? '' }}">
                     </div>
-                    <div class="form-group col-12 col-lg-6">
-                        <label for="" class="form-label">Сайт</label>
-                        <input type="text" value="{{$clients['site']}}" class="form-control form-control-sm"
-                               name="site">
-                    </div>
-                    <div class="form-group col-12 col-lg-6">
+
+                    <div class="mb-3 col-12 col-lg-6">
                         <label for="" class="form-label">Контактная информация</label>
                         <input type="text" value="{{$clients['contact_info']}}" class="form-control form-control-sm"
                                name="contact_info">
                     </div>
-                    <div class="form-group col-12 col-lg-6">
+
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label for="" class="form-label">Название компании заказчика</label>
+                        <input type="text" value="{{$clients['company_name']}}" class="form-control form-control-sm"
+                               name="company_name">
+                    </div>
+                    <div class="mb-3 col-12 col-lg-6">
+                        <label for="" class="form-label">Сайт компании</label>
+                        <input type="text" value="{{$clients['site']}}" class="form-control form-control-sm"
+                               name="site">
+                    </div>
+
+                    <div class="col-12 mb-3 col-lg-6">
+                        <label for="" class="form-label">Информация о работе команды</label>
+                        <textarea id="characteristic" rows="2" name="info_work_team" class="form-control form-control-sm">{{ $clients['info_work_team'] ?? '' }}</textarea>
+                    </div>
+
+                    <div class="col-12 mb-3 col-lg-6">
+                        <label for="" class="form-label">Дополнительная информация</label>
+                        <textarea id="characteristic" rows="2" name="additional_info" class="form-control form-control-sm">{{ $clients['additional_info'] ?? '' }}</textarea>
+                    </div>
+
+                    <div class="mb-3 col-12">
                         <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
                         <textarea id="characteristic" name="characteristic"
                                   class="form-control">{{$clients['characteristic']}}</textarea>
                     </div>
 
-                    <div class="form-group col-12 mb-2">
+                    <div class="mb-3 col-12 mb-2">
                         <button class="btn btn-success btn-sm mr-3 w-auto">Сохранить</button>
                     </div>
                 </div>

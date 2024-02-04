@@ -21,7 +21,10 @@ class Client extends BaseModel
         'site', //сайт компании
         'link_socialnetwork', //ccылка на соцсети
         'contact_info',
-        'birthday'
+        'birthday',
+        'lpr_contacts',
+        'info_work_team',
+        'additional_info',
     ];
 
     public $timestamps = true;

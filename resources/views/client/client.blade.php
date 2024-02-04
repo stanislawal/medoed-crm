@@ -22,59 +22,52 @@
                     <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">О клиенте
                     </div>
                     <div class="w-100 mb-3 row m-0 p-2">
-                        <div class="col-12 col-lg-6">
-                            <label for="" class="form-label">Контактное лицо</label>
+                        <div class="col-12 mb-3 col-lg-6">
+                            <label for="" class="form-label">Контактное лицо / должность</label>
                             <input type="text" class="form-control form-control-sm" name="name">
                         </div>
-                            {{-- <label for="" class="form-label">Место ведения диалога</label>
-                            <select class="form-control form-control-sm select-client-socialnetworks select-2" multiple
-                                    name="dialog_location">
-                                <option disabled value="">Места</option>
-                                @foreach ($socialNetwork ?? '' as $dialog)
-                                    <option value="{{$dialog['id']}}">{{$dialog['name']}}</option>
-                                @endforeach
-                            </select>
 
-                        <div class="form-group col-12 col-lg-6">
-                            <label for="" class="form-label mt-2">Ссылка на соц. сеть</label>
-                            <input type="text" class="form-control form-control-sm" name="link_socialnetwork">
-                        </div> --}}
-
-
-                        <div class="col-12 mb-5 col-lg-6">
-                            <label for="" class="form-label">Сфера деятельности</label>
+                        <div class="col-12 mb-3 col-lg-6">
+                            <label for="" class="form-label">Сфера деятельности компании</label>
                             <input type="text" class="form-control form-control-sm" name="scope_work">
                         </div>
 
-                        <div class="col-12 mb-5 col-lg-6">
+                        <div class="col-12 mb-3 col-lg-6">
+                            <label for="" class="form-label">ЛПР / контакты</label>
+                            <input type="text" class="form-control form-control-sm" name="lpr_contacts">
+                        </div>
+
+                        <div class="col-12 mb-3 col-lg-6">
                             <label for="" class="form-label">Контактная информация</label>
                             <input type="text" class="form-control form-control-sm" name="contact_info">
                         </div>
 
-                        {{--                        <div class="form-group col-12 col-lg-6">--}}
-                        {{--                            <label for="" class="form-label">День рождения</label>--}}
-                        {{--                            <input type="date" class="form-control" name="birthday">--}}
-                        {{--                        </div>--}}
-
-                        <div class="col-12 mb-5 col-lg-6">
-                            <label for="" class="form-label">Название компании</label>
+                        <div class="col-12 mb-3 col-lg-6">
+                            <label for="" class="form-label">Название компании заказчика</label>
                             <input type="text" class="form-control form-control-sm" name="company_name">
                         </div>
 
-                        <div class="col-12 mb-5 col-lg-6">
+                        <div class="col-12 mb-3 col-lg-6">
                             <label for="" class="form-label">Сайт компании</label>
                             <input type="text" class="form-control form-control-sm" name="site">
                         </div>
 
-
-                            <div class="col-12 mb-5 col-lg-6">
-                                <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
-                                <textarea id="characteristic" name="characteristic" class="form-control"> </textarea>
-
+                        <div class="col-12 mb-3 col-lg-6">
+                            <label for="" class="form-label">Информация о работе команды</label>
+                            <textarea id="characteristic" rows="2" name="info_work_team" class="form-control form-control-sm"> </textarea>
                         </div>
 
+                        <div class="col-12 mb-3 col-lg-6">
+                            <label for="" class="form-label">Дополнительная информация</label>
+                            <textarea id="characteristic" rows="2" name="additional_info" class="form-control form-control-sm"> </textarea>
+                        </div>
 
-                        <div class="col-12 mb-5 section_socialwork mb-3">
+                        <div class="col-12 mb-3">
+                            <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
+                            <textarea id="characteristic" rows="2" name="characteristic" class="form-control form-control-sm"> </textarea>
+                        </div>
+
+                        <div class="col-12 mb-3 section_socialwork mb-3">
                             <div>
                                 <label class="form-label">Место ведения диалога</label>
                                 <div class="btn btn-sm btn-primary py-0 px-1 add">Добавить</div>
@@ -91,7 +84,6 @@
                 </div>
 
 
-
             </div>
         </div>
     </form>
@@ -106,7 +98,7 @@
     <script src="{{asset('js/select2.js')}}"></script>
 
     <script>
-        $('.section_socialwork .add').click(function(){
+        $('.section_socialwork .add').click(function () {
             const itemsSocialwork = $('.section_socialwork .items_socialwork');
 
             $.ajax({
@@ -119,18 +111,18 @@
         });
 
 
-        $('.section_socialwork').on('click', '.delete', function(){
+        $('.section_socialwork').on('click', '.delete', function () {
             $(this).parent('div').remove();
         })
 
-        window.write_socialnetwork = function(){
+        window.write_socialnetwork = function () {
 
             var array = [];
 
-            $('.items_socialwork .item').each(function(i, item){
+            $('.items_socialwork .item').each(function (i, item) {
                 array.push({
-                    'socialnetrowk_id' : $(this).children('select').val(),
-                    'link' : $(this).children('input').val()
+                    'socialnetrowk_id': $(this).children('select').val(),
+                    'link': $(this).children('input').val()
                 })
             });
 
