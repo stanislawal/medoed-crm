@@ -5,6 +5,7 @@ namespace App\Models\Client;
 use App\Models\BaseModel;
 use App\Models\Project\Cross\CrossClientSocialNetwork;
 use App\Models\Project\Cross\CrossProjectClient;
+use App\Models\Project\File;
 use App\Models\Project\Project;
 
 class Client extends BaseModel
@@ -25,7 +26,8 @@ class Client extends BaseModel
 
     public $timestamps = true;
 
-    public function socialNetwork(){
+    public function socialNetwork()
+    {
         //Отношение многие ко многим. первый параметр - связь с конечной таблице. второй параметр - название промежуточной таблицы.
         return $this->belongsToMany(SocialNetwork::class, CrossClientSocialNetwork::class)->withPivot('description');
     }
@@ -34,6 +36,14 @@ class Client extends BaseModel
     {
         //Отношение многие ко многим. первый параметр - связь с конечной таблице. второй параметр - название промежуточной таблицы.
         return $this->belongsToMany(Project::class, CrossProjectClient::class, 'client_id', 'project_id');
+    }
+
+    /**
+     * Связь с файлом
+     */
+    public function files()
+    {
+        return $this->hasMany(File::class, 'client_id');
     }
 }
 

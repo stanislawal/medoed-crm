@@ -86,13 +86,12 @@ class ClientController extends Controller
     public function edit($client)
     {
         $clients = Client::on()
+            ->with('files')
             ->find($client)
             ->toArray();
         $socialNetwork = SocialNetwork::on()
             ->get()
             ->toArray();
-
-        $crossSocialNetwork = CrossClientSocialNetwork::on()->get();
 
         return view('client.client_edit', [
             'clients' => $clients,

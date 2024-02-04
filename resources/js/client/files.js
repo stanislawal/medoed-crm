@@ -1,6 +1,6 @@
 window.ajaxStatus = true;
 
-window.saveFile = function (projectId, url) {
+window.saveFile = function (clientId, url) {
 
     const inputFile = $('input[name="file"]');
     const comment = $('input[name="comment_file"]');
@@ -15,7 +15,7 @@ window.saveFile = function (projectId, url) {
 
         const formData = new FormData();
         formData.append('file', inputFile[0].files[0]);
-        formData.append('project_id', projectId);
+        formData.append('client_id', clientId);
         formData.append('comment', comment.val());
 
         $.ajax({

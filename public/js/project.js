@@ -10,6 +10,12 @@ window.editStatusProject = function (el, url) {
     status_id: statusId
   });
 };
+window.editMoodProject = function (el, url) {
+  var moodId = $(el).val();
+  ajax('post', url, {
+    mood_id: moodId
+  });
+};
 window.editCommentProject = function (el, url) {
   var comment = $(el).val();
   ajax('post', url, {

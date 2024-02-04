@@ -3,6 +3,11 @@ window.editStatusProject = function (el, url) {
     ajax('post', url, {status_id: statusId})
 }
 
+window.editMoodProject = function (el, url) {
+    const moodId = $(el).val();
+    ajax('post', url, {mood_id: moodId})
+}
+
 window.editCommentProject = function (el, url) {
     const comment = $(el).val();
     ajax('post', url, {comment: comment})
@@ -28,14 +33,14 @@ window.editDatePayment = function (el, url) {
 window.editCheckProject = function (el, url) {
     let check = 0;
 
-    if($(el).is(":checked")){
+    if ($(el).is(":checked")) {
         check = 1;
     }
 
     ajax('post', url, {check: check});
 }
 
-window.editStatusPaymentProject = function(el, url){
+window.editStatusPaymentProject = function (el, url) {
     const value = $(el).val();
     const columnName = $(el).attr('name')
     ajax('post', url, {[columnName]: value})
@@ -51,7 +56,7 @@ window.ajax = function (method, url, params) {
             method: method,
             data: params,
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-        }).done((res) =>{
+        }).done((res) => {
             showNotification('success', 'Данные успешно обновлены.')
             console.log(res)
             window.ajaxStatus = true;
@@ -82,7 +87,7 @@ window.showNotification = function (status, message) {
             break;
     }
 
-    setTimeout(()=>{
+    setTimeout(() => {
         alertSuccess.hide();
         alertError.hide();
     }, 4000);

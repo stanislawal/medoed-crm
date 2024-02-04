@@ -114,7 +114,7 @@ class PaymentController extends Controller
             ->first()
             ->toArray();
 
-
+        // прошлый долг
         $paymentInfoBackDuty = Payment::on()->selectRaw("
             count(id) as count_payment,
             coalesce(sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja), 0) as sum_back_duty
@@ -188,7 +188,6 @@ class PaymentController extends Controller
 
     private function filter(&$query, $request)
     {
-//        dd($request->all());
         $query->when(!empty($request->project_id), function ($query) use ($request) {
             $query->where('project_id', $request->project_id);
         });
@@ -209,6 +208,12 @@ class PaymentController extends Controller
             $query->where('back_duty', (bool)$request->is_mark_back_duty);
         });
 
+        $query->when(!is_null($request->month), function ($query) use ($request) {
+            $query->whereBetween('date', [
+                \Illuminate\Support\Carbon::parse($request->month)->startOfMonth()->toDateTimeString(),
+                \Illuminate\Support\Carbon::parse($request->month)->endOfMonth()->toDateTimeString()
+            ]);
+        });
     }
 
     private function hasMark($id)

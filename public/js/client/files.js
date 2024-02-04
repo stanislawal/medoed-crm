@@ -1,10 +1,10 @@
 /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
-/*!***************************************!*\
-  !*** ./resources/js/project/files.js ***!
-  \***************************************/
+/*!**************************************!*\
+  !*** ./resources/js/client/files.js ***!
+  \**************************************/
 window.ajaxStatus = true;
-window.saveFile = function (projectId, url) {
+window.saveFile = function (clientId, url) {
   var inputFile = $('input[name="file"]');
   var comment = $('input[name="comment_file"]');
   if (inputFile[0].files.length < 1) {
@@ -15,7 +15,7 @@ window.saveFile = function (projectId, url) {
     window.ajaxStatus = false;
     var formData = new FormData();
     formData.append('file', inputFile[0].files[0]);
-    formData.append('project_id', projectId);
+    formData.append('client_id', clientId);
     formData.append('comment', comment.val());
     $.ajax({
       url: url,

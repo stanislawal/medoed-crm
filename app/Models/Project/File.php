@@ -11,8 +11,10 @@ class File extends Model
 
     protected $fillable = [
         'project_id',
+        'client_id',
         'url',
-        'file_name'
+        'file_name',
+        'comment'
     ];
 
     public $timestamps = true;

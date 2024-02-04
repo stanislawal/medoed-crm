@@ -59,6 +59,11 @@
                             </div>
 
                             <div class="form-group col-12 col-md-4 col-lg-3">
+                                <label class="form-label">Месяц</label>
+                                <input class="form-control form-control-sm" type="month" name="month" value="{{ request()->month ?? null }}">
+                            </div>
+
+                            <div class="form-group col-12 col-md-4 col-lg-3">
                                 <label for="" class="form-label">Метка оплаты</label>
                                 <select class="form-select form-select-sm" name="is_mark_payment">
                                     <option value="">Не выбрано</option>

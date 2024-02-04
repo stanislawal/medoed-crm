@@ -51,7 +51,8 @@ class ProjectController extends Controller
                 projects.*,
                 statuses.name as project_status,
                 themes.name,
-                users.full_name
+                users.full_name,
+                moods.name as mood_name
             ")
             ->with([
                 'projectTheme',
@@ -67,6 +68,7 @@ class ProjectController extends Controller
         $projects->leftJoin('styles', 'styles.id', '=', 'projects.style_id');
         $projects->leftJoin('statuses', 'statuses.id', '=', 'projects.status_id');
         $projects->leftJoin('themes', 'themes.id', '=', 'projects.theme_id');
+        $projects->leftJoin('moods', 'moods.id', '=', 'projects.mood_id');
 
         $projects->when(UserHelper::isManager(), function ($where) {
             $where->where('manager_id', UserHelper::getUserId());
@@ -127,34 +129,45 @@ class ProjectController extends Controller
         DB::beginTransaction();
         try {
             $attr = [
-                'manager_id'          => $request->manager_id ?? null,
-                'theme_id'            => $request->theme_id ?? null,
-                'total_symbols'       => $request->total_symbols ?? null,
-                'price_per'           => $request->price_per ?? null,
-                'project_name'        => $request->project_name ?? null,
-                'mood_id'             => $request->mood_id ?? null,
-                'status_id'           => $request->status_id ?? null,
-                'pay_info'            => $request->pay_info ?? null,
-                'price_author'        => $request->price_author ?? null,
-                'price_client'        => $request->price_client ?? null,
-                'start_date_project'  => $request->start_date_project ?? null,
-                'contract'            => $request->contract ?? null,
-                'nds'                 => $request->nds ?? null,
-                'contract_exist'      => $request->contract_exist ?? null,
-                'comment'             => $request->comment ?? null,
-                'business_area'       => $request->business_area ?? null,
-                'link_site'           => $request->link_site ?? null,
-                'invoice_for_payment' => $request->invoice_for_payment ?? null,
-                'project_perspective' => $request->project_perspective ?? null,
-                'payment_terms'       => $request->payment_terms ?? null,
-                'style_id'            => $request->style_id ?? null,
-                'type_task'           => $request->type_task ?? null,
-                'dop_info'            => $request->dop_info ?? null,
-                //                'characteristic' => $request->characteristic ?? null,
-                'created_user_id'     => UserHelper::getUserId()
+                'manager_id'                       => $request->manager_id ?? null,
+                'theme_id'                         => $request->theme_id ?? null,
+                'total_symbols'                    => $request->total_symbols ?? null,
+                'project_name'                     => $request->project_name ?? null,
+                'mood_id'                          => $request->mood_id ?? null,
+                'status_id'                        => $request->status_id ?? null,
+                'pay_info'                         => $request->pay_info ?? null,
+                'price_author'                     => $request->price_author ?? null,
+                'price_client'                     => $request->price_client ?? null,
+                'start_date_project'               => $request->start_date_project ?? null,
+                'contract'                         => $request->contract ?? null,
+                'nds'                              => $request->nds ?? null,
+                'contract_exist'                   => $request->contract_exist ?? null,
+                'comment'                          => $request->comment ?? null,
+                'business_area'                    => $request->business_area ?? null,
+                'link_site'                        => $request->link_site ?? null,
+                'invoice_for_payment'              => $request->invoice_for_payment ?? null,
+                'project_perspective'              => $request->project_perspective ?? null,
+                'payment_terms'                    => $request->payment_terms ?? null,
+                'style_id'                         => $request->style_id ?? null,
+                'type_task'                        => $request->type_task ?? null,
+                'dop_info'                         => $request->dop_info ?? null,
+                'created_user_id'                  => UserHelper::getUserId(),
+                'project_team'                     => $request->project_team ?? null,
+                'product_company'                  => $request->product_company ?? null,
+                'link_to_resources'                => $request->link_to_resources ?? null,
+                'mass_media_with_publications'     => $request->mass_media_with_publications ?? null,
+                'task_client'                      => $request->task_client ?? null,
+                'content_public_platform'          => $request->content_public_platform ?? null,
+                'project_perspective_sees_account' => $request->project_perspective_sees_account ?? null,
+                'edo'                              => $request->edo ?? null,
+                'project_status_text'              => $request->project_status_text ?? null,
+                'date_notification'                => $request->date_notification ?? null,
+                'date_last_change'                 => $request->date_last_change ?? null,
             ];
 
             $project_id = Project::on()->create($attr)->id;
+
+            $this->updateNotifiProject($project_id, $request);
 
             if ($request->has('client_id') && count($request->client_id) > 0) {
                 $clients = [];
@@ -262,32 +275,40 @@ class ProjectController extends Controller
         $oldProject = Project::on()->find($project);
 
         $attr = [
-            'manager_id'          => $request->manager_id ?? null,
-            'theme_id'            => $request->theme_id ?? null,
-            'total_symbols'       => $request->total_symbols ?? null,
-            'price_per'           => $request->price_per ?? null,
-            'project_name'        => $request->project_name ?? null,
-            'mood_id'             => $request->mood_id ?? null,
-            'status_id'           => $request->status_id ?? null,
-            'pay_info'            => $request->pay_info ?? null,
-            'price_author'        => $request->price_author ?? null,
-            'price_client'        => $request->price_client ?? null,
-            'start_date_project'  => $request->start_date_project ?? null,
-            'date_notification'   => $request->date_notification ?? null,
-            'contract'            => $request->contract ?? null,
-            'nds'                 => $request->nds ?? null,
-            'contract_exist'      => $request->contract_exist ?? null,
-            'comment'             => $request->comment ?? null,
-            'business_area'       => $request->business_area ?? null,
-            'link_site'           => $request->link_site ?? null,
-            'invoice_for_payment' => $request->invoice_for_payment ?? null,
-            'project_perspective' => $request->project_perspective ?? null,
-            'payment_terms'       => $request->payment_terms ?? null,
-            'style_id'            => $request->style_id ?? null,
-            'type_task'           => $request->type_task ?? null,
-            'dop_info'            => $request->dop_info ?? null,
-            'date_last_change'    => $request->date_last_change ?? null,
-            'created_user_id'     => UserHelper::getUserId()
+            'manager_id'                       => $request->manager_id ?? null,
+            'theme_id'                         => $request->theme_id ?? null,
+            'total_symbols'                    => $request->total_symbols ?? null,
+            'project_name'                     => $request->project_name ?? null,
+            'mood_id'                          => $request->mood_id ?? null,
+            'status_id'                        => $request->status_id ?? null,
+            'pay_info'                         => $request->pay_info ?? null,
+            'price_author'                     => $request->price_author ?? null,
+            'price_client'                     => $request->price_client ?? null,
+            'start_date_project'               => $request->start_date_project ?? null,
+            'date_notification'                => $request->date_notification ?? null,
+            'contract'                         => $request->contract ?? null,
+            'nds'                              => $request->nds ?? null,
+            'contract_exist'                   => $request->contract_exist ?? null,
+            'comment'                          => $request->comment ?? null,
+            'business_area'                    => $request->business_area ?? null,
+            'link_site'                        => $request->link_site ?? null,
+            'invoice_for_payment'              => $request->invoice_for_payment ?? null,
+            'project_perspective'              => $request->project_perspective ?? null,
+            'payment_terms'                    => $request->payment_terms ?? null,
+            'style_id'                         => $request->style_id ?? null,
+            'type_task'                        => $request->type_task ?? null,
+            'dop_info'                         => $request->dop_info ?? null,
+            'date_last_change'                 => $request->date_last_change ?? null,
+            'created_user_id'                  => UserHelper::getUserId(),
+            'project_team'                     => $request->project_team ?? null,
+            'product_company'                  => $request->product_company ?? null,
+            'link_to_resources'                => $request->link_to_resources ?? null,
+            'mass_media_with_publications'     => $request->mass_media_with_publications ?? null,
+            'task_client'                      => $request->task_client ?? null,
+            'content_public_platform'          => $request->content_public_platform ?? null,
+            'project_perspective_sees_account' => $request->project_perspective_sees_account ?? null,
+            'edo'                              => $request->edo ?? null,
+            'project_status_text'              => $request->project_status_text ?? null,
         ];
 
         Project::on()->where('id', $project)->update($attr);
@@ -385,8 +406,7 @@ class ProjectController extends Controller
 
     public function partialUpdate($id, Request $request)
     {
-
-        $param = $request->only(['status_id', 'comment', 'date_last_change', 'check', 'status_payment_id', 'duty', 'date_notification', 'project_status_text']);
+        $param = $request->only(['status_id', 'comment', 'date_last_change', 'check', 'status_payment_id', 'duty', 'date_notification', 'project_status_text', 'mood_id']);
 
         if (count($param) > 0) {
             Project::on()->where('id', $id)->update($param);
@@ -475,8 +495,11 @@ class ProjectController extends Controller
         $projects->when((!empty($request->date_from) && (!empty($request->date_before))), function ($where) use ($request) {
             $dateStart = Carbon::parse($request->date_from)->startOfDay();
             $dateEnd = Carbon::parse($request->date_before)->endOfDay();
-//            $where->whereBetween('created_at', [$dateStart, $dateEnd]);
             $where->whereRaw("projects.created_at between '{$dateStart}' and '{$dateEnd}'");
+        });
+
+        $projects->when(!empty($request->mood_id), function ($where) use ($request) {
+            $where->where('projects.mood_id', $request->mood_id == 'empty' ? null : $request->mood_id);
         });
 
         // sort

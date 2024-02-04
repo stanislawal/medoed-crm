@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
 
-        <div class="row mb-3">
+        <div class="row mb-1">
             <div class="col-lg-9 p-0">
                 @include('Answer.custom_response')
                 @include('Answer.validator_response')
@@ -14,13 +14,19 @@
 
         <h1 class="mb-3 text-center">Форма создания проекта</h1>
 
-        <form action="{{route('project.store')}}" method="POST" class="mb-5">
+        <form action="{{route('project.store')}}" method="POST" class="mb-5 p-3 border shadow bg-white">
             @csrf
 
-            <div class="row mb-3">
+            <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
+                Информация о проекте
+            </div>
+
+            <hr class="bg-black">
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Менеджер</label>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm"  name="manager_id">
+                    <select class="form-select form-select-sm" name="manager_id">
                         <option value="">Не выбрано</option>
                         @foreach ($managers as $manager)
                             <option value="{{$manager['id']}}">{{$manager['full_name']}}</option>
@@ -28,10 +34,19 @@
                     </select>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Тема</label>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Дата поступления проекта</label>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm"  name="theme_id">
+                    <input type="date" class="form-control form-control-sm" name="start_date_project"
+                           value="{{ now()->format('Y-m-d') }}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Классификация</label>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm" name="theme_id">
                         <option value="">Не выбрано</option>
                         @foreach ($themes as $theme)
                             <option value="{{$theme['id']}}">{{$theme['name']}}</option>
@@ -39,13 +54,8 @@
                     </select>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Название проекта</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required name="project_name">
-                </div>
-            </div>
-            <div class="row mb-3">
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Приоритетность</label>
                 <div class="col-sm-9">
                     <select class="form-select form-select-sm" title="Пожалуйста, выберите" name="style_id">
@@ -56,100 +66,31 @@
                     </select>
                 </div>
             </div>
-{{--            <div class="row mb-3">--}}
-{{--                <label class="col-sm-3 col-form-label">Начальный объём проекта</label>--}}
-{{--                <div class="col-sm-9">--}}
-{{--                    <input type="text" class="form-control form-control-sm" name="total_symbols">--}}
-{{--                </div>--}}
-{{--            </div>--}}
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Тип задачи</label>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Команда проекта</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="type_task">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Дополнительная информация</label>
-                <div class="col-sm-9">
-                    <textarea type="text"rows="6" style="resize: both;" class="form-control form-control-sm" name="dop_info"></textarea>
+                    <input type="text" class="form-control form-control-sm" required name="project_team">
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Перспектива проекта</label>
+                <label class="col-sm-3 col-form-label">Дата последнего контакта</label>
                 <div class="col-sm-9">
-                    <textarea type="text" rows="6" style="resize: both;" class="form-control form-control-sm" name="project_perspective"> </textarea>
+                    <input type="date"
+                           class="form-control form-control-sm" name="date_last_change">
                 </div>
             </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Дата поступления тз</label>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Состояние проекта (текст)</label>
                 <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" name="start_date_project"
-                           value="{{ now()->format('Y-m-d') }}">
+                    <textarea type="text" rows="2" class="form-control form-control-sm" name="project_status_text"
+                              placeholder="Укажите комментарий к проекту"></textarea>
                 </div>
             </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Комментарий</label>
-                <div class="col-sm-9">
-                    <textarea type="text" rows="4" class="form-control form-control-sm" name="comment"
-                        placeholder="Укажите комментарий к проекту"></textarea>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Состояние проекта</label>
-                <div class="col-sm-9">
-                    <textarea type="text" rows="4" class="form-control form-control-sm" name="project_status_text"
-                        placeholder="Укажите комментарий к проекту"></textarea>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Сфера бизнеса</label>
-                <div class="col-sm-9">
-                    <textarea type="text" class="form-control form-control-sm" name="business_area"></textarea>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Ссылка на сайт</label>
-                <div class="col-sm-9">
-                    <input type="text"  class="form-control form-control-sm" name="link_site">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Назначить авторов</label>
-                <div class="col-sm-9">
-                    <select class="form-select form-select-sm select-2"  multiple name="author_id[]">
-                        <option value="">Не выбрано</option>
-                        @foreach ($authors as $author)
-                            <option value="{{$author['id']}}">{{$author['full_name']}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Цена автора</label>
-                <div class="col-sm-9">
-                    <div class="input-group">
-                        <input class="form-control form-control-sm" step="0.01" type="number"
-                               name="price_author">
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">РУБ</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Цена заказчика</label>
-                <div class="col-sm-9">
-                    <div class="input-group">
-                        <input class="form-control form-control-sm"  type="text"
-                               name="price_client">
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">РУБ</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Состояние проекта</label>
                 <div class="col-sm-9">
                     <select class="form-control form-control-sm" required name="status_id" id="">
@@ -164,42 +105,214 @@
                 </div>
             </div>
 
-            <hr class="bg-primary">
-
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Цена за 1000 символов</label>
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Название проекта</label>
                 <div class="col-sm-9">
-                    <input type="number"  class="form-control form-control-sm" name="price_per">
+                    <input type="text" class="form-control form-control-sm" required name="project_name">
                 </div>
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Ссылка на сайт</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="link_site">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Сфера бизнеса</label>
+                <div class="col-sm-9">
+                    <textarea type="text" class="form-control form-control-sm" name="business_area"></textarea>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Продукт, который продает компания</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" required name="product_company">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Ссылка на ресурсы компании (соцсети, каналы)</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" required name="link_to_resources">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">СМИ в которых были публикации/ссылки</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" required
+                           name="mass_media_with_publications">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Задача заказчика</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="task_client">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Задача проекта</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="type_task">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Площадка размещения нашего контента</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="content_public_platform">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Перспектива данная клиентом</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="2" style="resize: vertical;" class="form-control form-control-sm"
+                              name="project_perspective"> </textarea>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Перспектива проекта (как ее видит аккаунт)</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="2" style="resize: vertical;" class="form-control form-control-sm"
+                              name="project_perspective_sees_account"> </textarea>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Доп. информация о проекте</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="2" style="resize: vertical;" class="form-control form-control-sm"
+                              name="dop_info"></textarea>
+                </div>
+            </div>
+
+            <hr class="bg-black">
+
+            <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
+                Условия оплаты
+            </div>
+
+            <hr class="bg-black">
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Цена заказчика</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input class="form-control form-control-sm" type="text"
+                               name="price_client">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">РУБ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Цена автора</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input class="form-control form-control-sm" step="0.01" type="number"
+                               name="price_author">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="basic-addon2">РУБ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Комментарий</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
+                              placeholder="Комментарий"></textarea>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Назначить авторов</label>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm select-2" multiple name="author_id[]">
+                        <option value="">Не выбрано</option>
+                        @foreach ($authors as $author)
+                            <option value="{{$author['id']}}">{{$author['full_name']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Условия оплаты</label>
                 <div class="col-sm-9">
-                    <input type="text"  class="form-control form-control-sm" name="pay_info">
+                    <input type="text" class="form-control form-control-sm" name="pay_info">
                 </div>
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Сроки оплаты</label>
                 <div class="col-sm-9">
-                    <input type="text"  class="form-control form-control-sm" name="payment_terms">
+                    <input type="text" class="form-control form-control-sm" name="payment_terms">
                 </div>
             </div>
 
             <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дата оплаты</label>
+                <div class="col-sm-9">
+                    <input type="date"
+                           class="form-control form-control-sm" name="date_notification">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дни оплаты</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <div class="w-50">
+                            <select class="form-control form-control-sm input-group select-2" multiple name="days[]">
+                                <option value="">Не выбрано</option>
+                                @for($i = 1; $i <= 31; $i++)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="w-50">
+                            <select class="form-control form-control-sm select-2" multiple name="weekday[]">
+                                <option value="">Не выбрано</option>
+                                @foreach(\App\Helpers\DateHelper::getWeekdayList() as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Счёт для оплаты</label>
                 <div class="col-sm-9">
-                    <input type="text"  class="form-control form-control-sm" name="invoice_for_payment">
+                    <input type="text" class="form-control form-control-sm" name="invoice_for_payment">
                 </div>
             </div>
 
-            <hr class="bg-primary">
+            <hr class="bg-black">
 
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Заказчики</label>
+            <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
+                Дополнительная информация
+            </div>
+
+            <hr class="bg-black">
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Заказчик</label>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm select-2"  multiple size="5"
+                    <select class="form-select form-select-sm select-2" size="5"
                             title="Пожалуйста, выберите" name="client_id[]">
                         <option value="">Не выбрано</option>
                         @foreach ($clients as $client)
@@ -209,17 +322,10 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Портрет заказчика</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required name="characteristic">
-                </div>
-            </div>
-
-            <div class="row mb-3">
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Договор</label>
                 <div class="col-sm-9">
-                    <select class="form-select select-contract form-select-sm"  name="contract">
+                    <select class="form-select select-contract form-select-sm" name="contract">
                         <option value="1">Да</option>
                         <option selected value="0">Нет</option>
                     </select>
@@ -231,22 +337,22 @@
                 </div>
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Подпись NDA</label>
                 <div class="col-sm-9">
                     <select class="form-select form-select-sm select-contract" name="nds"
-                            >
+                    >
                         <option value="1">
                             Да
                         </option>
-                        <option selected  value="0" >
+                        <option selected value="0">
                             Нет
                         </option>
                     </select>
                 </div>
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Настроение</label>
                 <div class="col-sm-9">
                     <select class="form-control form-control-sm" name="mood_id">
@@ -254,6 +360,21 @@
                         @foreach ($moods as $mood)
                             <option value="{{$mood['id']}}">{{$mood['name']}}</option>
                         @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">ЭДО</label>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm" name="edo"
+                    >
+                        <option value="1">
+                            Да
+                        </option>
+                        <option selected value="0">
+                            Нет
+                        </option>
                     </select>
                 </div>
             </div>

@@ -208,6 +208,24 @@
                                     </select>
                                 </div>
 
+                                <div class="form-group col-12 col-md-4 col-lg-3">
+                                    <label for="" class="form-label">Настроение</label>
+                                    <select class="form-select form-select-sm" name="mood_id" id="">
+                                        <option value="">Не выбрано</option>
+                                        @foreach ($moods as $mood)
+                                            <option value="{{$mood['id']}}"
+                                                    @if($mood['id'] == request()->mood_id)
+                                                        selected
+                                                @endif
+                                            >{{$mood['name']}}</option>
+                                        @endforeach
+                                        <option value="empty" @if('empty' == request()->mood_id)
+                                            selected
+                                            @endif>Не указано настроение
+                                        </option>
+                                    </select>
+                                </div>
+
                                 <div class="col-12 p-0">
                                     <div class="form-group col-12">
                                         <div class="w-100 d-flex justify-content-end">
@@ -257,7 +275,8 @@
                                     @endrole
                                     <th>@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
                                     <th>Заказчик(и)</th>
-                                    <th>Дата последнего прописывания</th>
+                                    <th>Настроение</th>
+                                    <th>Дата последнего контакта</th>
                                     <th>Дата оплаты</th>
                                     <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
                                     <th style="min-width: 300px !important;">Состояние проекта</th>
@@ -275,13 +294,14 @@
                                     <th>Дата поступления</th>
                                     @endrole
                                     @role('Администратор')
-{{--                                    <th>Удалить</th>--}}
+                                    {{--                                    <th>Удалить</th>--}}
                                     @endrole
                                 </tr>
                                 </thead>
                                 <tbody>
 
                                 @foreach ($projects as $project)
+                                    {{--                                    @dd($project)--}}
                                     <tr>
                                         <td>{{ $project['id'] }}</td>
                                         <td style="padding: 0 10px 0 12px!important">
@@ -313,6 +333,20 @@
                                             @empty
                                                 -
                                             @endforelse
+                                        </td>
+                                        <td style=" min-width: 170px;">
+                                            <div class="d-flex align-items-center">
+                                                <select
+                                                    class="form-select form-select-sm mr-1"
+                                                    onchange="editMoodProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')"
+                                                    name="mood_id">
+                                                    @foreach ($moods as $mood)
+                                                        <option value="{{$mood['id']}}"
+                                                                @if($mood['id'] == $project['mood_id']) selected @endif
+                                                        >{{$mood['name']}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             <div>
@@ -395,13 +429,13 @@
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectStyle']['name'] ?? '------'}}</td>
                                         @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
-{{--                                        <td style="padding: 0 10px 0 12px!important">--}}
-{{--                                            <div class="form-group col-12 d-flex justify-content-between destroy">--}}
-{{--                                                <a href="{{route('project.destroy',['project' => $project['id']])}}"--}}
-{{--                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i--}}
-{{--                                                        class="fas fa-minus"></i></a>--}}
-{{--                                            </div>--}}
-{{--                                        </td>--}}
+                                        {{--                                        <td style="padding: 0 10px 0 12px!important">--}}
+                                        {{--                                            <div class="form-group col-12 d-flex justify-content-between destroy">--}}
+                                        {{--                                                <a href="{{route('project.destroy',['project' => $project['id']])}}"--}}
+                                        {{--                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i--}}
+                                        {{--                                                        class="fas fa-minus"></i></a>--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                        </td>--}}
                                         @endrole
                                     </tr>
                                 @endforeach
