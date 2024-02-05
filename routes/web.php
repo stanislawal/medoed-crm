@@ -45,11 +45,6 @@ Route::get('/', function () {
     }
 });
 
-Route::get('auth/{id}', function($id){
-    Auth::loginUsingId($id);
-    return redirect()->route('home');
-});
-
 #Авторизация
 Route::resource('login', AuthController::class)->only(['index', 'store']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
