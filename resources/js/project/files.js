@@ -1,9 +1,17 @@
 window.ajaxStatus = true;
 
-window.saveFile = function (projectId, url) {
+window.saveFile = function (column, id, url) {
 
-    const inputFile = $('input[name="file"]');
-    const comment = $('input[name="comment_file"]');
+    var parentClass = '';
+
+    if (column == 'project_id') {
+        parentClass = '.file_project';
+    } else {
+        parentClass = '.file_client';
+    }
+
+    const inputFile = $(parentClass + ' input[name="file"]');
+    const comment = $(parentClass + ' input[name="comment_file"]');
 
     if (inputFile[0].files.length < 1) {
         alert('Файл не выбран')
@@ -15,7 +23,7 @@ window.saveFile = function (projectId, url) {
 
         const formData = new FormData();
         formData.append('file', inputFile[0].files[0]);
-        formData.append('project_id', projectId);
+        formData.append(column, id);
         formData.append('comment', comment.val());
 
         $.ajax({
@@ -27,7 +35,7 @@ window.saveFile = function (projectId, url) {
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         }).done((response) => {
             if (response.result) {
-                window.showFileList(response.html)
+                window.showFileList(parentClass, response.html)
                 window.showNotification('success', 'Файл успешно загружен.')
             } else {
                 window.showNotification('error', response.message)
@@ -44,10 +52,19 @@ window.saveFile = function (projectId, url) {
     }
 }
 
-window.deleteFile = function (projectId, url) {
+window.deleteFile = function (column, id, url) {
+
+    var parentClass = '';
+
+    if (column == 'project_id') {
+        parentClass = '.file_project';
+    } else {
+        parentClass = '.file_client';
+    }
+
 
     const formData = new FormData();
-    formData.append('project_id', projectId);
+    formData.append(column, id);
 
     $.ajax({
         url: url,
@@ -58,7 +75,7 @@ window.deleteFile = function (projectId, url) {
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
     }).done((response) => {
         if (response.result) {
-            window.showFileList(response.html)
+            window.showFileList(parentClass, response.html)
             window.showNotification('success', 'Файл успешно удален.')
         }
         window.ajaxStatus = true;
@@ -68,8 +85,8 @@ window.deleteFile = function (projectId, url) {
     });
 }
 
-window.showFileList = function (html) {
-    $('.container__files').empty().html(html);
+window.showFileList = function (parentClass, html) {
+    $(parentClass + ' .container__files').empty().html(html);
 }
 
 window.showNotification = function (status, message) {

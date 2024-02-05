@@ -15,106 +15,171 @@
 
         <h1 class="mb-3 text-center">Форма редактирования проекта</h1>
         <div class="accordion mb-3" id="socialNetworkLink">
+
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button p-2 text-12 collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#clients" aria-expanded="false">
-                        <strong>Заказчики ({{ count($projectInfo['project_clients']) }})</strong>
+                        <strong>Заказчик</strong>
                     </button>
                 </h2>
                 <div id="clients" class="accordion-collapse collapse" style="">
                     <div class="accordion-body">
                         <form class="d-none"></form>
-                        @foreach($projectInfo['project_clients'] as $key => $item)
-                            <form action="{{ route('client.update', ['client' => $item['id']]) }}" method="POST">
-                                @if($key > 0)
-                                    <hr class="w-100 bg-primary">
-                                @endif
+
+                        @if(!is_null($projectClient))
+                            <form action="{{ route('client.update', ['client' => $projectClient['id']]) }}"
+                                  method="POST">
                                 @csrf
                                 @method('PUT')
-
                                 <div class="row">
-                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
-                                        <label class="form-label">Контактное лицо</label>
-                                        <input class="form-control form-control-sm" type="text" name="name"
-                                               value="{{ $item['name'] }}"/>
+                                    <div class="mb-3 col-12 col-lg-6 mt-2">
+                                        <label for="" class="form-label">Контактное лицо / должность</label>
+                                        <input type="text" value="{{$projectClient['name']}}"
+                                               class="form-control form-control-sm"
+                                               name="name">
                                     </div>
 
-                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
-                                        <label class="form-label">Сфера бизнеса клиента</label>
-                                        <textarea style="resize:both!important; height: 58px; width: 344px;" type="text"
-                                                  name="scope_work"
-                                        >{{ $item['scope_work'] }}</textarea>
+                                    <div class="mb-3 col-12 col-lg-6">
+                                        <label for="" class="form-label">Сфера деятельности компании</label>
+                                        <input type="text" value="{{$projectClient['scope_work']}}"
+                                               class="form-control form-control-sm"
+                                               name="scope_work">
                                     </div>
 
-                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
-                                        <label class="form-label">Название компании</label>
-                                        <input class="form-control form-control-sm" type="text" name="company_name"
-                                               value="{{ $item['company_name'] }}"/>
+                                    <div class="col-12 mb-3 col-lg-6">
+                                        <label for="" class="form-label">ЛПР / контакты</label>
+                                        <input type="text" class="form-control form-control-sm" name="lpr_contacts"
+                                               value="{{ $projectClient['lpr_contacts'] ?? '' }}">
                                     </div>
 
-                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
-                                        <label class="form-label">Сайт</label>
-                                        <input class="form-control form-control-sm" type="text" name="site"
-                                               value="{{ $item['site'] }}"/>
+                                    <div class="mb-3 col-12 col-lg-6">
+                                        <label for="" class="form-label">Дополнительные контакты</label>
+                                        <input type="text" value="{{$projectClient['contact_info']}}"
+                                               class="form-control form-control-sm"
+                                               name="contact_info">
                                     </div>
 
-                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
-                                        <label class="form-label">Контактная информация</label>
-                                        <input class="form-control form-control-sm" type="text" name="contact_info"
-                                               value="{{ $item['contact_info'] }}"/>
+                                    <div class="mb-3 col-12 col-lg-6">
+                                        <label for="" class="form-label">Название компании заказчика</label>
+                                        <input type="text" value="{{$projectClient['company_name']}}"
+                                               class="form-control form-control-sm"
+                                               name="company_name">
+                                    </div>
+                                    <div class="mb-3 col-12 col-lg-6">
+                                        <label for="" class="form-label">Сайт компании</label>
+                                        <input type="text" value="{{$projectClient['site']}}"
+                                               class="form-control form-control-sm"
+                                               name="site">
                                     </div>
 
-                                    <div class="form-group col-12 col-md-6 col-lg-4 mb-3">
-                                        <label class="form-label">Портрет и общая хар-ка</label>
-                                        <textarea style="resize:both!important; height: 58px; width: 344px;" type="text"
-                                                  name="characteristic"
-                                        >{{ $item['characteristic'] }}</textarea>
+                                    <div class="col-12 mb-3 col-lg-6">
+                                        <label for="" class="form-label">Информация о работе команды</label>
+                                        <textarea id="characteristic" rows="2" name="info_work_team"
+                                                  class="form-control form-control-sm">{{ $projectClient['info_work_team'] ?? '' }}</textarea>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-12 col-md-8 section_socialwork mb-3">
-                                        <div class="mb-2">
-                                            <label class="form-label">Место ведения диалога</label>
-                                            <div class="btn btn-sm btn-primary py-0 px-1 add">Добавить</div>
-                                            <input type="hidden" data-id="{{ $key }}" name="socialnetwork_info"
-                                                   value="{{ $item['json'] }}" class="socialnetwork_info">
-                                        </div>
-                                        <div class="items_socialwork" data-id="{{ $key }}">
-                                            @foreach($item['social_network'] as $socialNetworkClientItem)
-                                                <div class="input-group mb-3 item">
-                                                    <select class="form-select form-select-sm" required
-                                                            onchange="window.write_socialnetwork(this)">
-                                                        <option value="">Не выбрано</option>
-                                                        @foreach ($socialNetwork as $item)
-                                                            <option
-                                                                @if($socialNetworkClientItem['id'] == $item['id']) selected
-                                                                @endif value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <>
-                                                    <input placeholder="Ник" class="form-control form-control-sm"
-                                                           type="text"
-                                                           value="{{ $socialNetworkClientItem['pivot']['description'] }}"
-                                                           required oninput="window.write_socialnetwork(this)">
-                                                    <div class="btn btn-sm btn-danger delete"
-                                                         onclick="window.write_socialnetwork(this)">Удалить
+                                    <div class="col-12 mb-3 col-lg-6">
+                                        <label for="" class="form-label">Дополнительная информация</label>
+                                        <textarea id="characteristic" rows="2" name="additional_info"
+                                                  class="form-control form-control-sm">{{ $projectClient['additional_info'] ?? '' }}</textarea>
+                                    </div>
+
+                                    <div class="mb-3 col-12">
+                                        <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
+                                        <textarea id="characteristic" name="characteristic"
+                                                  class="form-control">{{$projectClient['characteristic']}}</textarea>
+                                    </div>
+
+                                    <div class="mb-3 col-12">
+                                        <div class="section_socialwork p-3 border shadow">
+                                            <div class="mb-2">
+                                                <label class="form-label">Место ведения диалога</label>
+                                                <div class="btn btn-sm btn-primary py-0 px-1 add">Добавить</div>
+                                                <input type="hidden" data-id="{{ $projectClient['id'] }}"
+                                                       name="socialnetwork_info"
+                                                       value="{{ $projectClient['json'] }}" class="socialnetwork_info">
+                                            </div>
+                                            <div class="items_socialwork" data-id="{{ $projectClient['id'] }}">
+                                                @foreach($projectClient['social_network'] as $socialNetworkClientItem)
+                                                    <div class="input-group mb-3 item">
+                                                        <select class="form-select form-select-sm" required
+                                                                onchange="window.write_socialnetwork(this)">
+                                                            <option value="">Не выбрано</option>
+                                                            @foreach ($socialNetwork as $item)
+                                                                <option
+                                                                    @if($socialNetworkClientItem['id'] == $item['id']) selected
+                                                                    @endif value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <span class="input-group-text"><i
+                                                                class="fas fa-arrows-alt-h"></i></span>
+                                                        <input placeholder="Ник" class="form-control form-control-sm"
+                                                               type="text"
+                                                               value="{{ $socialNetworkClientItem['pivot']['description'] }}"
+                                                               required oninput="window.write_socialnetwork(this)">
+                                                        <div class="btn btn-sm btn-danger delete"
+                                                             onclick="window.write_socialnetwork(this)">Удалить
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            @endforeach
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn btn-sm btn-success">Сохранить</button>
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-sm btn-success">Сохранить</button>
+                                    </div>
                                 </div>
                             </form>
-                        @endforeach
+                        @endif
+
                     </div>
                 </div>
             </div>
+
+            <div class="accordion-item file_client">
+                <h2 class="accordion-header">
+                    <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#files_client" aria-expanded="true"
+                            aria-controls="collapseOne">
+                        Документы заказчика ({{ count($projectClient['files']) }})
+                    </button>
+                </h2>
+                <div id="files_client" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        @if(!is_null($projectClient))
+
+                            <div class="text-center text-16">
+                                Добавить новый документ
+                            </div>
+                            <div class="row">
+                            </div>
+                            <div class="my-3">
+                                <div class="mb-2">
+                                    <input type="file" name="file" class="form-control form-control-sm">
+                                </div>
+                                <div class="mb-2">
+                                    <input type="text" class="form-control form-control-sm" name="comment_file"
+                                           placeholder="Комментарий к файлу">
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <div class="btn btn-sm btn-primary"
+                                         onclick="saveFile('client_id', {{ $projectClient['id'] }}, '{{ route('project_file.upload') }}')">
+                                        Загрузить
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border-bottom my-3"></div>
+                            <div class="container__files">
+                                @include('Render.Project.file_list', ['column' => 'client_id', 'files' => $projectClient['files'], 'id' => $projectClient['id']])
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button"
@@ -164,12 +229,12 @@
                 </div>
             </div>
 
-            <div class="accordion-item">
+            <div class="accordion-item file_project">
                 <h2 class="accordion-header">
                     <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button"
                             data-bs-toggle="collapse" data-bs-target="#files" aria-expanded="true"
                             aria-controls="collapseOne">
-                        Документы ({{ count($projectInfo['files']) }})
+                        Документы проекта ({{ count($projectInfo['files']) }})
                     </button>
                 </h2>
                 <div id="files" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
@@ -189,21 +254,20 @@
                             </div>
                             <div class="d-flex justify-content-end">
                                 <div class="btn btn-sm btn-primary"
-                                     onclick="saveFile({{ $projectInfo['id'] }}, '{{ route('project_file.upload') }}')">
+                                     onclick="saveFile('project_id' ,{{ $projectInfo['id'] }}, '{{ route('project_file.upload') }}')">
                                     Загрузить
                                 </div>
                             </div>
                         </div>
                         <div class="border-bottom my-3"></div>
                         <div class="container__files">
-                            @include('Render.Project.file_list', ['files' => $projectInfo['files'], 'id' => $projectInfo['id']])
+                            @include('Render.Project.file_list', ['column' => 'project_id', 'files' => $projectInfo['files'], 'id' => $projectInfo['id']])
                         </div>
                     </div>
                 </div>
             </div>
 
         </div>
-
 
         <form action="{{route('project.update', ['project' => $projectInfo['id']])}}" method="POST"
               data-form-name="edit__project" class="mb-5 p-3 border shadow bg-white">
@@ -432,6 +496,15 @@
                 </div>
             </div>
 
+            <div class="row mb-2">
+                <label class="col-sm-3 col-form-label">Комментарий</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
+                              placeholder="Комментарий"
+                              disabled>{{ $projectInfo['comment'] ?? '' }}</textarea>
+                </div>
+            </div>
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
@@ -468,16 +541,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Комментарий</label>
-                <div class="col-sm-9">
-                    <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
-                              placeholder="Комментарий"
-                              disabled>{{ $projectInfo['comment'] ?? '' }}</textarea>
-                </div>
-            </div>
-
 
 
             <div class="row mb-2">
@@ -567,15 +630,6 @@
                 </div>
             </div>
 
-            @if(count($projectInfo['project_clients']) > 0)
-                <div class="row mb-2">
-                    <label class="col-sm-3 col-form-label">Портрет и общая хар-ка заказчика</label>
-                    <div class="col-sm-9 py-2">
-                        {{$projectInfo['project_clients'][0]['characteristic'] ?? ''}}
-                    </div>
-                </div>
-            @endif
-
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Договор</label>
                 <div class="col-sm-9">
@@ -652,6 +706,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{asset('js/select2.js')}}"></script>
     <script src="{{asset('js/files.js')}}?v=@version"></script>
+
     <script>
         $('.select-contract').change(function () {
             if ($(this).val() === '0') {

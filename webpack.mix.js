@@ -31,8 +31,6 @@ mix.js('resources/js/socket/socket.js', 'public/js');
 mix.js('resources/js/reports/author.js', 'public/js');
 // project files
 mix.js('resources/js/project/files.js', 'public/js');
-// client files
-mix.js('resources/js/client/files.js', 'public/js/client/');
 
 //---------------------CSS-----------------
 // app css

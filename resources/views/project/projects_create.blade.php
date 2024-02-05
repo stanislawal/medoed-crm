@@ -205,6 +205,14 @@
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Комментарий</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
+                              placeholder="Комментарий"></textarea>
+                </div>
+            </div>
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
@@ -240,13 +248,7 @@
             </div>
 
 
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Комментарий</label>
-                <div class="col-sm-9">
-                    <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
-                              placeholder="Комментарий"></textarea>
-                </div>
-            </div>
+
 
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Условия оплаты</label>

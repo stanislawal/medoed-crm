@@ -232,6 +232,7 @@ class ProjectController extends Controller
                 'projectUser',
                 'projectStatus',
                 'projectClients.socialNetwork',
+                'projectClients.files',
                 'projectEvent',
                 'files'
             ])
@@ -255,6 +256,8 @@ class ProjectController extends Controller
 
         $notifiProject = NotifiProject::on()->where('project_id', $project)->get()->pluck('day')->toArray() ?? [];
 
+        $projectClient = $projectInfo['project_clients'][0] ?? null;
+
         return view('project.project_edit', [
             'projectInfo'   => $projectInfo,
             'statuses'      => $statuses,
@@ -266,6 +269,7 @@ class ProjectController extends Controller
             'authors'       => $authors,
             'socialNetwork' => $socialNetwork,
             'notifiProject' => $notifiProject,
+            'projectClient' => $projectClient,
         ]);
     }
 

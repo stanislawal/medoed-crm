@@ -74,7 +74,7 @@ class FilesProjectController
 
         return response()->json([
             'result' => true,
-            'html'   => view('Render.Project.file_list', ['files' => $files, 'id' => $id])->render()
+            'html'   => view('Render.Project.file_list', ['column' => $column, 'files' => $files, 'id' => $id])->render()
         ]);
     }
 }

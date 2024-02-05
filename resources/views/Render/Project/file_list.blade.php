@@ -14,7 +14,7 @@
             </div>
         </a>
         <div class="delete_file pointer"
-             onclick="window.deleteFile({{ $id }}, '{{ route('project_file.delete', ['id' => $file['id']]) }}')">
+             onclick="window.deleteFile('{{ $column }}', {{ $id }}, '{{ route('project_file.delete', ['id' => $file['id']]) }}')">
             <img src="{{ asset('img/svg/delete.svg') }}" width="24" alt="delete file">
         </div>
     </div>

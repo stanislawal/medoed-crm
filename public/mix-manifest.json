@@ -8,7 +8,6 @@
     "/js/socket.js": "/js/socket.js",
     "/js/author.js": "/js/author.js",
     "/js/files.js": "/js/files.js",
-    "/js/client/files.js": "/js/client/files.js",
     "/css/auth.css": "/css/auth.css",
     "/css/app.css": "/css/app.css"
 }

@@ -15,15 +15,15 @@
     </div>
 
     <div class="accordion mb-3">
-        <div class="accordion-item">
+        <div class="accordion-item file_client">
             <h2 class="accordion-header">
                 <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#files" aria-expanded="true"
+                        data-bs-toggle="collapse" data-bs-target="#files_client" aria-expanded="true"
                         aria-controls="collapseOne">
                     Документы ({{ count($clients['files']) }})
                 </button>
             </h2>
-            <div id="files" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div id="files_client" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <div class="text-center text-16">
                         Добавить новый документ
@@ -40,14 +40,14 @@
                         </div>
                         <div class="d-flex justify-content-end">
                             <div class="btn btn-sm btn-primary"
-                                 onclick="saveFile({{ $clients['id'] }}, '{{ route('project_file.upload') }}')">
+                                 onclick="saveFile('client_id', {{ $clients['id'] }}, '{{ route('project_file.upload') }}')">
                                 Загрузить
                             </div>
                         </div>
                     </div>
                     <div class="border-bottom my-3"></div>
                     <div class="container__files">
-                        @include('Render.Project.file_list', ['files' => $clients['files'], 'id' => $clients['id']])
+                        @include('Render.Project.file_list', ['column' => 'client_id', 'files' => $clients['files'], 'id' => $clients['id']])
                     </div>
                 </div>
             </div>
@@ -60,7 +60,8 @@
         <div class="row m-0">
             <div class="col-12">
                 <div class="shadow border rounded row mb-3">
-                    <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">О клиенте</div>
+                    <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">О клиенте
+                    </div>
 
                     <div class="mb-3 col-12 col-lg-6 mt-2">
                         <label for="" class="form-label">Контактное лицо / должность</label>
@@ -76,11 +77,12 @@
 
                     <div class="col-12 mb-3 col-lg-6">
                         <label for="" class="form-label">ЛПР / контакты</label>
-                        <input type="text" class="form-control form-control-sm" name="lpr_contacts" value="{{ $clients['lpr_contacts'] ?? '' }}">
+                        <input type="text" class="form-control form-control-sm" name="lpr_contacts"
+                               value="{{ $clients['lpr_contacts'] ?? '' }}">
                     </div>
 
                     <div class="mb-3 col-12 col-lg-6">
-                        <label for="" class="form-label">Контактная информация</label>
+                        <label for="" class="form-label">Дополнительные контакты</label>
                         <input type="text" value="{{$clients['contact_info']}}" class="form-control form-control-sm"
                                name="contact_info">
                     </div>
@@ -98,12 +100,14 @@
 
                     <div class="col-12 mb-3 col-lg-6">
                         <label for="" class="form-label">Информация о работе команды</label>
-                        <textarea id="characteristic" rows="2" name="info_work_team" class="form-control form-control-sm">{{ $clients['info_work_team'] ?? '' }}</textarea>
+                        <textarea id="characteristic" rows="2" name="info_work_team"
+                                  class="form-control form-control-sm">{{ $clients['info_work_team'] ?? '' }}</textarea>
                     </div>
 
                     <div class="col-12 mb-3 col-lg-6">
                         <label for="" class="form-label">Дополнительная информация</label>
-                        <textarea id="characteristic" rows="2" name="additional_info" class="form-control form-control-sm">{{ $clients['additional_info'] ?? '' }}</textarea>
+                        <textarea id="characteristic" rows="2" name="additional_info"
+                                  class="form-control form-control-sm">{{ $clients['additional_info'] ?? '' }}</textarea>
                     </div>
 
                     <div class="mb-3 col-12">
@@ -130,7 +134,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script src="{{asset('js/client/files.js')}}?v=@version"></script>
+    <script src="{{asset('js/files.js')}}?v=@version"></script>
 
     <script src="{{asset('js/select2.js')}}"></script>
 @endsection

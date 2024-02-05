@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="col-12 mb-3 col-lg-6">
-                            <label for="" class="form-label">Контактная информация</label>
+                            <label for="" class="form-label">Дополнительные контакты</label>
                             <input type="text" class="form-control form-control-sm" name="contact_info">
                         </div>
 

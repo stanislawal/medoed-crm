@@ -4,9 +4,15 @@ var __webpack_exports__ = {};
   !*** ./resources/js/project/files.js ***!
   \***************************************/
 window.ajaxStatus = true;
-window.saveFile = function (projectId, url) {
-  var inputFile = $('input[name="file"]');
-  var comment = $('input[name="comment_file"]');
+window.saveFile = function (column, id, url) {
+  var parentClass = '';
+  if (column == 'project_id') {
+    parentClass = '.file_project';
+  } else {
+    parentClass = '.file_client';
+  }
+  var inputFile = $(parentClass + ' input[name="file"]');
+  var comment = $(parentClass + ' input[name="comment_file"]');
   if (inputFile[0].files.length < 1) {
     alert('Файл не выбран');
     return false;
@@ -15,7 +21,7 @@ window.saveFile = function (projectId, url) {
     window.ajaxStatus = false;
     var formData = new FormData();
     formData.append('file', inputFile[0].files[0]);
-    formData.append('project_id', projectId);
+    formData.append(column, id);
     formData.append('comment', comment.val());
     $.ajax({
       url: url,
@@ -28,7 +34,7 @@ window.saveFile = function (projectId, url) {
       }
     }).done(function (response) {
       if (response.result) {
-        window.showFileList(response.html);
+        window.showFileList(parentClass, response.html);
         window.showNotification('success', 'Файл успешно загружен.');
       } else {
         window.showNotification('error', response.message);
@@ -44,9 +50,15 @@ window.saveFile = function (projectId, url) {
     });
   }
 };
-window.deleteFile = function (projectId, url) {
+window.deleteFile = function (column, id, url) {
+  var parentClass = '';
+  if (column == 'project_id') {
+    parentClass = '.file_project';
+  } else {
+    parentClass = '.file_client';
+  }
   var formData = new FormData();
-  formData.append('project_id', projectId);
+  formData.append(column, id);
   $.ajax({
     url: url,
     type: 'POST',
@@ -58,7 +70,7 @@ window.deleteFile = function (projectId, url) {
     }
   }).done(function (response) {
     if (response.result) {
-      window.showFileList(response.html);
+      window.showFileList(parentClass, response.html);
       window.showNotification('success', 'Файл успешно удален.');
     }
     window.ajaxStatus = true;
@@ -67,8 +79,8 @@ window.deleteFile = function (projectId, url) {
     window.ajaxStatus = true;
   });
 };
-window.showFileList = function (html) {
-  $('.container__files').empty().html(html);
+window.showFileList = function (parentClass, html) {
+  $(parentClass + ' .container__files').empty().html(html);
 };
 window.showNotification = function (status, message) {
   var alertSuccess = $('.ajax-success');
