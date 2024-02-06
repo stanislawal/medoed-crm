@@ -42,9 +42,8 @@
 
                                     <div class="mb-3 col-12 col-lg-6">
                                         <label for="" class="form-label">Сфера деятельности компании</label>
-                                        <input type="text" value="{{$projectClient['scope_work']}}"
-                                               class="form-control form-control-sm"
-                                               name="scope_work">
+                                        <textarea id="characteristic" rows="2" name="scope_work"
+                                                  class="form-control form-control-sm">{{ $projectClient['scope_work'] ?? '' }}</textarea>
                                     </div>
 
                                     <div class="col-12 mb-3 col-lg-6">
@@ -345,7 +344,7 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Команда проекта</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required name="project_team"
+                    <input type="text" class="form-control form-control-sm" name="project_team"
                            value="{{ $projectInfo['project_team'] ?? '' }}" disabled>
                 </div>
             </div>
@@ -370,7 +369,7 @@
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Состояние проекта</label>
                 <div class="col-sm-9">
-                    <select class="form-control form-control-sm" name="status_id" disabled>
+                    <select class="form-control form-control-sm" name="status_id" required disabled>
                         @foreach ($statuses as $status)
                             <option value="{{$status['id']}}"
                                     @if($status['id'] == $projectInfo['status_id'])
@@ -385,7 +384,7 @@
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Название проекта</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="project_name" disabled
+                    <input type="text" class="form-control form-control-sm" name="project_name" required disabled
                            value="{{ $projectInfo['project_name'] ?? '' }}">
                 </div>
             </div>
@@ -410,7 +409,7 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Продукт, который продает компания</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required name="product_company" disabled
+                    <input type="text" class="form-control form-control-sm" name="product_company" disabled
                            value="{{ $projectInfo['product_company'] ?? '' }}">
                 </div>
             </div>
@@ -418,7 +417,7 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Ссылка на ресурсы компании (соцсети, каналы)</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required name="link_to_resources" disabled
+                    <input type="text" class="form-control form-control-sm" name="link_to_resources" disabled
                            value="{{ $projectInfo['link_to_resources'] ?? '' }}">
                 </div>
             </div>
@@ -426,7 +425,7 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">СМИ в которых были публикации/ссылки</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required
+                    <input type="text" class="form-control form-control-sm"
                            value="{{ $projectInfo['mass_media_with_publications'] ?? '' }}" disabled
                            name="mass_media_with_publications">
                 </div>

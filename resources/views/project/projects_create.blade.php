@@ -70,7 +70,7 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Команда проекта</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required name="project_team">
+                    <input type="text" class="form-control form-control-sm" name="project_team">
                 </div>
             </div>
 
@@ -129,21 +129,21 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Продукт, который продает компания</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required name="product_company">
+                    <input type="text" class="form-control form-control-sm" name="product_company">
                 </div>
             </div>
 
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Ссылка на ресурсы компании (соцсети, каналы)</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required name="link_to_resources">
+                    <input type="text" class="form-control form-control-sm" name="link_to_resources">
                 </div>
             </div>
 
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">СМИ в которых были публикации/ссылки</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required
+                    <input type="text" class="form-control form-control-sm"
                            name="mass_media_with_publications">
                 </div>
             </div>

@@ -4675,12 +4675,12 @@ label {
     line-height: 2.5rem
 }
 
-.form-control {
-    font-size: 14px;
-    border-color: #ebedf2;
-    padding: .6rem 1rem;
-    height: inherit !important
-}
+/*.form-control {*/
+/*    font-size: 14px;*/
+/*    border-color: #ebedf2;*/
+/*    padding: .6rem 1rem;*/
+/*    height: inherit !important*/
+/*}*/
 
 .form-control:focus {
     border-color: #3e93ff
