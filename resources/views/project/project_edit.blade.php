@@ -142,7 +142,7 @@
                     <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button"
                             data-bs-toggle="collapse" data-bs-target="#files_client" aria-expanded="true"
                             aria-controls="collapseOne">
-                        Документы заказчика ({{ count($projectClient['files']) }})
+                        Документы заказчика ({{ count($projectClient['files'] ?? []) }})
                     </button>
                 </h2>
                 <div id="files_client" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
