@@ -91,6 +91,7 @@ class PaymentController extends Controller
 
         $paymentList = $paymentList->paginate(50);
 
+        // Непроверенные оплаты, кол-во и сумма
         $paymentInfo = Payment::on()->selectRaw("
             count(id) as count_payment,
             sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja) as sum_payment
@@ -99,6 +100,7 @@ class PaymentController extends Controller
             ->first()
             ->toArray();
 
+        // Сумма сегодняшних оплат:
         $paymentNowInfo = Payment::on()->selectRaw("
             count(id) as count_payment,
             sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja) as payment_now
@@ -107,6 +109,7 @@ class PaymentController extends Controller
             ->first()
             ->toArray();
 
+        // Сумма оплат по выбранному дню
         $paymentInDay = Payment::on()->selectRaw("
            sum(sber_a+sber_d+sber_k+tinkoff_a+tinkoff_k+privat+um+wmz+birja) as sum_payment_in_day
         ")
@@ -121,8 +124,8 @@ class PaymentController extends Controller
         ")
             ->where('back_duty', true)
             ->whereBetween('date', [
-                Carbon::parse(now())->startOfMonth()->format('Y-m-d'),
-                Carbon::parse(now())->endOfMonth()->format('Y-m-d'),
+                Carbon::parse($request->month ?? now())->startOfMonth()->format('Y-m-d'),
+                Carbon::parse($request->month ?? now())->endOfMonth()->format('Y-m-d'),
             ])
             ->first()
             ->toArray();
