@@ -73,20 +73,8 @@
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Название проекта</label>
-                                    <div>
-                                        <select class="form-select form-select-sm select-2" name="project_name">
-                                            <option value="">Не выбрано</option>
-                                            @foreach($projectsList as $item)
-                                                <option value="{{ $item['project_name'] }}"
-                                                        @if($item['project_name'] == request()->project_name) selected @endif>
-                                                    {{ $item['project_name'] }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    {{--                                    <input type="text" class="form-control form-control-sm" name="project_name"--}}
-                                    {{--                                           value="{{ request()->project_name ?? '' }}">--}}
+                                    <input type="text" class="form-control form-control-sm" name="project_name"
+                                           value="{{ request()->project_name ?? '' }}">
                                 </div>
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
@@ -269,27 +257,28 @@
                                         </a>
                                     </th>
                                     <th></th>
-                                    <th>@include('components.table.sort', ['title' => 'NDA', 'column' => 'nds', 'routeName' => 'project.index'] )</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'NDA', 'column' => 'nds', 'routeName' => 'project.index'] )</th>
                                     @role('Администратор')
-                                    <th>@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name', 'routeName' => 'project.index'] )</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name', 'routeName' => 'project.index'] )</th>
                                     @endrole
-                                    <th>@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
                                     <th>Заказчик(и)</th>
-                                    <th>Настроение</th>
+                                    <th style="min-width: 100px !important;">Настроение</th>
                                     <th>Дата последнего контакта</th>
                                     <th>Дата оплаты</th>
-                                    <th>@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
-                                    <th style="min-width: 300px !important;">Состояние проекта</th>
-                                    <th style="min-width: 300px !important;">Перспектива проекта</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
+                                    <th style="min-width: 200px !important;">Состояние проекта</th>
+                                    <th style="min-width: 220px !important;">Перспектива проекта</th>
                                     <th>Автор</th>
-                                    <th>@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client', 'routeName' => 'project.index'] )</th>
-                                    <th>@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client', 'routeName' => 'project.index'] )</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
                                     <th>Маржа</th>
-                                    <th>@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract', 'routeName' => 'project.index'] )</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract', 'routeName' => 'project.index'] )</th>
                                     <th>Место ведения диалога</th>
 
-                                    <th>@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name', 'routeName' => 'project.index'] )</th>
-                                    <th style="max-width: 80px;">@include('components.table.sort', ['title' => 'Приор', 'column' => 'styles|name', 'routeName' => 'project.index'] )</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name', 'routeName' => 'project.index'] )</th>
+                                    <th style="max-width: 80px;"
+                                        class="sort-p">@include('components.table.sort', ['title' => 'Приор', 'column' => 'styles|name', 'routeName' => 'project.index'] )</th>
                                     @role('Администратор')
                                     <th>Дата поступления</th>
                                     @endrole
@@ -334,9 +323,10 @@
                                                 -
                                             @endforelse
                                         </td>
-                                        <td style=" min-width: 170px;">
+                                        <td>
                                             <div class="d-flex align-items-center">
                                                 <select
+                                                    @if(!is_null($project['mood_color'])) style="background-color: {{ $project['mood_color'] }};" @endif
                                                     class="form-select form-select-sm mr-1"
                                                     onchange="editMoodProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')"
                                                     name="mood_id">
@@ -348,7 +338,7 @@
                                                 </select>
                                             </div>
                                         </td>
-                                        <td style="padding: 0 10px 0 12px!important">
+                                        <td>
                                             <div>
                                                 <input class="form-control form-control-sm"
                                                        onchange="editDateLastChangeProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
@@ -364,7 +354,7 @@
                                                        value="{{$project['date_notification']}}">
                                             </div>
                                         </td>
-                                        <td style=" min-width: 170px;">
+                                        <td>
                                             <div class="d-flex align-items-center">
                                                 <select
                                                     style=" background-color: {{ $project['projectStatus']['color'] ?? "" }} ;"

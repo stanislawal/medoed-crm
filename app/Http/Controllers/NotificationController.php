@@ -52,8 +52,8 @@ class NotificationController extends Controller
 
         return response()->json([
             'result' => true,
-            'html' => view('Render.Notifications.notification_list', ['notifications' => $notifications])->render(),
-            'count' => count($notifications)
+            'html'   => view('Render.Notifications.notification_list', ['notifications' => $notifications])->render(),
+            'count'  => count($notifications)
         ]);
     }
 
@@ -73,6 +73,15 @@ class NotificationController extends Controller
         if ($request->ajax()) {
             return response()->json(['result' => true]);
         }
+        return redirect()->back();
+    }
+
+    /*
+     * Прочитать все уведомления
+     */
+    public function browseAll()
+    {
+        Notification::on()->where('recipient_id', UserHelper::getUserId())->update(['is_viewed' => 1]);
         return redirect()->back();
     }
 
@@ -156,11 +165,11 @@ class NotificationController extends Controller
         $notifications = [];
         foreach ($recipients as $recipient) {
             $notifications[] = [
-                'date_time' => now(),
-                'type' => NotificationTypeConstants::ASSIGNED_PROJECT,
+                'date_time'    => now(),
+                'type'         => NotificationTypeConstants::ASSIGNED_PROJECT,
                 'recipient_id' => $recipient,
-                'project_id' => $projectId,
-                'article_id' => null
+                'project_id'   => $projectId,
+                'article_id'   => null
             ];
         }
 
@@ -186,12 +195,12 @@ class NotificationController extends Controller
         $notifications = [];
         foreach ($recipients as $recipient) {
             $notifications[] = [
-                'date_time' => now(),
-                'type' => NotificationTypeConstants::CHANGE_ARTICLE,
+                'date_time'    => now(),
+                'type'         => NotificationTypeConstants::CHANGE_ARTICLE,
                 'recipient_id' => $recipient,
-                'message' => $message,
-                'project_id' => null,
-                'article_id' => $articleId
+                'message'      => $message,
+                'project_id'   => null,
+                'article_id'   => $articleId
             ];
         }
 
@@ -217,12 +226,12 @@ class NotificationController extends Controller
         $notifications = [];
         foreach ($recipients as $recipient) {
             $notifications[] = [
-                'date_time' => now(),
-                'type' => NotificationTypeConstants::CHANGE_PRICE_PROJECT,
+                'date_time'    => now(),
+                'type'         => NotificationTypeConstants::CHANGE_PRICE_PROJECT,
                 'recipient_id' => $recipient,
-                'message' => null,
-                'project_id' => $projectId,
-                'article_id' => null
+                'message'      => null,
+                'project_id'   => $projectId,
+                'article_id'   => null
             ];
         }
 
@@ -247,12 +256,12 @@ class NotificationController extends Controller
 
         foreach ($recipients as $recipient) {
             $notifications[] = [
-                'date_time' => now(),
-                'type' => $type,
+                'date_time'    => now(),
+                'type'         => $type,
                 'recipient_id' => $recipient,
-                'message' => null,
-                'project_id' => $projectId,
-                'article_id' => null
+                'message'      => null,
+                'project_id'   => $projectId,
+                'article_id'   => null
             ];
         }
 
@@ -278,12 +287,12 @@ class NotificationController extends Controller
 
         foreach ($recipients as $recipient) {
             $notifications[] = [
-                'date_time' => now(),
-                'type' => $type,
+                'date_time'    => now(),
+                'type'         => $type,
                 'recipient_id' => $recipient,
-                'message' => null,
-                'project_id' => $projectId,
-                'article_id' => null
+                'message'      => null,
+                'project_id'   => $projectId,
+                'article_id'   => null
             ];
         }
 

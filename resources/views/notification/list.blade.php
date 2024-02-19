@@ -80,6 +80,9 @@
                             @if(!empty(request()->type))
                                 <a href="{{ route('notification.browse_in_type', ['type' => request()->type ?? '']) }}"
                                    class="btn btn-sm btn-primary ml-3">Прочитать все</a>
+                            @else
+                                <a href="{{ route('notification.browse_all') }}"
+                                   class="btn btn-sm btn-primary ml-3">Прочитать все</a>
                             @endif
                         </div>
                         <div>Всего записей: <strong>{{ $notifications->total() }}</strong></div>

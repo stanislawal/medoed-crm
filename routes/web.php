@@ -136,6 +136,7 @@ Route::middleware('auth')->group(function () {
 
     #----------------------------------------УВЕДОМЛЕНИЯ----------------------------------------
     Route::prefix('notification')->group(function () {
+        Route::get('browse/all', [NotificationController::class, 'browseAll'])->name('notification.browse_all');
         Route::get('browse/{id}', [NotificationController::class, 'browse'])->name('notification.browse');
         Route::get('browse/all/{type}', [NotificationController::class, 'browseInType'])->name('notification.browse_in_type');
         Route::get('get-html', [NotificationController::class, 'getHtml'])->name('notification.get_html');

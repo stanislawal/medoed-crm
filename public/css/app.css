@@ -120,9 +120,17 @@ ul.pagination {
     text-align: center;
 }
 
-.table td, .table th {
-    padding: 0 28px 0 12px !important;
+/*.table td, */
+.table th.sort-p {
+    padding: 3px 28px 3px 5px !important;
+}
 
+.table td, .table th {
+    padding: 3px 5px!important;
+}
+
+.nowrap{
+    word-wrap: normal;
 }
 
 .table-cut td {
@@ -326,7 +334,6 @@ textarea {
     gap: 25px;
     align-items: center;
 }
-
 
 
 .container__files .item .delete_file {

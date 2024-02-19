@@ -10,7 +10,8 @@ class Mood extends Model
     public $table = 'moods';
 
     protected $fillable = [
-        'name' //настроение
+        'name', //настроение
+        'color' // цвет настроения
     ];
 
     public $timestamps = false;

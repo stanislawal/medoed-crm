@@ -251,6 +251,25 @@
         </div>
     </div>
     @endrole
+
+    @role('Менеджер')
+    <div class="mb-2">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24"><strong>{{ number_format($statistics['finish_duty'], 2, '.', ' ') }}
+                                    ₽</strong></div>
+                            <div class="text-12 nowrap-dot">Общий долг:</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endrole
+
     {{--    ТАБЛИЦА --}}
     <div class="w-100 shadow border rounded">
         <div class=>
@@ -271,24 +290,24 @@
                         <tr>
                             <th></th>
                             <th>ID</th>
-                            <th>Состояние</th>
-                            <th class="fw-bold"
-                                style="min-width: 120px;">@include('components.table.sort', ['title' => 'Долг', 'column' => 'duty_for_sort', 'routeName' => 'report_client.index'])</th>
+                            <th style="min-width: 140px;">Состояние</th>
+                            <th class="fw-bold sort-p">@include('components.table.sort', ['title' => 'Долг', 'column' => 'duty_for_sort', 'routeName' => 'report_client.index'])</th>
                             <th>Проект</th>
                             <th>Тема</th>
                             <th>Приоритет</th>
                             <th>Заказчик</th>
-                            <th style="min-width: 120px;">@include('components.table.sort', ['title' => 'Объем ЗБП', 'column' => 'sum_without_space', 'routeName' => 'report_client.index'])</th>
-                            <th style="min-width: 120px;">ВД</th>
+                            <th class="sort-p" style="min-width: 120px;">@include('components.table.sort', ['title' => 'Объем ЗБП', 'column' => 'sum_without_space', 'routeName' => 'report_client.index'])</th>
+                            <th>ВД</th>
                             @role('Администратор')
-                            <th style="min-width: 120px;">Маржа</th>
+                            <th>Маржа</th>
                             @endrole
                             <th>Менеджер</th>
-                            <th>Сроки оплаты</th>
+                            <th style="min-width: 200px;">Сроки оплаты</th>
+                            <th>Счет оплаты</th>
                             <th>Срок в работе</th>
-                            <th style="min-width: 120px;">Цена проекта</th>
-                            <th style="min-width: 120px;">Цена автора</th>
-                            <th>Знаки в день</th>
+                            {{--                            <th style="min-width: 120px;">Цена проекта</th>--}}
+                            {{--                            <th style="min-width: 120px;">Цена автора</th>--}}
+                            {{--                            <th>Знаки в день</th>--}}
                         </tr>
                         </thead>
                         <tbody>
@@ -302,9 +321,9 @@
                                 <td>{{ $item['id'] }}</td>
                                 <td class="text-center">
                                     <select class="form-select form-select-sm"
-                                            style="min-width: 170px; background-color: {{ $item['projectStatusPayment']['color'] ?? '#ffffff' }}70 "
+                                            style="background-color: {{ $item['projectStatusPayment']['color'] ?? '#ffffff' }}70 "
                                             name="status_payment_id"
-                                            onchange="editStatusPaymentProject(this, '{{ route('project.partial_update', ['id' => $item['id']]) }}')">
+                                            onchange="editProject(this, '{{ route('project.partial_update', ['id' => $item['id']]) }}')">
                                         <option value="">
                                             Не выбрано
                                         </option>
@@ -317,7 +336,7 @@
                                     </select>
                                 </td>
 
-                                <td class="fw-bolder">
+                                <td class="fw-bolder nowrap">
                                         <span
                                             @if(($item['finish_duty'] + $item['duty'] + $item['remainder_duty']) < 0) class="text-danger" @endif>
                                             {{ number_format($item['finish_duty'] + $item['duty'] + $item['remainder_duty'] ?? '-', 2, '.', ' ') }}
@@ -331,17 +350,27 @@
                                         {{ $client['name'] }}
                                     @endforeach
                                 </td>
-                                <td>{{ number_format($item['sum_without_space'] + 0 ?? '-', 2, '.', ' ') }}</td>
-                                <td>{{ number_format($item['sum_gross_income'] + 0 ?? '-', 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{ number_format($item['sum_without_space'] + 0 ?? '-', 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{ number_format($item['sum_gross_income'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                 @role('Администратор')
-                                <td>{{ number_format($item['profit'] + 0 ?? '-', 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{ number_format($item['profit'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                 @endrole
                                 <td>{!! $item['projectUser']['full_name'] ?? '<span class="test-12 fst-italic text-gray">Пусто</span>' !!}</td>
-                                <td>{{ $item['payment_terms'] ?? '-' }} </td>
-                                <td>{{ $item['date_diff'] . ' дней' ?? '-' }}</td>
-                                <td>{{ number_format($item['sum_price_client'] + 0 ?? '-', 2, '.', ' ') }}</td>
-                                <td>{{ number_format($item['sum_price_author'] + 0 ?? '-', 2, '.', ' ') }}</td>
-                                <td>{{ number_format(($item['sum_without_space'] / $diffInCurrentDay) + 0 ?? '-', 2, '.', ' ') }}</td>
+
+                                <td>
+                                    <div>
+                                        <textarea class="w-100 border rounded p-1" style="margin-bottom: -5px;"
+                                                  onchange="editProject(this, '{{ route('project.partial_update', ['id' => $item['id']]) }}')"
+                                                  name="payment_terms" id="" cols="3">{{ $item['payment_terms'] }}</textarea>
+                                    </div>
+                                </td> {{--111--}}
+
+                                <td>{{ $item['invoice_for_payment'] ?? '-' }}</td>
+
+                                <td class="nowrap">{{ $item['date_diff'] . ' дней' ?? '-' }}</td>
+                                {{--                                <td>{{ number_format($item['sum_price_client'] + 0 ?? '-', 2, '.', ' ') }}</td>--}}
+                                {{--                                <td>{{ number_format($item['sum_price_author'] + 0 ?? '-', 2, '.', ' ') }}</td>--}}
+                                {{--                                <td>{{ number_format(($item['sum_without_space'] / $diffInCurrentDay) + 0 ?? '-', 2, '.', ' ') }}</td>--}}
                             </tr>
                         @endforeach
                         </tbody>

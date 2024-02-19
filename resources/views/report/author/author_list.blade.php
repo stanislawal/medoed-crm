@@ -185,14 +185,14 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th>@include('components.table.sort', ['title' => 'Банк', 'column'       => 'bank', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Банк', 'column'       => 'bank', 'routeName' => 'report_author.index'])</th>
                             <th>К выплате</th>
-                            <th>@include('components.table.sort', ['title' => 'Автор', 'column'       => 'full_name', 'routeName' => 'report_author.index'])</th>
-                            <th>@include('components.table.sort', ['title' => 'Объем', 'column'       => 'without_space', 'routeName' => 'report_author.index'])</th>
-                            <th>@include('components.table.sort', ['title' => 'Гонорар', 'column'     => 'amount', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Автор', 'column'       => 'full_name', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Объем', 'column'       => 'without_space', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Гонорар', 'column'     => 'amount', 'routeName' => 'report_author.index'])</th>
 
-                            <th>@include('components.table.sort', ['title' => 'ВД', 'column'          => 'gross_income', 'routeName' => 'report_author.index'])</th>
-                            <th>@include('components.table.sort', ['title' => 'Маржа', 'column'       => 'margin', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'ВД', 'column'          => 'gross_income', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Маржа', 'column'       => 'margin', 'routeName' => 'report_author.index'])</th>
                             <th>Ср. цена</th>
                             <th style="background-color: rgba(106,111,113,0.7)!important;">Раб. день</th>
                             <th style="background-color: rgba(106,111,113,0.7)!important; color: rgba(56,65,244,0.91)!important">
@@ -213,16 +213,16 @@
                                     </a>
                                 </td>
                                 <td>{{ $author['bank'] ?? '-' }}</td>
-                                <td class="text-danger">{{number_format($author['duty'] + ($remainderDuty->where('author_id', $author['id'])->first()['remainder_duty'] ?? 0), 2, '.', ' ')  }}</td>
+                                <td class="text-danger nowrap">{{number_format($author['duty'] + ($remainderDuty->where('author_id', $author['id'])->first()['remainder_duty'] ?? 0), 2, '.', ' ')  }}</td>
                                 <td>{{ $author['full_name'] }}</td>
-                                <td>{{number_format($author['without_space']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($author['amount']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($author['gross_income']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($author['margin']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($author['avg_price']+0, 2, '.', ' ') }}</td>
-                                <td style="background-color: rgba(106,111,113,0.7)!important;">{{$author['working_day']}}</td>
-                                <td style="background-color: rgba(106,111,113,0.7)!important; color: rgb(255,255,255)!important">{{number_format($author['without_space'] / $diffInCurrentDay, 2, '.', ' ') }}</td>
-                                <td style="background-color: rgba(255,165,0,0.91)!important; color: black!important;">{{number_format(($author['without_space'] / $diffInCurrentDay) - $author['working_day'], 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{number_format($author['without_space']+0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($author['amount']+0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($author['gross_income']+0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($author['margin']+0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($author['avg_price']+0, 2, '.', ' ') }}</td>
+                                <td class="nowrap" style="background-color: rgba(106,111,113,0.7)!important;">{{$author['working_day']}}</td>
+                                <td class="nowrap" style="background-color: rgba(106,111,113,0.7)!important; color: rgb(255,255,255)!important">{{number_format($author['without_space'] / $diffInCurrentDay, 2, '.', ' ') }}</td>
+                                <td class="nowrap" style="background-color: rgba(255,165,0,0.91)!important; color: black!important;">{{number_format(($author['without_space'] / $diffInCurrentDay) - $author['working_day'], 2, '.', ' ') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

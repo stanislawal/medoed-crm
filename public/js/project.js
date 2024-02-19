@@ -48,7 +48,7 @@ window.editCheckProject = function (el, url) {
     check: check
   });
 };
-window.editStatusPaymentProject = function (el, url) {
+window.editProject = function (el, url) {
   var value = $(el).val();
   var columnName = $(el).attr('name');
   ajax('post', url, _defineProperty({}, columnName, value));

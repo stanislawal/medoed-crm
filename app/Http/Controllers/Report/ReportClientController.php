@@ -237,7 +237,7 @@ class ReportClientController extends Controller
             'paymentHistory' => $paymentHistory,
             'projectId'      => $id,
             'project'        => $project,
-            'remainderDuty'  => $remainderDuty,
+            'remainderDuty'  => $remainderDuty
         ]);
     }
 

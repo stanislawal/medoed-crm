@@ -40,7 +40,7 @@ window.editCheckProject = function (el, url) {
     ajax('post', url, {check: check});
 }
 
-window.editStatusPaymentProject = function (el, url) {
+window.editProject = function (el, url) {
     const value = $(el).val();
     const columnName = $(el).attr('name')
     ajax('post', url, {[columnName]: value})

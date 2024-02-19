@@ -42,7 +42,6 @@ class ProjectController extends Controller
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
-        $projectsList = Project::on()->select('id', 'project_name')->get();
 
         $socialNetworks = SocialNetwork::on()->get();
 
@@ -52,7 +51,8 @@ class ProjectController extends Controller
                 statuses.name as project_status,
                 themes.name,
                 users.full_name,
-                moods.name as mood_name
+                moods.name as mood_name,
+                moods.color as mood_color
             ")
             ->with([
                 'projectTheme',
@@ -90,8 +90,7 @@ class ProjectController extends Controller
             'style'          => $style,
             'managers'       => $managers,
             'authors'        => $authors,
-            'projectsList'   => $projectsList,
-            'socialNetworks' => $socialNetworks,
+            'socialNetworks' => $socialNetworks
         ]);
 
     }
@@ -216,11 +215,9 @@ class ProjectController extends Controller
         $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
         $statuses = Status::on()->get()->toArray(); //Достаем все статусы из бд
         $style = Style::on()->get()->toArray();
-//        $articles = Article::on()->get()->toArray(); //Достаем все записи и данные о них из бд
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
         })->get();
-//        $currency = Currency::on()->get()->toArray();
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
@@ -410,7 +407,18 @@ class ProjectController extends Controller
 
     public function partialUpdate($id, Request $request)
     {
-        $param = $request->only(['status_id', 'comment', 'date_last_change', 'check', 'status_payment_id', 'duty', 'date_notification', 'project_status_text', 'mood_id']);
+        $param = $request->only([
+            'status_id',
+            'comment',
+            'date_last_change',
+            'check',
+            'status_payment_id',
+            'duty',
+            'date_notification',
+            'project_status_text',
+            'mood_id',
+            'payment_terms'
+        ]);
 
         if (count($param) > 0) {
             Project::on()->where('id', $id)->update($param);

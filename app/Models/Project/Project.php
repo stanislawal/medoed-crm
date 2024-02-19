@@ -51,14 +51,14 @@ class Project extends Model
         'dop_info', //Дополнительная информация
         'duty', // временный долг
         'nds', // подпись о неразглашении
-        'project_team',
-        'product_company',
-        'link_to_resources',
-        'mass_media_with_publications',
-        'task_client',
-        'content_public_platform',
-        'project_perspective_sees_account',
-        'edo',
+        'project_team', // Команда проекта
+        'product_company', // Продукт, который продает компания
+        'link_to_resources', // Ссылка на ресурсы компании (соцсети, каналы)
+        'mass_media_with_publications', // СМИ в которых были публикации/ссылки
+        'task_client', // Задача заказчика
+        'content_public_platform', // Площадка размещения нашего контента
+        'project_perspective_sees_account', // Перспектива проекта (как ее видит аккаунт)
+        'edo', // ЭДО
     ];
 
     public $timestamps = true;

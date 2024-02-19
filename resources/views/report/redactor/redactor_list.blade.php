@@ -160,14 +160,14 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th>@include('components.table.sort', ['title' => 'Банк', 'column'       => 'bank', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Банк', 'column'       => 'bank', 'routeName' => 'report_author.index'])</th>
                             <th>К выплате</th>
-                            <th>@include('components.table.sort', ['title' => 'Редактор', 'column'       => 'full_name', 'routeName' => 'report_author.index'])</th>
-                            <th>@include('components.table.sort', ['title' => 'Объем', 'column'       => 'without_space', 'routeName' => 'report_author.index'])</th>
-                            <th>@include('components.table.sort', ['title' => 'Гонорар', 'column'     => 'amount', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Редактор', 'column'       => 'full_name', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Объем', 'column'       => 'without_space', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Гонорар', 'column'     => 'amount', 'routeName' => 'report_author.index'])</th>
 
-                            <th>@include('components.table.sort', ['title' => 'ВД', 'column'          => 'gross_income', 'routeName' => 'report_author.index'])</th>
-                            <th>@include('components.table.sort', ['title' => 'Маржа', 'column'       => 'margin', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'ВД', 'column'          => 'gross_income', 'routeName' => 'report_author.index'])</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Маржа', 'column'       => 'margin', 'routeName' => 'report_author.index'])</th>
                             <th>Ср. цена</th>
                         </tr>
                         </thead>
@@ -184,11 +184,11 @@
                                 <td class="text-danger">
                                     {{ $redactor['duty'] + collect($remainderDuty)->where('redactor_id', $redactor['id'])->first()['remainder_duty'] + 0 }}</td>
                                 <td>{{ $redactor['full_name'] }}</td>
-                                <td>{{number_format($redactor['without_space']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($redactor['amount']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($redactor['gross_income']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($redactor['margin']+0, 2, '.', ' ')  }}</td>
-                                <td>{{number_format($redactor['avg_price']+0, 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{number_format($redactor['without_space']+0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($redactor['amount']+0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($redactor['gross_income']+0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($redactor['margin']+0, 2, '.', ' ')  }}</td>
+                                <td class="nowrap">{{number_format($redactor['avg_price']+0, 2, '.', ' ') }}</td>
                             </tr>
                         @endforeach
                         </tbody>
