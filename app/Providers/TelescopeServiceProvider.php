@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
@@ -10,34 +11,36 @@ use Laravel\Telescope\TelescopeApplicationServiceProvider;
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
     /**
-     * Register any application services.
+     * https://medoed-crm.ru/telescope/requests
      */
     public function register(): void
     {
-         Telescope::night();
+        Telescope::night();
 
         $this->hideSensitiveRequestDetails();
 
+        // фильтр GET запросов
+        Telescope::filter(function () {
+            return !request()->isMethod('GET');
+        });
 
+        Telescope::filter(function () {
+            return !is_null(auth()->user());
+        });
 
         Telescope::filter(function (IncomingEntry $entry) {
-            //фильтрация user active
-            if (request()->path() == 'user-active') {
-                return false;
-            }
 
             if ($this->app->environment('local')) {
                 return true;
             }
 
             return $entry->isReportableException() ||
-                   $entry->isFailedRequest() ||
-                   $entry->isFailedJob() ||
-                   $entry->isScheduledTask() ||
-                   $entry->hasMonitoredTag();
+                $entry->isFailedRequest() ||
+                $entry->isFailedJob() ||
+                $entry->isScheduledTask() ||
+                $entry->hasMonitoredTag();
         });
     }
-
 
 
     /**
