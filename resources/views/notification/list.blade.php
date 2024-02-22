@@ -51,6 +51,12 @@
                                 @endif
                                 value="{{ \App\Constants\NotificationTypeConstants::PROJECT_PAYMENT }}">Оплата
                             </option>
+
+                            <option
+                                @if(request()->type == \App\Constants\NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT) selected
+                                @endif
+                                value="{{ \App\Constants\NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT }}">Дата связи с клиентом
+                            </option>
                         </select>
                     </div>
 
@@ -242,6 +248,33 @@
                                     <div class="description">
                                         <div class="text-notify">
                                             <span>Время оплаты по проекту: </span>
+                                            <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
+                                               class="text-primary">{{ $item['projects']['project_name'] ?? null }}</a>
+                                            <br>
+                                            <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
+                                            <div class="time">{{ $item['date_time'] }}</div>
+                                        </div>
+                                    </div>
+                                    @if(!$item['is_viewed'])
+                                        <a href="{{ route('notification.browse', ['id' => $item['id']]) }}">
+                                            <div class="browse">
+                                                <i class="fas fa-eye" title="Пометить как прочитанное"></i>
+                                            </div>
+                                        </a>
+                                    @endif
+                                </div>
+
+                                @break
+
+                            @case('DATE_CONTACT_WITH_CLIENT')
+
+                                <div class="d-flex notification-item @if(!$item['is_viewed']) not-viewed @endif">
+                                    <div class="icon bg-primary">
+                                        <i class="fas fa-ruble-sign text-white"></i>
+                                    </div>
+                                    <div class="description">
+                                        <div class="text-notify">
+                                            <span>Дата связи с клиентом по проекту: </span>
                                             <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
                                                class="text-primary">{{ $item['projects']['project_name'] ?? null }}</a>
                                             <br>

@@ -162,6 +162,7 @@ class ProjectController extends Controller
                 'project_status_text'              => $request->project_status_text ?? null,
                 'date_notification'                => $request->date_notification ?? null,
                 'date_last_change'                 => $request->date_last_change ?? null,
+                'date_connect_with_client'         => $request->date_connect_with_client ?? null,
             ];
 
             $project_id = Project::on()->create($attr)->id;
@@ -310,6 +311,7 @@ class ProjectController extends Controller
             'project_perspective_sees_account' => $request->project_perspective_sees_account ?? null,
             'edo'                              => $request->edo ?? null,
             'project_status_text'              => $request->project_status_text ?? null,
+            'date_connect_with_client'         => $request->date_connect_with_client ?? null,
         ];
 
         Project::on()->where('id', $project)->update($attr);
@@ -417,7 +419,8 @@ class ProjectController extends Controller
             'date_notification',
             'project_status_text',
             'mood_id',
-            'payment_terms'
+            'payment_terms',
+            'date_connect_with_client'
         ]);
 
         if (count($param) > 0) {

@@ -59,6 +59,7 @@ class Project extends Model
         'content_public_platform', // Площадка размещения нашего контента
         'project_perspective_sees_account', // Перспектива проекта (как ее видит аккаунт)
         'edo', // ЭДО
+        'date_connect_with_client', // дата связи с клиентом
     ];
 
     public $timestamps = true;

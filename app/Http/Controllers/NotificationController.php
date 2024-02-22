@@ -145,6 +145,11 @@ class NotificationController extends Controller
             case NotificationTypeConstants::PROJECT_PAYMENT :
                 $this->projectPayment($userId, $id, NotificationTypeConstants::PROJECT_PAYMENT);
                 break;
+
+            // уведомление о дате связи с клиентом
+            case NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT :
+                $this->dateConnectWithClient($userId, $id, NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT);
+                break;
         }
 
         event(new PushNotification());
@@ -279,6 +284,37 @@ class NotificationController extends Controller
      * @return void
      */
     private function projectPayment($userId, $projectId, $type)
+    {
+        $recipients = $this->getAllAdmin();
+
+        if ($userId != '')
+            $recipients[] = $userId;
+
+        foreach ($recipients as $recipient) {
+            $notifications[] = [
+                'date_time'    => now(),
+                'type'         => $type,
+                'recipient_id' => $recipient,
+                'message'      => null,
+                'project_id'   => $projectId,
+                'article_id'   => null
+            ];
+        }
+
+        if (count($notifications) > 0) {
+            Notification::on()->insert($notifications);
+        }
+    }
+
+    /**
+     * Дата связи с клиентом
+     *
+     * @param $userId
+     * @param $projectId
+     * @param $type
+     * @return void
+     */
+    private function dateConnectWithClient($userId, $projectId, $type)
     {
         $recipients = $this->getAllAdmin();
 

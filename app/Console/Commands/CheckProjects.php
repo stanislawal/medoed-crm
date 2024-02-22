@@ -44,9 +44,33 @@ class CheckProjects extends Command
      */
     public function handle()
     {
+        $this->connectWithClient();
         $this->projectWeek();
         $this->projectMonth();
         $this->payment();
+    }
+
+    /**
+     * Создание уведомления даты связи с клиентом
+     *
+     * @return void
+     */
+    private function connectWithClient()
+    {
+        $date = now()->format('Y-m-d');
+
+        $projects = Project::on()->select(['id', 'manager_id'])
+            ->whereNotNull('date_connect_with_client')
+            ->where('date_connect_with_client', $date)
+            ->get();
+
+        foreach ($projects as $project) {
+            $this->notificationController->createNotification(
+                NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT,
+                $project->manager_id,
+                $project->id
+            );
+        }
     }
 
     /**
@@ -121,8 +145,8 @@ class CheckProjects extends Command
         $projects = Project::on()->select(['id', 'manager_id'])
             ->whereNotNull('date_notification')
             ->where('date_notification', now()->format('Y-m-d'))
-            ->orWhere(function($where){
-                $where->whereHas('notifiProject', function($where){
+            ->orWhere(function ($where) {
+                $where->whereHas('notifiProject', function ($where) {
                     $where->whereIn('day', [
                         now()->format('j'),
                         now()->format('l')

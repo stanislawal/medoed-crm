@@ -213,6 +213,14 @@
                 </div>
             </div>
 
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дата связи с клиентом</label>
+                <div class="col-sm-9">
+                    <input type="date"
+                           class="form-control form-control-sm" name="date_connect_with_client">
+                </div>
+            </div>
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
@@ -246,8 +254,6 @@
                     </div>
                 </div>
             </div>
-
-
 
 
             <div class="row mb-1">

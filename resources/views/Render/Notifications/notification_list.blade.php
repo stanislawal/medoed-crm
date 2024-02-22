@@ -5,6 +5,7 @@
     $writeToClientWeek = $notifications->where('type', \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK)->toArray();
     $writeToClientMonth = $notifications->where('type', \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH)->toArray();
     $projectPayment = $notifications->where('type', \App\Constants\NotificationTypeConstants::PROJECT_PAYMENT)->toArray();
+    $dateConnectWithClient = $notifications->where('type', \App\Constants\NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT)->toArray();
 @endphp
 
 <div class="accordion accordion-flush" id="accordion-notification">
@@ -243,6 +244,49 @@
                         <div class="description">
                             <div class="text-notify">
                                 <span>Время оплаты по проекту: </span>
+                                <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
+                                   class="text-primary">{{ $item['projects']['project_name'] ?? null }}</a>
+                                <br>
+                                <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
+                                <div class="time">{{ $item['date_time'] }}</div>
+                            </div>
+                        </div>
+                        <div class="browse"
+                             onclick="browseNotification(this, '{{ route('notification.browse', ['id' => $item['id']]) }}')">
+                            <i class="fas fa-eye" title="Пометить как прочитанное"></i>
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center text-12 fst-italic w-100 p-3 text-gray">
+                        Пусто
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#DATE_CONNECT_WITH_CLIENT" aria-expanded="false" aria-controls="flush-collapseOne">
+                <div class="icon bg-primary">
+                    <i class="fas fa-headset text-white"></i>
+                </div>
+                <span class="ps-2">Дата связи с клиентом: <strong
+                        class="text-primary">{{ count($dateConnectWithClient) }}</strong></span>
+            </button>
+        </h2>
+        <div id="DATE_CONNECT_WITH_CLIENT" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+             data-bs-parent="#accordion-notification">
+            <div class="accordion-body">
+                @forelse($dateConnectWithClient as $item)
+                    <div class="d-flex notification-item">
+                        <div class="icon bg-primary">
+                            <i class="fas fa-ruble-sign text-white"></i>
+                        </div>
+                        <div class="description">
+                            <div class="text-notify">
+                                <span>Дата связи с клиентом по проекту: </span>
                                 <a href="{{ route('project.edit', ['project' => $item['project_id']]) }}"
                                    class="text-primary">{{ $item['projects']['project_name'] ?? null }}</a>
                                 <br>
