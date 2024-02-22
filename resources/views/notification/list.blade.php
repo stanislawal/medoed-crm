@@ -270,7 +270,7 @@
 
                                 <div class="d-flex notification-item @if(!$item['is_viewed']) not-viewed @endif">
                                     <div class="icon bg-primary">
-                                        <i class="fas fa-ruble-sign text-white"></i>
+                                        <i class="fas fa-headset text-white"></i>
                                     </div>
                                     <div class="description">
                                         <div class="text-notify">
