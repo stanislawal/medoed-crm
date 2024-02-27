@@ -121,7 +121,7 @@ class ReportClientController extends Controller
 
         // менеджер
         if (!empty($request->manager_id)) {
-            $reports->where('manager_id', $request->manager_id);
+            $reports->whereIn('manager_id', $request->manager_id ?? []);
         }
 
         // долг
@@ -169,11 +169,15 @@ class ReportClientController extends Controller
             $reports->where('projects.style_id', $request->style_id);
         }
 
+        // состояние оплаты
+        $reports->when(!empty($request->status_payment_id), function (Builder $orderBy) use ($request) {
+            $orderBy->whereNotIn('status_payment_id', $request->status_payment_id ?? []);
+        });
+
         // сортировка
         $reports->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
             $orderBy->orderBy($request->sort, $request->direction);
         });
-
     }
 
     /**

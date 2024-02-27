@@ -90,6 +90,14 @@
                         </div>
                         @endrole
                     </div>
+                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{number_format($remainderDuty, 2, '.', ' ' ) }}</strong>
+                            </div>
+                            <div class="text-12 nowrap-dot">Переносящийся долг:</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -215,8 +223,8 @@
                                     @endrole
                                     <td>{{ $article['article'] }}</td>
                                     <td class="nowrap">{{number_format($article['without_space_all']+0, 2, '.', ' ')  }}</td>
-                                    <td>{{number_format($article['price_author']+0, 2, '.', ' ')  }}</td>
-                                    <td>{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
+                                    <td class="nowrap">{{number_format($article['price_author']+0, 2, '.', ' ')  }}</td>
+                                    <td class="nowrap">{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
                                     <td class="bg-grey2">
                                         <div>
                                             <input @if(\App\Helpers\UserHelper::isAuthor()) disabled
@@ -237,9 +245,9 @@
                                         </div>
                                     </td>
                                     @role('Администратор')
-                                    <td>{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
-                                    <td>{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
-                                    <td>{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
+                                    <td class="nowrap">{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
+                                    <td class="nowrap">{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
+                                    <td class="nowrap">{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
                                     <td>
                                         <a href="{{ route('change_ignore_article', ['id' => $article['id'],'ignore' => true]) }}"
                                            class="btn btn-sm btn-danger to_ignore">Списать</a></td>

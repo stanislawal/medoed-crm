@@ -30,10 +30,10 @@
                         @else
                             <div class="form-group col-12 col-md-4 col-lg-3">
                                 <label for="" class="form-label">Менеджер </label>
-                                <select class="form-control form-control-sm" name="manager_id">
+                                <select class="form-control form-control-sm select-2"" name="manager_id[]" multiple>
                                     <option value="">Не выбрано</option>
                                     @foreach ($managers as $manager)
-                                        <option @if ($manager['id'] == request()->manager_id) selected @endif
+                                        <option @if (in_array($manager['id'], (request()->manager_id ?? []))) selected @endif
                                         value="{{ $manager['id'] }}">{{ $manager['full_name'] }}</option>
                                     @endforeach
                                 </select>
@@ -93,6 +93,7 @@
                                 @endforeach
                             </select>
                         </div>
+
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Заказчик</label>
                             <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
@@ -138,7 +139,7 @@
                                    value="{{ request()->month ?? "" }}">
                         </div>
 
-                        <div class="col-12 col-md-4 col-lg-3">
+                        <div class="form-group col-12 col-md-4 col-lg-3">
                             <label class="form-label" for="">Промежуток</label>
                             <div class="input-group">
                                 <input type="date" name="start_date" class="form-control form-control-sm"
@@ -146,6 +147,20 @@
                                 <input type="date" name="end_date" class="form-control form-control-sm" placeholder="До"
                                        value="{{ request()->end_date ?? '' }}">
                             </div>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Состояние (исключить)</label>
+                            <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
+                                    name="status_payment_id[]" multiple>
+                                <option value="">Не выбрано</option>
+                                @foreach ($statusPayments as $status)
+                                    <option value="{{ $status['id'] }}"
+                                            @if(in_array($status['id'], (request()->status_payment_id ?? []))) selected @endif>
+                                        {{ $status['name'] }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="col-12 p-0">
@@ -296,7 +311,8 @@
                             <th>Тема</th>
                             <th>Приоритет</th>
                             <th>Заказчик</th>
-                            <th class="sort-p" style="min-width: 120px;">@include('components.table.sort', ['title' => 'Объем ЗБП', 'column' => 'sum_without_space', 'routeName' => 'report_client.index'])</th>
+                            <th class="sort-p"
+                                style="min-width: 120px;">@include('components.table.sort', ['title' => 'Объем ЗБП', 'column' => 'sum_without_space', 'routeName' => 'report_client.index'])</th>
                             <th>ВД</th>
                             @role('Администратор')
                             <th>Маржа</th>
@@ -361,7 +377,8 @@
                                     <div>
                                         <textarea class="w-100 border rounded p-1" style="margin-bottom: -5px;"
                                                   onchange="editProject(this, '{{ route('project.partial_update', ['id' => $item['id']]) }}')"
-                                                  name="payment_terms" id="" cols="3">{{ $item['payment_terms'] }}</textarea>
+                                                  name="payment_terms" id=""
+                                                  cols="3">{{ $item['payment_terms'] }}</textarea>
                                     </div>
                                 </td> {{--111--}}
 
