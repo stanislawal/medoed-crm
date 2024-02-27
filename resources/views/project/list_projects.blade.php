@@ -266,6 +266,7 @@
                                     <th style="min-width: 100px !important;">Настроение</th>
                                     <th>Дата последнего контакта</th>
                                     <th>Дата оплаты</th>
+                                    <th>Дата связи с клиентом</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
                                     <th style="min-width: 200px !important;">Состояние проекта</th>
                                     <th style="min-width: 220px !important;">Перспектива проекта</th>
@@ -326,7 +327,8 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <select
-                                                    @if(!is_null($project['mood_color'])) style="background-color: {{ $project['mood_color'] }};" @endif
+                                                    @if(!is_null($project['mood_color'])) style="background-color: {{ $project['mood_color'] }};"
+                                                    @endif
                                                     class="form-select form-select-sm mr-1"
                                                     onchange="editMoodProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')"
                                                     name="mood_id">
@@ -352,6 +354,15 @@
                                                        onchange="editDatePayment(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
                                                        name="date_notification" type="date"
                                                        value="{{$project['date_notification']}}">
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div>
+                                                <input class="form-control form-control-sm"
+                                                       onchange="editDatePayment(this, '{{ route('project.partial_update', ['id' => $project['id']]) }}')"
+                                                       name="date_connect_with_client" type="date"
+                                                       value="{{$project['date_connect_with_client']}}">
                                             </div>
                                         </td>
                                         <td>

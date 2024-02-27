@@ -29,7 +29,6 @@ window.editDatePayment = function (el, url) {
     ajax('post', url, {[columnName]: value})
 }
 
-
 window.editCheckProject = function (el, url) {
     let check = 0;
 
