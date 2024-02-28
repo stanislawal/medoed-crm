@@ -195,7 +195,7 @@ class ReportClientController extends Controller
     {
         // общая сумма оплаты за проект
         $payment = Payment::on()->selectRaw("
-            project_id,`
+            project_id,
             sum(
                 coalesce(sber_a, 0) +
                 coalesce(tinkoff_a, 0) +
