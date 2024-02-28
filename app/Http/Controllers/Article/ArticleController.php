@@ -54,7 +54,7 @@ class ArticleController extends Controller
 
         $statistics = $this->calculate($articles, $request);
 
-        $articles = $articles->paginate(50);
+        $articles = $articles->paginate(20);
 
         $project = Project::on()->select(['id', 'project_name'])
             ->with(['projectAuthor', 'projectClients'])
