@@ -171,7 +171,12 @@ class ReportClientController extends Controller
 
         // состояние оплаты
         $reports->when(!empty($request->status_payment_id), function (Builder $orderBy) use ($request) {
-            $orderBy->whereNotIn('status_payment_id', $request->status_payment_id ?? []);
+            $orderBy->whereIn('status_payment_id', $request->status_payment_id ?? []);
+        });
+
+        // состояние оплаты (игнорировать)
+        $reports->when(!empty($request->ignore_status_payment_id), function (Builder $orderBy) use ($request) {
+            $orderBy->whereNotIn('status_payment_id', $request->ignore_status_payment_id ?? []);
         });
 
         // сортировка
@@ -190,7 +195,7 @@ class ReportClientController extends Controller
     {
         // общая сумма оплаты за проект
         $payment = Payment::on()->selectRaw("
-            project_id,
+            project_id,`
             sum(
                 coalesce(sber_a, 0) +
                 coalesce(tinkoff_a, 0) +
