@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\UserHelper;
 use App\Http\Controllers\Telegram\LoginNotification;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -25,6 +26,12 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
+        $isWork = UserHelper::isWork($request->login);
+
+        if (!is_null($isWork) && $isWork == false) {
+            return redirect()->back()->with(['error' => 'Доступ запрещен.']);
+        }
+
         $attr = [
             'login' => $request->login,
             'password' => $request->password

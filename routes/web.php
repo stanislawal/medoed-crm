@@ -49,7 +49,7 @@ Route::get('/', function () {
 Route::resource('login', AuthController::class)->only(['index', 'store']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'is_work'])->group(function () {
 
     # Главная страница
     Route::get('/home', function () {

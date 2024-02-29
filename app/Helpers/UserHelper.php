@@ -51,6 +51,10 @@ class UserHelper
         return $roles[0] ?? null;
     }
 
+    public static function isWork($login)
+    {
+        return User::on()->where('login', $login)->first()->is_work ?? null;
+    }
 
 }
 
