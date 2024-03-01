@@ -92,9 +92,11 @@ class ArticleController extends Controller
 
         [$dateStart, $dateEnd] = $this->getDate($request);
 
-        $countDays = $dateStart->diffInWeekdays($dateEnd);
+        $countDays = $this->diffInWeekdays($dateStart, $dateEnd);
+
         if (($dateStart < now()) && ($dateEnd > now())) {
-            $currentDay = $dateStart->diffInWeekdays(now()) + 1;
+            $currentDay = $this->diffInWeekdays($dateStart, now());
+
             $expectation = $result['sum_without_space'] / $currentDay * $countDays;
             $passed = $result['passed'];
         }
@@ -121,6 +123,13 @@ class ArticleController extends Controller
         return $indicators;
     }
 
+    private function diffInWeekdays($startDate, $endDate)
+    {
+        return $startDate->diffInDaysFiltered(function (Carbon $date) {
+            return $date->isWeekday();
+        }, $endDate);
+    }
+
     public function create()
     {
         $currency = Currency::on()->get()->toArray();
@@ -133,9 +142,9 @@ class ArticleController extends Controller
         })->get();
         return view('article.article_create', [
             'currency' => $currency,
-            'project' => $project,
+            'project'  => $project,
             'managers' => $managers,
-            'authors' => $authors,
+            'authors'  => $authors,
         ]);
     }
 
@@ -151,7 +160,7 @@ class ArticleController extends Controller
                 foreach ($request->author_id as $author) {
                     $authors[] = [
                         'article_id' => $article_id,
-                        'user_id' => $author,
+                        'user_id'    => $author,
                     ];
                 }
                 CrossArticleAuthor::on()->insert($authors);
@@ -161,7 +170,7 @@ class ArticleController extends Controller
                 foreach ($request->redactor_id as $redactor) {
                     $redactors[] = [
                         'article_id' => $article_id,
-                        'user_id' => $redactor,
+                        'user_id'    => $redactor,
                     ];
                 }
                 CrossArticleRedactor::on()->insert($redactors);
@@ -206,7 +215,7 @@ class ArticleController extends Controller
             if (!is_null($request->authors_id ?? null)) {
                 CrossArticleAuthor::on()->insert([
                     'article_id' => $id,
-                    'user_id' => $request->authors_id,
+                    'user_id'    => $request->authors_id,
                 ]);
             }
         }
@@ -219,7 +228,7 @@ class ArticleController extends Controller
                 foreach ($request->redactors_id as $redactor) {
                     $rows[] = [
                         'article_id' => $id,
-                        'user_id' => $redactor,
+                        'user_id'    => $redactor,
                     ];
                 }
 
@@ -290,13 +299,13 @@ class ArticleController extends Controller
         if ($request->has('date_from')) {
             $startDate = Carbon::parse($request->date_from)->startOfDay();
         } else {
-            $startDate = Carbon::parse(now())->startOfMonth();
+            $startDate = Carbon::parse(now())->startOfMonth()->startOfDay();
         }
 
         if ($request->has('date_before')) {
             $endDate = Carbon::parse($request->date_before)->endOfDay();
         } else {
-            $endDate = Carbon::parse(now())->endOfMonth();
+            $endDate = Carbon::parse(now())->endOfMonth()->endOfDay();
         }
 
         return [
