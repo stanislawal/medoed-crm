@@ -5,8 +5,8 @@ window.updateData = function (el, url) {
     const value = input.val();
 
     const params = {
-        '_method' : 'PUT',
-        [column] : value
+        '_method': 'PUT',
+        [column]: value
     };
 
     ajax('POST', url, params);
@@ -21,7 +21,7 @@ window.ajax = function (method, url, params) {
             method: method,
             data: params,
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-        }).done((res) =>{
+        }).done((res) => {
             showNotification('success', 'Данные успешно обновлены.')
             console.log(res)
             window.ajaxStatus = true;
@@ -45,14 +45,24 @@ window.showNotification = function (status, message) {
     switch (status) {
         case 'success' :
             alertSuccess.text(message).show();
+            window.saveAudio.play();
             break;
         case 'error' :
             alertError.text(message).show();
             break;
     }
 
-    setTimeout(()=>{
+    setTimeout(() => {
         alertSuccess.hide();
         alertError.hide();
     }, 4000);
+}
+
+window.updateAuthorPayment = function (el, url) {
+    const column = $(el).attr('name');
+    const value = $(el).val();
+
+    ajax('POST', url, {
+        [column]: value
+    });
 }

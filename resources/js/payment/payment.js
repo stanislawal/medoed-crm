@@ -93,6 +93,7 @@ window.showNotification = function (status, message) {
     switch (status) {
         case 'success' :
             alertSuccess.text(message).show();
+            window.saveAudio.play();
             break;
         case 'error' :
             alertError.text(message).show();

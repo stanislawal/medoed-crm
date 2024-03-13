@@ -4,6 +4,7 @@ namespace App\Repositories\Report;
 
 use App\Helpers\UserHelper;
 use App\Models\Article;
+use App\Models\AuthorPayment\AuthorPayment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -52,8 +53,8 @@ class AuthorRepositories
                 sum(articles.without_space_author) as without_space,
                 sum(articles.price) as amount,
                 sum(articles.price_article) as gross_income,
-                ((sum(articles.price) - sum(articles.payment_amount)) + users.duty) as duty,
-                sum(articles.payment_amount) as payment_amount,
+                ((sum(articles.price) - sum(articles.payment_amount)) + users.duty) as duty_tmp,
+                sum(articles.payment_amount) as payment_amount_tmp,
                 sum(articles.margin) as margin,
                 (sum(articles.price)/(sum(articles.without_space_author)/1000)) as avg_price,
                 (sum(articles.without_space_author)/{$diffInWeekdays}) as avg_without_space_in_day
@@ -67,21 +68,33 @@ class AuthorRepositories
             })
             ->groupBy(['users.id']);
 
+        $payment = AuthorPayment::on()->selectRaw("
+            author_id,
+            sum(amount) as amount
+        ")
+            ->whereBetween('date', [
+                Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
+                Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
+            ])
+            ->groupBy('author_id');
+
         // подзапрос для внедрения сортировки
-        $authors = User::on()
+        $authors = User::on()->selectRaw("
+            authors.*,
+            (authors.duty_tmp - coalesce(payment.amount, 0)) as duty,
+            (authors.payment_amount_tmp + coalesce(payment.amount, 0)) as payment_amount
+        ")
             ->fromSub($authors, 'authors')
+            ->leftJoinSub($payment, 'payment', 'payment.author_id', '=', 'authors.id')
             ->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
                 $orderBy->orderBy($request->sort, $request->direction);
             })
-
             ->when(!is_null($request->status_work), function (Builder $where) use ($request) {
                 $where->where('authors.is_work', $request->status_work);
             })
-
             ->when(!empty($request->bank_id), function (Builder $where) use ($request) {
                 $where->where('authors.bank_id', $request->bank_id);
             })
-
             ->when(!empty($request->author_id), function (Builder $where) use ($request) {
                 $where->where('authors.id', $request->author_id);
             })
@@ -176,17 +189,31 @@ class AuthorRepositories
             ->where('ignore', false)
             ->orderByDesc('created_at');
 
-        $dutyBuAuthor = User::on()->selectRaw("
+        $dutyByAuthor = User::on()->selectRaw("
             users.id as author_id,
             coalesce(sum(articles.remainder_duty), 0) as remainder_duty
         ")->from('users')
             ->leftJoin('cross_article_authors as cross', 'cross.user_id', '=', 'users.id')
             ->leftJoinSub($articles, 'articles', 'articles.id', '=', 'cross.article_id')
-            ->groupBy(['users.id'])
+            ->groupBy(['users.id']);
+
+        $payment = AuthorPayment::on()->selectRaw("
+            author_id,
+            sum(amount) as amount
+        ")
+            ->whereRaw("date <= '{$dateTo}'")
+            ->groupBy('author_id');
+
+
+        $dutyByAuthor = User::on()->selectRaw("
+            duty.author_id,
+            (duty.remainder_duty - coalesce(payment.amount, 0)) as remainder_duty
+        ")->fromSub($dutyByAuthor, 'duty')
+            ->leftJoinSub($payment, 'payment', 'duty.author_id', '=', 'payment.author_id')
             ->when(!is_null($authorId), function ($where) use ($authorId) {
-                $where->where('users.id', $authorId);
+                $where->where('duty.author_id', $authorId);
             });
 
-        return $dutyBuAuthor;
+        return $dutyByAuthor;
     }
 }

@@ -45,6 +45,7 @@ window.showNotification = function (status, message) {
   switch (status) {
     case 'success':
       alertSuccess.text(message).show();
+      window.saveAudio.play();
       break;
     case 'error':
       alertError.text(message).show();
@@ -54,6 +55,11 @@ window.showNotification = function (status, message) {
     alertSuccess.hide();
     alertError.hide();
   }, 4000);
+};
+window.updateAuthorPayment = function (el, url) {
+  var column = $(el).attr('name');
+  var value = $(el).val();
+  ajax('POST', url, _defineProperty({}, column, value));
 };
 /******/ })()
 ;

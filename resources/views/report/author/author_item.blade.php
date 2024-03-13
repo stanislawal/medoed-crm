@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+
     <div class="mb-3">
         @include('Answer.custom_response')
         @include('Answer.validator_response')
@@ -176,6 +177,83 @@
             </div>
         </div>
 
+        <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#accordion_payment" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        <strong class="text-14">Оплата автору ({{ count($paymentHistory) }})</strong>
+                    </button>
+                </h2>
+                <div id="accordion_payment" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <div class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#create_payment">
+                                Создать заявку
+                            </div>
+                            <table class="table table-hover table-cut" id="basic-datatables">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Дата</th>
+                                    <th>Сумма</th>
+                                    <th>Комментарий
+                                    @role('Администратор')
+                                        <th>Удалить</th>
+                                    @endrole
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($paymentHistory as $item)
+                                    <tr>
+                                        <td class="text-center">{{ $item['id'] }}</td>
+                                        <td><input
+                                                @role('Администратор')
+                                                    onchange="updateAuthorPayment(this, '{{ route('author_payment.update', ['id' => $item['id']]) }}')"
+                                                @else
+                                                    disabled
+                                                @endrole
+                                                class="form-control form-control-sm" type="date" name="date"
+                                                value="{{ $item['date'] }}">
+                                        </td>
+                                        <td><input
+                                                @role('Администратор')
+                                                    onchange="updateAuthorPayment(this, '{{ route('author_payment.update', ['id' => $item['id']]) }}')"
+                                                @else
+                                                    disabled
+                                                @endrole
+                                                class="form-control form-control-sm" type="number" name="amount"
+                                                step="0.01" value="{{ $item['amount'] }}">
+                                        </td>
+                                        <td><textarea
+                                                @role('Администратор')
+                                                    onchange="updateAuthorPayment(this, '{{ route('author_payment.update', ['id' => $item['id']]) }}')"
+                                                @else
+                                                    disabled
+                                                @endrole
+                                                style=" min-width: 250px; resize: vertical!important;" name="comment"
+                                                class="form-control form-control-sm" rows="1"
+                                                cols="2">{{ $item['comment'] }}</textarea>
+                                        </td>
+                                        @role('Администратор')
+                                        <td class="text-center">
+                                            <a onclick="deleteConfirm()"  href="{{ route('author_payment.delete', ['id' => $item['id']]) }}" class="btn btn-sm btn-danger"> <i class="far fa-trash-alt"></i></a>
+                                        </td>
+                                        @endrole
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center text-gray">Пусто</td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{--    ТАБЛИЦА--}}
         <div class="w-100 shadow border rounded">
             <div class=>
@@ -225,24 +303,11 @@
                                     <td class="nowrap">{{number_format($article['without_space_all']+0, 2, '.', ' ')  }}</td>
                                     <td class="nowrap">{{number_format($article['price_author']+0, 2, '.', ' ')  }}</td>
                                     <td class="nowrap">{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
-                                    <td class="bg-grey2">
-                                        <div>
-                                            <input @if(\App\Helpers\UserHelper::isAuthor()) disabled
-                                                   @endif type="number" step="0.01" style="width: 70px;"
-                                                   class="min-input"
-                                                   name="payment_amount"
-                                                   onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
-                                                   value="{{ $article['payment_amount'] ?? 0 }}">
-                                        </div>
+                                    <td class="text-center bg-grey2">
+                                       {{ $article['payment_amount'] ?? 0 }}
                                     </td>
-                                    <td class="bg-grey2">
-                                        <div>
-                                            <input @if(\App\Helpers\UserHelper::isAuthor()) disabled @endif type="date"
-                                                   style="width: 100px;" class="min-input"
-                                                   name="payment_date"
-                                                   onchange="updateData(this, '{{ route('article.update', ['article' => $article['article_id']]) }}')"
-                                                   value="{{ $article['payment_date'] ?? null }}">
-                                        </div>
+                                    <td class="text-center bg-grey2">
+                                        {{ $article['payment_date'] ?? '-' }}
                                     </td>
                                     @role('Администратор')
                                     <td class="nowrap">{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
@@ -264,6 +329,11 @@
             </div>
         </div>
     </div>
+
+    @role('Администратор')
+    @include('Window.AuthorReport.create_payment', ['authorId' => $user['id']])
+    @endrole
+
 @endsection
 
 @section('custom_js')
@@ -283,7 +353,5 @@
             }
         });
     </script>
-    {{--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
-    {{--    <script src="{{asset('js/select2.js')}}"></script>--}}
-    {{--    <script src="{{asset('js/project.js')}}"></script>--}}
+
 @endsection

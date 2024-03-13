@@ -7,6 +7,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Option\StatusPaymentController;
 use App\Http\Controllers\Payment\PaymentController;
+use App\Http\Controllers\PaymentAuthor\PaymentAuthorController;
 use App\Http\Controllers\Project\FilesProjectController;
 use App\Http\Controllers\Project\ProjectEventController;
 use App\Http\Controllers\Rate\RateController;
@@ -133,6 +134,19 @@ Route::middleware(['auth', 'is_work'])->group(function () {
         Route::get('/delete/{id}', [PaymentController::class, 'delete'])->name('payment.delete')->middleware('role:Администратор');
     });
     #----------------------------------------ОПЛАТА----------------------------------------
+
+
+    #----------------------------------------ОПЛАТА АВТОРУ----------------------------------------
+    Route::middleware('role:Администратор')->prefix('payment-author')->group(function () {
+        // создать оплату
+        Route::post('/create', [PaymentAuthorController::class, 'create'])->name('author_payment.create');
+        // редактировать оплату
+        Route::post('/update/{id}', [PaymentAuthorController::class, 'update'])->name('author_payment.update');
+        // удалить оплату
+        Route::get('/delete/{id}', [PaymentAuthorController::class, 'delete'])->name('author_payment.delete');
+    });
+    #----------------------------------------ОПЛАТА АВТОРУ----------------------------------------
+
 
     #----------------------------------------УВЕДОМЛЕНИЯ----------------------------------------
     Route::prefix('notification')->group(function () {

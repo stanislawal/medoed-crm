@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\AuthorPayment\AuthorPayment;
 use App\Models\Bank;
 use App\Models\Rate\Rate;
 use App\Models\User;
@@ -99,12 +100,22 @@ class ReportAuthorController extends Controller
 
         $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $id)->first()->remainder_duty ?? 0;
 
+        // получить историю оплат
+        $paymentHistory = AuthorPayment::on()->where('author_id', $id)->whereBetween('date', [
+            $startDate, $endDate
+        ])->orderByDesc('id')->get()->toArray();
+
+        // в показатели добавляем сумму оплат из истории оплат
+        $indicators['payment_amount'] = $indicators['payment_amount'] + (collect($paymentHistory)->sum('amount'));
+        $indicators['duty'] = $indicators['duty'] - (collect($paymentHistory)->sum('amount'));
+
         return view('report.author.author_item', [
             'articles'          => $articles,
             'user'              => $user,
             'indicators'        => $indicators,
             'remainderDuty'     => $remainderDuty,
-            'ignoreArticleList' => $ignoreArticleList
+            'ignoreArticleList' => $ignoreArticleList,
+            'paymentHistory'    => $paymentHistory
         ]);
     }
 
