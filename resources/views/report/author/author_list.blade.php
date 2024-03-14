@@ -132,6 +132,14 @@
                             <div class="text-12 nowrap-dot">Валовый доход:</div>
                         </div>
                     </div>
+
+                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{number_format(($indicators['amount'] - ($indicators['duty'] + $remainderDuty->sum('remainder_duty'))), 2, '.', ' ')  }}</strong></div>
+                            <div class="text-12 nowrap-dot">Выплачено:</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-md-3">
