@@ -184,7 +184,7 @@
                     <button class="accordion-button p-2 text-12 collapsed fw-bold" type="button"
                             data-bs-toggle="collapse" data-bs-target="#events" aria-expanded="true"
                             aria-controls="collapseOne">
-                        Хронология проектов ({{ count($projectInfo['project_event'] ) }})
+                        Хронология проекта ({{ count($projectInfo['project_event'] ) }})
                     </button>
                 </h2>
                 <div id="events" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
@@ -193,19 +193,21 @@
                             Добавить событие
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-hover table-cut" id="basic-datatables">
+                            <table class="table table-cut" id="basic-datatables">
                                 <thead>
                                 <tr>
-                                    <th>Дата</th>
+                                    <th style="width: 75px">Дата</th>
                                     <th>Событие</th>
-                                    <th></th>
+                                    <th style="width: 70px">Действие</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @forelse($projectInfo['project_event'] as $item)
                                     <tr>
                                         <td class="nowrap">{{ $item['date'] }}</td>
-                                        <td>{{ $item['comment'] }}</td>
+                                        <td>
+                                            <div style="white-space: pre-line;">{!! $item['comment'] !!}</div>
+                                        </td>
                                         <td>
                                             <form
                                                 action="{{ route('project-event.destroy', ['project_event' => $item['id']]) }}"

@@ -28,7 +28,15 @@ use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
-    //Для отображения (вывода) всех записей
+
+    private AutoCreateEvent $autoCreateEvent;
+
+    public function __construct(AutoCreateEvent $autoCreateEvent)
+    {
+        $this->autoCreateEvent = $autoCreateEvent;
+    }
+
+    // Для отображения (вывода) всех записей
     public function index(Request $request)
     {
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
@@ -201,6 +209,7 @@ class ProjectController extends Controller
 
             DB::commit();
 
+
             return redirect()->route('project.index')->with(['success' => 'Новый проект успешно создан.']);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -208,7 +217,7 @@ class ProjectController extends Controller
         }
     }
 
-    //Страница редактирования одной записи
+    // Страница редактирования одной записи
     public function edit($project)
     {
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
@@ -231,7 +240,9 @@ class ProjectController extends Controller
                 'projectStatus',
                 'projectClients.socialNetwork',
                 'projectClients.files',
-                'projectEvent',
+                'projectEvent' => function ($builder) {
+                    $builder->orderBy('id', 'desc');
+                },
                 'files'
             ])
             ->find($project)
@@ -274,6 +285,9 @@ class ProjectController extends Controller
     //Обновляет запись (в бд)
     public function update(Request $request, $project)
     {
+
+        $this->autoCreateEvent->createEvent($project, $request->all());
+
         $oldProject = Project::on()->find($project);
 
         $attr = [
