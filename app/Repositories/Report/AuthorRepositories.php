@@ -81,8 +81,8 @@ class AuthorRepositories
         // подзапрос для внедрения сортировки
         $authors = User::on()->selectRaw("
             authors.*,
-            (authors.duty_tmp - coalesce(payment.amount, 0)) as duty,
-            (authors.payment_amount_tmp + coalesce(payment.amount, 0)) as payment_amount
+            (coalesce(authors.duty_tmp, 0) - coalesce(payment.amount, 0)) as duty,
+            (coalesce(authors.payment_amount_tmp, 0) + coalesce(payment.amount, 0)) as payment_amount
         ")
             ->fromSub($authors, 'authors')
             ->leftJoinSub($payment, 'payment', 'payment.author_id', '=', 'authors.id')

@@ -30,7 +30,7 @@ class ReportAuthorController extends Controller
             $query->where('id', 3);
         })->get();
 
-        $banks = Bank::on()->get();
+
         $indicators = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays);
         $indicators = User::on()->selectRaw("
             sum(authors.margin) as margin,
@@ -43,6 +43,7 @@ class ReportAuthorController extends Controller
             ->toArray();
 
         $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $request->author_id)->get()->toArray();
+
         return view('report.author.author_list', [
             'rates'            => Rate::on()->get(),
             'reports'          => $reports,
@@ -51,7 +52,7 @@ class ReportAuthorController extends Controller
             'diffInCurrentDay' => $diffInCurrentDay,
             'authors'          => $authors,
             'remainderDuty'    => collect($remainderDuty),
-            'banks'            => $banks,
+            'banks'            => Bank::on()->get(),
         ]);
     }
 
