@@ -32,6 +32,7 @@ class ReportAuthorController extends Controller
 
 
         $indicators = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays);
+
         $indicators = User::on()->selectRaw("
             sum(authors.margin) as margin,
             sum(authors.without_space) as without_space,
@@ -42,7 +43,9 @@ class ReportAuthorController extends Controller
             ->first()
             ->toArray();
 
-        $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $request->author_id)->get()->toArray();
+        $remainderDuty = AuthorRepositories::getDuty(Carbon::parse($startDate)->subDay(), $request->author_id, $request)
+            ->get()
+            ->toArray();
 
         return view('report.author.author_list', [
             'rates'            => Rate::on()->get(),

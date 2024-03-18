@@ -173,7 +173,7 @@ class AuthorRepositories
      * @param $authorId
      * @return mixed
      */
-    public static function getDuty($date, $authorId = null)
+    public static function getDuty($date, $authorId = null, $request = null)
     {
         $dateTo = Carbon::parse($date)->endOfDay()->toDateString();
 
@@ -195,6 +195,11 @@ class AuthorRepositories
         ")->from('users')
             ->leftJoin('cross_article_authors as cross', 'cross.user_id', '=', 'users.id')
             ->leftJoinSub($articles, 'articles', 'articles.id', '=', 'cross.article_id')
+
+
+            ->when(!is_null(($request->status_work ?? null)), function ($where) use ($request) {
+                $where->where('users.is_work', $request->status_work);
+            })
             ->groupBy(['users.id']);
 
         $payment = AuthorPayment::on()->selectRaw("
