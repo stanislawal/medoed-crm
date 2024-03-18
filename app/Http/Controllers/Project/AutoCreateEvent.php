@@ -108,7 +108,7 @@ class AutoCreateEvent
             ];
         }
 
-        if ($this->arrayDiff($oldDate['author_id'], $newDate['author_id'])) { // Цена автора
+        if ($this->arrayDiff($oldDate['author_id'] ?? [], $newDate['author_id'] ?? [])) { // Цена автора
 
             $ids = collect(array_merge($oldDate['author_id'], $newDate['author_id']))->map(function ($item) {
                 return (int)$item;
