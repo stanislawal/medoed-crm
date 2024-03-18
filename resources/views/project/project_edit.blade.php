@@ -198,7 +198,7 @@
                                 <tr>
                                     <th style="width: 75px">Дата</th>
                                     <th>Событие</th>
-                                    <th style="width: 70px">Действие</th>
+                                    @role('Администратор')<th style="width: 70px">Действие</th>@endrole
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -208,6 +208,7 @@
                                         <td>
                                             <div style="white-space: pre-line;">{!! $item['comment'] !!}</div>
                                         </td>
+                                        @role('Администратор')
                                         <td>
                                             <form
                                                 action="{{ route('project-event.destroy', ['project_event' => $item['id']]) }}"
@@ -217,6 +218,7 @@
                                                 <button class="btn btn-sm btn-danger">Удалить</button>
                                             </form>
                                         </td>
+                                        @endrole
                                     </tr>
                                 @empty
                                     <tr>
