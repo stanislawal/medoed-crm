@@ -358,7 +358,24 @@ class ProjectController extends Controller
     //Удалить запись
     public function destroy($id)
     {
-        Project::on()->where('id', $id)->delete();
+        $project = Project::on()->with([
+            'projectArticle',
+            'payment',
+            'files'
+        ])->find($id);
+
+        if(count($project->projectArticle) > 0){
+            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id '. $id .'). Есть связь со статьями.']);
+        }
+
+        if(count($project->payment) > 0){
+            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id '. $id .'). Есть связь с платежками.']);
+        }
+
+        if(count($project->files) > 0){
+            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id '. $id .'). Есть связь с файлами.']);
+        }
+
         return redirect()->back()->with(['success' => 'Проект успешно удален']);
     }
 

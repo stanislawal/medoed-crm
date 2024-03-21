@@ -83,7 +83,7 @@ class Project extends Model
     public function projectArticle()
     {
         //Отношение многие ко многим. первый параметр - связь с конечной таблице. второй параметр - название промежуточной таблицы.
-        return $this->belongsToMany(Article::class, CrossprojectArticle::class, 'project_id', 'article_id');
+        return $this->hasMany(Article::class, 'project_id');
     }
 
     public function projectStatus()
