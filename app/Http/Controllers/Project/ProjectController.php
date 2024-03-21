@@ -10,6 +10,7 @@ use App\Models\Article;
 use App\Models\Client\Client;
 use App\Models\Client\SocialNetwork;
 use App\Models\Currency;
+use App\Models\Notification;
 use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Cross\CrossProjectClient;
 use App\Models\Project\Mood;
@@ -366,21 +367,23 @@ class ProjectController extends Controller
 
         $relation = [];
 
-        if(count($project->projectArticle) > 0){
+        if (count($project->projectArticle) > 0) {
             $relation[] = 'статьями';
         }
 
-        if(count($project->payment) > 0){
+        if (count($project->payment) > 0) {
             $relation[] = 'оплатами';
         }
 
-        if(count($project->files) > 0){
+        if (count($project->files) > 0) {
             $relation[] = 'файлами';
         }
 
-        if(count($relation) > 0){
-            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id '. $id .'). Есть связь c ' . implode(', ', $relation)]);
+        if (count($relation) > 0) {
+            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id ' . $id . '). Есть связь c ' . implode(', ', $relation)]);
         }
+
+        Notification::on()->where('project_id', $id)->delete();
 
         Project::on()->find($id)->delete();
 
