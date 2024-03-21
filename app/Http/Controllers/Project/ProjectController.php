@@ -364,17 +364,25 @@ class ProjectController extends Controller
             'files'
         ])->find($id);
 
+        $relation = [];
+
         if(count($project->projectArticle) > 0){
-            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id '. $id .'). Есть связь со статьями.']);
+            $relation[] = 'статьями';
         }
 
         if(count($project->payment) > 0){
-            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id '. $id .'). Есть связь с платежками.']);
+            $relation[] = 'оплатами';
         }
 
         if(count($project->files) > 0){
-            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id '. $id .'). Есть связь с файлами.']);
+            $relation[] = 'файлами';
         }
+
+        if(count($relation) > 0){
+            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id '. $id .'). Есть связь c ' . implode(', ', $relation)]);
+        }
+
+        Project::on()->find($id)->delete();
 
         return redirect()->back()->with(['success' => 'Проект успешно удален']);
     }

@@ -284,7 +284,7 @@
                                     <th>Дата поступления</th>
                                     @endrole
                                     @role('Администратор')
-                                        <th>Удалить</th>
+                                    <th>Удалить</th>
                                     @endrole
                                 </tr>
                                 </thead>
@@ -428,13 +428,13 @@
                                         </td>
 
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectStyle']['name'] ?? '------'}}</td>
-                                        @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
-                                            <td style="padding: 0 10px 0 12px!important">
-                                                <div class="form-group col-12 d-flex justify-content-between destroy">
-                                                    <a href="{{route('project.destroy',['project' => $project['id']])}}"class="btn btn-sm btn-outline-danger" onclick="confirmDelete()">
-                                                        <i class="fas fa-minus"></i></a>
-                                                </div>
+                                        @role('Администратор')
+                                        <td style="padding: 0 10px 0 12px!important">
+                                            <div class="form-group col-12 d-flex justify-content-between destroy">
+                                                <a href="{{route('project.destroy',['project' => $project['id']])}}"
+                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()">
+                                                    <i class="fas fa-trash-alt"></i></a>
                                         </td>
                                         @endrole
                                     </tr>
