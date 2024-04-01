@@ -37,9 +37,10 @@ class ClientRepositories
                     projects.start_date_project,
                     COALESCE(projects.end_date_project, CURRENT_DATE())
                 )) as date_diff,
-               coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client,
-               coalesce(SUM((articles.price_author *(articles.without_space/1000))), 0) as sum_price_author,
-               coalesce(SUM((articles.price_redactor *(articles.without_space/1000))), 0) as sum_price_redactor
+               coalesce(SUM((articles.price_client * (articles.without_space/1000))), 0) as sum_price_client,
+               coalesce(SUM((articles.price_author * (articles.without_space/1000))), 0) as sum_price_author,
+               coalesce(SUM((articles.price_redactor * (articles.without_space/1000))), 0) as sum_price_redactor,
+               coalesce((SUM(articles.price_client - articles.price_author) / COUNT(articles.id)), 0) as diff_price
         ")->from('projects')
             ->leftJoin('articles', function ($leftJoin) use ($startDate, $endDate) {
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
@@ -133,7 +134,8 @@ class ClientRepositories
                 projects.project_name,
                 articles.*,
                 ((articles.price_client - articles.price_author) * (articles.without_space / 1000)) as margin,
-                ((articles.without_space / 1000) * articles.price_client) as price_article
+                ((articles.without_space / 1000) * articles.price_client) as price_article,
+                (coalesce(projects.price_client, 0) - coalesce(articles.price_author, 0)) as diff_price
             ")
             ->from('projects')
             ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')

@@ -218,6 +218,7 @@
                             <th>Цена заказчика</th>
                             <th>Сумма</th>
                             <th>Цена автора</th>
+                            <th>Разница</th>
                             <th>Маржа</th>
                         </tr>
                         </thead>
@@ -238,6 +239,7 @@
                                 <td class="nowrap">{{ number_format($item['price_client'] + 0, 2, '.', ' ') }}</td>
                                 <td class="nowrap">{{ number_format($item['price_article'] + 0, 2, '.', ' ') }}</td>
                                 <td class="nowrap">{{ number_format($item['price_author'] + 0, 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{ number_format($item['diff_price'] + 0, 2, '.', ' ') }}</td>
                                 <td class="nowrap">{{ number_format($item['margin'] + 0, 2, '.', ' ') }}</td>
                             </tr>
                         @empty

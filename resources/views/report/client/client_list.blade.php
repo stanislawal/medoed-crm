@@ -30,7 +30,7 @@
                         @else
                             <div class="form-group col-12 col-md-4 col-lg-3">
                                 <label for="" class="form-label">Менеджер </label>
-                                <select class="form-control form-control-sm select-2"" name="manager_id[]" multiple>
+                                <select class="form-control form-control-sm select-2" name="manager_id[]" multiple>
                                 <option value="">Не выбрано</option>
                                 @foreach ($managers as $manager)
                                     <option @if (in_array($manager['id'], (request()->manager_id ?? []))) selected
@@ -331,6 +331,8 @@
                             <th>ВД</th>
                             @role('Администратор')
                             <th>Маржа</th>
+                            <th class="sort-p"
+                                style="min-width: 120px;">@include('components.table.sort', ['title' => 'Ср. разница цены', 'column' => 'diff_price', 'routeName' => 'report_client.index'])</th>
                             @endrole
                             <th>Менеджер</th>
                             <th style="min-width: 200px;">Сроки оплаты</th>
@@ -385,6 +387,7 @@
                                 <td class="nowrap">{{ number_format($item['sum_gross_income'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                 @role('Администратор')
                                 <td class="nowrap">{{ number_format($item['profit'] + 0 ?? '-', 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{ number_format($item['diff_price'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                 @endrole
                                 <td>{!! $item['projectUser']['full_name'] ?? '<span class="test-12 fst-italic text-gray">Пусто</span>' !!}</td>
 
