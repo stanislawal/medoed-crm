@@ -60,6 +60,12 @@ class Project extends Model
         'project_perspective_sees_account', // Перспектива проекта (как ее видит аккаунт)
         'edo', // ЭДО
         'date_connect_with_client', // дата связи с клиентом
+
+        'company_name', // название компании (Бренд)
+        'deadline_accepting_work', // Срок принятия работы (проверки текста)
+        'contract_number', // номер договора при выборе наличия договора
+        'legal_name_company', // юридическое название компании
+        'period_work_performed', // Срок подписания акта выполненных работ
     ];
 
     public $timestamps = true;

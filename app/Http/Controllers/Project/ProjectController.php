@@ -171,7 +171,13 @@ class ProjectController extends Controller
                 'project_status_text'              => $request->project_status_text ?? null,
                 'date_notification'                => $request->date_notification ?? null,
                 'date_last_change'                 => $request->date_last_change ?? null,
+
                 'date_connect_with_client'         => $request->date_connect_with_client ?? null,
+                'company_name'                     => $request->company_name ?? null,
+                'deadline_accepting_work'          => $request->deadline_accepting_work ?? null,
+                'contract_number'                  => $request->contract_number ?? null,
+                'legal_name_company'               => $request->legal_name_company ?? null,
+                'period_work_performed'            => $request->period_work_performed ?? null,
             ];
 
             $project_id = Project::on()->create($attr)->id;
@@ -327,6 +333,11 @@ class ProjectController extends Controller
             'edo'                              => $request->edo ?? null,
             'project_status_text'              => $request->project_status_text ?? null,
             'date_connect_with_client'         => $request->date_connect_with_client ?? null,
+            'company_name'                     => $request->company_name ?? null,
+            'deadline_accepting_work'          => $request->deadline_accepting_work ?? null,
+            'contract_number'                  => $request->contract_number ?? null,
+            'legal_name_company'               => $request->legal_name_company ?? null,
+            'period_work_performed'            => $request->period_work_performed ?? null,
         ];
 
         Project::on()->where('id', $project)->update($attr);

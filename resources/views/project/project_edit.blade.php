@@ -393,6 +393,13 @@
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Название компании (Бренда)</label>
+                <div class="col-sm-9">
+                    <input type="text" disabled class="form-control form-control-sm" name="company_name" value="{{ $projectInfo['company_name'] ?? '' }}">
+                </div>
+            </div>
+
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Ссылка на сайт</label>
                 <div class="col-sm-9">
@@ -615,6 +622,13 @@
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Срок принятия работы (проверки текста)</label>
+                <div class="col-sm-9">
+                    <input type="text" disabled class="form-control form-control-sm" name="deadline_accepting_work" value="{{ $projectInfo['deadline_accepting_work'] ?? '' }}">
+                </div>
+            </div>
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
@@ -651,12 +665,20 @@
                         <option value="0" @if($projectInfo['contract'] == false) selected @endif>Нет
                         </option>
                     </select>
+
                     <input type="text"
                            @if(!(boolean)$projectInfo['contract']) style="display: none;" @endif
                            class="form-control input-contract mt-2 form-control-sm"
                            placeholder="Вставьте ссылку на договор"
                            disabled
                            value="{{$projectInfo['contract_exist']}}" name="contract_exist">
+
+                    <input type="text"
+                           @if(!(boolean)$projectInfo['contract']) style="display: none;" @endif
+                           class="form-control input-contract mt-2 form-control-sm"
+                           placeholder="Номер договора"
+                           disabled
+                           value="{{$projectInfo['contract_number'] ?? ''}}" name="contract_number">
                 </div>
             </div>
 
@@ -670,6 +692,13 @@
                         <option value="0" @if($projectInfo['nds'] == false) selected @endif>Нет
                         </option>
                     </select>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Юридическое название компании</label>
+                <div class="col-sm-9">
+                    <input type="text" disabled class="form-control form-control-sm" name="legal_name_company" value="{{ $projectInfo['legal_name_company'] ?? '' }}">
                 </div>
             </div>
 
@@ -697,6 +726,13 @@
                             Нет
                         </option>
                     </select>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Срок подписания акта выполненных работ</label>
+                <div class="col-sm-9">
+                    <input type="text" disabled class="form-control form-control-sm" name="period_work_performed" value="{{ $projectInfo['period_work_performed'] ?? '' }}">
                 </div>
             </div>
 

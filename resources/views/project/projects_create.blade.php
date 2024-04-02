@@ -113,6 +113,13 @@
             </div>
 
             <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Название компании (Бренда)</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="company_name">
+                </div>
+            </div>
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Ссылка на сайт</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" name="link_site">
@@ -309,6 +316,14 @@
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Срок принятия работы (проверки текста)</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="deadline_accepting_work">
+                </div>
+            </div>
+
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
@@ -342,6 +357,18 @@
                            class="form-control input-contract mt-2 form-control-sm d-none"
                            placeholder="Вставьте ссылку на договор"
                            value="" name="contract_exist">
+
+                    <input type="text"
+                           class="form-control input-contract mt-2 mb-3 form-control-sm d-none"
+                           placeholder="Номер договора"
+                           value="" name="contract_number">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Юридическое название компании</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="legal_name_company">
                 </div>
             </div>
 
@@ -384,6 +411,13 @@
                             Нет
                         </option>
                     </select>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Срок подписания акта выполненных работ</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="period_work_performed">
                 </div>
             </div>
 
