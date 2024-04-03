@@ -135,12 +135,13 @@ class ClientRepositories
                 articles.*,
                 ((articles.price_client - articles.price_author) * (articles.without_space / 1000)) as margin,
                 ((articles.without_space / 1000) * articles.price_client) as price_article,
-                (coalesce(projects.price_client, 0) - coalesce(articles.price_author, 0)) as diff_price
+                (articles.price_client - articles.price_author) as diff_price
             ")
             ->from('projects')
             ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')
             ->where('projects.id', $id)
             ->with(['articleAuthor:id,full_name']);
+
         return $report;
     }
 
