@@ -242,7 +242,7 @@
                     <div class="input-group">
                         <input class="form-control form-control-sm" type="text"
                                name="price_client">
-                        <div class="input-group-append">
+                        <div class="input-group-append input-group-sm">
                             <span class="input-group-text" id="basic-addon2">РУБ</span>
                         </div>
                     </div>
@@ -255,7 +255,7 @@
                     <div class="input-group">
                         <input class="form-control form-control-sm" step="0.01" type="number"
                                name="price_author">
-                        <div class="input-group-append">
+                        <div class="input-group-append input-group-sm">
                             <span class="input-group-text" id="basic-addon2">РУБ</span>
                         </div>
                     </div>

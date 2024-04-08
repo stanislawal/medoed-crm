@@ -38,7 +38,8 @@ class ReportAuthorController extends Controller
             sum(authors.without_space) as without_space,
             sum(authors.amount) as amount,
             sum(authors.gross_income) as gross_income,
-            sum(authors.duty) as duty
+            sum(authors.duty) as duty,
+            sum(authors.payment_amount) as payment_amount
         ")->fromSub($indicators, 'authors')
             ->first()
             ->toArray();

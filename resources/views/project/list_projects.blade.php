@@ -409,11 +409,13 @@
 
                                         <td style="padding: 0 10px 0 12px!important">{{ ((int)$project['price_per'] - (int)$project['price_author'])}}</td>
 
-                                        <td style="padding: 0 10px 0 12px!important">@if($project['contract'] == 0)
+                                        <td style="padding: 0 10px 0 12px!important">
+                                            @if($project['contract'] == 0)
                                                 Нет
                                             @else
                                                 Да
-                                            @endif</td>
+                                            @endif
+                                        </td>
 
 
                                         <td style="padding: 0 10px 0 12px!important">

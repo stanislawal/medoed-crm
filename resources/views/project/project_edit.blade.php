@@ -540,7 +540,7 @@
                         <input class="form-control form-control-sm" disabled
                                value="{{ $projectInfo['price_client'] ?? '' }}" type="text"
                                name="price_client">
-                        <div class="input-group-append">
+                        <div class="input-group-append input-group-sm">
                             <span class="input-group-text" id="basic-addon2">РУБ</span>
                         </div>
                     </div>
