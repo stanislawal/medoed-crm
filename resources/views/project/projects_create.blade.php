@@ -158,14 +158,14 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Задача заказчика</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="task_client">
+                    <textarea class="form-control form-control-sm" style="resize: vertical!important;" name="task_client"></textarea>
                 </div>
             </div>
 
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Задача проекта</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="type_task">
+                    <textarea class="form-control form-control-sm" style="resize: vertical!important;" name="type_task"></textarea>
                 </div>
             </div>
 

@@ -445,16 +445,14 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Задача заказчика</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="task_client" disabled
-                           value="{{ $projectInfo['task_client'] ?? '' }}">
+                    <textarea disabled class="form-control form-control-sm" style="resize: vertical!important;" name="task_client">{{ $projectInfo['task_client'] ?? '' }}</textarea>
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Задача проекта</label>
                 <div class="col-sm-9">
-                    <input type="text" disabled value="{{ $projectInfo['type_task'] ?? '' }}"
-                           class="form-control form-control-sm" name="type_task">
+                    <textarea disabled class="form-control form-control-sm" style="resize: vertical!important;" name="type_task">{{ $projectInfo['type_task'] ?? '' }}</textarea>
                 </div>
             </div>
 
