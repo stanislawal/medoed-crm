@@ -19,7 +19,7 @@
                         <div class="row m-0" id="search" @if(empty(request()->all())) style="display: none;" @endif>
                             <div class="w-100 row m-0 py-3">
                                 <div class="form-group col-12 col-md-6 col-lg-4">
-                                    <label for="" class="form-label">Имя</label>
+                                    <label for="" class="form-label">Ф.И.О</label>
                                     <input type="text" class="form-control form-control-sm" name="full_name" value="{{ request()->full_name ?? '' }}">
                                 </div>
                                 <div class="form-group col-12 col-md-4 col-lg-3">
@@ -63,11 +63,11 @@
                             {{ $users->appends(request()->input())->links('vendor.pagination.custom')  }}
                         </div>
                         <div class="table-responsive">
-                            <table id="basic-datatables" class="display table  table-hover table-head-bg-info">
+                            <table id="basic-datatables" class="display table  table-hover table-head-bg-info table-center table-cut">
                                 <thead>
                                 <tr>
-                                    <th></th>
-{{--                                    <th>ID</th>--}}
+                                    <th>ID</th>
+                                    <th style="min-width: 50px"></th>
                                     <th>Ф.И.О</th>
                                     <th>Логин</th>
                                     <th>Должность</th>
@@ -81,9 +81,13 @@
                                 <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td><a href="{{route('user.edit',['user'=> $user['id']])}}">Открыть</a>
+                                        <td>{{$user['id']}}</td>
+                                        <td class="text-center"><a href="{{route('user.edit',['user'=> $user['id']])}}">
+                                                <i
+                                                    class="fas fa-grip-horizontal"></i>
+                                            </a>
                                         </td>
-{{--                                        <td>{{$user['id']}}</td>--}}
+
                                         <td>{{$user['full_name'] ?? '-'}}</td>
                                         <td>{{$user['login'] ?? '-'}}</td>
                                         <td>{{$user['roles'][0]['name'] ?? '-'}}</td>

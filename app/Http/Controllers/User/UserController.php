@@ -109,7 +109,7 @@ class UserController extends Controller
     private function filter($request, &$users)
     {
         $users->when(!empty($request->full_name), function ($where) use ($request) {
-            $where->where('full_name', $request->full_name);
+            $where->where('full_name', 'like', '%' . $request->full_name . '%');
         });
 
         $users->when(!empty($request->role), function ($whereHas) use ($request) {
