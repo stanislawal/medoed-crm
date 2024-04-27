@@ -117,6 +117,10 @@ class UserController extends Controller
                 $where->where('id', $request->role);
             });
         });
+
+        $users->when(!empty($request->sort), function ($where) use ($request) {
+            $where->orderBy($request->sort, $request->direction);
+        });
     }
 
     public function userActive()

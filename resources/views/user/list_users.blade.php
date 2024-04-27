@@ -68,7 +68,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th style="min-width: 50px"></th>
-                                    <th>Ф.И.О</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Ф.И.О', 'column' => 'full_name', 'routeName' => 'user.index'] )</th>
                                     <th>Логин</th>
                                     <th>Должность</th>
                                     <th>Статус работы</th>
