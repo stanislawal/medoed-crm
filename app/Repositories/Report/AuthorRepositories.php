@@ -46,7 +46,7 @@ class AuthorRepositories
             ->selectRaw("
                 users.id,
                 users.is_work,
-                users.working_day,
+                coalesce(if(users.is_work, users.working_day, 0), 0) as working_day,
                 banks.name as bank,
                 banks.id as bank_id,
                 users.full_name,

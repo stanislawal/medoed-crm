@@ -30,7 +30,6 @@ class ReportAuthorController extends Controller
             $query->where('id', 3);
         })->get();
 
-
         $indicators = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays);
 
         $indicators = User::on()->selectRaw("
@@ -39,7 +38,9 @@ class ReportAuthorController extends Controller
             sum(authors.amount) as amount,
             sum(authors.gross_income) as gross_income,
             sum(authors.duty) as duty,
-            sum(authors.payment_amount) as payment_amount
+            sum(authors.payment_amount) as payment_amount,
+            sum(authors.working_day) as working_day,
+            (sum(if(authors.is_work, authors.without_space, 0)) / {$diffInCurrentDay}) as without_space_in_day
         ")->fromSub($indicators, 'authors')
             ->first()
             ->toArray();

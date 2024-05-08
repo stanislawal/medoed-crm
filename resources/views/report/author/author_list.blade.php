@@ -88,36 +88,36 @@
 
     <div class="mb-2">
         <div class="row">
-            <div class="col-12 col-md-9">
+            <div class="col-12">
                 <div class="row">
-                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
                                 <strong>{{number_format($indicators['margin'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Маржа:</div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24"><strong>{{$diffInWeekdays}} / {{$diffInCurrentDay}}</strong></div>
                             <div class="text-12 nowrap-dot">Количество рабочих дней / Текущий день:</div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
                                 <strong>{{number_format($indicators['without_space'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общий объем збп:</div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
                                 <strong>{{number_format($indicators['amount'], 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Общая сумма гонораров:</div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
                                 <strong>{{number_format($indicators['duty'] + $remainderDuty->sum('remainder_duty'), 2, '.', ' ')  }}</strong>
@@ -125,7 +125,7 @@
                             <div class="text-12 nowrap-dot">Итого к выплате:</div>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
                                 <strong>{{number_format($indicators['gross_income'], 2, '.', ' ')  }}</strong></div>
@@ -133,7 +133,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
                                 <strong>{{number_format($indicators['payment_amount'], 2, '.', ' ')  }}</strong></div>
@@ -141,43 +141,59 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
                                 <strong>{{number_format($remainderDuty->sum('remainder_duty'), 2, '.', ' ')  }}</strong></div>
                             <div class="text-12 nowrap-dot">Переносящийся долг:</div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-3">
-                <div class="w-100">
-                    <div class="px-3 py-1 shadow border bg-white rounded mb-2">
-                        <div class="d-flex align-items-center">
-                            <div class="d-flex align-items-center">
-                                <div style="font-size: 40px">$</div>
-                                <div class="pl-3"><span class="text-14">USD:</span></div>
-                                <div class="pl-2 text-18">{{$rates->where('id_currency', 2)->first()->rate ?? ""}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-3 py-1 shadow border bg-white rounded mb-2">
-                        <div class="d-flex align-items-center">
-                            <div style="font-size: 40px">€</div>
-                            <div class="pl-3"><span class="text-14">EUR:</span></div>
-                            <div class="pl-2 text-18">{{$rates->where('id_currency', 3)->first()->rate ?? ""}}</div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{ $indicators['working_day'] }}</strong></div>
+                            <div class="text-12 nowrap-dot">Раб. день</div>
                         </div>
                     </div>
 
-                    <div class="px-3 py-1 shadow border bg-white rounded mb-2">
-                        <div class="d-flex align-items-center">
-                            <div style="font-size: 38px">₴</div>
-                            <div class="pl-3"><span class="text-14">UAH:</span></div>
-                            <div class="pl-2 text-18">{{$rates->where('id_currency', 4)->first()->rate ?? ""}}</div>
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{ number_format($indicators['without_space_in_day'], 2, '.', ' ') }}</strong></div>
+                            <div class="text-12 nowrap-dot">Факт V/раб. день</div>
                         </div>
                     </div>
                 </div>
             </div>
+{{--            <div class="col-12 col-md-3">--}}
+{{--                <div class="w-100">--}}
+{{--                    <div class="px-3 py-1 shadow border bg-white rounded mb-2">--}}
+{{--                        <div class="d-flex align-items-center">--}}
+{{--                            <div class="d-flex align-items-center">--}}
+{{--                                <div style="font-size: 40px">$</div>--}}
+{{--                                <div class="pl-3"><span class="text-14">USD:</span></div>--}}
+{{--                                <div class="pl-2 text-18">{{$rates->where('id_currency', 2)->first()->rate ?? ""}}</div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="px-3 py-1 shadow border bg-white rounded mb-2">--}}
+{{--                        <div class="d-flex align-items-center">--}}
+{{--                            <div style="font-size: 40px">€</div>--}}
+{{--                            <div class="pl-3"><span class="text-14">EUR:</span></div>--}}
+{{--                            <div class="pl-2 text-18">{{$rates->where('id_currency', 3)->first()->rate ?? ""}}</div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
+{{--                    <div class="px-3 py-1 shadow border bg-white rounded mb-2">--}}
+{{--                        <div class="d-flex align-items-center">--}}
+{{--                            <div style="font-size: 38px">₴</div>--}}
+{{--                            <div class="pl-3"><span class="text-14">UAH:</span></div>--}}
+{{--                            <div class="pl-2 text-18">{{$rates->where('id_currency', 4)->first()->rate ?? ""}}</div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </div>
 
@@ -237,7 +253,7 @@
                                 <td class="nowrap">{{number_format($author['margin']+0, 2, '.', ' ')  }}</td>
                                 <td class="nowrap">{{number_format($author['avg_price']+0, 2, '.', ' ') }}</td>
                                 <td class="nowrap" style="background-color: rgba(106,111,113,0.7)!important;">{{$author['working_day']}}</td>
-                                <td class="nowrap" style="background-color: rgba(106,111,113,0.7)!important; color: rgb(255,255,255)!important">{{number_format($author['without_space'] / $diffInCurrentDay, 2, '.', ' ') }}</td>
+                                <td class="nowrap" style="background-color: rgba(106,111,113,0.7)!important; color: rgb(255,255,255)!important">{{number_format(($author['is_work'] ? $author['without_space'] : 0) / $diffInCurrentDay, 2, '.', ' ') }}</td>
                                 <td class="nowrap" style="background-color: rgba(255,165,0,0.91)!important; color: black!important;">{{number_format(($author['without_space'] / $diffInCurrentDay) - $author['working_day'], 2, '.', ' ') }}</td>
                             </tr>
                         @endforeach
