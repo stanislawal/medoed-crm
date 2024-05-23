@@ -477,7 +477,7 @@
                 <label class="col-sm-3 col-form-label">Перспектива проекта (как ее видит аккаунт)</label>
                 <div class="col-sm-9">
                     <textarea type="text" rows="2" class="form-control form-control-sm" disabled
-                              name="project_perspective_sees_account">{{ $projectInfo['content_public_platform'] ?? '' }}</textarea>
+                              name="project_perspective_sees_account">{{ $projectInfo['project_perspective_sees_account'] ?? '' }}</textarea>
                 </div>
             </div>
 
