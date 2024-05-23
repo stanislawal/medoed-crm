@@ -364,7 +364,7 @@
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Состояние проекта (текст)</label>
                 <div class="col-sm-9">
-                    <textarea type="text" rows="2" class="form-control form-control-sm" name="project_status_text"
+                    <textarea type="text" rows="2" class="form-control form-control-sm @if(!\App\Helpers\UserHelper::isAdmin()) block @endif " name="project_status_text"
                               placeholder="Укажите комментарий к проекту"
                               disabled>{{ $projectInfo['project_status_text'] ?? '' }}</textarea>
                 </div>
