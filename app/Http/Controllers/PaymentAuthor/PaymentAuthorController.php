@@ -23,7 +23,7 @@ class PaymentAuthorController extends Controller
 
             AuthorPayment::on()->create($attr);
 
-            return redirect()->back()->with(['message' => 'Платежка по автору успешно создана']);
+            return redirect()->back()->with(['success' => 'Платежка по автору успешно создана']);
 
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
@@ -42,7 +42,7 @@ class PaymentAuthorController extends Controller
             AuthorPayment::on()->where('id', $id)->update($attr);
 
             return response()->json([
-                'message' => 'Платежка по автору успешно обновлена'
+                'success' => 'Платежка по автору успешно обновлена'
             ]);
 
         } catch (\Exception $e) {
@@ -58,7 +58,7 @@ class PaymentAuthorController extends Controller
         try {
             AuthorPayment::on()->where('id', $id)->delete();
 
-            return redirect()->back()->with(['message' => 'Платежка по автору успешно удалена']);
+            return redirect()->back()->with(['success' => 'Платежка по автору успешно удалена']);
 
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
