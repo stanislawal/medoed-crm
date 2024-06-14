@@ -76,6 +76,7 @@
                                 <th>Имя компании</th>
                                 <th>Контактная инф.</th>
                                 <th>Соц.сеть</th>
+                                <th>Информация о работе команды</th>
                                 <th>Удалить</th>
                             </tr>
                             </thead>
@@ -103,6 +104,7 @@
                                                 class="badge bg-primary">{{ $socialnetrowk['name'] }}: {{ $socialnetrowk['pivot']['description'] }}</span>
                                         @endforeach
                                     </td>
+                                    <td>{{ $client['info_work_team'] }}</td>
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
                                             <a href="{{route('client.destroy',['client' => $client['id']])}}"
