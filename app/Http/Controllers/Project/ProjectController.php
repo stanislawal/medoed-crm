@@ -180,7 +180,9 @@ class ProjectController extends Controller
                 'period_work_performed'            => $request->period_work_performed ?? null,
             ];
 
-            $project_id = Project::on()->create($attr)->id;
+            $project = Project::on()->create($attr);
+
+            $project_id = $project->id;
 
             $this->updateNotifiProject($project_id, $request);
 
@@ -210,12 +212,14 @@ class ProjectController extends Controller
                 CrossProjectAuthor::on()->insert($authors);
             }
 
-            if ($request->manager_id != null) {
-                (new NotificationController())->createNotification(NotificationTypeConstants::ASSIGNED_PROJECT, $request->manager_id, $project_id);
+            if ($request->manager_id != null && !in_array($project->status_id, [2,3,5])) { // статус не "Ожидается ТЗ", "Стоп", "Ушел"
+                (new NotificationController())->createNotification(
+                    NotificationTypeConstants::ASSIGNED_PROJECT,
+                    $request->manager_id,
+                    $project_id);
             }
 
             DB::commit();
-
 
             return redirect()->route('project.index')->with(['success' => 'Новый проект успешно создан.']);
         } catch (\Exception $e) {
@@ -348,7 +352,7 @@ class ProjectController extends Controller
 
         $newProject = Project::on()->find($project);
 
-        if ($newProject['manager_id'] != $oldProject['manager_id']) {
+        if ($newProject['manager_id'] != $oldProject['manager_id']  && !in_array($newProject->status_id, [2,3,5])) {  // статус не "Ожидается ТЗ", "Стоп", "Ушел"
             (new NotificationController())->createNotification(
                 NotificationTypeConstants::ASSIGNED_PROJECT,
                 $request->manager_id,
@@ -356,7 +360,7 @@ class ProjectController extends Controller
             );
         }
 
-        if ($newProject['price_client'] != $oldProject['price_client']) {
+        if ($newProject['price_client'] != $oldProject['price_client'] && !in_array($newProject->status_id, [2,3,5]) ) { // статус не "Ожидается ТЗ", "Стоп", "Ушел"
             (new NotificationController())->createNotification(
                 NotificationTypeConstants::CHANGE_PRICE_PROJECT,
                 '',

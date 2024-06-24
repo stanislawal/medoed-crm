@@ -62,6 +62,7 @@ class CheckProjects extends Command
         $projects = Project::on()->select(['id', 'manager_id'])
             ->whereNotNull('date_connect_with_client')
             ->where('date_connect_with_client', $date)
+            ->whereNotIn('status_id', [2, 3, 5]) // кроме статусов "Ожидается ТЗ", "Стоп", "Ушел"
             ->get();
 
         foreach ($projects as $project) {
@@ -83,13 +84,13 @@ class CheckProjects extends Command
         $date = now()->subDays(7)->format('Y-m-d');
         $currentDate = now()->format('Y-m-d');
 
-        // получить проекты, по которым сегодня уже созданоу ведомление
+        // получить проекты, по которым сегодня уже создано уведомление
         $notInProjectId = Notification::on()->selectRaw('distinct(project_id)')
             ->where('type', NotificationTypeConstants::WRITE_TO_CLIENT_WEEK)
             ->whereRaw("DATE(date_time) = '{$currentDate}'")->get()->pluck('project_id');
 
         $projectWeek = Project::on()->select(['id', 'manager_id'])
-            ->whereNotIn('status_id', [3, 5]) // кроме статусов "ушел", "стоп"
+            ->whereNotIn('status_id', [5]) // кроме статусов "Ушел"
             ->whereNotNull('date_last_change')
             ->where('date_last_change', $date)
             ->whereNotIn('id', $notInProjectId)
@@ -105,7 +106,7 @@ class CheckProjects extends Command
     }
 
     /**
-     * Создатьу уведомление по проектам, в которых дата последнего прописывания месяц
+     * Создать уведомление по проектам, в которых дата последнего прописывания месяц
      *
      * @return void
      */
@@ -114,13 +115,13 @@ class CheckProjects extends Command
         $date = now()->subDays(30)->format('Y-m-d');
         $currentDate = now()->format('Y-m-d');
 
-        // получить проекты, по которым сегодня уже созданоу ведомление
+        // получить проекты, по которым сегодня уже создано уведомление
         $notInProjectId = Notification::on()->selectRaw('distinct(project_id)')
             ->where('type', NotificationTypeConstants::WRITE_TO_CLIENT_MONTH)
             ->whereRaw("DATE(date_time) = '{$currentDate}'")->get()->pluck('project_id');
 
         $projectWeek = Project::on()->select(['id', 'manager_id'])
-            ->where('status_id', '3') // только статус "стоп"
+            ->whereNotIn('status_id', [5]) // кроме статусов "Ушел"
             ->whereNotNull('date_last_change')
             ->where('date_last_change', $date)
             ->whereNotIn('id', $notInProjectId)
@@ -144,6 +145,7 @@ class CheckProjects extends Command
     {
         $projects = Project::on()->select(['id', 'manager_id'])
             ->whereNotNull('date_notification')
+            ->whereNotIn('status_id', [5]) //  кроме статусов "ушел"
             ->where('date_notification', now()->format('Y-m-d'))
             ->orWhere(function ($where) {
                 $where->whereHas('notifiProject', function ($where) {
