@@ -413,7 +413,7 @@
                                         <td style="padding: 0 10px 0 12px!important">{{ $project['price_client'] ?? ''}}</td>
                                         <td style="padding: 0 10px 0 12px!important">{{ $project['price_author'] ?? ''}}</td>
 
-                                        <td style="padding: 0 10px 0 12px!important">{{ ((int)$project['price_per'] - (int)$project['price_author'])}}</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{ ((int)$project['price_client'] - (int)$project['price_author'])}}</td>
 
                                         <td style="padding: 0 10px 0 12px!important">
                                             @if($project['contract'] == 0)
@@ -422,8 +422,6 @@
                                                 Да
                                             @endif
                                         </td>
-
-
                                         <td style="padding: 0 10px 0 12px!important">
                                             @foreach($project['projectClients'] as $client )
                                                 @foreach($client['socialNetwork'] as $social_network)
