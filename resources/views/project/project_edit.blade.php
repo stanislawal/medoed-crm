@@ -198,7 +198,8 @@
                                 <tr>
                                     <th style="width: 75px">Дата</th>
                                     <th>Событие</th>
-                                    @role('Администратор')<th style="width: 70px">Действие</th>@endrole
+                                    @role('Администратор')
+                                    <th style="width: 70px">Действие</th>@endrole
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -364,7 +365,9 @@
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Состояние проекта (текст)</label>
                 <div class="col-sm-9">
-                    <textarea type="text" rows="2" class="form-control form-control-sm @if(!\App\Helpers\UserHelper::isAdmin()) block @endif " name="project_status_text"
+                    <textarea type="text" rows="2"
+                              class="form-control form-control-sm @if(!\App\Helpers\UserHelper::isAdmin()) block @endif "
+                              name="project_status_text"
                               placeholder="Укажите комментарий к проекту"
                               disabled>{{ $projectInfo['project_status_text'] ?? '' }}</textarea>
                 </div>
@@ -396,7 +399,8 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Название компании (Бренда)</label>
                 <div class="col-sm-9">
-                    <input type="text" disabled class="form-control form-control-sm" name="company_name" value="{{ $projectInfo['company_name'] ?? '' }}">
+                    <input type="text" disabled class="form-control form-control-sm" name="company_name"
+                           value="{{ $projectInfo['company_name'] ?? '' }}">
                 </div>
             </div>
 
@@ -445,14 +449,16 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Задача заказчика</label>
                 <div class="col-sm-9">
-                    <textarea disabled class="form-control form-control-sm" style="resize: vertical!important;" name="task_client">{{ $projectInfo['task_client'] ?? '' }}</textarea>
+                    <textarea disabled class="form-control form-control-sm" style="resize: vertical!important;"
+                              name="task_client">{{ $projectInfo['task_client'] ?? '' }}</textarea>
                 </div>
             </div>
 
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Задача проекта</label>
                 <div class="col-sm-9">
-                    <textarea disabled class="form-control form-control-sm" style="resize: vertical!important;" name="type_task">{{ $projectInfo['type_task'] ?? '' }}</textarea>
+                    <textarea disabled class="form-control form-control-sm" style="resize: vertical!important;"
+                              name="type_task">{{ $projectInfo['type_task'] ?? '' }}</textarea>
                 </div>
             </div>
 
@@ -612,18 +618,28 @@
                 </div>
             </div>
 
-            <div class="row mb-2">
+{{--            <div class="row mb-2">--}}
+{{--                <label class="col-sm-3 col-form-label">Счёт для оплаты</label>--}}
+{{--                <div class="col-sm-9">{{$projectInfo['invoice_for_payment'] ?? '-'}}</div>--}}
+{{--            </div>--}}
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Счёт для оплаты</label>
                 <div class="col-sm-9">
-                    <input disabled type="text" value="{{$projectInfo['invoice_for_payment']}}"
-                           class="form-control form-control-sm" name="invoice_for_payment">
+                    <select class="form-select form-select-sm" name="requisite_id" disabled>
+                        <option value="">Не выбрано</option>
+                        @foreach($requisite as $item)
+                            <option value="{{ $item['id'] }}" @if($item['id'] == $projectInfo['requisite_id']) selected @endif>{{ $item['name'] }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Срок принятия работы (проверки текста)</label>
                 <div class="col-sm-9">
-                    <input type="text" disabled class="form-control form-control-sm" name="deadline_accepting_work" value="{{ $projectInfo['deadline_accepting_work'] ?? '' }}">
+                    <input type="text" disabled class="form-control form-control-sm" name="deadline_accepting_work"
+                           value="{{ $projectInfo['deadline_accepting_work'] ?? '' }}">
                 </div>
             </div>
 
@@ -696,7 +712,8 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Юридическое название компании</label>
                 <div class="col-sm-9">
-                    <input type="text" disabled class="form-control form-control-sm" name="legal_name_company" value="{{ $projectInfo['legal_name_company'] ?? '' }}">
+                    <input type="text" disabled class="form-control form-control-sm" name="legal_name_company"
+                           value="{{ $projectInfo['legal_name_company'] ?? '' }}">
                 </div>
             </div>
 
@@ -730,7 +747,8 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Срок подписания акта выполненных работ</label>
                 <div class="col-sm-9">
-                    <input type="text" disabled class="form-control form-control-sm" name="period_work_performed" value="{{ $projectInfo['period_work_performed'] ?? '' }}">
+                    <input type="text" disabled class="form-control form-control-sm" name="period_work_performed"
+                           value="{{ $projectInfo['period_work_performed'] ?? '' }}">
                 </div>
             </div>
 

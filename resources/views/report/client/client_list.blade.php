@@ -178,6 +178,20 @@
                             </select>
                         </div>
 
+                            <div class="form-group col-12 col-md-4 col-lg-3">
+                                <label for="" class="form-label">Счет оплаты</label>
+                                <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
+                                        name="requisite_id[]" multiple>
+                                    <option value="">Не выбрано</option>
+                                    @foreach ($requisite as $item)
+                                        <option value="{{ $item['id'] }}"
+                                                @if(in_array($item['id'], (request()->requisite_id ?? []))) selected @endif>
+                                            {{ $item['name'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                         <div class="col-12 p-0">
                             <div class="form-group col-12">
                                 <div class="w-100 d-flex justify-content-end" style="gap: 10px">
@@ -188,6 +202,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </form>
@@ -336,7 +351,7 @@
                             @endrole
                             <th>Менеджер</th>
                             <th style="min-width: 200px;">Сроки оплаты</th>
-                            <th>Счет оплаты</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Счет оплаты', 'column' => 'requisite', 'routeName' => 'report_client.index'])</th>
                             <th>Срок в работе</th>
                             {{--                            <th style="min-width: 120px;">Цена проекта</th>--}}
                             {{--                            <th style="min-width: 120px;">Цена автора</th>--}}
@@ -400,7 +415,7 @@
                                     </div>
                                 </td> {{--111--}}
 
-                                <td>{{ $item['invoice_for_payment'] ?? '-' }}</td>
+                                <td>{{ $item['requisite'] ?? '-' }}</td>
 
                                 <td class="nowrap">{{ $item['date_diff'] . ' дней' ?? '-' }}</td>
                                 {{--                                <td>{{ number_format($item['sum_price_client'] + 0 ?? '-', 2, '.', ' ') }}</td>--}}

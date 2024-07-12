@@ -28,7 +28,8 @@ class ClientRepositories
                 projects.style_id,
                 projects.status_payment_id,
                 projects.payment_terms,
-                projects.invoice_for_payment,
+                projects.requisite_id,
+                requisites.name as requisite,
                 coalesce(SUM(articles.without_space), 0) as sum_without_space,
                 SUM(
                     (COALESCE(articles.without_space, 0) * (COALESCE(articles.price_client, 0) / 1000))
@@ -50,6 +51,7 @@ class ClientRepositories
                     ])
                     ->where('articles.ignore', false);
             })
+            ->leftJoin('requisites', 'requisites.id', '=', 'projects.requisite_id')
             ->groupBy(['projects.id']);
 
         $reports = Project::on()

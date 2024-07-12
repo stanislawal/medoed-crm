@@ -18,6 +18,7 @@ use App\Models\Project\NotifiProject;
 use App\Models\Project\Project;
 use App\Models\Project\Style;
 use App\Models\Project\Theme;
+use App\Models\Requisite;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -118,16 +119,18 @@ class ProjectController extends Controller
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
+        $requisite = Requisite::on()->get();
 
         //передаем данные в view
         return view('project.projects_create', [
-            'statuses' => $statuses,
-            'moods'    => $moods,
-            'themes'   => $themes,
-            'clients'  => $clients,
-            'style'    => $style,
-            'managers' => $managers,
-            'authors'  => $authors,
+            'statuses'  => $statuses,
+            'moods'     => $moods,
+            'themes'    => $themes,
+            'clients'   => $clients,
+            'style'     => $style,
+            'managers'  => $managers,
+            'authors'   => $authors,
+            'requisite' => $requisite,
         ]);
     }
 
@@ -172,12 +175,13 @@ class ProjectController extends Controller
                 'date_notification'                => $request->date_notification ?? null,
                 'date_last_change'                 => $request->date_last_change ?? null,
 
-                'date_connect_with_client'         => $request->date_connect_with_client ?? null,
-                'company_name'                     => $request->company_name ?? null,
-                'deadline_accepting_work'          => $request->deadline_accepting_work ?? null,
-                'contract_number'                  => $request->contract_number ?? null,
-                'legal_name_company'               => $request->legal_name_company ?? null,
-                'period_work_performed'            => $request->period_work_performed ?? null,
+                'date_connect_with_client' => $request->date_connect_with_client ?? null,
+                'company_name'             => $request->company_name ?? null,
+                'deadline_accepting_work'  => $request->deadline_accepting_work ?? null,
+                'contract_number'          => $request->contract_number ?? null,
+                'legal_name_company'       => $request->legal_name_company ?? null,
+                'period_work_performed'    => $request->period_work_performed ?? null,
+                'requisite_id'             => $request->requisite_id ?? null,
             ];
 
             $project = Project::on()->create($attr);
@@ -212,7 +216,7 @@ class ProjectController extends Controller
                 CrossProjectAuthor::on()->insert($authors);
             }
 
-            if ($request->manager_id != null && !in_array($project->status_id, [2,3,5])) { // статус не "Ожидается ТЗ", "Стоп", "Ушел"
+            if ($request->manager_id != null && !in_array($project->status_id, [2, 3, 5])) { // статус не "Ожидается ТЗ", "Стоп", "Ушел"
                 (new NotificationController())->createNotification(
                     NotificationTypeConstants::ASSIGNED_PROJECT,
                     $request->manager_id,
@@ -242,6 +246,8 @@ class ProjectController extends Controller
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
+
+        $requisite = Requisite::on()->get();
 
         $projectInfo = Project::on()
             ->with([
@@ -290,6 +296,7 @@ class ProjectController extends Controller
             'socialNetwork' => $socialNetwork,
             'notifiProject' => $notifiProject,
             'projectClient' => $projectClient,
+            'requisite'     => $requisite,
         ]);
     }
 
@@ -342,6 +349,7 @@ class ProjectController extends Controller
             'contract_number'                  => $request->contract_number ?? null,
             'legal_name_company'               => $request->legal_name_company ?? null,
             'period_work_performed'            => $request->period_work_performed ?? null,
+            'requisite_id'                     => $request->requisite_id ?? null,
         ];
 
         Project::on()->where('id', $project)->update($attr);
@@ -352,7 +360,7 @@ class ProjectController extends Controller
 
         $newProject = Project::on()->find($project);
 
-        if ($newProject['manager_id'] != $oldProject['manager_id']  && !in_array($newProject->status_id, [2,3,5])) {  // статус не "Ожидается ТЗ", "Стоп", "Ушел"
+        if ($newProject['manager_id'] != $oldProject['manager_id'] && !in_array($newProject->status_id, [2, 3, 5])) {  // статус не "Ожидается ТЗ", "Стоп", "Ушел"
             (new NotificationController())->createNotification(
                 NotificationTypeConstants::ASSIGNED_PROJECT,
                 $request->manager_id,
@@ -360,7 +368,7 @@ class ProjectController extends Controller
             );
         }
 
-        if ($newProject['price_client'] != $oldProject['price_client'] && !in_array($newProject->status_id, [2,3,5]) ) { // статус не "Ожидается ТЗ", "Стоп", "Ушел"
+        if ($newProject['price_client'] != $oldProject['price_client'] && !in_array($newProject->status_id, [2, 3, 5])) { // статус не "Ожидается ТЗ", "Стоп", "Ушел"
             (new NotificationController())->createNotification(
                 NotificationTypeConstants::CHANGE_PRICE_PROJECT,
                 '',

@@ -11,6 +11,7 @@ use App\Models\Project\Project;
 use App\Models\Project\Style;
 use App\Models\Project\Theme;
 use App\Models\Rate\Rate;
+use App\Models\Requisite;
 use App\Models\StatusPaymentProject;
 use App\Models\User;
 use App\Repositories\Report\ClientRepositories;
@@ -94,6 +95,8 @@ class ReportClientController extends Controller
             ->first()
             ->toArray();
 
+        $requisite = Requisite::on()->get();
+
         return view('report.client.client_list', [
             'reports'          => $reports,
             'statistics'       => $statistics,
@@ -106,6 +109,7 @@ class ReportClientController extends Controller
             'themes'           => $themes,
             'priorities'       => $priorities,
             'paymentMonth'     => $paymentMonth,
+            'requisite'        => $requisite
         ]);
     }
 
@@ -126,15 +130,16 @@ class ReportClientController extends Controller
 
         // долг
         if (!is_null($request->duty_from ?? null) || !is_null($request->duty_to ?? null)) {
-            $reports->whereBetween('all_sum_duty', [(float)$request->duty_from ?? -9999999, (float)
-                                                    $request->duty_to
-                                                        ?? 9999999]);
+            $reports->whereBetween('all_sum_duty', [
+                    (float)$request->duty_from ?? -9999999, (float)
+                $request->duty_to ?? 9999999]);
         }
 
         // объем ЗБП
         if (!empty($request->sum_without_space_from) || !empty($request->sum_without_space_to)) {
-            $reports->whereBetween('sum_without_space', [$request->sum_without_space_from ?? 0,
-                                                         $request->sum_without_space_to ?? 999999999]);
+            $reports->whereBetween('sum_without_space', [
+                $request->sum_without_space_from ?? 0,
+                $request->sum_without_space_to ?? 999999999]);
         }
 
         // маржа
@@ -177,6 +182,11 @@ class ReportClientController extends Controller
         // состояние оплаты (игнорировать)
         $reports->when(!empty($request->ignore_status_payment_id), function (Builder $orderBy) use ($request) {
             $orderBy->whereNotIn('status_payment_id', $request->ignore_status_payment_id ?? []);
+        });
+
+        // счет оплаты
+        $reports->when(!empty($request->requisite_id), function (Builder $orderBy) use ($request) {
+            $orderBy->whereIn('requisite_id', $request->requisite_id ?? []);
         });
 
         // сортировка

@@ -158,14 +158,16 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Задача заказчика</label>
                 <div class="col-sm-9">
-                    <textarea class="form-control form-control-sm" style="resize: vertical!important;" name="task_client"></textarea>
+                    <textarea class="form-control form-control-sm" style="resize: vertical!important;"
+                              name="task_client"></textarea>
                 </div>
             </div>
 
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Задача проекта</label>
                 <div class="col-sm-9">
-                    <textarea class="form-control form-control-sm" style="resize: vertical!important;" name="type_task"></textarea>
+                    <textarea class="form-control form-control-sm" style="resize: vertical!important;"
+                              name="type_task"></textarea>
                 </div>
             </div>
 
@@ -312,7 +314,12 @@
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Счёт для оплаты</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="invoice_for_payment">
+                    <select class="form-select font-select-sm" name="requisite_id">
+                        <option value="">Не выбрано</option>
+                        @foreach($requisite as $item)
+                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 

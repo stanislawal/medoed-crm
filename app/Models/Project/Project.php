@@ -8,6 +8,7 @@ use App\Models\Payment\Payment;
 use App\Models\Project\Cross\CrossprojectArticle;
 use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Cross\CrossProjectClient;
+use App\Models\Requisite;
 use App\Models\Status;
 use App\Models\StatusPaymentProject;
 use App\Models\User;
@@ -66,6 +67,7 @@ class Project extends Model
         'contract_number', // номер договора при выборе наличия договора
         'legal_name_company', // юридическое название компании
         'period_work_performed', // Срок подписания акта выполненных работ
+        'requisite_id' // id реквизита
     ];
 
     public $timestamps = true;
@@ -149,6 +151,14 @@ class Project extends Model
     public function files()
     {
         return $this->hasMany(File::class, 'project_id');
+    }
+
+    /**
+     * реквизиты
+     */
+    public function requisite()
+    {
+        return $this->belongsTo(Requisite::class, 'requisite_id');
     }
 
 }
