@@ -14,6 +14,7 @@ use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Report\ReportAuthorController;
 use App\Http\Controllers\Report\ReportClientController;
 use App\Http\Controllers\Report\ReportRedactorController;
+use App\Http\Controllers\Report\WorkloadController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -110,6 +111,8 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     Route::resource('report_client', ReportClientController::class);
     Route::resource('report_author', ReportAuthorController::class);
     Route::resource('report_redactor', ReportRedactorController::class);
+    Route::get('report_workload', [WorkloadController::class, 'index'])->name('report_workload');
+
     Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
     #----------------------------------------ОТЧЕТЫ----------------------------------------
 

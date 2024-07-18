@@ -235,13 +235,14 @@
                                 <span class="caret"></span>
                             </a>
                             <div class="collapse" id="result">
+
                                 <ul class="nav nav-collapse">
                                     @unlessrole('Автор')
-                                    <li>
-                                        <a href="{{ route('report_client.index') }}">
-                                            <span class="sub-item">Заказчики</span>
-                                        </a>
-                                    </li>
+                                        <li>
+                                            <a href="{{ route('report_client.index') }}">
+                                                <span class="sub-item">Заказчики</span>
+                                            </a>
+                                        </li>
                                     @endunlessrole
 
                                     @role('Администратор')
@@ -250,18 +251,29 @@
                                             <span class="sub-item">Авторы</span>
                                         </a>
                                     </li>
+
                                     <li>
                                         <a href="{{ route('report_redactor.index') }}">
                                             <span class="sub-item">Редакторы</span>
                                         </a>
                                     </li>
+
                                     @endrole
+
+                                    @unlessrole('Автор')
+                                    <li>
+                                        <a href="{{ route('report_workload') }}">
+                                            <span class="sub-item">Объемы работы</span>
+                                        </a>
+                                    </li>
+                                    @endunlessrole
 
                                     @role('Автор')
                                     <li>
                                         <a href="{{ route('report_author.show', ['report_author' => auth()->user()->id, 'month' => request()->month ?? now()->format('Y-m')]) }}">
                                             <span class="sub-item">Авторы</span> </a>
                                     </li>
+
                                     @if(\App\Helpers\UserHelper::isRedactor())
                                         <li>
                                             <a href="{{ route('report_redactor.show', ['report_redactor' => auth()->user()->id, 'month' => now()->format('Y-m')]) }}">
