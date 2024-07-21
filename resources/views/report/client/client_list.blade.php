@@ -31,13 +31,13 @@
                             <div class="form-group col-12 col-md-4 col-lg-3">
                                 <label for="" class="form-label">Менеджер </label>
                                 <select class="form-control form-control-sm select-2" name="manager_id[]" multiple>
-                                <option value="">Не выбрано</option>
-                                @foreach ($managers as $manager)
-                                    <option @if (in_array($manager['id'], (request()->manager_id ?? []))) selected
-                                            @endif
-                                            value="{{ $manager['id'] }}">{{ $manager['full_name'] }}</option>
+                                    <option value="">Не выбрано</option>
+                                    @foreach ($managers as $manager)
+                                        <option @if (in_array($manager['id'], (request()->manager_id ?? []))) selected
+                                                @endif
+                                                value="{{ $manager['id'] }}">{{ $manager['full_name'] }}</option>
                                     @endforeach
-                                    </select>
+                                </select>
                             </div>
                         @endif
 
@@ -178,19 +178,19 @@
                             </select>
                         </div>
 
-                            <div class="form-group col-12 col-md-4 col-lg-3">
-                                <label for="" class="form-label">Счет оплаты</label>
-                                <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
-                                        name="requisite_id[]" multiple>
-                                    <option value="">Не выбрано</option>
-                                    @foreach ($requisite as $item)
-                                        <option value="{{ $item['id'] }}"
-                                                @if(in_array($item['id'], (request()->requisite_id ?? []))) selected @endif>
-                                            {{ $item['name'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Счет оплаты</label>
+                            <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
+                                    name="requisite_id[]" multiple>
+                                <option value="">Не выбрано</option>
+                                @foreach ($requisite as $item)
+                                    <option value="{{ $item['id'] }}"
+                                            @if(in_array($item['id'], (request()->requisite_id ?? []))) selected @endif>
+                                        {{ $item['name'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="col-12 p-0">
                             <div class="form-group col-12">
@@ -361,7 +361,7 @@
                             <th>Заказчик</th>
                             <th class="sort-p"
                                 style="min-width: 120px;">@include('components.table.sort', ['title' => 'Объем ЗБП', 'column' => 'sum_without_space', 'routeName' => 'report_client.index'])</th>
-                            <th>ВД</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'ВД', 'column' => 'sum_gross_income', 'routeName' => 'report_client.index'])</th>
                             @role('Администратор')
                             <th>Маржа</th>
                             <th class="sort-p"
