@@ -14,6 +14,7 @@ class WorkloadController extends Controller
 {
     public function index(Request $request)
     {
+
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
         })
@@ -24,13 +25,17 @@ class WorkloadController extends Controller
 
         $report = WorkloadRepositories::getReport($request, $dates);
 
-        if(UserHelper::isManager()){
+        if (UserHelper::isManager()) {
             $report->where('users.id', UserHelper::getUserId());
         }
 
         $report = $report->get()->toArray();
 
         $report = $this->calculation($report);
+
+        if (isset(request()->sort)) {
+            $report['data'] = $this->sort($report['data']);
+        }
 
         return view('report.workload.workload_list', [
             'managers' => $managers,
@@ -53,7 +58,7 @@ class WorkloadController extends Controller
         ];
 
         // полчить список уникальных дат, будет использоваться в выводе строк
-        // $uniqueDate = $report->pluck('date')->sort()->unique()->values();
+
         $uniqueDate = [
             'Итого',
             ...$this->getDateList($dates)
@@ -84,11 +89,11 @@ class WorkloadController extends Controller
                 if ($manager == 'Итого') {
 
                     if ($date == 'Итого') {
-                        $item[] = $this->round($report->sum('without_space'), 0);
-                        $item[] = $this->round($report->sum('gross_income'), 0);
+                        $item[] = (float)$report->sum('without_space');
+                        $item[] = (float)$report->sum('gross_income');
                     } else {
-                        $item[] = $this->round($report->where('date', $date)->sum('without_space'), 0);
-                        $item[] = $this->round($report->where('date', $date)->sum('gross_income'), 0);
+                        $item[] = (float)$report->where('date', $date)->sum('without_space');
+                        $item[] = (float)$report->where('date', $date)->sum('gross_income');
                     }
 
                 } else if ($manager == 'Дата') {
@@ -96,13 +101,13 @@ class WorkloadController extends Controller
                 } else {
 
                     if ($date == 'Итого') {
-                        $item[] = $this->round($report->where('full_name', $manager)->sum('without_space') ?? 0, 0);
-                        $item[] = $this->round($report->where('full_name', $manager)->sum('gross_income') ?? 0, 0);
+                        $item[] = (float)$report->where('full_name', $manager)->sum('without_space') ?? 0;
+                        $item[] = (float)$report->where('full_name', $manager)->sum('gross_income') ?? 0;
                     } else {
                         $value = $report->where('full_name', $manager)->where('date', $date)->values();
 
-                        $item[] = $this->round($value[0]['without_space'] ?? 0, 0);
-                        $item[] = $this->round($value[0]['gross_income'] ?? 0, 0);
+                        $item[] = (float)($value[0]['without_space'] ?? 0);
+                        $item[] = (float)($value[0]['gross_income'] ?? 0);
                     }
 
                 }
@@ -152,5 +157,24 @@ class WorkloadController extends Controller
             $startDate,
             $endDate
         ];
+    }
+
+    private function sort($array)
+    {
+        $newArray = collect($array);
+
+        $newArray->forget(0);
+        $newArray->forget(1);
+
+        if (request()->direction == 'asc') {
+            $newArray = $newArray->sortBy(request()->sort);
+        } else {
+            $newArray = $newArray->sortByDesc(request()->sort);
+        }
+
+        $newArray->prepend($array[1]);
+        $newArray->prepend($array[0]);
+
+        return $newArray->toArray();
     }
 }

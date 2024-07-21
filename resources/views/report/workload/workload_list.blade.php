@@ -18,17 +18,27 @@
             border: none !important;
         }
 
-        .table-head-bg-info thead th{
-            border-right: 1px solid #f2f2f2!important;
+        .table-head-bg-info thead th {
+            border-right: 1px solid #f2f2f2 !important;
         }
 
-        .table-head-bg-info thead th:last-child{
-            border-right: none!important;
+        .table-head-bg-info thead th:last-child {
+            border-right: none !important;
         }
 
-        tbody{
-            border-bottom: 1px solid #46464624!important;
-            border-right: 1px solid #46464624!important;
+        tbody {
+            border-bottom: 1px solid #46464624 !important;
+            border-right: 1px solid #46464624 !important;
+        }
+
+        thead tr:first-child {
+            position: sticky !important;
+            top: 0;
+        }
+
+        thead tr:last-child {
+            position: sticky !important;
+            top: 50px;
         }
 
     </style>
@@ -107,31 +117,47 @@
     </div>
 
     {{--ТАБЛИЦА--}}
+
     <div class="w-100 shadow border rounded">
-        <div class=>
+        <div class="">
             <div class="card-header bg-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title">Объемы работы</h4>
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive" style="height: calc(100vh - 24px - 48px - 57px - 62px - 5px)">
                     <table id="basic-datatables"
-                           class="display table table-head-bg-info table-striped table-center table-cut">
+                           class="fixtable display table table-head-bg-info table-striped table-center table-cut">
                         <thead>
                         <tr>
                             @foreach($report['headers'] as $key => $header)
                                 <th class="text-center" @if($key != 0) colspan="2" @endif >{{ $header }}</th>
                             @endforeach
                         </tr>
+                        <tr style="border-top: 1px solid #ffffff">
+                            @foreach($report['data'][0] as $i => $item)
+                                @if($i == 0)
+                                    <th></th>
+                                @else
+                                    <th class="sort-p">@include('components.table.sort', ['title' => $item, 'column' => $i, 'routeName' => 'report_workload'])</th>
+                                @endif
+                            @endforeach
+                        </tr>
                         </thead>
                         <tbody>
-                        @foreach($report['data'] as $item)
-                            <tr>
-                                @foreach($item as $el)
-                                    <td class="nowrap text-center">{{ $el }}</td>
-                                @endforeach
-                            </tr>
+                        @foreach($report['data'] as $i => $item)
+                            @if($i != 0)
+                                <tr @if($i == 1) style="background-color: #919191!important;"@endif>
+                                    @foreach($item as $j => $el)
+                                        @if(gettype($el) == 'double')
+                                            <td class="nowrap text-center">{{ number_format($el, 0, '.', ' ') }}</td>
+                                        @else
+                                            <td class="nowrap text-center">{{ $el }}</td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                            @endif
                         @endforeach
                         </tbody>
                     </table>
@@ -142,4 +168,11 @@
 @endsection
 
 @section('custom_js')
+
+    <script>
+        // $('.table-responsive').css({
+        //     "maxHeight" : ""
+        // })
+    </script>
+
 @endsection

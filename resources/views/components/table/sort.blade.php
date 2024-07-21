@@ -1,7 +1,7 @@
 @php
     $rul = "";
     $class = "";
-    if(request()->input('sort') !== $column){
+    if(request()->input('sort') != $column){
         $url = route($routeName, array_merge(request()->all(), ['sort' => $column, 'direction' => 'asc']));
     }else if(request()->input('sort') == $column && request()->input('direction') == 'asc'){
         $class = "sort-asc";
