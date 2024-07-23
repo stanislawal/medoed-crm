@@ -83,7 +83,7 @@
             </div>
 
             <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Состояние проекта (текст)</label>
+                <label class="col-sm-3 col-form-label">Перспектива проекта</label>
                 <div class="col-sm-9">
                     <textarea type="text" rows="2" class="form-control form-control-sm" name="project_status_text"
                               placeholder="Укажите комментарий к проекту"></textarea>
@@ -215,7 +215,7 @@
             </div>
 
             <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Комментарий</label>
+                <label class="col-sm-3 col-form-label">Состояние проекта</label>
                 <div class="col-sm-9">
                     <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
                               placeholder="Комментарий"></textarea>

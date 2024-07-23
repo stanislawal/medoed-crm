@@ -25,7 +25,6 @@ class WorkloadRepositories
             ->whereHas('roles', function ($query) {
                 $query->where('id', 2);
             })
-            ->where('users.is_work', true)
             ->when(isset($request->manager_id), function ($q) use ($request) {
                 $q->where('users.id', $request->manager_id);
             })
