@@ -342,7 +342,6 @@ class ProjectController extends Controller
             'content_public_platform'          => $request->content_public_platform ?? null,
             'project_perspective_sees_account' => $request->project_perspective_sees_account ?? null,
             'edo'                              => $request->edo ?? null,
-            'project_status_text'              => $request->project_status_text ?? null,
             'date_connect_with_client'         => $request->date_connect_with_client ?? null,
             'company_name'                     => $request->company_name ?? null,
             'deadline_accepting_work'          => $request->deadline_accepting_work ?? null,
@@ -351,6 +350,10 @@ class ProjectController extends Controller
             'period_work_performed'            => $request->period_work_performed ?? null,
             'requisite_id'                     => $request->requisite_id ?? null,
         ];
+
+        if (UserHelper::isAdmin()) {
+            $attr['project_status_text'] = $request->project_status_text ?? null;
+        }
 
         Project::on()->where('id', $project)->update($attr);
 
