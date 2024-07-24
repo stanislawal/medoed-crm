@@ -26,9 +26,13 @@
             border-right: none !important;
         }
 
+        .table-head-bg-info tbody td:last-child {
+            border-right: none !important;
+        }
+
         tbody {
             border-bottom: 1px solid #46464624 !important;
-            border-right: 1px solid #46464624 !important;
+            /*border-right: 1px solid #46464624 !important;*/
         }
 
         thead tr:first-child {
@@ -39,6 +43,12 @@
         thead tr:last-child {
             position: sticky !important;
             top: 50px;
+        }
+
+        tbody tr:first-child {
+            position: sticky !important;
+            top: 100px;
+            border-top: 1px solid #ffffff;
         }
 
     </style>
