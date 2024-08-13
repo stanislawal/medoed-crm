@@ -9,6 +9,7 @@ use App\Http\Controllers\NotificationController;
 use App\Models\Article;
 use App\Models\Client\Client;
 use App\Models\Client\SocialNetwork;
+use App\Models\Client\SourceClient;
 use App\Models\Currency;
 use App\Models\Notification;
 use App\Models\Project\Cross\CrossProjectAuthor;
@@ -240,6 +241,7 @@ class ProjectController extends Controller
         $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
         $statuses = Status::on()->get()->toArray(); //Достаем все статусы из бд
         $style = Style::on()->get()->toArray();
+        $sourceClients = SourceClient::on()->get();
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
         })->get();
@@ -297,6 +299,7 @@ class ProjectController extends Controller
             'notifiProject' => $notifiProject,
             'projectClient' => $projectClient,
             'requisite'     => $requisite,
+            'sourceClients' => $sourceClients
         ]);
     }
 
