@@ -116,7 +116,7 @@
                                         @endforeach
                                     </td>
                                     <td>{{ $client['info_work_team'] }}</td>
-                                    <td>{{ $client['sourceClient']['name'] }}</td>
+                                    <td>{{ $client['sourceClient']['name'] ?? '' }}</td>
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
                                             <a href="{{route('client.destroy',['client' => $client['id']])}}"
