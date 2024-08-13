@@ -25,9 +25,16 @@ class Client extends BaseModel
         'lpr_contacts',
         'info_work_team',
         'additional_info',
+        'source_client_id' // источник поступления
     ];
 
     public $timestamps = true;
+
+    public function sourceClient()
+    {
+        // источник поступления
+        return $this->belongsTo(SourceClient::class, 'source_client_id');
+    }
 
     public function socialNetwork()
     {

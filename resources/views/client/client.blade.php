@@ -62,6 +62,16 @@
                             <textarea id="characteristic" rows="2" name="additional_info" class="form-control form-control-sm"> </textarea>
                         </div>
 
+                        <div class="col-12 mb-3 col-lg-6">
+                            <label for="source_client_id" class="form-label">Источник поступления</label>
+                            <select name="source_client_id" id="source_client_id" class="form-select form-select-sm">
+                                <option value="">Не выбрано</option>
+                                @foreach($sourceClients as $item)
+                                    <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <div class="col-12 mb-3">
                             <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
                             <textarea id="characteristic" rows="2" name="characteristic" class="form-control form-control-sm"> </textarea>

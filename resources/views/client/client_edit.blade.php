@@ -110,6 +110,16 @@
                                   class="form-control form-control-sm">{{ $clients['additional_info'] ?? '' }}</textarea>
                     </div>
 
+                    <div class="col-12 mb-3 col-lg-6">
+                        <label for="source_client_id" class="form-label">Источник поступления</label>
+                        <select name="source_client_id" id="source_client_id" class="form-select form-select-sm">
+                            <option value="">Не выбрано</option>
+                            @foreach($sourceClients as $item)
+                                <option value="{{ $item['id'] }}" @if($item['id'] == $clients['source_client_id']) selected @endif>{{ $item['name'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="mb-3 col-12">
                         <label for="characteristic" class="form-label">Портрет и общая хар-ка</label>
                         <textarea id="characteristic" name="characteristic"

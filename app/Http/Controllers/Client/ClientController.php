@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Client\Client;
 use App\Models\Client\SocialNetwork;
+use App\Models\Client\SourceClient;
 use App\Models\Project\Cross\CrossClientSocialNetwork;
 use App\Models\Project\Project;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,7 +18,7 @@ class ClientController extends Controller
     {
         $clients = Client::on()
             ->with([
-                'socialNetwork', 'projectClients'
+                'socialNetwork', 'projectClients', 'sourceClient'
             ]);
         $this->filter($request, $clients);
 
@@ -30,33 +31,40 @@ class ClientController extends Controller
 
         $projects = Project::on()->select(['id', 'project_name'])->get();
 
+        $sourceClients = SourceClient::on()->get();
+
         return view('client.list_clients', [
             'clients'        => $clients,
             'social_network' => $socialNetwork,
-            'projects'       => $projects
+            'projects'       => $projects,
+            'sourceClients' => $sourceClients
         ]);
     }
 
     public function create()
     {
         $socialNetwork = SocialNetwork::on()->get();
+        $sourceClients = SourceClient::on()->get();
+
         return view('client.client', [
             'socialNetwork' => $socialNetwork,
+            'sourceClients' => $sourceClients
         ]);
     }
 
     public function store(Request $request)
     {
         $attr = [
-            'name'            => $request->name,
-            'dialog_location' => $request->dialog_location ?? null,
-            'scope_work'      => $request->scope_work ?? null,
-            'characteristic'  => $request->characteristic ?? null,
-            'company_name'    => $request->company_name ?? null,
-            'site'            => $request->site ?? null,
+            'name'             => $request->name,
+            'dialog_location'  => $request->dialog_location ?? null,
+            'scope_work'       => $request->scope_work ?? null,
+            'characteristic'   => $request->characteristic ?? null,
+            'company_name'     => $request->company_name ?? null,
+            'site'             => $request->site ?? null,
             // 'link_socialnetwork' => $request->link_socialnetwork ?? null,
-            'contact_info'    => $request->contact_info ?? null,
-            'birthday'        => $request->birthday ?? null,
+            'contact_info'     => $request->contact_info ?? null,
+            'birthday'         => $request->birthday ?? null,
+            'source_client_id' => $request->source_client_id ?? null,
 
             'lpr_contacts'    => $request->lpr_contacts ?? null,
             'info_work_team'  => $request->info_work_team ?? null,
@@ -88,10 +96,13 @@ class ClientController extends Controller
 
     public function edit($client)
     {
+        $sourceClients = SourceClient::on()->get();
+
         $clients = Client::on()
             ->with('files')
             ->find($client)
             ->toArray();
+
         $socialNetwork = SocialNetwork::on()
             ->get()
             ->toArray();
@@ -99,6 +110,7 @@ class ClientController extends Controller
         return view('client.client_edit', [
             'clients'       => $clients,
             'socialNetwork' => $socialNetwork,
+            'sourceClients' => $sourceClients
         ]);
     }
 
@@ -115,6 +127,7 @@ class ClientController extends Controller
             'lpr_contacts',
             'info_work_team',
             'additional_info',
+            'source_client_id',
         ])->toArray();
 
         Client::on()->where('id', $client)->update($attr);
@@ -154,6 +167,10 @@ class ClientController extends Controller
             $where->whereHas('projectClients', function ($where) use ($request) {
                 $where->whereIn('projects.id', $request->project_id);
             });
+        });
+
+        $clients->when(!empty($request->source_client_id), function (Builder $where) use ($request) {
+            $where->where('source_client_id', $request->source_client_id);
         });
     }
 

@@ -35,6 +35,16 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label for="" class="form-label">Источник поступления</label>
+                                <select name="source_client_id" id="source_client_id" class="form-select form-select-sm">
+                                    <option value="">Не выбрано</option>
+                                    @foreach($sourceClients as $item)
+                                        <option value="{{ $item['id'] }}" @if($item['id'] == request()->source_client_id) selected @endif>{{ $item['name'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="col-12 p-0">
                             <div class="form-group col-12">
@@ -77,6 +87,7 @@
                                 <th>Контактная инф.</th>
                                 <th>Соц.сеть</th>
                                 <th>Информация о работе команды</th>
+                                <th>Источник поступления</th>
                                 <th>Удалить</th>
                             </tr>
                             </thead>
@@ -105,11 +116,13 @@
                                         @endforeach
                                     </td>
                                     <td>{{ $client['info_work_team'] }}</td>
+                                    <td>{{ $client['sourceClient']['name'] }}</td>
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
                                             <a href="{{route('client.destroy',['client' => $client['id']])}}"
-                                               class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
-                                                    class="fas fa-minus"></i></a>
+                                               class="btn btn-sm btn-outline-danger" onclick="confirmDelete()">
+                                                <i class="fas fa-minus"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
