@@ -244,7 +244,9 @@ class ProjectController extends Controller
         $sourceClients = SourceClient::on()->get();
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
-        })->get();
+        })
+            ->where('is_work', true)
+            ->get();
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();

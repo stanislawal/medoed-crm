@@ -14,7 +14,8 @@ class WorkloadRepositories
             DATE(articles.created_at) as date,
             sum(ROUND(COALESCE(articles.without_space, 0), 2)) as without_space,
             sum(ROUND((COALESCE(articles.without_space, 0) * (COALESCE(articles.price_client, 0) / 1000)), 2)) as gross_income,
-            count(articles.id) as count_articles
+            count(articles.id) as count_articles,
+            sum(COALESCE(articles.without_space, 0)) as sum_without_space
         ")
             ->from('users')
             ->leftJoin('articles', function ($q) use ($dates) {
@@ -27,6 +28,12 @@ class WorkloadRepositories
             })
             ->when(isset($request->manager_id), function ($q) use ($request) {
                 $q->where('users.id', $request->manager_id);
+            }, function ($q) {
+                $q->where('users.is_work', true)
+                    ->orWhere(function ($q) {
+                        $q->where('users.is_work', false)
+                            ->whereNotNull('articles.created_at');
+                    });
             })
             ->groupByRaw("users.full_name, DATE(articles.created_at)");
 

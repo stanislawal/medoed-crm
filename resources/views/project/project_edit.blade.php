@@ -307,7 +307,7 @@
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Менеджер</label>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm" name="manager_id" disabled>
+                    <select class="form-select form-select-sm select-2" name="manager_id" disabled>
                         <option value="">Не выбрано</option>
                         @foreach ($managers as $manager)
                             <option @if($manager['id'] == $projectInfo['manager_id']) selected
