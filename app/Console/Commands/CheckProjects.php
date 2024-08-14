@@ -75,7 +75,7 @@ class CheckProjects extends Command
     }
 
     /**
-     * Создать уведомление по проектам, в которых дата последнего прописывания неделя
+     * Создать уведомление по проектам, в которых дата последнего прописывания 7 дней
      *
      * @return void
      */
@@ -90,7 +90,7 @@ class CheckProjects extends Command
             ->whereRaw("DATE(date_time) = '{$currentDate}'")->get()->pluck('project_id');
 
         $projectWeek = Project::on()->select(['id', 'manager_id'])
-            ->whereNotIn('status_id', [5]) // кроме статусов "Ушел"
+            ->whereIn('status_id', [7, 8, 2, 4, 6, 10, 12]) // только статусы ( В работе, На проверке, Ожидание тз, Доработка, Ждем оплату, На согласовании план/темы, Согласование договора)
             ->whereNotNull('date_last_change')
             ->where('date_last_change', $date)
             ->whereNotIn('id', $notInProjectId)
@@ -106,7 +106,7 @@ class CheckProjects extends Command
     }
 
     /**
-     * Создать уведомление по проектам, в которых дата последнего прописывания месяц
+     * Создать уведомление по проектам, в которых дата последнего прописывания 30 дней
      *
      * @return void
      */
@@ -121,7 +121,7 @@ class CheckProjects extends Command
             ->whereRaw("DATE(date_time) = '{$currentDate}'")->get()->pluck('project_id');
 
         $projectWeek = Project::on()->select(['id', 'manager_id'])
-            ->whereNotIn('status_id', [5]) // кроме статусов "Ушел"
+            ->whereIn('status_id', [2, 3]) // только статусы (Стоп, Ожидаем ТЗ)
             ->whereNotNull('date_last_change')
             ->where('date_last_change', $date)
             ->whereNotIn('id', $notInProjectId)
@@ -145,15 +145,17 @@ class CheckProjects extends Command
     {
         $projects = Project::on()->select(['id', 'manager_id'])
             ->whereNotNull('date_notification')
-            ->whereNotIn('status_id', [5]) //  кроме статусов "ушел"
-            ->where('date_notification', now()->format('Y-m-d'))
-            ->orWhere(function ($where) {
-                $where->whereHas('notifiProject', function ($where) {
-                    $where->whereIn('day', [
-                        now()->format('j'),
-                        now()->format('l')
-                    ]);
-                });
+            ->whereIn('status_id', [6, 7, 8, 4]) //  только статусы (Ждем оплату, В работе, На проверке, Доработка)
+            ->where(function ($where) {
+                $where->where('date_notification', now()->format('Y-m-d'))
+                    ->orWhere(function ($where) {
+                        $where->whereHas('notifiProject', function ($where) {
+                            $where->whereIn('day', [
+                                now()->format('j'),
+                                now()->format('l')
+                            ]);
+                        });
+                    });
             })
             ->get();
 
