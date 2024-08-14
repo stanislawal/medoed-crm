@@ -38,14 +38,14 @@
                                 <label for="" class="form-label">Счёт</label>
                                 <select class="form-select form-select-sm" name="invoice">
                                     <option value="">Не выбрано</option>
-                                    <option value="sber_a">Сбер А</option>
-                                    <option value="tinkoff_a">Тинькофф А</option>
-                                    <option value="tinkoff_k">Тинькофф K</option>
-                                    <option value="sber_d">Сбер Д</option>
-                                    <option value="sber_k">Сбер К</option>
+                                    <option value="sber_a">ИП Алла (Сбер)</option>
+                                    <option value="tinkoff_a"> ИП Алла (Т-Банк)</option>
+                                    <option value="tinkoff_k">Т-Банк К.К</option>
+                                    <option value="sber_d">ИП Даша ( Т-Банк)</option>
+                                    <option value="sber_k">Сбер К.Г</option>
                                     <option value="privat">Приват</option>
                                     <option value="um">ЮМ</option>
-                                    <option value="wmz">Сбер КА</option>
+                                    <option value="wmz">Сбер К.К</option>
                                     <option value="birja">Биржи</option>
                                 </select>
                             </div>
@@ -166,14 +166,14 @@
                                 <th>Проект</th>
                                 <th></th>
                                 <th></th>
-                                <th style="min-width: 120px;">Сбер А</th>
-                                <th style="min-width: 120px;">Тинькофф А</th>
-                                <th style="min-width: 120px;">Тинькофф K</th>
-                                <th style="min-width: 120px;">Тинькофф Д</th>
-                                <th style="min-width: 120px;">Сбер К</th>
+                                <th style="min-width: 120px;">ИП Алла (Сбер)</th>
+                                <th style="min-width: 120px;"> ИП Алла (Т-Банк)</th>
+                                <th style="min-width: 120px;">Т-Банк К.К</th>
+                                <th style="min-width: 120px;">ИП Даша ( Т-Банк)</th>
+                                <th style="min-width: 120px;">Сбер К.Г</th>
                                 <th style="min-width: 120px;">Приват</th>
                                 <th style="min-width: 120px;">ЮМ</th>
-                                <th style="min-width: 120px;">Сбер КА</th>
+                                <th style="min-width: 120px;">Сбер К.К</th>
                                 <th style="min-width: 120px;">Биржи</th>
 
                                 <th>Комментарий</th>

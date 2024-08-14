@@ -37,14 +37,14 @@
                             <label for="" class="form-label">Счёт</label>
                             <select class="form-select form-select-sm" name="invoice">
                                 <option value="">Не выбрано</option>
-                                <option value="sber_a">Сбер А</option>
-                                <option value="tinkoff_a">Тинькофф А</option>
-                                <option value="tinkoff_k">Тинькофф K</option>
-                                <option value="sber_d">Тинькофф Д</option>
-                                <option value="sber_k">Сбер К</option>
+                                <option value="sber_a">ИП Алла (Сбер)</option>
+                                <option value="tinkoff_a"> ИП Алла (Т-Банк)</option>
+                                <option value="tinkoff_k">Т-Банк К.К</option>
+                                <option value="sber_d">ИП Даша ( Т-Банк)</option>
+                                <option value="sber_k">Сбер К.Г</option>
                                 <option value="privat">Приват</option>
                                 <option value="um">ЮМ</option>
-                                <option value="wmz">Сбер КА</option>
+                                <option value="wmz">Сбер К.К</option>
                                 <option value="birja">Биржи</option>
                             </select>
                         </div>
@@ -90,14 +90,14 @@
                                 <th>Проект</th>
                                 <th>Удалить</th>
                                 <th>Изменить</th>
-                                <th>Сбер А</th>
-                                <th>Тинькофф А</th>
-                                <th>Тинькофф К</th>
-                                <th>Тиньеофф Д</th>
-                                <th>Сбер К</th>
+                                <th>ИП Алла (Сбер)</th>
+                                <th> ИП Алла (Т-Банк)</th>
+                                <th>Т-Банк К.К</th>
+                                <th>ИП Даша ( Т-Банк)</th>
+                                <th>Сбер К.Г</th>
                                 <th>Приват</th>
                                 <th>ЮМ</th>
-                                <th>Сбер КА</th>
+                                <th>Сбер К.К</th>
                                 <th>Биржи</th>
 
                                 <th>Комментарий</th>

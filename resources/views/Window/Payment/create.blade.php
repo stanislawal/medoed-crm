@@ -27,23 +27,23 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-4 mb-2">
-                                <label for="">Сбер А</label>
+                                <label for="">ИП Алла (Сбер)</label>
                                 <input type="number" required name="sber_a" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
-                                <label for="">Тинькофф А</label>
+                                <label for=""> ИП Алла (Т-Банк)</label>
                                 <input type="number" required name="tinkoff_a" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
-                                <label for="">Тинькофф K</label>
+                                <label for="">Т-Банк К.К</label>
                                 <input type="number" required name="tinkoff_k" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
-                                <label for="">Тиньеофф Д</label>
+                                <label for="">ИП Даша ( Т-Банк)</label>
                                 <input type="number" required name="sber_d" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
-                                <label for="">Сбер К</label>
+                                <label for="">Сбер К.Г</label>
                                 <input type="number" required name="sber_k" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
@@ -55,7 +55,7 @@
                                 <input type="number" required name="um" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
-                                <label for="">Сбер КА</label>
+                                <label for="">Сбер К.К</label>
                                 <input type="number" required name="wmz" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
                             <div class="col-4 mb-2">
