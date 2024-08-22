@@ -75,7 +75,7 @@
                                     <th>Контактная информация</th>
                                     <th>Дата рождения</th>
                                     <th>Создан</th>
-                                    <th>Удалить</th>
+{{--                                    <th>Удалить</th>--}}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -101,13 +101,13 @@
                                         <td>{{$user['contact_info'] ?? '-'}}</td>
                                         <td>{{$user['birthday'] ?? '-'}}</td>
                                         <td>{{\Illuminate\Support\Carbon::parse($user['created_at'])->format('d.m.Y H:i') ?? '-'}}</td>
-                                        <td>
-                                            <div class="form-group col-12 d-flex justify-content-between destroy">
-                                                <a href="{{route('user.destroy',['user' => $user['id']])}}"
-                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
-                                                        class="fas fa-minus"></i></a>
-                                            </div>
-                                        </td>
+{{--                                        <td>--}}
+{{--                                            <div class="form-group col-12 d-flex justify-content-between destroy">--}}
+{{--                                                <a href="{{route('user.destroy',['user' => $user['id']])}}"--}}
+{{--                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i--}}
+{{--                                                        class="fas fa-minus"></i></a>--}}
+{{--                                            </div>--}}
+{{--                                        </td>--}}
                                     </tr>
 
                                 @endforeach

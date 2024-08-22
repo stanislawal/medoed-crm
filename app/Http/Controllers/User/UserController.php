@@ -57,7 +57,7 @@ class UserController extends Controller
             'link_author'    => $request->link_author ?? null,
             'payment'        => $request->payment ?? null,
             'bank_id'        => $request->bank_id ?? null,
-
+            'is_work'        => $request->is_work ?? 0
         ];
 
         $user = User::on()->create($attr);
@@ -100,11 +100,11 @@ class UserController extends Controller
         return redirect()->back()->with(['success' => 'Пользователь успешно обновлен.']);
     }
 
-    public function destroy($user)
-    {
-        User::on()->where('id', $user)->delete();
-        return redirect()->back()->with(['success' => 'Пользователь успешно удален']);
-    }
+//    public function destroy($user)
+//    {
+//        User::on()->where('id', $user)->delete();
+//        return redirect()->back()->with(['success' => 'Пользователь успешно удален']);
+//    }
 
     private function filter($request, &$users)
     {

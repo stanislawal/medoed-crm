@@ -8,6 +8,8 @@
 @endsection
 
 @section('content')
+    @include('Window.Payment.create', ['setProject' => $project['id']])
+
     <div class="mb-2">
         <div class="mb-3">
             @include('Answer.custom_response')
@@ -126,6 +128,11 @@
             </h2>
             <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
+                    <div class="w-100 d-flex justify-content-end">
+                        <div class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#create_payment">Создать
+                            заявку
+                        </div>
+                    </div>
                     <table class="table table-hover">
                         <thead>
                         <tr>

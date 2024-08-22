@@ -3,6 +3,7 @@
 namespace App\Repositories\Report;
 
 use App\Models\Article;
+use App\Models\Payment\Payment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use App\Models\Project\Project;
@@ -86,15 +87,23 @@ class ClientRepositories
             })
             ->groupBy(['project.id']);
 
+        $countPayment = Payment::on()->selectRaw("project_id, count(id) as count_payment")
+            ->where('payment.mark', 1)
+            ->where('date', '>', now()->subDays(13))
+            ->where('status_payment_id', '!=', 12)
+            ->groupBy(['project_id']);
+
         $reports = Project::on()->selectRaw("
             projects.*,
             get_duty.remainder_duty,
-            cast((projects.finish_duty + get_duty.remainder_duty + projects.duty) as decimal(12,3)) as all_sum_duty
+            cast((projects.finish_duty + get_duty.remainder_duty + projects.duty) as decimal(12,3)) as all_sum_duty,
+            coalesce(countPayment.count_payment, 0) as count_payment
         ")
             ->fromSub($reports, 'projects')
             ->leftJoinSub(self::getDuty(Carbon::parse($startDate)->subDay()->toDateString()), 'get_duty', function ($leftJoin) {
                 $leftJoin->on('get_duty.id', '=', 'projects.id');
-            });
+            })
+            ->leftJoinSub($countPayment, 'countPayment', 'projects.id', '=', 'countPayment.project_id');
 
         $reports = Project::on()->selectRaw("
             projects.*,
@@ -110,7 +119,8 @@ class ClientRepositories
                 'projectUser:id,full_name',
                 'projectTheme:id,name',
                 'projectStyle:id,name'
-            ]);
+            ])
+        ->orderByDesc('id');
 
         return $reports;
     }

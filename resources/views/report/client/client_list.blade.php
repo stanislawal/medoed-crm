@@ -408,7 +408,7 @@
                                             {{ number_format($item['finish_duty'] + $item['duty'] + $item['remainder_duty'] ?? '-', 2, '.', ' ') }}
                                         </span>
                                 </td>
-                                <td>{{ $item['project_name'] ?? '-' }}</td>
+                                <td class="nowrap" @if(!$item['count_payment']) style="background-color: #ff00000f; color: red;" @endif title="Не было оплат более 14 дней">{{ $item['project_name'] ?? '-' }} @if(!$item['count_payment'])<i class="ms-2 fas fa-credit-card"></i>@endif</td>
                                 <td>{{ $item['projectTheme']['name'] ?? '' }}</td>
                                 <td>{{ $item['projectStyle']['name'] ?? '-' }}</td>
                                 <td>

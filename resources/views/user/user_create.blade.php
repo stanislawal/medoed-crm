@@ -57,7 +57,7 @@
                     </select>
                 </div>
 
-                <div class="form-group col-12 col-lg-6 input-author">
+                <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Статус работы</label>
                     <select name="is_work"  class="form-select form-select-sm">
                         <option value="1">Работает</option>

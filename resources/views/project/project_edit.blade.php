@@ -628,11 +628,6 @@
                 </div>
             </div>
 
-            <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Счёт для оплаты</label>
-                <div class="col-sm-9 col-form-label">{{$projectInfo['invoice_for_payment'] ?? '-'}}</div>
-            </div>
-
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Счёт для оплаты</label>
                 <div class="col-sm-9">

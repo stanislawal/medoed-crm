@@ -244,6 +244,8 @@ class ReportClientController extends Controller
 
         $project = Project::on()->select(['duty', 'id', 'project_name'])->find($id);
 
+        $projects = Project::on()->select('id', 'project_name')->get()->toArray();
+
         $remainderDuty = ClientRepositories::getDuty(
             Carbon::parse($request->month)->startOfMonth()->subDay()->toDateString(),
             $id
@@ -256,6 +258,7 @@ class ReportClientController extends Controller
             'paymentHistory' => $paymentHistory,
             'projectId'      => $id,
             'project'        => $project,
+            'projects'        => $projects,
             'remainderDuty'  => $remainderDuty
         ]);
     }

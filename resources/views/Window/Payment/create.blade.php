@@ -13,7 +13,7 @@
                         <select class="form-select form-select-sm" id="select2insidemodal" name="project_id" required>
                             <option value="0">Не выбрано</option>
                             @foreach($projects as $project)
-                                <option value="{{ $project['id'] }}">{{ $project['project_name'] }}
+                                <option value="{{ $project['id'] }}" @if(($setProject ?? null) == $project['id']) selected @endif>{{ $project['project_name'] }}
                                 </option>
                             @endforeach
                         </select>

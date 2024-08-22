@@ -79,7 +79,7 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     Route::middleware('role:Администратор')->group(function () {
         # Пользователи (users)
         Route::resource('user', UserController::class)->except('destroy');
-        Route::get('user-destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+//        Route::get('user-destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
         // Добавление статуса для проекта
         Route::resource('add_option_status', StatusController::class);
