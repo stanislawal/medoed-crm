@@ -229,7 +229,7 @@ class ProjectController extends Controller
             return redirect()->route('project.index')->with(['success' => 'Новый проект успешно создан.']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Произошла ошибка при создании проекта.']);
+            return redirect()->back()->with(['error' => "Произошла ошибка при создании проекта. {$e->getMessage()}"]);
         }
     }
 
