@@ -50,6 +50,9 @@ class ClientRepositories
                         Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                         Carbon::parse($endDate)->endOfDay()->toDateTimeString()
                     ])
+                    ->where('is_fixed_price_client', false)
+                    ->where('is_fixed_price_author', false)
+                    ->where('is_fixed_price_redactor', false)
                     ->where('articles.ignore', false);
             })
             ->leftJoin('requisites', 'requisites.id', '=', 'projects.requisite_id')
@@ -139,6 +142,9 @@ class ClientRepositories
               price_author,
               created_at
         ")
+            ->where('is_fixed_price_client', false)
+            ->where('is_fixed_price_author', false)
+            ->where('is_fixed_price_redactor', false)
             ->whereBetween('articles.created_at', [$startDate, $endDate])
             ->where('articles.ignore', false);
 
@@ -174,7 +180,10 @@ class ClientRepositories
             ->leftJoin('articles', function ($leftJoin) use ($date) {
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
                     ->whereRaw("CAST(articles.created_at as DATE) <= '{$date}'")
-                    ->where('articles.ignore', false);
+                    ->where('articles.ignore', false)
+                    ->where('is_fixed_price_client', false)
+                    ->where('is_fixed_price_author', false)
+                    ->where('is_fixed_price_redactor', false);
             })
             ->when(!is_null($projectId), function ($where) use ($projectId) {
                 $where->where('projects.id', $projectId);

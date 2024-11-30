@@ -21,8 +21,11 @@ class Article extends BaseModel
         'link_text', //ссылка на текст
         'project_id',
         'price_client', //цена заказчика
+        'is_fixed_price_client', // определение фиксированная ли цена
         'price_author', //цена автора
+        'is_fixed_price_author', // определение фиксированная ли цена
         'price_redactor', //цена автора
+        'is_fixed_price_redactor', // определение фиксированная ли цена
         'check', //галочка
         'payment_amount', // сумма оплаты автору
         'payment_date', // дата оплаты автору

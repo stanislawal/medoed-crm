@@ -29,7 +29,10 @@ window.save = function (className) {
     'authors_id': tr.find('select[name="select_authors"]').val(),
     'redactors_id': tr.find('select[name="select_redactors[]"]').val(),
     'price_redactor': tr.find('input[name="price_redactor"]').val(),
-    'manager_id': tr.find('select[name="manager_id"]').val()
+    'manager_id': tr.find('select[name="manager_id"]').val(),
+    'is_fixed_price_client': tr.find('input[name="is_fixed_price_client"]').is(':checked') ? 1 : 0,
+    'is_fixed_price_author': tr.find('input[name="is_fixed_price_author"]').is(':checked') ? 1 : 0,
+    'is_fixed_price_redactor': tr.find('input[name="is_fixed_price_redactor"]').is(':checked') ? 1 : 0
   };
   ajax('post', url, attr);
 

@@ -38,7 +38,7 @@ class ArticleController extends Controller
 
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
-        })->get();
+        })->where('is_work', true)->get();
 
         $articles->when(UserHelper::isManager(), function ($where) {
             $where->where('manager_id', UserHelper::getUserId());
@@ -69,13 +69,13 @@ class ArticleController extends Controller
 
 
         return view('article.list_article', [
-            'articles' => $articles,
-            'currency' => $currency,
-            'projects' => $project,
-            'managers' => $managers,
+            'articles'   => $articles,
+            'currency'   => $currency,
+            'projects'   => $project,
+            'managers'   => $managers,
             'statistics' => $statistics,
-            'authors' => $authors,
-            'redactors' => $redactors,
+            'authors'    => $authors,
+            'redactors'  => $redactors,
         ]);
     }
 
@@ -102,12 +102,12 @@ class ArticleController extends Controller
         }
 
         $indicators = [
-            "count_days_in_range" => $countDays,
+            "count_days_in_range"  => $countDays,
             "current_day_in_range" => $currentDay ?? 0,
-            "expectation" => $expectation ?? 0,
-            "passed" => $passed ?? 0,
-            "sum_gross_income" => $result['sum_gross_income'],
-            "sum_without_space" => $result['sum_without_space']
+            "expectation"          => $expectation ?? 0,
+            "passed"               => $passed ?? 0,
+            "sum_gross_income"     => $result['sum_gross_income'],
+            "sum_without_space"    => $result['sum_without_space']
         ];
 
         $salary = UserHelper::getUser()->manager_salary ?? 0;
@@ -136,7 +136,7 @@ class ArticleController extends Controller
         $project = Project::on()->get()->toArray();
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
-        })->get()->toArray();
+        })->where('is_work', true)->get()->toArray();
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
@@ -153,7 +153,22 @@ class ArticleController extends Controller
         DB::beginTransaction();
         try {
 
-            $attr = $request->only(['article', 'manager_id', 'without_space', 'id_currency', 'link_text', 'project_id', 'price_client', 'price_author', 'price_redactor', 'manager_salary']);
+            $attr = $request->only([
+                'article',
+                'manager_id',
+                'without_space',
+                'id_currency',
+                'link_text',
+                'project_id',
+                'price_client',
+                'price_author',
+                'price_redactor',
+                'manager_salary',
+                'is_fixed_price_client',
+                'is_fixed_price_author',
+                'is_fixed_price_redactor'
+            ]);
+
             $article_id = Article::on()->create($attr)->id;
 
             if ($request->has('author_id') && count($request->author_id) > 0) {
@@ -203,7 +218,10 @@ class ArticleController extends Controller
             'payment_amount',
             'payment_date',
             'redactor_payment_amount',
-            'redactor_payment_date'
+            'redactor_payment_date',
+            'is_fixed_price_client',
+            'is_fixed_price_author',
+            'is_fixed_price_redactor'
         ]);
 
         Article::on()->where('id', $id)->update($attr);

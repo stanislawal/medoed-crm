@@ -40,6 +40,16 @@
 
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Цена автора</label>
+                            <div class="selectgroup w-100">
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="is_fixed_price_author" value="0" class="selectgroup-input" @if(($item['is_fixed_price_author'] ?? false) == false) checked @endif>
+                                    <span class="selectgroup-button">Цена за 1000 с.</span>
+                                </label>
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="is_fixed_price_author" value="1" class="selectgroup-input" @if(($item['is_fixed_price_author'] ?? false) == true) checked @endif>
+                                    <span class="selectgroup-button">Цена за 1 шт.</span>
+                                </label>
+                            </div>
                             <div class="input-group mb-3">
                                 <input class="form-control form-control-sm" type="number" step="0.1" min="0.1"
                                        name="price_author">
@@ -61,6 +71,16 @@
 
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Цена редактора</label>
+                            <div class="selectgroup w-100">
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="is_fixed_price_redactor" value="0" class="selectgroup-input" @if(($item['is_fixed_price_redactor'] ?? false) == false) checked @endif>
+                                    <span class="selectgroup-button">Цена за 1000 с.</span>
+                                </label>
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="is_fixed_price_redactor" value="1" class="selectgroup-input" @if(($item['is_fixed_price_redactor'] ?? false) == true) checked @endif>
+                                    <span class="selectgroup-button">Цена за 1 шт.</span>
+                                </label>
+                            </div>
                             <div class="input-group mb-3">
                                 <input class="form-control form-control-sm" type="number" step="0.1" min="0.1"
                                        name="price_redactor">
@@ -96,13 +116,29 @@
 
                         <div class="form-group col-12 col-lg-6">
                             <label for="" class="form-label">Цена заказчика</label>
+                            <div class="selectgroup w-100">
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="is_fixed_price_client" value="0" class="selectgroup-input" @if(($item['is_fixed_price_client'] ?? false) == false) checked @endif>
+                                    <span class="selectgroup-button">Цена за 1000 с.</span>
+                                </label>
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="is_fixed_price_client" value="1" class="selectgroup-input" @if(($item['is_fixed_price_client'] ?? false) == true) checked @endif>
+                                    <span class="selectgroup-button">Цена за 1 шт.</span>
+                                </label>
+                            </div>
                             <div class="input-group mb-3">
                                 <input class="form-control form-control-sm"  type="number" step="0.1"
                                        min="0.1"
                                        name="price_client">
-                                <div class="input-group-append">
-                                    <span class="input-group-text input-group-sm" id="basic-addon2">РУБ</span>
+                                <div class="input-group-append input-group-sm">
+                                    <span class="input-group-text" id="basic-addon2">РУБ</span>
                                 </div>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Флажок по умолчанию
+                                </label>
                             </div>
                         </div>
 
@@ -135,4 +171,7 @@
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{asset('js/select2.js')}}"></script>
+    <script>
+        console.log('123')
+    </script>
 @endsection

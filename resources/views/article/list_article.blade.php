@@ -59,20 +59,20 @@
                                 </div>
                             </div>
 
-                                <div class="form-group col-12 col-md-6 col-lg-4">
-                                    <label class="form-label">Статья</label>
-                                    <select class="form-select form-select-sm select-2"
-                                            name="article">
-                                        <option value="">Не выбрано</option>
-                                        @foreach($articles as $article)
-                                            <option value="{{ $article['article'] }}"
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label class="form-label">Статья</label>
+                                <select class="form-select form-select-sm select-2"
+                                        name="article">
+                                    <option value="">Не выбрано</option>
+                                    @foreach($articles as $article)
+                                        <option value="{{ $article['article'] }}"
 
-                                                    @if($article['id'] == request()->article_id ?? '') selected @endif>
-                                                {{ $article['article'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                                @if($article['id'] == request()->article_id ?? '') selected @endif>
+                                            {{ $article['article'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label class="form-label">Авторы</label>
@@ -89,20 +89,20 @@
                                 </select>
                             </div>
 
-                                <div class="form-group col-12 col-md-6 col-lg-4">
-                                    <label class="form-label">Редакторы</label>
-                                    <select class="form-select form-select-sm select-2" multiple
-                                            name="redactor_id[]">
-                                        @foreach($redactors as $redactor)
-                                            <option value="{{$redactor['id']}}"
-                                                    @if (in_array($redactor['id'], request()->redactor_id ?? []))
-                                                        selected
-                                                @endif>
-                                                {{$redactor['full_name'] ?? ''}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label class="form-label">Редакторы</label>
+                                <select class="form-select form-select-sm select-2" multiple
+                                        name="redactor_id[]">
+                                    @foreach($redactors as $redactor)
+                                        <option value="{{$redactor['id']}}"
+                                                @if (in_array($redactor['id'], request()->redactor_id ?? []))
+                                                    selected
+                                            @endif>
+                                            {{$redactor['full_name'] ?? ''}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label class="form-label">Проект</label>
@@ -148,20 +148,25 @@
                         </div>
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ number_format($statistics['expectation'] ?? 0, 2, '.', ' ') }}</strong></div>
+                                <div class="text-24">
+                                    <strong>{{ number_format($statistics['expectation'] ?? 0, 2, '.', ' ') }}</strong>
+                                </div>
                                 <div class="text-12 nowrap-dot">Ожидаемый объем ЗБП:</div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ number_format($statistics['passed'] ?? 0, 2, '.', ' ') }}</strong></div>
+                                <div class="text-24">
+                                    <strong>{{ number_format($statistics['passed'] ?? 0, 2, '.', ' ') }}</strong></div>
                                 <div class="text-12 nowrap-dot">Сдано за сегодня:</div>
                             </div>
                         </div>
 
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ number_format($statistics['sum_without_space'] ?? 0, 2, '.', ' ') }}</strong></div>
+                                <div class="text-24">
+                                    <strong>{{ number_format($statistics['sum_without_space'] ?? 0, 2, '.', ' ') }}</strong>
+                                </div>
                                 <div class="text-12 nowrap-dot">Всего ЗБП:</div>
                             </div>
                         </div>
@@ -170,7 +175,9 @@
                         @role('Администратор')
                         <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                             <div class="px-3 py-2 shadow border bg-white rounded">
-                                <div class="text-24"><strong>{{ number_format((int)$statistics['sum_gross_income'] ?? 0, 2, '.', ' ') }}</strong></div>
+                                <div class="text-24">
+                                    <strong>{{ number_format((int)$statistics['sum_gross_income'] ?? 0, 2, '.', ' ') }}</strong>
+                                </div>
                                 <div class="text-12 nowrap-dot">Валовый доход (сумма):</div>
                             </div>
                         </div>
@@ -180,7 +187,9 @@
                         @if(\App\Helpers\UserHelper::isManager() || !is_null(request()->manager_id))
                             <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                                 <div class="px-3 py-2 shadow border bg-white rounded">
-                                    <div class="text-24"><strong>{{ number_format($statistics['manager_salary'] ?? 0, 2, '.', ' ') }}</strong></div>
+                                    <div class="text-24">
+                                        <strong>{{ number_format($statistics['manager_salary'] ?? 0, 2, '.', ' ') }}</strong>
+                                    </div>
                                     <div class="text-12 nowrap-dot">Расчет менеджера:</div>
                                 </div>
                             </div>
@@ -217,18 +226,16 @@
                                 @endrole
                                 <th style="min-width: 200px;">Статья</th>
                                 <th style="min-width: 100px;">ЗБП</th>
-                                <th style="min-width: 100px;">Цена заказчика</th>
+                                <th style="min-width: 110px;">Цена заказчика | Фикс. цена?</th>
                                 <th style="min-width: 100px;">Валюта</th>
                                 @unlessrole ('Менеджер')
                                 <th style="min-width: 150px;">Менеджер</th>
                                 @endunlessrole
-
-
                                 <th style="min-width: 100px;">ВД</th>
                                 <th style="min-width: 150px;">Автор</th>
-                                <th style="min-width: 100px;">Цена автора</th>
+                                <th style="min-width: 110px;">Цена автора | Фикс. цена?</th>
                                 <th style="min-width: 150px;">Редактор</th>
-                                <th style="min-width: 100px;">Цена редактора</th>
+                                <th style="min-width: 110px;">Цена редактора | Фикс. цена?</th>
                                 <th style="min-width: 200px;">Ссылка на текст</th>
                                 <th style="min-width: 110px;">Дата создания</th>
                                 @role('Администратор')
@@ -251,7 +258,8 @@
                                     data-url="{{ route('article.update', ['article' => $article['id']]) }}">
 
                                     {{--Checkbox--}}
-                                    <td><input type="checkbox" name="check" @if((bool)$article['check']) checked @endif></td>
+                                    <td><input type="checkbox" name="check" @if((bool)$article['check']) checked @endif>
+                                    </td>
 
                                     {{--ID--}}
                                     <td>{{ $article['id'] }}</td>
@@ -276,11 +284,11 @@
 
                                     {{--Заказчик--}}
                                     @role('Администратор')
-                                        <td class="td-client">
-                                            @foreach($article['articleProject']['projectClients'] ?? [] as $client)
-                                                {{$client['name'] ?? ''}}
-                                            @endforeach
-                                        </td>
+                                    <td class="td-client">
+                                        @foreach($article['articleProject']['projectClients'] ?? [] as $client)
+                                            {{$client['name'] ?? ''}}
+                                        @endforeach
+                                    </td>
                                     @endrole
 
                                     {{--Название статьи--}}
@@ -301,9 +309,12 @@
 
                                     {{--Цена заказчика--}}
                                     <td>
-                                        <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center flex-nowrap">
                                             <input class="form-control form-control-sm" name="price_client"
-                                                   value="{{$article['price_client'] ?? ''}}"></div>
+                                                   value="{{$article['price_client'] ?? ''}}">
+                                            <span class="px-1">|</span>
+                                            <input type="checkbox" name="is_fixed_price_client" @if($article['is_fixed_price_client']) checked @endif>
+                                        </div>
                                     </td>
 
                                     {{--Валюта--}}
@@ -320,26 +331,26 @@
 
                                     {{--менеджер--}}
                                     @unlessrole('Менеджер')
-                                        <td>
-                                            <div>
-                                                <select class="form-select form-select-sm select-2"
-                                                        data-class="row_{{ $article['id'] }}" name="manager_id">
-                                                    <option value="" data-author="" data-client="">Не выбрано</option>
-                                                    @foreach($managers as $manager)
-                                                        <option value="{{ $manager['id'] }}"
-                                                                @if($manager['id'] == ($article['articleManager']['id'] ?? "")) selected @endif>
-                                                            {{ $manager['full_name'] }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </td>
+                                    <td>
+                                        <div>
+                                            <select class="form-select form-select-sm select-2"
+                                                    data-class="row_{{ $article['id'] }}" name="manager_id">
+                                                <option value="" data-author="" data-client="">Не выбрано</option>
+                                                @foreach($managers as $manager)
+                                                    <option value="{{ $manager['id'] }}"
+                                                            @if($manager['id'] == ($article['articleManager']['id'] ?? "")) selected @endif>
+                                                        {{ $manager['full_name'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </td>
                                     @endunlessrole
 
                                     {{--ВАЛОВЫЙ ДОХОД--}}
-                                        <td>
-                                            {{$article['gross_income'] + 0 ?? ''}}
-                                        </td>
+                                    <td>
+                                        {{$article['gross_income'] + 0 ?? ''}}
+                                    </td>
 
                                     {{--Автор--}}
                                     <td class="td-author">
@@ -357,9 +368,11 @@
 
                                     {{--Цена автора--}}
                                     <td>
-                                        <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center flex-nowrap">
                                             <input class="form-control form-control-sm" name="price_author"
                                                    value="{{$article['price_author'] ?? ''}}">
+                                            <span class="px-1">|</span>
+                                            <input type="checkbox" name="is_fixed_price_author" @if($article['is_fixed_price_author']) checked @endif>
                                         </div>
                                     </td>
 
@@ -383,9 +396,11 @@
 
                                     {{--Цена редактора--}}
                                     <td>
-                                        <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center flex-nowrap">
                                             <input class="form-control form-control-sm" name="price_redactor"
                                                    value="{{$article['price_redactor'] ?? ''}}">
+                                            <span class="px-1">|</span>
+                                            <input type="checkbox" name="is_fixed_price_redactor" @if($article['is_fixed_price_redactor']) checked @endif>
                                         </div>
                                     </td>
 
@@ -404,13 +419,13 @@
 
 
                                     @role('Администратор')
-                                        <td>
-                                            <div class="form-group col-12 d-flex justify-content-between destroy">
-                                                <a href="{{route('article.destroy', ['article' => $article['id']])}}"
-                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
-                                                        class="fas fa-minus"></i></a>
-                                            </div>
-                                        </td>
+                                    <td>
+                                        <div class="form-group col-12 d-flex justify-content-between destroy">
+                                            <a href="{{route('article.destroy', ['article' => $article['id']])}}"
+                                               class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
+                                                    class="fas fa-minus"></i></a>
+                                        </div>
+                                    </td>
                                     @endrole
                                     <td>
                                         <div class="btn btn-sm btn-success save"

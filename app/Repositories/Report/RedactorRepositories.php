@@ -34,6 +34,9 @@ class RedactorRepositories
                 Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                 Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
             ])
+            ->where('is_fixed_price_client', false)
+            ->where('is_fixed_price_author', false)
+            ->where('is_fixed_price_redactor', false)
             ->where('ignore', false)
             ->groupBy('articles.id');
 
@@ -94,6 +97,9 @@ class RedactorRepositories
                 Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                 Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
             ])
+            ->where('is_fixed_price_client', false)
+            ->where('is_fixed_price_author', false)
+            ->where('is_fixed_price_redactor', false)
             ->where('ignore', false)
             ->groupBy('articles.id');
 
@@ -128,6 +134,9 @@ class RedactorRepositories
             ->whereHas('articleRedactor', function ($where) use ($userI) {
                 $where->where('users.id', $userI);
             })
+            ->where('is_fixed_price_client', false)
+            ->where('is_fixed_price_author', false)
+            ->where('is_fixed_price_redactor', false)
             ->where('ignore', true)
             ->orderByDesc('articles.created_at');
     }
@@ -149,6 +158,9 @@ class RedactorRepositories
         ")->from('articles')
             ->whereNotNull('project_id')
             ->whereRaw("CAST(created_at as DATE) <= '{$dateTo}'")
+            ->where('is_fixed_price_client', false)
+            ->where('is_fixed_price_author', false)
+            ->where('is_fixed_price_redactor', false)
             ->where('ignore', false)
             ->orderByDesc('created_at');
 

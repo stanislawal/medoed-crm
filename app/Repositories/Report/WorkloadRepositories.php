@@ -21,6 +21,9 @@ class WorkloadRepositories
             ->leftJoin('articles', function ($q) use ($dates) {
                 $q->on('articles.manager_id', '=', 'users.id')
                     ->whereBetween('articles.created_at', $dates)
+                    ->where('is_fixed_price_client', false)
+                    ->where('is_fixed_price_author', false)
+                    ->where('is_fixed_price_redactor', false)
                     ->where('articles.ignore', false);
             })
             ->whereHas('roles', function ($query) {
