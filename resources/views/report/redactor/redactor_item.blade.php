@@ -141,7 +141,7 @@
                                         @endrole
                                         <td>{{ $item['article'] }}</td>
                                         <td>{{ number_format($item['without_space']+0, 2, '.', ' ')}}</td>
-                                        <td>{{ number_format($item['price_redactor']+0, 2, '.', ' ') }}</td>
+                                        <td>{{ number_format($item['price_redactor']+0, 2, '.', ' ') }} @if($item['is_fixed_price_redactor']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
                                         <td>{{ number_format($item['price']+0, 2, '.', ' ') }}</td>
                                         @role('Администратор')
                                         <td>{{ number_format($item['redactor_payment_amount']+0, 2, '.', ' ') }}</td>
@@ -216,7 +216,7 @@
                                     @endrole
                                     <td>{{ $article['article'] }}</td>
                                     <td class="nowrap">{{number_format($article['without_space']+0, 2, '.', ' ')  }}</td>
-                                    <td>{{number_format($article['price_redactor']+0, 2, '.', ' ')  }}</td>
+                                    <td>{{number_format($article['price_redactor']+0, 2, '.', ' ')  }} @if($article['is_fixed_price_redactor']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
                                     <td>{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
                                     <td class="bg-grey2">
                                         <div>

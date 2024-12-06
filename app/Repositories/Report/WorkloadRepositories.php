@@ -13,7 +13,17 @@ class WorkloadRepositories
             users.full_name,
             DATE(articles.created_at) as date,
             sum(ROUND(COALESCE(articles.without_space, 0), 2)) as without_space,
-            sum(ROUND((COALESCE(articles.without_space, 0) * (COALESCE(articles.price_client, 0) / 1000)), 2)) as gross_income,
+
+            sum(
+                ROUND(
+                CASE
+                    WHEN articles.is_fixed_price_client = 1
+                    THEN COALESCE(articles.price_client, 0)
+                    ELSE COALESCE(articles.without_space, 0) * (COALESCE(articles.price_client, 0) / 1000)
+                END
+                , 2)
+            ) as gross_income,
+
             count(articles.id) as count_articles,
             sum(COALESCE(articles.without_space, 0)) as sum_without_space
         ")
@@ -21,9 +31,6 @@ class WorkloadRepositories
             ->leftJoin('articles', function ($q) use ($dates) {
                 $q->on('articles.manager_id', '=', 'users.id')
                     ->whereBetween('articles.created_at', $dates)
-                    ->where('is_fixed_price_client', false)
-                    ->where('is_fixed_price_author', false)
-                    ->where('is_fixed_price_redactor', false)
                     ->where('articles.ignore', false);
             })
             ->whereHas('roles', function ($query) {

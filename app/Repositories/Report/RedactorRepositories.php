@@ -21,12 +21,31 @@ class RedactorRepositories
                 articles.without_space,
                 articles.without_space as without_space_all,
                 articles.redactor_payment_amount,
-                (articles.without_space * (articles.price_redactor/1000)) as price,
-                (articles.without_space * (articles.price_client/1000)) as price_article,
+
+                 CASE
+                    WHEN articles.is_fixed_price_redactor = 1
+                    THEN articles.price_redactor
+                    ELSE (articles.without_space * (articles.price_redactor/1000))
+                 END as price,
+
+                 CASE
+                    WHEN articles.is_fixed_price_client = 1
+                    THEN articles.price_client
+                    ELSE (articles.without_space * (articles.price_client/1000))
+                 END as price_article,
+
                 (
-                    (articles.without_space * (articles.price_client/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN articles.price_client
+                        ELSE (articles.without_space * (articles.price_client/1000))
+                    END
                     -
-                    (articles.without_space * (articles.price_redactor/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_redactor = 1
+                        THEN articles.price_redactor
+                        ELSE (articles.without_space * (articles.price_redactor/1000))
+                    END
                 ) as margin
             ")->from('articles')
             ->leftJoin('projects', 'projects.id', '=', 'articles.project_id')
@@ -34,9 +53,6 @@ class RedactorRepositories
                 Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                 Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
             ])
-            ->where('is_fixed_price_client', false)
-            ->where('is_fixed_price_author', false)
-            ->where('is_fixed_price_redactor', false)
             ->where('ignore', false)
             ->groupBy('articles.id');
 
@@ -84,12 +100,32 @@ class RedactorRepositories
                 articles.price_client,
                 articles.redactor_payment_amount,
                 articles.redactor_payment_date,
-                (articles.without_space * (articles.price_redactor / 1000)) as price,
-                (articles.without_space * (articles.price_client / 1000)) as price_article,
+                articles.is_fixed_price_redactor,
+
+                CASE
+                    WHEN articles.is_fixed_price_redactor = 1
+                    THEN articles.price_redactor
+                    ELSE (articles.without_space * (articles.price_redactor/1000))
+                END as price,
+
+                CASE
+                    WHEN articles.is_fixed_price_client = 1
+                    THEN articles.price_client
+                    ELSE (articles.without_space * (articles.price_client/1000))
+                END as price_article,
+
                 (
-                    (articles.without_space * (articles.price_client/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN articles.price_client
+                        ELSE (articles.without_space * (articles.price_client/1000))
+                    END
                     -
-                    (articles.without_space * (articles.price_redactor/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_redactor = 1
+                        THEN articles.price_redactor
+                        ELSE (articles.without_space * (articles.price_redactor/1000))
+                    END
                 ) as margin
             ")->from('articles')
             ->leftJoin('projects', 'projects.id', '=', 'articles.project_id')
@@ -97,9 +133,6 @@ class RedactorRepositories
                 Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                 Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
             ])
-            ->where('is_fixed_price_client', false)
-            ->where('is_fixed_price_author', false)
-            ->where('is_fixed_price_redactor', false)
             ->where('ignore', false)
             ->groupBy('articles.id');
 
@@ -120,23 +153,42 @@ class RedactorRepositories
         return Article::on()
             ->selectRaw("
                 articles.*,
-                (articles.without_space * (articles.price_redactor/1000)) as price,
-                (articles.without_space * (articles.price_client/1000)) as price_article,
+                CASE
+                    WHEN articles.is_fixed_price_redactor = 1
+                    THEN articles.price_redactor
+                    ELSE (articles.without_space * (articles.price_redactor/1000))
+                END as price,
+                CASE
+                    WHEN articles.is_fixed_price_client = 1
+                    THEN articles.price_client
+                    ELSE (articles.without_space * (articles.price_client/1000))
+                END as price_article,
+
+
                 (
-                    (articles.without_space * (articles.price_client/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN articles.price_client
+                        ELSE (articles.without_space * (articles.price_client/1000))
+                    END
                     -
-                    (articles.without_space * (articles.price_redactor/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_redactor = 1
+                        THEN articles.price_redactor
+                        ELSE (articles.without_space * (articles.price_redactor/1000))
+                    END
                     -
-                    (articles.without_space * (articles.price_author/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_author = 1
+                        THEN articles.price_author
+                        ELSE (articles.without_space * (articles.price_author/1000))
+                    END
                 ) as margin
             ")
             ->with(['articleProject'])
             ->whereHas('articleRedactor', function ($where) use ($userI) {
                 $where->where('users.id', $userI);
             })
-            ->where('is_fixed_price_client', false)
-            ->where('is_fixed_price_author', false)
-            ->where('is_fixed_price_redactor', false)
             ->where('ignore', true)
             ->orderByDesc('articles.created_at');
     }
@@ -154,13 +206,18 @@ class RedactorRepositories
 
         $articles = Article::on()->selectRaw("
             id,
-            ((without_space * (price_redactor/1000)) - coalesce(redactor_payment_amount, 0)) as duty_article
+            (
+                CASE
+                    WHEN articles.is_fixed_price_redactor = 1
+                    THEN articles.price_redactor
+                    ELSE (articles.without_space * (articles.price_redactor/1000))
+                END
+                -
+                coalesce(redactor_payment_amount, 0)
+            ) as duty_article
         ")->from('articles')
             ->whereNotNull('project_id')
             ->whereRaw("CAST(created_at as DATE) <= '{$dateTo}'")
-            ->where('is_fixed_price_client', false)
-            ->where('is_fixed_price_author', false)
-            ->where('is_fixed_price_redactor', false)
             ->where('ignore', false)
             ->orderByDesc('created_at');
 

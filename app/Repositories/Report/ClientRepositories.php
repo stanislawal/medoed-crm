@@ -170,8 +170,7 @@ class ClientRepositories
                 'projectUser:id,full_name',
                 'projectTheme:id,name',
                 'projectStyle:id,name'
-            ])
-            ->orderByDesc('id');
+            ]);
 
         return $reports;
     }

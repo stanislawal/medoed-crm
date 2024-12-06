@@ -24,12 +24,36 @@ class AuthorRepositories
                 articles.price_author,
                 articles.payment_amount,
                 articles.price_client,
-                (articles.without_space/count(cross.id)*(articles.price_author/1000)) as price,
-                (articles.without_space/count(cross.id)*(articles.price_client/1000)) as price_article,
+                articles.is_fixed_price_author,
+                articles.is_fixed_price_client,
+
+                /* стоимость статьи для автора */
+                CASE
+                    WHEN articles.is_fixed_price_author = 1
+                    THEN (articles.price_author / count(cross.id))
+                    ELSE (articles.without_space/count(cross.id)*(articles.price_author/1000))
+                END as price,
+
+                 /* стоимость статьи для клиента */
+                CASE
+                    WHEN articles.is_fixed_price_client = 1
+                    THEN (articles.price_client / count(cross.id))
+                    ELSE (articles.without_space/count(cross.id)*(articles.price_client/1000))
+                END as price_article,
+
+                /* чистая прибыль по статье */
                 (
-                    ((articles.without_space/count(cross.id))*(articles.price_client/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN (articles.price_client / count(cross.id))
+                        ELSE (articles.without_space/count(cross.id)*(articles.price_client/1000))
+                    END
                     -
-                    ((articles.without_space/count(cross.id))*(articles.price_author/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_author = 1
+                        THEN (articles.price_author / count(cross.id))
+                        ELSE (articles.without_space/count(cross.id)*(articles.price_author/1000))
+                    END
                 ) as margin,
                 count(cross.id) as count_authors
             ")->from('articles')
@@ -39,9 +63,6 @@ class AuthorRepositories
                 Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                 Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
             ])
-            ->where('is_fixed_price_client', false)
-            ->where('is_fixed_price_author', false)
-            ->where('is_fixed_price_redactor', false)
             ->where('ignore', false)
             ->groupBy('articles.id');
 
@@ -121,13 +142,38 @@ class AuthorRepositories
                 articles.price_client,
                 articles.payment_amount,
                 articles.payment_date,
-                (articles.without_space/count(cross.id)*(articles.price_author/1000)) as price,
-                (articles.without_space/count(cross.id)*(articles.price_client/1000)) as price_article,
+                articles.is_fixed_price_author,
+                articles.is_fixed_price_client,
+
+                /* стоимость статьи для автора */
+                CASE
+                    WHEN articles.is_fixed_price_author = 1
+                    THEN (articles.price_author / count(cross.id))
+                    ELSE (articles.without_space/count(cross.id)*(articles.price_author/1000))
+                END as price,
+
+                /* стоимость статьи для клиента */
+                CASE
+                    WHEN articles.is_fixed_price_client = 1
+                    THEN (articles.price_client / count(cross.id))
+                    ELSE (articles.without_space/count(cross.id)*(articles.price_client/1000))
+                END as price_article,
+
+                /* чистая прибыль по статье */
                 (
-                    ((articles.without_space/count(cross.id))*(articles.price_client/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN (articles.price_client / count(cross.id))
+                        ELSE (articles.without_space/count(cross.id)*(articles.price_client/1000))
+                    END
                     -
-                    ((articles.without_space/count(cross.id))*(articles.price_author/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_author = 1
+                        THEN (articles.price_author / count(cross.id))
+                        ELSE (articles.without_space/count(cross.id)*(articles.price_author/1000))
+                    END
                 ) as margin,
+
                 count(cross.id) as count_authors
             ")->from('articles')
             ->leftJoin('projects', 'projects.id', '=', 'articles.project_id')
@@ -136,9 +182,6 @@ class AuthorRepositories
                 Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                 Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
             ])
-            ->where('is_fixed_price_client', false)
-            ->where('is_fixed_price_author', false)
-            ->where('is_fixed_price_redactor', false)
             ->where('ignore', false)
             ->groupBy('articles.id');
 
@@ -156,21 +199,37 @@ class AuthorRepositories
         return Article::on()
             ->selectRaw("
                 articles.*,
-                (articles.without_space * (articles.price_author/1000)) as price,
-                (articles.without_space * (articles.price_client/1000)) as price_article,
+
+                CASE
+                    WHEN articles.is_fixed_price_author = 1
+                    THEN articles.price_author
+                    ELSE (articles.without_space * (articles.price_author/1000))
+                END as price,
+
+                 CASE
+                    WHEN articles.is_fixed_price_client = 1
+                    THEN articles.price_client
+                    ELSE (articles.without_space * (articles.price_client/1000))
+                END as price_article,
+
                 (
-                    (articles.without_space * (articles.price_client/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN articles.price_client
+                        ELSE (articles.without_space * (articles.price_client/1000))
+                    END
                     -
-                    (articles.without_space * (articles.price_author/1000))
+                    CASE
+                        WHEN articles.is_fixed_price_author = 1
+                        THEN articles.price_author
+                        ELSE (articles.without_space * (articles.price_author/1000))
+                    END
                 ) as margin
             ")
             ->with(['articleProject'])
             ->whereHas('articleAuthor', function ($where) use ($userI) {
                 $where->where('users.id', $userI);
             })
-            ->where('is_fixed_price_client', false)
-            ->where('is_fixed_price_author', false)
-            ->where('is_fixed_price_redactor', false)
             ->where('ignore', true)
             ->orderByDesc('articles.created_at');
     }
@@ -189,15 +248,28 @@ class AuthorRepositories
         $articles = Article::on()->selectRaw("
             id,
             created_at,
-            coalesce((without_space * (price_author/1000)), 0) as payment_author,
+            coalesce(
+                CASE
+                    WHEN articles.is_fixed_price_author = 1
+                    THEN articles.price_author
+                    ELSE (articles.without_space * (articles.price_author/1000))
+                END
+            , 0) as payment_author,
             coalesce(payment_amount, 0) as payment_amount,
-            coalesce(((without_space * (price_author/1000)) - payment_amount), 0) as remainder_duty
+            coalesce(
+                (
+                    CASE
+                        WHEN articles.is_fixed_price_author = 1
+                        THEN articles.price_author
+                        ELSE (articles.without_space * (articles.price_author/1000))
+                    END
+                    -
+                    payment_amount
+                )
+            , 0) as remainder_duty
         ")->from('articles')
             ->whereNotNull('project_id')
             ->whereRaw("CAST(created_at as DATE) <= '{$dateTo}'")
-            ->where('is_fixed_price_client', false)
-            ->where('is_fixed_price_author', false)
-            ->where('is_fixed_price_redactor', false)
             ->where('ignore', false)
             ->orderByDesc('created_at');
 

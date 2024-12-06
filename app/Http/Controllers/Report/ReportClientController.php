@@ -131,7 +131,7 @@ class ReportClientController extends Controller
         // долг
         if (!is_null($request->duty_from ?? null) || !is_null($request->duty_to ?? null)) {
             $reports->whereBetween('all_sum_duty', [
-                    (float)$request->duty_from ?? -9999999, (float)
+                (float)$request->duty_from ?? -9999999, (float)
                 $request->duty_to ?? 9999999]);
         }
 
@@ -192,6 +192,8 @@ class ReportClientController extends Controller
         // сортировка
         $reports->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
             $orderBy->orderBy($request->sort, $request->direction);
+        }, function (Builder $orderBy) {
+            $orderBy->orderByDesc('id');
         });
     }
 
@@ -258,7 +260,7 @@ class ReportClientController extends Controller
             'paymentHistory' => $paymentHistory,
             'projectId'      => $id,
             'project'        => $project,
-            'projects'        => $projects,
+            'projects'       => $projects,
             'remainderDuty'  => $remainderDuty
         ]);
     }

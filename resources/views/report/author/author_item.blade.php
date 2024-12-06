@@ -151,12 +151,12 @@
                                         @endrole
                                         <td>{{ $item['article'] }}</td>
                                         <td>{{ number_format($item['without_space']+0, 2, '.', ' ')}}</td>
-                                        <td>{{ number_format($item['price_author']+0, 2, '.', ' ') }}</td>
+                                        <td>{{ number_format($item['price_author']+0, 2, '.', ' ') }} @if($item['is_fixed_price_author']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
                                         <td>{{ number_format($item['price']+0, 2, '.', ' ') }}</td>
                                         @role('Администратор')
                                         <td>{{ number_format($item['payment_amount']+0, 2, '.', ' ') }}</td>
                                         <td>{{ $item['payment_date'] ?? '-' }}</td>
-                                        <td>{{number_format($item['price_client']+0, 2, '.', ' ')  }}</td>
+                                        <td>{{number_format($item['price_client']+0, 2, '.', ' ')  }} @if($item['is_fixed_price_client']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
                                         <td>{{number_format($item['price_article']+0, 2, '.', ' ')  }}</td>
                                         <td>{{number_format($item['margin']+0, 2, '.', ' ')  }}</td>
                                         <td>
@@ -301,7 +301,7 @@
                                     @endrole
                                     <td>{{ $article['article'] }}</td>
                                     <td class="nowrap">{{number_format($article['without_space_all']+0, 2, '.', ' ')  }}</td>
-                                    <td class="nowrap">{{number_format($article['price_author']+0, 2, '.', ' ')  }}</td>
+                                    <td class="nowrap">{{number_format($article['price_author']+0, 2, '.', ' ')  }} @if($article['is_fixed_price_author']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
                                     <td class="nowrap">{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
                                     <td class="text-center bg-grey2">
                                        {{ $article['payment_amount'] ?? 0 }}
@@ -310,7 +310,7 @@
                                         {{ $article['payment_date'] ?? '-' }}
                                     </td>
                                     @role('Администратор')
-                                    <td class="nowrap">{{number_format($article['price_client']+0, 2, '.', ' ')  }}</td>
+                                    <td class="nowrap">{{number_format($article['price_client']+0, 2, '.', ' ')  }} @if($article['is_fixed_price_client']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
                                     <td class="nowrap">{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
                                     <td class="nowrap">{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
                                     <td>
