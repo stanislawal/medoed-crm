@@ -243,9 +243,9 @@
                                 <td class="text-center">{{ $item['created_at'] }}</td>
                                 <td>{{ $item['article_name'] }}</td>
                                 <td class="nowrap">{{ number_format($item['without_space'], 2, '.', ' ') }}</td>
-                                <td class="nowrap">{{ number_format($item['price_client'] + 0, 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{ number_format($item['price_client'] + 0, 2, '.', ' ') }} @if($item['is_fixed_price_client']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
                                 <td class="nowrap">{{ number_format($item['price_article'] + 0, 2, '.', ' ') }}</td>
-                                <td class="nowrap">{{ number_format($item['price_author'] + 0, 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{ number_format($item['price_author'] + 0, 2, '.', ' ') }} @if($item['is_fixed_price_author']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
                                 <td class="nowrap">{{ number_format($item['diff_price'] + 0, 2, '.', ' ') }}</td>
                                 <td class="nowrap">{{ number_format($item['margin'] + 0, 2, '.', ' ') }}</td>
                             </tr>

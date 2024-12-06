@@ -28,7 +28,11 @@ class ArticleController extends Controller
         $currency = Currency::on()->get()->toArray();
         $articles = Article::on()->selectRaw("
             articles.*,
-            (COALESCE(articles.without_space, 0) * (COALESCE(articles.price_client, 0) / 1000)) as gross_income
+            CASE
+                WHEN articles.is_fixed_price_client = 1
+                THEN articles.price_client
+                ELSE ((COALESCE(articles.without_space, 0) * (COALESCE(articles.price_client, 0) / 1000)))
+            END as gross_income
         ")
             ->with([
                 'articleProject.projectClients',
@@ -39,6 +43,7 @@ class ArticleController extends Controller
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
         })->where('is_work', true)->get();
+
 
         $articles->when(UserHelper::isManager(), function ($where) {
             $where->where('manager_id', UserHelper::getUserId());

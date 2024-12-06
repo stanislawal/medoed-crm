@@ -32,17 +32,68 @@ class ClientRepositories
                 projects.requisite_id,
                 requisites.name as requisite,
                 coalesce(SUM(articles.without_space), 0) as sum_without_space,
+
                 SUM(
-                    (COALESCE(articles.without_space, 0) * (COALESCE(articles.price_client, 0) / 1000))
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN articles.price_client
+                        ELSE (articles.price_client * (articles.without_space / 1000))
+                    END
                 ) as sum_gross_income,
+
                 ABS(datediff(
                     projects.start_date_project,
                     COALESCE(projects.end_date_project, CURRENT_DATE())
                 )) as date_diff,
-               coalesce(SUM((articles.price_client * (articles.without_space/1000))), 0) as sum_price_client,
-               coalesce(SUM((articles.price_author * (articles.without_space/1000))), 0) as sum_price_author,
-               coalesce(SUM((articles.price_redactor * (articles.without_space/1000))), 0) as sum_price_redactor,
-               coalesce((SUM(articles.price_client - articles.price_author) / COUNT(articles.id)), 0) as diff_price
+
+               coalesce(
+                   SUM(
+                       CASE
+                           WHEN articles.is_fixed_price_client = 1
+                           THEN articles.price_client
+                           ELSE (articles.price_client * (articles.without_space / 1000))
+                       END
+                   ),
+               0) as sum_price_client,
+
+               coalesce(
+                   SUM(
+                       CASE
+                           WHEN articles.is_fixed_price_author = 1
+                           THEN articles.price_author
+                           ELSE (articles.price_author * (articles.without_space / 1000))
+                       END
+                   ),
+               0) as sum_price_author,
+
+               coalesce(
+                   SUM(
+                       CASE
+                           WHEN articles.is_fixed_price_redactor = 1
+                           THEN articles.price_redactor
+                           ELSE (articles.price_redactor * (articles.without_space / 1000))
+                       END
+                   ),
+               0) as sum_price_redactor,
+
+               coalesce(
+                   (
+                        SUM(
+                            CASE
+                                WHEN articles.is_fixed_price_client = 1
+                                THEN articles.price_client
+                                ELSE (articles.price_client * (articles.without_space / 1000))
+                            END
+                            -
+                            CASE
+                                WHEN articles.is_fixed_price_author = 1
+                                THEN articles.price_author
+                                ELSE (articles.price_author * (articles.without_space / 1000))
+                            END
+                       ) / COUNT(articles.id)
+                   ),
+               0) as diff_price
+
         ")->from('projects')
             ->leftJoin('articles', function ($leftJoin) use ($startDate, $endDate) {
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
@@ -50,9 +101,6 @@ class ClientRepositories
                         Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                         Carbon::parse($endDate)->endOfDay()->toDateTimeString()
                     ])
-                    ->where('is_fixed_price_client', false)
-                    ->where('is_fixed_price_author', false)
-                    ->where('is_fixed_price_redactor', false)
                     ->where('articles.ignore', false);
             })
             ->leftJoin('requisites', 'requisites.id', '=', 'projects.requisite_id')
@@ -123,7 +171,7 @@ class ClientRepositories
                 'projectTheme:id,name',
                 'projectStyle:id,name'
             ])
-        ->orderByDesc('id');
+            ->orderByDesc('id');
 
         return $reports;
     }
@@ -138,22 +186,51 @@ class ClientRepositories
               project_id,
               without_space,
               price_client,
-              (without_space * ((price_client *(without_space/1000)) / 1000)) as gross_income,
+              is_fixed_price_client,
+              is_fixed_price_author,
+              (without_space * ((price_client * ( without_space / 1000)) / 1000)) as gross_income,
               price_author,
               created_at
         ")
-            ->where('is_fixed_price_client', false)
-            ->where('is_fixed_price_author', false)
-            ->where('is_fixed_price_redactor', false)
             ->whereBetween('articles.created_at', [$startDate, $endDate])
             ->where('articles.ignore', false);
 
         $report = Article::on()->selectRaw("
                 projects.project_name,
                 articles.*,
-                ((articles.price_client - articles.price_author) * (articles.without_space / 1000)) as margin,
-                ((articles.without_space / 1000) * articles.price_client) as price_article,
-                (articles.price_client - articles.price_author) as diff_price
+                (
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN articles.price_client
+                        ELSE (articles.price_client * (articles.without_space / 1000))
+                    END
+                    -
+                    CASE
+                        WHEN articles.is_fixed_price_author = 1
+                        THEN articles.price_author
+                        ELSE (articles.price_author * (articles.without_space / 1000))
+                    END
+                ) as margin,
+
+               CASE
+                   WHEN articles.is_fixed_price_client = 1
+                   THEN articles.price_client
+                   ELSE (articles.price_client * (articles.without_space / 1000))
+               END as price_article,
+
+               (
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN articles.price_client
+                        ELSE (articles.price_client * (articles.without_space / 1000))
+                    END
+                    -
+                    CASE
+                        WHEN articles.is_fixed_price_author = 1
+                        THEN articles.price_author
+                        ELSE (articles.price_author * (articles.without_space / 1000))
+                    END
+               ) as diff_price
             ")
             ->from('projects')
             ->leftJoinSub($report, 'articles', 'articles.project_id', '=', 'projects.id')
@@ -175,15 +252,22 @@ class ClientRepositories
         $projects = Project::on()
             ->selectRaw("
                 projects.id,
-                coalesce(SUM((articles.price_client*(articles.without_space/1000))), 0) as sum_price_client
+                coalesce(
+                    SUM(
+                        (
+                            CASE
+                                WHEN articles.is_fixed_price_client = 1
+                                THEN articles.price_client
+                                ELSE (articles.price_client * (articles.without_space / 1000))
+                            END
+                        )
+                    ),
+                0) as sum_price_client
         ")->from('projects')
             ->leftJoin('articles', function ($leftJoin) use ($date) {
                 $leftJoin->on('articles.project_id', '=', 'projects.id')
                     ->whereRaw("CAST(articles.created_at as DATE) <= '{$date}'")
-                    ->where('articles.ignore', false)
-                    ->where('is_fixed_price_client', false)
-                    ->where('is_fixed_price_author', false)
-                    ->where('is_fixed_price_redactor', false);
+                    ->where('articles.ignore', false);
             })
             ->when(!is_null($projectId), function ($where) use ($projectId) {
                 $where->where('projects.id', $projectId);
