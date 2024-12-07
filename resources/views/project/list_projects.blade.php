@@ -196,23 +196,23 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group col-12 col-md-4 col-lg-3">
-                                    <label for="" class="form-label">Настроение</label>
-                                    <select class="form-select form-select-sm" name="mood_id" id="">
-                                        <option value="">Не выбрано</option>
-                                        @foreach ($moods as $mood)
-                                            <option value="{{$mood['id']}}"
-                                                    @if($mood['id'] == request()->mood_id)
-                                                        selected
-                                                @endif
-                                            >{{$mood['name']}}</option>
-                                        @endforeach
-                                        <option value="empty" @if('empty' == request()->mood_id)
-                                            selected
-                                            @endif>Не указано настроение
-                                        </option>
-                                    </select>
-                                </div>
+{{--                                <div class="form-group col-12 col-md-4 col-lg-3">--}}
+{{--                                    <label for="" class="form-label">Настроение</label>--}}
+{{--                                    <select class="form-select form-select-sm" name="mood_id" id="">--}}
+{{--                                        <option value="">Не выбрано</option>--}}
+{{--                                        @foreach ($moods as $mood)--}}
+{{--                                            <option value="{{$mood['id']}}"--}}
+{{--                                                    @if($mood['id'] == request()->mood_id)--}}
+{{--                                                        selected--}}
+{{--                                                @endif--}}
+{{--                                            >{{$mood['name']}}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                        <option value="empty" @if('empty' == request()->mood_id)--}}
+{{--                                            selected--}}
+{{--                                            @endif>Не указано настроение--}}
+{{--                                        </option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
 
                                 <div class="col-12 p-0">
                                     <div class="form-group col-12">
@@ -257,13 +257,14 @@
                                         </a>
                                     </th>
                                     <th></th>
-                                    <th class="sort-p">@include('components.table.sort', ['title' => 'NDA', 'column' => 'nds', 'routeName' => 'project.index'] )</th>
+                                    <th style="max-width: 80px;"
+                                        class="sort-p">@include('components.table.sort', ['title' => 'Приор', 'column' => 'styles|name', 'routeName' => 'project.index'] )</th>
                                     @role('Администратор')
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name', 'routeName' => 'project.index'] )</th>
                                     @endrole
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
-                                    <th>Заказчик(и)</th>
-                                    <th style="min-width: 100px !important;">Настроение</th>
+{{--                                    <th>Заказчик(и)</th>--}}
+{{--                                    <th style="min-width: 100px !important;">Настроение</th>--}}
                                     <th>Дата последнего контакта</th>
                                     <th>Дата оплаты</th>
                                     <th>Дата связи с клиентом</th>
@@ -278,8 +279,7 @@
                                     <th>Место ведения диалога</th>
 
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Тема', 'column' => 'themes|name', 'routeName' => 'project.index'] )</th>
-                                    <th style="max-width: 80px;"
-                                        class="sort-p">@include('components.table.sort', ['title' => 'Приор', 'column' => 'styles|name', 'routeName' => 'project.index'] )</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'NDA', 'column' => 'nds', 'routeName' => 'project.index'] )</th>
                                     @role('Администратор')
                                     <th>Дата поступления</th>
                                     @endrole
@@ -299,16 +299,11 @@
                                                    @endif
                                                    onchange="editCheckProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
                                         </td>
-                                        <td style="padding: 0 10px 0 12px!important"><a
-                                                href="{{route('project.edit',['project'=> $project['id']])}}"><i
+                                        <td style="padding: 0 10px 0 12px!important">
+                                            <a href="{{route('project.edit',['project'=> $project['id']])}}"><i
                                                     class="fas fa-grip-horizontal"></i></a>
-
                                         </td>
-                                        <td style="padding: 0 10px 0 12px!important">@if($project['nds'] == 0)
-                                                Нет
-                                            @else
-                                                Да
-                                            @endif</td>
+                                        <td style="padding: 0 10px 0 12px!important">{{$project['projectStyle']['name'] ?? '------'}}</td>
                                         @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important"><textarea disabled
                                                                                                style="border: none; width: 100px; border-radius: 10px; background-color: rgba(255,255,255,0);"
@@ -317,29 +312,29 @@
                                         <td style="padding: 0 10px 0 12px!important"><a
                                                 href="{{ route('client_project.show', ['project' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}">{{$project['project_name'] ?? '------'}}</a>
                                         </td>
-                                        <td style="padding: 0 10px 0 12px!important">
-                                            @forelse ($project['projectClients'] as $client)
-                                                {{ $client['name'] }}
-                                            @empty
-                                                -
-                                            @endforelse
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <select
-                                                    @if(!is_null($project['mood_color'])) style="background-color: {{ $project['mood_color'] }};"
-                                                    @endif
-                                                    class="form-select form-select-sm mr-1"
-                                                    onchange="editMoodProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')"
-                                                    name="mood_id">
-                                                    @foreach ($moods as $mood)
-                                                        <option value="{{$mood['id']}}"
-                                                                @if($mood['id'] == $project['mood_id']) selected @endif
-                                                        >{{$mood['name']}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </td>
+{{--                                        <td style="padding: 0 10px 0 12px!important">--}}
+{{--                                            @forelse ($project['projectClients'] as $client)--}}
+{{--                                                {{ $client['name'] }}--}}
+{{--                                            @empty--}}
+{{--                                                ---}}
+{{--                                            @endforelse--}}
+{{--                                        </td>--}}
+{{--                                        <td>--}}
+{{--                                            <div class="d-flex align-items-center">--}}
+{{--                                                <select--}}
+{{--                                                    @if(!is_null($project['mood_color'])) style="background-color: {{ $project['mood_color'] }};"--}}
+{{--                                                    @endif--}}
+{{--                                                    class="form-select form-select-sm mr-1"--}}
+{{--                                                    onchange="editMoodProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')"--}}
+{{--                                                    name="mood_id">--}}
+{{--                                                    @foreach ($moods as $mood)--}}
+{{--                                                        <option value="{{$mood['id']}}"--}}
+{{--                                                                @if($mood['id'] == $project['mood_id']) selected @endif--}}
+{{--                                                        >{{$mood['name']}}</option>--}}
+{{--                                                    @endforeach--}}
+{{--                                                </select>--}}
+{{--                                            </div>--}}
+{{--                                        </td>--}}
                                         <td>
                                             <div>
                                                 <input class="form-control form-control-sm"
@@ -433,7 +428,14 @@
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectTheme']['name'] ?? ''}}
                                         </td>
 
-                                        <td style="padding: 0 10px 0 12px!important">{{$project['projectStyle']['name'] ?? '------'}}</td>
+
+                                        <td style="padding: 0 10px 0 12px!important">@if($project['nds'] == 0)
+                                                Нет
+                                            @else
+                                                Да
+                                            @endif
+                                        </td>
+
                                         <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
                                         @role('Администратор')
                                         <td style="padding: 0 10px 0 12px!important">

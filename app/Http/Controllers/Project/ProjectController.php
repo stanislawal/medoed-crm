@@ -44,7 +44,7 @@ class ProjectController extends Controller
     {
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
         $themes = Theme::on()->get()->toArray(); //Достаем все темы проектов
-        $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
+//        $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
         $statuses = Status::on()->get()->toArray(); //Достаем все статусы из бд
         $style = Style::on()->get()->toArray();
         $managers = User::on()->whereHas('roles', function ($query) {
@@ -97,7 +97,7 @@ class ProjectController extends Controller
         return view('project.list_projects', [
             'projects'       => $projects,
             'statuses'       => $statuses,
-            'moods'          => $moods,
+//            'moods'          => $moods,
             'themes'         => $themes,
             'clients'        => $clients,
             'style'          => $style,
