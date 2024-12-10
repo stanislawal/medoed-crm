@@ -50,7 +50,9 @@ window.checkSearch = function () {
     }
   });
 };
-checkSearch();
+$(document).ready(function () {
+  checkSearch();
+});
 window.sort = function (el) {
   var column = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var element = $(el);

@@ -79,8 +79,8 @@
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Цена за 1000 (от)</label>
-                                    <input type="text" class="form-control form-control-sm" name="price_per"
-                                           value="{{ request()->price_per ?? '' }}">
+                                    <input type="text" class="form-control form-control-sm" name="price_client_float"
+                                           value="{{ request()->price_client_float ?? '' }}">
                                 </div>
 
 
@@ -272,7 +272,7 @@
                                     <th style="min-width: 200px !important;">Состояние проекта</th>
                                     <th style="min-width: 220px !important;">Перспектива проекта</th>
                                     <th>Автор</th>
-                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client', 'routeName' => 'project.index'] )</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client_float', 'routeName' => 'project.index'] )</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
                                     <th>Маржа</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Дог', 'column' => 'contract', 'routeName' => 'project.index'] )</th>

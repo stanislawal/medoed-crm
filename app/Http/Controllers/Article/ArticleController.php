@@ -284,7 +284,7 @@ class ArticleController extends Controller
     private function filter(&$articles, $request)
     {
         $articles->when(!empty($request->article), function ($where) use ($request) {
-            $where->where('article', $request->article);
+            $where->where('article', 'like', "%{$request->article}%");
         });
 
         $articles->when(!empty($request->manager_id), function ($where) use ($request) {

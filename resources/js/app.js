@@ -45,7 +45,9 @@ window.checkSearch = function () {
         }
     })
 }
-checkSearch();
+$(document).ready(function () {
+    checkSearch();
+})
 
 
 window.sort = function (el, column = null) {

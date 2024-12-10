@@ -65,7 +65,8 @@ class ProjectController extends Controller
                 themes.name,
                 users.full_name,
                 moods.name as mood_name,
-                moods.color as mood_color
+                moods.color as mood_color,
+                CAST(price_client as FLOAT) as price_client_float
             ")
             ->with([
                 'projectTheme',
@@ -77,7 +78,6 @@ class ProjectController extends Controller
             ]);
 
         $projects->leftJoin('users', 'users.id', '=', 'projects.manager_id');
-
         $projects->leftJoin('styles', 'styles.id', '=', 'projects.style_id');
         $projects->leftJoin('statuses', 'statuses.id', '=', 'projects.status_id');
         $projects->leftJoin('themes', 'themes.id', '=', 'projects.theme_id');
@@ -118,7 +118,9 @@ class ProjectController extends Controller
         $style = Style::on()->get()->toArray();
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
-        })->get();
+        })
+            ->where('is_work', true)
+            ->get();
         $authors = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 3);
         })->get();
@@ -554,8 +556,8 @@ class ProjectController extends Controller
             $where->where('project_name', 'like', '%' . $request->project_name . '%');
         });
 
-        $projects->when(!empty($request->price_per), function ($where) use ($request) {
-            $where->where('price_per', '>=', $request->price_per);
+        $projects->when(!empty($request->price_client_float), function ($where) use ($request) {
+            $where->whereRaw("CAST(price_client as FLOAT) >= {$request->price_client_float} ");
         });
 
         $projects->when(!empty($request->price_author), function ($where) use ($request) {
