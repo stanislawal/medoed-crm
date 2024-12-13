@@ -9,7 +9,7 @@
 
         <div class="row p-0s">
             <div class="col-12">
-                <div class="w-100 shadow border rounded p-3 mb-3">
+                <div class="w-100 shadow border rounded p-3 mb-3 bg-white">
                     <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i
                             class="fa fa-search search-icon mr-2"></i>Поиск
                     </div>

@@ -59,7 +59,7 @@
         @method('PUT')
         <div class="row m-0">
             <div class="col-12">
-                <div class="shadow border rounded row mb-3">
+                <div class="shadow border rounded row mb-3 bg-white">
                     <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">О клиенте
                     </div>
 

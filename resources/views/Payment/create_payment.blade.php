@@ -12,7 +12,7 @@
 
         {{--    ФИЛЬТР --}}
         <div class="mb-3">
-            <div class="w-100 shadow border rounded p-3">
+            <div class="w-100 shadow border rounded p-3 bg-white">
                 <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i
                         class="fa fa-search search-icon mr-2"></i>Поиск
                 </div>

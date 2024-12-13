@@ -3,7 +3,7 @@
 @section('content')
 <h2>Добавление состояния проекта</h2>
     <div>
-        <div class="shadow border p-4 my-3">
+        <div class="shadow border p-4 my-3 bg-white">
                 <form action="{{route('add_option_status.store')}}" method="POST">
                     @csrf
                     <div class="mb-3 col-6 col-md-4">
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="card-body">
+        <div class="card-body bg-white">
             <div class="table-responsive">
                 <table id="basic-datatables" class="display table table-striped table-hover">
                     <thead>

@@ -10,7 +10,7 @@
         </div>
         <div class="row m-0">
             <div class="col-12">
-                <form class="shadow border rounded row mb-3" action="{{route('article.store')}}" method="post">
+                <form class="shadow border rounded row mb-3 bg-white" action="{{route('article.store')}}" method="post">
                     <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">Создать
                         статью
                         для проекта

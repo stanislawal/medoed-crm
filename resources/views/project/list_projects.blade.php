@@ -14,7 +14,7 @@
             <div class="col-12 mb-3">
                 @include('Answer.custom_response')
                 @include('Answer.validator_response')
-                <div class="w-100 shadow border rounded p-3">
+                <div class="w-100 shadow border rounded p-3 bg-white">
                     <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i
                             class="fa fa-search search-icon mr-2"></i>Поиск
                     </div>

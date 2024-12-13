@@ -13,7 +13,7 @@
     <div class="mb-3">
         @include('Answer.custom_response')
         @include('Answer.validator_response')
-        <div class="w-100 shadow border rounded p-3">
+        <div class="w-100 shadow border rounded p-3 bg-white">
             <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i class="fa fa-search search-icon mr-2"></i>Поиск
             </div>
             <form action="" method="GET" class="check__field">
@@ -334,7 +334,7 @@
     @endrole
 
     {{--    ТАБЛИЦА --}}
-    <div class="w-100 shadow border rounded">
+    <div class="w-100 shadow border rounded bg-white">
         <div class=>
             <div class="card-header bg-white">
                 <div class="d-flex justify-content-between align-items-center">

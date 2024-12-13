@@ -9,7 +9,7 @@
             @include('Answer.validator_response')
         </div>
 
-        <div class="w-100 shadow border rounded text-white p-3 mb-3">
+        <div class="w-100 shadow border rounded text-white p-3 mb-3 bg-white">
             <form action="{{ route('notification.index') }}" method="get" class="check__field">
                 @csrf
                 <div class="row">

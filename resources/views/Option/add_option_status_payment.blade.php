@@ -3,7 +3,7 @@
 @section('content')
     <h2>Добавление состояния оплаты проекта</h2>
     <div>
-        <div class="shadow border p-4 my-3">
+        <div class="shadow border p-4 my-3 bg-white">
             <form action="{{route('status_payment.store')}}" method="POST">
                 @csrf
 
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="card-body">
+    <div class="card-body bg-white">
         <div class="table-responsive">
             <table id="basic-datatables" class="display table table-striped table-hover">
                 <thead>

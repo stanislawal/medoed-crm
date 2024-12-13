@@ -7,7 +7,7 @@
 @section('content')
     <form action="{{route('user.store')}}" method="POST">
         @csrf
-        <div class="shadow border rounded row mb-3">
+        <div class="shadow border rounded row mb-3 bg-white">
             <div class="w-100 text-18 px-3 py-2 font-weight-bold border-bottom bg-blue text-white">Добавить
                 пользователя
             </div>

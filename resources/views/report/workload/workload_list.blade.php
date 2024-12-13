@@ -59,7 +59,7 @@
     <div class="mb-3">
         @include('Answer.custom_response')
         @include('Answer.validator_response')
-        <div class="w-100 shadow border rounded p-3">
+        <div class="w-100 shadow border rounded p-3 bg-white">
             <form action="" class="check__field">
                 <div class="row">
 
@@ -128,7 +128,7 @@
 
     {{--ТАБЛИЦА--}}
 
-    <div class="w-100 shadow border rounded">
+    <div class="w-100 shadow border rounded bg-white">
         <div class="">
             <div class="card-header bg-white">
                 <div class="d-flex justify-content-between align-items-center">

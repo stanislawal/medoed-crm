@@ -90,7 +90,8 @@ body, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, 
 
 body {
   font-size: 14px;
-  color: #575962; }
+  color: #575962;
+}
 
 a {
   color: #1572E8; }
@@ -281,7 +282,7 @@ body {
   min-height: 100vh;
   position: relative;
   top: 0;
-  height: 100vh; }
+}
 
 .main-header {
   background: #ffffff;

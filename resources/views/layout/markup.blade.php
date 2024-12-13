@@ -11,7 +11,8 @@
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="blue">
                 <a href="/" class="logo d-flex align-items-center">
-                    <h3 class="text-white m-auto">CRM</h3>
+{{--                    <h3 class="text-white m-auto">CRM</h3>--}}
+                    <img src="{{ asset('img/logo1.png') }}" style="max-width: 150px;" alt="">
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
                         data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,16 +74,29 @@
         <div class="sidebar sidebar-style-2">
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
+{{--                    <div class="user">--}}
+{{--                        <div class="d-flex">--}}
+{{--                            <div>--}}
+{{--                                <div class="text-dark text-12 font-weight-bold">{{ auth()->user()->full_name }}</div>--}}
+{{--                                <div--}}
+{{--                                    class="text-dark text-12 fst-italic mt-2">{{ \App\Helpers\UserHelper::getRoleName() }}--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
                     <div class="user">
-                        <div class="d-flex">
-                            <div><img src="{{ asset('img/user.png') }}" class="d-block" width="37" alt="">
-                            </div>
-                            <div class="ml-3">
-                                <div class="text-dark text-12 font-weight-bold">{{ auth()->user()->full_name }}</div>
-                                <div
-                                    class="text-dark text-12 fst-italic mt-2">{{ \App\Helpers\UserHelper::getRoleName() }}
-                                </div>
-                            </div>
+{{--                        <div class="avatar-sm float-left mr-2">--}}
+{{--                            <img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">--}}
+{{--                        </div>--}}
+                        <div class="info">
+                            <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+								<span>
+									<div style="white-space: normal;">{{ auth()->user()->full_name }}</div>
+									<span class="user-level">{{ \App\Helpers\UserHelper::getRoleName() }}</span>
+								</span>
+                            </a>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                     <ul class="nav nav-primary">
