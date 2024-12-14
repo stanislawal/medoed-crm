@@ -102,14 +102,23 @@ class AuthorRepositories
             ])
             ->groupBy('author_id');
 
+        $paymentAuthors = AuthorPayment::on()->selectRaw("
+            author_id,
+            count(id) as count_payment
+        ")
+            ->where('date', '>', now()->subDays(30)->format('Y-m-d'))
+            ->groupBy('author_id');
+
         // подзапрос для внедрения сортировки
         $authors = User::on()->selectRaw("
             authors.*,
             (coalesce(authors.duty_tmp, 0) - coalesce(payment.amount, 0)) as duty,
-            (coalesce(authors.payment_amount_tmp, 0) + coalesce(payment.amount, 0)) as payment_amount
+            (coalesce(authors.payment_amount_tmp, 0) + coalesce(payment.amount, 0)) as payment_amount,
+            coalesce(countPayment.count_payment, 0) as count_payment
         ")
             ->fromSub($authors, 'authors')
             ->leftJoinSub($payment, 'payment', 'payment.author_id', '=', 'authors.id')
+            ->leftJoinSub($paymentAuthors, 'countPayment', 'countPayment.author_id', '=', 'authors.id')
             ->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
                 $orderBy->orderBy($request->sort, $request->direction);
             })
@@ -125,6 +134,7 @@ class AuthorRepositories
             ->when(UserHelper::isAuthor(), function (Builder $where) use ($request) {
                 $where->where('authors.id', UserHelper::getUserId());
             });
+
         return $authors;
     }
 

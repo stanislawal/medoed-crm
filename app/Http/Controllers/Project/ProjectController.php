@@ -97,7 +97,7 @@ class ProjectController extends Controller
         return view('project.list_projects', [
             'projects'       => $projects,
             'statuses'       => $statuses,
-//            'moods'          => $moods,
+            //            'moods'          => $moods,
             'themes'         => $themes,
             'clients'        => $clients,
             'style'          => $style,
@@ -196,6 +196,10 @@ class ProjectController extends Controller
             $this->updateNotifiProject($project_id, $request);
 
             if ($request->has('client_id') && count($request->client_id) > 0) {
+
+                // внести данные в проект, взятые у климмента, если стоят галочки
+                $this->setClientInfoFotProject($request, $project_id);
+
                 $clients = [];
 
                 foreach ($request->client_id as $client) {
@@ -235,6 +239,32 @@ class ProjectController extends Controller
             DB::rollBack();
             return redirect()->back()->with(['error' => "Произошла ошибка при создании проекта. {$e->getMessage()}"]);
         }
+    }
+
+    /**
+     * @param $request
+     * @param $project_id
+     * @return void
+     */
+    private function setClientInfoFotProject($request, $project_id)
+    {
+        $clientID = collect($request->client_id)->first();
+        $client = Client::on()->find($clientID);
+
+        $projectInfoClient = [];
+
+        switch (true) {
+            case $request->has('link_site_parse') :
+                $projectInfoClient['link_site'] = $client->site;
+
+            case $request->has('business_area_parse') :
+                $projectInfoClient['business_area'] = $client->scope_work;
+
+            case $request->has('company_name_parse') :
+                $projectInfoClient['company_name'] = $client->company_name;
+        }
+
+        Project::on()->where('id', $project_id)->update($projectInfoClient);
     }
 
     // Страница редактирования одной записи

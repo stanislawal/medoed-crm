@@ -157,6 +157,7 @@ class ClientController extends Controller
         return redirect()->back()->with(['success' => 'Заказчик успешно удален']);
     }
 
+
     private function filter($request, &$clients)
     {
         $clients->when(!empty($request->name), function (Builder $where) use ($request) {

@@ -246,7 +246,12 @@
                                 </td>
                                 <td>{{ $author['bank'] ?? '-' }}</td>
                                 <td class="text-danger nowrap">{{number_format($author['duty'] + ($remainderDuty->where('author_id', $author['id'])->first()['remainder_duty'] ?? 0), 2, '.', ' ')  }}</td>
-                                <td>{{ $author['full_name'] }}</td>
+                                <td class="nowrap" @if(!$author['count_payment']) style="background-color: #ff00000f; color: red;" @endif title="Не было оплат более 30 дней">
+                                    {{ $author['full_name'] ?? '-' }}
+                                    @if(!$author['count_payment'])
+                                        <i class="ms-2 fas fa-credit-card"></i>
+                                    @endif
+                                </td>
                                 <td class="nowrap">{{number_format($author['without_space']+0, 2, '.', ' ')  }}</td>
                                 <td class="nowrap">{{number_format($author['amount']+0, 2, '.', ' ')  }}</td>
                                 <td class="nowrap">{{number_format($author['gross_income']+0, 2, '.', ' ')  }}</td>

@@ -112,24 +112,36 @@
                 </div>
             </div>
 
-            <div class="row mb-1">
+            <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Название компании (Бренда)</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" name="company_name">
+                    <label class="form-check-label mt-1 user-select-none" style="padding-left: 20px;">
+                        <input class="form-check-input parse_check" type="checkbox" value="" name="company_name_parse">
+                        <span class="form-check-sign">Перенести с заказчика</span>
+                    </label>
                 </div>
             </div>
 
-            <div class="row mb-1">
+            <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Ссылка на сайт</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" name="link_site">
+                    <label class="form-check-label mt-1 user-select-none" style="padding-left: 20px;">
+                        <input class="form-check-input parse_check" type="checkbox" value="" name="link_site_parse">
+                        <span class="form-check-sign">Перенести с заказчика</span>
+                    </label>
                 </div>
             </div>
 
-            <div class="row mb-1">
+            <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Сфера бизнеса</label>
                 <div class="col-sm-9">
                     <textarea type="text" class="form-control form-control-sm" name="business_area"></textarea>
+                    <label class="form-check-label mt-1 user-select-none" style="padding-left: 20px;">
+                        <input class="form-check-input parse_check" type="checkbox" value="" name="business_area_parse">
+                        <span class="form-check-sign">Перенести с заказчика</span>
+                    </label>
                 </div>
             </div>
 
@@ -454,6 +466,25 @@
                 $('.input-contract').removeClass('d-none');
             }
         });
+
+
+        $('input.parse_check').click(function () {
+            var pattern = '---ПЕРЕНЕСТИ C ЗАКАЗЧИКА---';
+            if ($(this).is(':checked')) {
+                $(this).closest('.row').find('input, textarea').each(function() {
+                    $(this).val(pattern);
+                    $(this).attr('readonly', true)
+                });
+            } else {
+                $(this).closest('.row').find('input, textarea').each(function() {
+                    if( $(this).val() === pattern){
+                        $(this).val('');
+                        $(this).removeAttr('readonly')
+                    }
+                });
+            }
+        })
+
     </script>
 
 @endsection
