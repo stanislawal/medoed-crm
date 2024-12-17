@@ -123,11 +123,11 @@
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Приоритет</label>
-                            <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
-                                    name="style_id">
+                            <select class="form-control border form-control-sm select-2" multiple title="Пожалуйста, выберите"
+                                    name="style_id[]">
                                 <option value="">Не выбрано</option>
                                 @foreach ($priorities as $priority)
-                                    <option @if ($priority['id'] == request()->style_id) selected
+                                    <option @if (in_array($priority['id'], request()->style_id ?? [])) selected
                                             @endif value="{{ $priority['id'] }}">
                                         {{ $priority['name'] }}</option>
                                 @endforeach

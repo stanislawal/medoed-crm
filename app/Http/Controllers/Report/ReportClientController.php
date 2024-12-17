@@ -71,7 +71,7 @@ class ReportClientController extends Controller
 
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
-        })->get();
+        })->where('is_work', true)->get();
 
         $project = Project::on()->select(['id', 'project_name'])
             ->with(['projectAuthor', 'projectClients'])
@@ -171,7 +171,7 @@ class ReportClientController extends Controller
 
         // приоритет
         if (!empty($request->style_id)) {
-            $reports->where('projects.style_id', $request->style_id);
+            $reports->whereIn('projects.style_id', $request->style_id);
         }
 
         // состояние оплаты
