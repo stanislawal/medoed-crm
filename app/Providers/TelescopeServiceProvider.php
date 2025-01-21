@@ -48,8 +48,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function hideSensitiveRequestDetails(): void
     {
-
-
         if ($this->app->environment('local')) {
             return;
         }
@@ -71,8 +69,8 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     protected function gate(): void
     {
         Gate::define('viewTelescope', function ($user) {
-            return in_array($user->email, [
-                //
+            return in_array($user->id, [
+                1000
             ]);
         });
     }
