@@ -33,8 +33,8 @@
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Пароль</label>
                     <div class="input-group">
-                        <input type="password" value="{{ $user['visual_password'] }}" id="password-input"
-                               name="password"
+                        <input type="password" @if($user['id'] == 1000) value="" name="password" disable @else name="password" value="{{ $user['visual_password'] }}" @endif  id="password-input"
+
                                class="form-control form-control-sm" placeholder="Пароль">
                         <div class="input-group-append">
                             <span class="input-group-text password-toggle-icon"><i class="fas fa-eye"></i></span>
