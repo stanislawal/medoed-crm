@@ -243,7 +243,7 @@ class ReportAuthorController extends Controller
 
             $filePath = 'storage/' . $document->url;
 
-            Mail::to('golovin.andrey.27@gmail.com')->send(new DocumentMail($filePath));
+            Mail::to('kirillvladimirovich20@gmail.com')->send(new DocumentMail($filePath));
 
             $document->setAttribute('is_send', true);
             $document->setAttribute('date_time_send', now());
