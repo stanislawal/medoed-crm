@@ -103,7 +103,6 @@
             </div>
         </div>
 
-
         <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -260,6 +259,7 @@
             </div>
         </div>
 
+        @role('Администратор')
         <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -345,6 +345,7 @@
                 </div>
             </div>
         </div>
+        @endrole
 
         {{--    ТАБЛИЦА--}}
         <div class="w-100 shadow border rounded bg-white">
@@ -428,9 +429,11 @@
 
     @role('Администратор')
     @include('Window.AuthorReport.create_payment', ['authorId' => $user['id']])
+    @include('Window.AuthorReport.create_file_report', ['authorId' => $user['id']])
     @endrole
 
-    @include('Window.AuthorReport.create_file_report', ['authorId' => $user['id']])
+
+
 
 @endsection
 
