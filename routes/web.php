@@ -108,11 +108,15 @@ Route::middleware(['auth', 'is_work'])->group(function () {
         #----------------------------------------ВАЛЮТА----------------------------------------
     });
     #----------------------------------------ОТЧЕТЫ----------------------------------------
+    Route::get('report_author/get-article-list', [ReportAuthorController::class, 'getArticleList'])->name('report_author.get_article_list');
+    Route::post('report_author/create-document', [ReportAuthorController::class, 'createDocument'])->name('report_author.create_document');
+    Route::delete('report_author/delete_document/{id}', [ReportAuthorController::class, 'delete'])->name('report_author.delete_document');
+    Route::post('report_author/send_file/{id}', [ReportAuthorController::class, 'sendFile'])->name('report_author.send_file');
+
     Route::resource('report_client', ReportClientController::class);
     Route::resource('report_author', ReportAuthorController::class);
     Route::resource('report_redactor', ReportRedactorController::class);
     Route::get('report_workload', [WorkloadController::class, 'index'])->name('report_workload');
-
     Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
     #----------------------------------------ОТЧЕТЫ----------------------------------------
 
@@ -176,5 +180,6 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     Route::get('report/client/export/item/{id}', [ReportClientController::class, 'exportItem'])
         ->name('report.client_item');
     #-----------------------------------ЭКСПОРТ В ЭКСЕЛЬ----------------------------------------
-
 });
+
+Route::get('pdf', function(){ return view('pdf.act', ['articles' => []]); });

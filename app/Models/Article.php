@@ -69,4 +69,9 @@ class Article extends BaseModel
         return $this->belongsToMany(User::class, CrossArticleRedactor::class, 'article_id', 'user_id');
     }
 
+    public function inDocument()
+    {
+        return $this->belongsToMany(DocumentReport::class, CrossDocumentReportArticle::class, 'article_id', 'document_report_id');
+    }
+
 }

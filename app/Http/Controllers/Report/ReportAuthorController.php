@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers\Report;
 
+use app\Constants\DocumentTypeConstants;
 use App\Http\Controllers\Controller;
+use App\Mail\DocumentMail;
 use App\Models\Article;
 use App\Models\AuthorPayment\AuthorPayment;
 use App\Models\Bank;
+use App\Models\CrossDocumentReportArticle;
+use App\Models\DocumentReport;
 use App\Models\Rate\Rate;
 use App\Models\User;
 use App\Repositories\Report\AuthorRepositories;
+use Dompdf\Dompdf;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class ReportAuthorController extends Controller
 {
@@ -115,17 +124,146 @@ class ReportAuthorController extends Controller
         $indicators['payment_amount'] = $indicators['payment_amount'] + (collect($paymentHistory)->sum('amount'));
         $indicators['duty'] = $indicators['duty'] - (collect($paymentHistory)->sum('amount'));
 
+
+        $documents = DocumentReport::on()->where('author_id', $id)
+            ->whereBetween('created_at', [
+                Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
+                Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
+            ])->orderByDesc('id')->get();
+
         return view('report.author.author_item', [
             'articles'          => $articles,
             'user'              => $user,
             'indicators'        => $indicators,
             'remainderDuty'     => $remainderDuty,
             'ignoreArticleList' => $ignoreArticleList,
-            'paymentHistory'    => $paymentHistory
+            'paymentHistory'    => $paymentHistory,
+            'documents'         => $documents,
         ]);
     }
 
-    public function monthElseRange($request)
+    public function getArticleList(Request $request)
+    {
+        $validated = $request->validate([
+            'date_from' => 'required|date',
+            'date_to'   => 'required|date',
+            'author_id' => 'required|integer'
+        ]);
+
+        $articles = Article::on()->with(['inDocument'])
+            ->whereHas('articleAuthor', function (Builder $builder) use ($validated) {
+                $builder->where('users.id', $validated['author_id']);
+            })
+            ->whereBetween('created_at', [
+                Carbon::parse($validated['date_from'])->startOfDay()->toDateTimeString(),
+                Carbon::parse($validated['date_to'])->endOfDay()->toDateTimeString(),
+
+            ])
+            ->orderByDesc('id')
+            ->get();
+
+        return response()->json([
+            'result' => true,
+            'html'   => view('Render.Report.AuthorReport.article_list', ['list' => $articles])->render(),
+            'total'  => $articles->count()
+        ]);
+    }
+
+
+    public function createDocument(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $validated = $request->validate([
+                'article_ids' => 'required|array',
+                'author_id'   => 'required|integer'
+            ]);
+
+            $author = User::on()->find($validated['author_id']);
+
+            $types = [
+                'act' => 'АКТ',
+                'tz' => 'ТЗ'
+            ];
+
+            foreach ($types as $type => $typeName){
+                [$fileName, $url] = $this->generateAndSavePDFFile($author, $validated['article_ids'], $type,$typeName);
+
+                $attr = [
+                    'author_id' => $author->id,
+                    'url'       => $url,
+                    'file_name' => $fileName,
+                    'type' => $typeName
+                ];
+                $documentReport = DocumentReport::on()->create($attr);
+                $documentReport->sroccArticles()->attach($validated['article_ids']);
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with(['success' => 'Файл успешно создан. [file: ' . $fileName . ']']);
+
+        } catch (\Exception $exception) {
+
+            if (Storage::disk('public')->exists($url)) {
+                Storage::disk('public')->delete($url);
+            }
+            DB::rollBack();
+
+            return redirect()->back()->with(['error' => $exception->getMessage()]);
+        }
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete($id)
+    {
+        $document = DocumentReport::on()->find($id);
+        if (Storage::disk('public')->exists($document->url)) {
+            Storage::disk('public')->delete($document->url);
+        }
+        $fileName = $document->file_name;
+        CrossDocumentReportArticle::on()->where('document_report_id', $id)->delete();
+        $document->delete();
+
+        return redirect()->back()->with(['success' => 'Файл успешно удален. [file: ' . $fileName . ']']);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function sendFile($id)
+    {
+        DB::beginTransaction();
+        try {
+            $document = DocumentReport::on()->find($id);
+
+            $filePath = 'storage/' . $document->url;
+
+            Mail::to('golovin.andrey.27@gmail.com')->send(new DocumentMail($filePath));
+
+            $document->setAttribute('is_send', true);
+            $document->setAttribute('date_time_send', now());
+            $document->save();
+
+            DB::commit();
+
+            return redirect()->back()->with(['success' => 'Файл успешно отправлен. [file: ' . $document->file_name . ']']);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return redirect()->back()->with(['error' => $exception->getMessage()]);
+        }
+    }
+
+    /**
+     * @param $request
+     * @return array
+     */
+    private function monthElseRange($request)
     {
 
         if (!empty($request->month)) {
@@ -137,5 +275,47 @@ class ReportAuthorController extends Controller
         }
 
         return [$startDate, $endDate];
+    }
+
+    /*
+     * генерация и сохранение файла
+     */
+    private function generateAndSavePDFFile($author, $articles, $type, $typeName)
+    {
+        // генерация pdf
+        $dompdf = new Dompdf();
+
+        $articles = Article::on()->whereIn('id', $articles)->orderByDesc('id')->get();
+
+        $html = view('pdf.' . $type, ['articles' => $articles, 'author' => $author])->render();
+
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->loadHtml($html, 'UTF-8');
+
+        $dompdf->render();
+
+        $file = $dompdf->output();
+
+        // параметры названия файла
+        $path = 'report_author/' . $author->id . '/';
+        $authorName = str_replace(' ', '_', $author->full_name);
+        $currentDate = now()->format('d-m-Y');
+        $instance = 0;
+        $extension = '.pdf';
+
+        // генерируем название файла и путь к нему
+        $filename = $authorName . '_'. '(' . $typeName . ')' . '_' . $currentDate . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
+        $url = $path . $filename;
+
+        while (Storage::disk('public')->exists($url)) {
+            $instance++;
+            $filename = $authorName . '_'. '(' . $typeName . ')' . '_' . $currentDate . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
+            $url = $path . $filename;
+        }
+
+        Storage::disk('public')->put($url, $file);
+
+        return [$filename, $url];
     }
 }

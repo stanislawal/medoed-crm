@@ -15,7 +15,7 @@
         <div class="w-100 shadow border rounded p-3 bg-white">
             <form action="" class="check__field">
                 <div class="row">
-                    <div class="col-12 col-md-4 col-lg-3">
+                    <div class="col-12 col-md-4 col-lg-3 mb-3 mb-md-0">
                         <input class="form-control form-control-sm" type="month" name="month"
                                value="{{ request()->month ?? now()->format('Y-m') }}">
                     </div>
@@ -151,12 +151,16 @@
                                         @endrole
                                         <td>{{ $item['article'] }}</td>
                                         <td>{{ number_format($item['without_space']+0, 2, '.', ' ')}}</td>
-                                        <td>{{ number_format($item['price_author']+0, 2, '.', ' ') }} @if($item['is_fixed_price_author']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
+                                        <td>{{ number_format($item['price_author']+0, 2, '.', ' ') }} @if($item['is_fixed_price_author'])
+                                                <i class="ms-2 text-primary fas fa-lock"></i>
+                                            @endif</td>
                                         <td>{{ number_format($item['price']+0, 2, '.', ' ') }}</td>
                                         @role('Администратор')
                                         <td>{{ number_format($item['payment_amount']+0, 2, '.', ' ') }}</td>
                                         <td>{{ $item['payment_date'] ?? '-' }}</td>
-                                        <td>{{number_format($item['price_client']+0, 2, '.', ' ')  }} @if($item['is_fixed_price_client']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
+                                        <td>{{number_format($item['price_client']+0, 2, '.', ' ')  }} @if($item['is_fixed_price_client'])
+                                                <i class="ms-2 text-primary fas fa-lock"></i>
+                                            @endif</td>
                                         <td>{{number_format($item['price_article']+0, 2, '.', ' ')  }}</td>
                                         <td>{{number_format($item['margin']+0, 2, '.', ' ')  }}</td>
                                         <td>
@@ -199,7 +203,7 @@
                                     <th>Сумма</th>
                                     <th>Комментарий
                                     @role('Администратор')
-                                        <th>Удалить</th>
+                                    <th>Удалить</th>
                                     @endrole
                                 </tr>
                                 </thead>
@@ -209,7 +213,7 @@
                                         <td class="text-center">{{ $item['id'] }}</td>
                                         <td><input
                                                 @role('Администратор')
-                                                    onchange="updateAuthorPayment(this, '{{ route('author_payment.update', ['id' => $item['id']]) }}')"
+                                                onchange="updateAuthorPayment(this, '{{ route('author_payment.update', ['id' => $item['id']]) }}')"
                                                 @else
                                                     disabled
                                                 @endrole
@@ -218,7 +222,7 @@
                                         </td>
                                         <td><input
                                                 @role('Администратор')
-                                                    onchange="updateAuthorPayment(this, '{{ route('author_payment.update', ['id' => $item['id']]) }}')"
+                                                onchange="updateAuthorPayment(this, '{{ route('author_payment.update', ['id' => $item['id']]) }}')"
                                                 @else
                                                     disabled
                                                 @endrole
@@ -227,7 +231,7 @@
                                         </td>
                                         <td><textarea
                                                 @role('Администратор')
-                                                    onchange="updateAuthorPayment(this, '{{ route('author_payment.update', ['id' => $item['id']]) }}')"
+                                                onchange="updateAuthorPayment(this, '{{ route('author_payment.update', ['id' => $item['id']]) }}')"
                                                 @else
                                                     disabled
                                                 @endrole
@@ -237,9 +241,97 @@
                                         </td>
                                         @role('Администратор')
                                         <td class="text-center">
-                                            <a onclick="deleteConfirm()"  href="{{ route('author_payment.delete', ['id' => $item['id']]) }}" class="btn btn-sm btn-danger"> <i class="far fa-trash-alt"></i></a>
+                                            <a onclick="deleteConfirm()"
+                                               href="{{ route('author_payment.delete', ['id' => $item['id']]) }}"
+                                               class="btn btn-sm btn-danger"> <i class="far fa-trash-alt"></i></a>
                                         </td>
                                         @endrole
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center text-gray">Пусто</td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion accordion-flush mb-2 border bg-white round" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#files_reports" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        <strong class="text-14">Файлы отчета ({{ $documents->count() }})</strong>
+                    </button>
+                </h2>
+                <div id="files_reports" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <div class="table-responsive">
+                            <div class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                 data-bs-target="#create_file_report">
+                                Создать файл отчета
+                            </div>
+                            <table class="table table-hover table-cut" id="basic-datatables">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Файл</th>
+                                    <th>Тип</th>
+                                    <th>Статус</th>
+                                    <th>Дата отправки</th>
+                                    <th>Дата создания</th>
+                                    <th>Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($documents as $document)
+                                    <tr>
+                                        <td class="text-center">{{ $document['id'] }}</td>
+                                        <td>{{ $document['file_name'] }}</td>
+                                        <td>{{ $document['type'] }}</td>
+                                        <td class="text-center">
+                                            @if($document['is_send'])
+                                                <span class="badge bg-success">Отправлен</span>
+                                            @else
+                                                <span class="badge bg-secondary">Не отправлен</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if($document['date_time_send'])
+                                                {{ date('d.m.Y H:i', strtotime($document['date_time_send'])) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td class="text-center">{{ date('d.m.Y H:i', strtotime($document['created_at'])) }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center">
+                                                <a href="/storage/{{ $document['url'] }}" target="_blank"
+                                                   title="Просмотр"
+                                                   class="btn btn-sm btn-success btn--icon mr-2">
+                                                    <i class="far fa-eye"></i>
+                                                </a>
+                                                <form action="{{ route('report_author.send_file', ['id' => $document['id']]) }}" method="post">
+                                                    @csrf
+                                                    <button class="btn btn-sm btn-primary btn--icon mr-2"
+                                                            title="Отправить">
+                                                        <i class="far fa-paper-plane"></i>
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('report_author.delete_document', ['id' => $document['id']]) }}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btn-sm btn-danger btn--icon" title="Удалить фалй"
+                                                            onclick="window.confirmDelete()">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -301,16 +393,20 @@
                                     @endrole
                                     <td>{{ $article['article'] }}</td>
                                     <td class="nowrap">{{number_format($article['without_space_all']+0, 2, '.', ' ')  }}</td>
-                                    <td class="nowrap">{{number_format($article['price_author']+0, 2, '.', ' ')  }} @if($article['is_fixed_price_author']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
+                                    <td class="nowrap">{{number_format($article['price_author']+0, 2, '.', ' ')  }} @if($article['is_fixed_price_author'])
+                                            <i class="ms-2 text-primary fas fa-lock"></i>
+                                        @endif</td>
                                     <td class="nowrap">{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
                                     <td class="text-center bg-grey2">
-                                       {{ $article['payment_amount'] ?? 0 }}
+                                        {{ $article['payment_amount'] ?? 0 }}
                                     </td>
                                     <td class="text-center bg-grey2">
                                         {{ $article['payment_date'] ?? '-' }}
                                     </td>
                                     @role('Администратор')
-                                    <td class="nowrap">{{number_format($article['price_client']+0, 2, '.', ' ')  }} @if($article['is_fixed_price_client']) <i class="ms-2 text-primary fas fa-lock"></i> @endif</td>
+                                    <td class="nowrap">{{number_format($article['price_client']+0, 2, '.', ' ')  }} @if($article['is_fixed_price_client'])
+                                            <i class="ms-2 text-primary fas fa-lock"></i>
+                                        @endif</td>
                                     <td class="nowrap">{{number_format($article['price_article']+0, 2, '.', ' ')  }}</td>
                                     <td class="nowrap">{{number_format($article['margin']+0, 2, '.', ' ')  }}</td>
                                     <td>
@@ -334,11 +430,16 @@
     @include('Window.AuthorReport.create_payment', ['authorId' => $user['id']])
     @endrole
 
+    @include('Window.AuthorReport.create_file_report', ['authorId' => $user['id']])
+
 @endsection
 
 @section('custom_js')
     <script src="{{ asset('js/author.js') }}"></script>
     <script>
+
+        const getArticleListURL = "{{ route('report_author.get_article_list') }}";
+
         $('.to_ignore').click(function () {
             var res = confirm('Вы действительно хотите перенести статью в списание?')
             if (!res) {
@@ -352,6 +453,14 @@
                 event.preventDefault();
             }
         });
+
+        window.confirmDelete = function () {
+            var res = confirm('Вы действительно хотите удалить этот документ?')
+            if (!res) {
+                event.preventDefault();
+            }
+        }
+
     </script>
 
 @endsection
