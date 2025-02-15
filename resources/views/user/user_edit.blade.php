@@ -111,6 +111,32 @@
                            name="working_day">
                 </div>
 
+                <div class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
+                    <label for="" class="form-label">ФИО автора (обязательная последовательность)</label>
+                    <input type="text" class="form-control form-control-sm" name="fio_for_doc" value="{{ $user['fio_for_doc'] ?? '' }}">
+                </div>
+
+                <div class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
+                    <label for="" class="form-label">ИНН автора</label>
+                    <input type="number" class="form-control form-control-sm" name="inn_for_doc"
+                           placeholder="____________" value="{{ $user['inn_for_doc'] ?? '' }}">
+                </div>
+
+                <div class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
+                    <label for="" class="form-label">Номер договора автора</label>
+                    <input type="text" class="form-control form-control-sm" name="contract_number_for_doc" value="{{ $user['contract_number_for_doc'] ?? '' }}">
+                </div>
+
+                <div class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
+                    <label for="" class="form-label">Дата составление договора</label>
+                    <input type="date" class="form-control form-control-sm" name="date_contract_for_doc" value="{{ $user['date_contract_for_doc'] ?? '' }}">
+                </div>
+
+                <div class="form-group col-12 col-lg-6 input-author @if (\App\Helpers\UserHelper::getRoleName($user['id']) != 'Автор') d-none @endif">
+                    <label for="" class="form-label">E-mail автора, для отправки документа</label>
+                    <input type="email" class="form-control form-control-sm" name="email_for_doc" value="{{ $user['email_for_doc'] ?? '' }}">
+                </div>
+
                 <div class=" m-0 p-3">
                     <button class="btn btn-sm btn-success" type="submit">Сохранить</button>
                 </div>
@@ -120,6 +146,7 @@
 @endsection
 
 @section('custom_js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
         $('.select-manager').change(function () {
             if ($(this).val() === 'Менеджер') {
@@ -137,6 +164,8 @@
                 $('.input-author').addClass('d-none');
             }
         });
+
+        $('input[name="inn_for_doc"]').mask('000000000000');
 
         let password_input = document.getElementById("password-input");
         let password_toggle_icon = document.querySelector(".password-toggle-icon");

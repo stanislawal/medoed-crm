@@ -32,7 +32,14 @@ class User extends Authenticatable
         'is_work',
         'payment', //реквизиты оплаты
         'bank_id',
-        'working_day'
+        'working_day',
+
+        // поля с иформацией для генерации документа
+        'fio_for_doc',
+        'inn_for_doc',
+        'contract_number_for_doc',
+        'date_contract_for_doc',
+        'email_for_doc'
     ];
 
     /**

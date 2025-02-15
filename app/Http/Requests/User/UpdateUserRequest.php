@@ -78,6 +78,27 @@ class UpdateUserRequest extends FormRequest
             'is_work' => [
                 'nullable',
                 'string'
+            ],
+
+            'fio_for_doc' => [
+                'nullable',
+                'string'
+            ],
+            'inn_for_doc' => [
+                'nullable',
+                'string'
+            ],
+            'contract_number_for_doc' => [
+                'nullable',
+                'string'
+            ],
+            'date_contract_for_doc' => [
+                'nullable',
+                'date'
+            ],
+            'email_for_doc' => [
+                'nullable',
+                'string'
             ]
         ];
     }

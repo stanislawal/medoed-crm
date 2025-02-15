@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Report;
 
 use app\Constants\DocumentTypeConstants;
+use App\Helpers\DocumentHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\DocumentMail;
 use App\Models\Article;
@@ -14,6 +15,7 @@ use App\Models\Rate\Rate;
 use App\Models\User;
 use App\Repositories\Report\AuthorRepositories;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -180,20 +182,39 @@ class ReportAuthorController extends Controller
             ]);
 
             $author = User::on()->find($validated['author_id']);
+            $fio = $author['fio_for_doc'];
+            $author['nameAndInitials'] = explode(' ', $fio)[0] . ' ' . mb_substr(explode(' ', $fio)[1], 0, 1) . '. ' . mb_substr(explode(' ', $fio)[2], 0, 1) . '.';
 
             $types = [
                 'act' => 'АКТ',
-                'tz' => 'ТЗ'
+                'tz'  => 'ТЗ'
             ];
 
-            foreach ($types as $type => $typeName){
-                [$fileName, $url] = $this->generateAndSavePDFFile($author, $validated['article_ids'], $type,$typeName);
+            foreach ($types as $type => $typeName) {
+
+                $articles = Article::on()
+                    ->selectRaw("
+                        id,
+                        article,
+                        without_space,
+                        price_author,
+                        CAST(((without_space / 1000) * price_author) as DECIMAL(10,2)) as price_article
+                    ")
+                    ->whereIn('id', $validated['article_ids'])
+                    ->orderByDesc('id')
+                    ->get();
+
+                $amount['originAmount'] = number_format($articles->sum('price_article'), 2, '.', '');
+                $amount['amount'] = (int)$amount['originAmount'];
+                $amount['decimal'] = number_format(explode('.', $amount['originAmount'])[1], 0, '', '');
+
+                [$fileName, $url] = $this->generateAndSavePDFFile($author, $validated['article_ids'], $amount, $type, $typeName);
 
                 $attr = [
                     'author_id' => $author->id,
                     'url'       => $url,
                     'file_name' => $fileName,
-                    'type' => $typeName
+                    'type'      => $typeName
                 ];
                 $documentReport = DocumentReport::on()->create($attr);
                 $documentReport->sroccArticles()->attach($validated['article_ids']);
@@ -205,8 +226,10 @@ class ReportAuthorController extends Controller
 
         } catch (\Exception $exception) {
 
-            if (Storage::disk('public')->exists($url)) {
-                Storage::disk('public')->delete($url);
+            if (!empty($url)) {
+                if (Storage::disk('public')->exists($url)) {
+                    Storage::disk('public')->delete($url);
+                }
             }
             DB::rollBack();
 
@@ -280,14 +303,34 @@ class ReportAuthorController extends Controller
     /*
      * генерация и сохранение файла
      */
-    private function generateAndSavePDFFile($author, $articles, $type, $typeName)
+    private function generateAndSavePDFFile($author, $articles, $amount, $type, $typeName)
     {
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+
         // генерация pdf
-        $dompdf = new Dompdf();
+        $dompdf = new Dompdf($options);
 
-        $articles = Article::on()->whereIn('id', $articles)->orderByDesc('id')->get();
+        $articles = Article::on()
+            ->selectRaw("
+                id,
+                article,
+                without_space,
+                price_author,
+                CAST(((without_space / 1000) * price_author) as DECIMAL(10,2)) as price_article
+            ")
+            ->whereIn('id', $articles)
+            ->orderByDesc('id')
+            ->get();
 
-        $html = view('pdf.' . $type, ['articles' => $articles, 'author' => $author])->render();
+        $html = view('pdf.' . $type, [
+            'articles'           => $articles,
+            'author'             => $author,
+            'amount'             => $amount,
+            'currentDate'        => DocumentHelper::currentDateFormat(),
+            'dateDocumentAuthor' => DocumentHelper::currentDateFormat($author['date_contract_for_doc']),
+        ])->render();
 
         $dompdf->setPaper('A4', 'portrait');
 
@@ -305,12 +348,12 @@ class ReportAuthorController extends Controller
         $extension = '.pdf';
 
         // генерируем название файла и путь к нему
-        $filename = $authorName . '_'. '(' . $typeName . ')' . '_' . $currentDate . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
+        $filename = $authorName . '_' . '(' . $typeName . ')' . '_' . $currentDate . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
         $url = $path . $filename;
 
         while (Storage::disk('public')->exists($url)) {
             $instance++;
-            $filename = $authorName . '_'. '(' . $typeName . ')' . '_' . $currentDate . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
+            $filename = $authorName . '_' . '(' . $typeName . ')' . '_' . $currentDate . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
             $url = $path . $filename;
         }
 

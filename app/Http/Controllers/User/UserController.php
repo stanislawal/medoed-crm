@@ -57,17 +57,18 @@ class UserController extends Controller
             'link_author'    => $request->link_author ?? null,
             'payment'        => $request->payment ?? null,
             'bank_id'        => $request->bank_id ?? null,
-            'is_work'        => $request->is_work ?? 0
+            'is_work'        => $request->is_work ?? 0,
+
+            'fio_for_doc'             => $request->fio_for_doc ?? null,
+            'inn_for_doc'             => $request->inn_for_doc ?? null,
+            'contract_number_for_doc' => $request->contract_number_for_doc ?? null,
+            'date_contract_for_doc'   => $request->date_contract_for_doc ?? null,
+            'email_for_doc'           => $request->email_for_doc ?? null
         ];
 
         $user = User::on()->create($attr);
         $user->assignRole($request->role); // выдать роль пользователю
         return redirect()->back()->with(['message' => 'Пользователь успешно добавлен']);
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit($id)
@@ -99,12 +100,6 @@ class UserController extends Controller
 
         return redirect()->back()->with(['success' => 'Пользователь успешно обновлен.']);
     }
-
-//    public function destroy($user)
-//    {
-//        User::on()->where('id', $user)->delete();
-//        return redirect()->back()->with(['success' => 'Пользователь успешно удален']);
-//    }
 
     private function filter($request, &$users)
     {

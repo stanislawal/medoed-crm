@@ -61,11 +61,13 @@
         .sign{
             width: 100%;
             margin-top: 45px;
-            height: 16px;
+            height: 32px;
         }
+
         .sign_1{
             float:left;
         }
+
         .sign_2{
             float:right;
         }
@@ -83,13 +85,35 @@
         .space{
             color: transparent;
         }
+
+        .sign_line {
+            display: inline-block;
+            position: relative;
+        }
+
+        .sign_name {
+            position: absolute;
+            top: -2px;
+            left: 5px;
+        }
+
+        .underline {
+            border-bottom: 1px solid #000;
+        }
+
+        .sign_img {
+            width: 70px;
+            position: absolute;
+            right: 8px;
+            top: -34px;
+        }
     </style>
 </head>
 <body>
 <div>
     <div class="application"><p>Приложение № 2</p>
-        <p>к договору № ___________</p>
-        <p>от "<span class="space">____</span>"<span class="space">_______________</span>г.</p></div>
+        <p>к договору № <span class="underline" style="padding: 0 5px;">{{ $author['contract_number_for_doc'] }}</span></p>
+        <p>от "<span class="underline">{{ $dateDocumentAuthor['day'] }}</span>"<span class="underline"> {{ $dateDocumentAuthor['month'] }} {{ $dateDocumentAuthor['year'] }}</span> г.</p></div>
     <div class="title">Техническое задание</div>
     <div class="title" style="padding-bottom: 10px;">на услуги по написанию текстов</div>
     <div class="p_1">1. Требования к текстам</div>
@@ -118,9 +142,24 @@
         @endforeach
         </tbody>
     </table>
+
+
     <div class="sign">
-        <div class="sign_1">Исполнитель _______________________________<div class="sign_mp">М. П.</div></div>
-        <div class="sign_2">Заказчик _______________________________<div class="sign_mp">М. П.</div></div>
+        <div class="sign_1">Исполнитель
+            <div class="sign_line">
+                _______________________________
+                <div class="sign_name">{{ $author['nameAndInitials'] }}</div>
+            </div>
+            <div class="sign_mp">М. П.</div>
+        </div>
+        <div class="sign_2">Заказчик
+            <div class="sign_line">
+                _______________________________
+                <div class="sign_name">Иванникова А. Е.</div>
+                <img class="sign_img" src="{{ asset('img/ttt.png') }}" alt="">
+            </div>
+            <div class="sign_mp">М. П.</div>
+        </div>
     </div>
 </div>
 </body>

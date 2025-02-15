@@ -181,5 +181,3 @@ Route::middleware(['auth', 'is_work'])->group(function () {
         ->name('report.client_item');
     #-----------------------------------ЭКСПОРТ В ЭКСЕЛЬ----------------------------------------
 });
-
-Route::get('pdf', function(){ return view('pdf.act', ['articles' => []]); });

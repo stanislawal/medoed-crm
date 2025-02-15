@@ -32,7 +32,7 @@
                     <label for="" class="form-label">Реквизиты оплаты </label>
                     <div class="input-group">
                         <div class="w-25">
-                            <select name="bank_id"  class="form-select form-select-sm">
+                            <select name="bank_id" class="form-select form-select-sm">
                                 <option value="">Выберите банк</option>
                                 @foreach($banks as $bank)
                                     <option value="{{ $bank['id'] }}">{{ $bank['name'] }}</option>
@@ -44,13 +44,13 @@
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Дата рождения</label>
-                    <input type="date"  class="form-control form-control-sm" name="birthday">
+                    <input type="date" class="form-control form-control-sm" name="birthday">
                 </div>
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Роль</label>
 
                     <select class="form-select form-select-sm select-manager" required name="role" id="">
-                        <option  value="">Выберите роль</option>
+                        <option value="">Выберите роль</option>
                         @foreach($roles as $role)
                             <option value="{{ $role['name'] }}">{{ $role['name'] }}</option>
                         @endforeach
@@ -59,7 +59,7 @@
 
                 <div class="form-group col-12 col-lg-6">
                     <label for="" class="form-label">Статус работы</label>
-                    <select name="is_work"  class="form-select form-select-sm">
+                    <select name="is_work" class="form-select form-select-sm">
                         <option value="1">Работает</option>
                         <option value="0">Не работает</option>
                     </select>
@@ -69,14 +69,44 @@
                     <label for="" class="form-label">Ставка менеджера</label>
                     <input type="number" class="form-control form-control-sm" name="manager_salary">
                 </div>
+
                 <div class="form-group col-12 col-lg-6 d-none input-author">
                     <label for="" class="form-label">Ссылка на анкету</label>
                     <input type="text" class="form-control form-control-sm" name="link_author">
                 </div>
+
                 <div class="form-group col-12 col-lg-6 d-none input-author">
                     <label for="" class="form-label">Рабочий день</label>
                     <input type="text" class="form-control form-control-sm" name="working_day">
                 </div>
+
+
+                <div class="form-group col-12 col-lg-6 d-none input-author">
+                    <label for="" class="form-label">ФИО автора (обязательная последовательность)</label>
+                    <input type="text" class="form-control form-control-sm" name="fio_for_doc">
+                </div>
+
+                <div class="form-group col-12 col-lg-6 d-none input-author">
+                    <label for="" class="form-label">ИНН автора</label>
+                    <input type="number" class="form-control form-control-sm" name="inn_for_doc"
+                           placeholder="____________">
+                </div>
+
+                <div class="form-group col-12 col-lg-6 d-none input-author">
+                    <label for="" class="form-label">Номер договора автора</label>
+                    <input type="text" class="form-control form-control-sm" name="contract_number_for_doc">
+                </div>
+
+                <div class="form-group col-12 col-lg-6 d-none input-author">
+                    <label for="" class="form-label">Дата составление договора</label>
+                    <input type="date" class="form-control form-control-sm" name="date_contract_for_doc">
+                </div>
+
+                <div class="form-group col-12 col-lg-6 d-none input-author">
+                    <label for="" class="form-label">E-mail автора, для отправки документа</label>
+                    <input type="email" class="form-control form-control-sm" name="email_for_doc">
+                </div>
+
 
                 <div class="m-0 p-3">
                     <button class="btn btn-sm btn-success" type="submit">Создать</button>
@@ -87,6 +117,8 @@
 @endsection
 
 @section('custom_js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
     <script>
         $('.select-manager').change(function () {
             if ($(this).val() === 'Менеджер') {
@@ -104,5 +136,7 @@
                 $('.input-author').addClass('d-none');
             }
         });
+
+        $('input[name="inn_for_doc"]').mask('000000000000');
     </script>
 @endsection
