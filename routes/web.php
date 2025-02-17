@@ -111,7 +111,7 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     Route::get('report_author/get-article-list', [ReportAuthorController::class, 'getArticleList'])->name('report_author.get_article_list');
     Route::post('report_author/create-document', [ReportAuthorController::class, 'createDocument'])->name('report_author.create_document');
     Route::delete('report_author/delete_document/{id}', [ReportAuthorController::class, 'delete'])->name('report_author.delete_document');
-    Route::post('report_author/send_file/{id}', [ReportAuthorController::class, 'sendFile'])->name('report_author.send_file');
+    Route::post('report_author/send_file', [ReportAuthorController::class, 'sendFile'])->name('report_author.send_file');
 
     Route::resource('report_client', ReportClientController::class);
     Route::resource('report_author', ReportAuthorController::class);

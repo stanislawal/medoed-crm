@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 class ReportAuthorController extends Controller
@@ -106,7 +107,8 @@ class ReportAuthorController extends Controller
                 users.full_name,
                 users.payment,
                 banks.name as bank,
-                users.duty
+                users.duty,
+                email_for_doc
             ")
             ->from('users')
             ->leftJoin('banks', 'banks.id', '=', 'users.bank_id')
@@ -182,6 +184,19 @@ class ReportAuthorController extends Controller
             ]);
 
             $author = User::on()->find($validated['author_id']);
+
+            if (
+                empty($author['fio_for_doc'])
+                ||
+                empty($author['inn_for_doc'])
+                ||
+                empty($author['contract_number_for_doc'])
+                ||
+                empty($author['date_contract_for_doc'])
+            ) {
+                return redirect()->back()->with(['error' => 'Необходимо внести данные в карточке автора для генерации документа.']);
+            }
+
             $fio = $author['fio_for_doc'];
             $author['nameAndInitials'] = explode(' ', $fio)[0] . ' ' . mb_substr(explode(' ', $fio)[1], 0, 1) . '. ' . mb_substr(explode(' ', $fio)[2], 0, 1) . '.';
 
@@ -254,19 +269,16 @@ class ReportAuthorController extends Controller
         return redirect()->back()->with(['success' => 'Файл успешно удален. [file: ' . $fileName . ']']);
     }
 
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function sendFile($id)
+
+    public function sendFile(Request $request)
     {
         DB::beginTransaction();
         try {
-            $document = DocumentReport::on()->find($id);
+            $document = DocumentReport::on()->find($request->document_id);
 
             $filePath = 'storage/' . $document->url;
 
-            Mail::to('kirillvladimirovich20@gmail.com')->send(new DocumentMail($filePath));
+            Mail::to($request->email_author)->send(new DocumentMail($filePath));
 
             $document->setAttribute('is_send', true);
             $document->setAttribute('date_time_send', now());
@@ -305,7 +317,6 @@ class ReportAuthorController extends Controller
      */
     private function generateAndSavePDFFile($author, $articles, $amount, $type, $typeName)
     {
-
         $options = new Options();
         $options->set('isRemoteEnabled', true);
 
@@ -324,13 +335,24 @@ class ReportAuthorController extends Controller
             ->orderByDesc('id')
             ->get();
 
+        $uniqueNumberDocument = Redis::get('unique_number_document');
+        if (is_null($uniqueNumberDocument)) {
+            Redis::set('unique_number_document', 1);
+            $uniqueNumberDocument = 1;
+        }
+
         $html = view('pdf.' . $type, [
-            'articles'           => $articles,
-            'author'             => $author,
-            'amount'             => $amount,
-            'currentDate'        => DocumentHelper::currentDateFormat(),
-            'dateDocumentAuthor' => DocumentHelper::currentDateFormat($author['date_contract_for_doc']),
+            'articles'             => $articles,
+            'author'               => $author,
+            'amount'               => $amount,
+            'currentDate'          => DocumentHelper::currentDateFormat(),
+            'dateDocumentAuthor'   => DocumentHelper::currentDateFormat($author['date_contract_for_doc']),
+            'uniqueNumberDocument' => $uniqueNumberDocument,
         ])->render();
+
+        if ($type == 'act') {
+            Redis::set('unique_number_document', ($uniqueNumberDocument + 1));
+        }
 
         $dompdf->setPaper('A4', 'portrait');
 

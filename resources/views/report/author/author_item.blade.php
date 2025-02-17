@@ -315,14 +315,21 @@
                                                    class="btn btn-sm btn-success btn--icon mr-2">
                                                     <i class="far fa-eye"></i>
                                                 </a>
-                                                <form action="{{ route('report_author.send_file', ['id' => $document['id']]) }}" method="post">
-                                                    @csrf
-                                                    <button class="btn btn-sm btn-primary btn--icon mr-2"
-                                                            title="Отправить">
-                                                        <i class="far fa-paper-plane"></i>
-                                                    </button>
-                                                </form>
-                                                <form action="{{ route('report_author.delete_document', ['id' => $document['id']]) }}" method="post">
+                                                <div class="btn btn-sm btn-primary btn--icon mr-2 btn_send_document"
+                                                     data-bs-toggle="modal" data-bs-target="#send_document"
+                                                     data-document-id="{{ $document['id'] }}">
+                                                    <i class="far fa-paper-plane"></i>
+                                                </div>
+                                                {{--                                                <form action="{{ route('report_author.send_file', ['id' => $document['id']]) }}" method="post">--}}
+                                                {{--                                                    @csrf--}}
+                                                {{--                                                    <button class="btn btn-sm btn-primary btn--icon mr-2"--}}
+                                                {{--                                                            title="Отправить">--}}
+                                                {{--                                                        <i class="far fa-paper-plane"></i>--}}
+                                                {{--                                                    </button>--}}
+                                                {{--                                                </form>--}}
+                                                <form
+                                                    action="{{ route('report_author.delete_document', ['id' => $document['id']]) }}"
+                                                    method="post">
                                                     @csrf
                                                     @method('delete')
                                                     <button class="btn btn-sm btn-danger btn--icon" title="Удалить фалй"
@@ -430,10 +437,8 @@
     @role('Администратор')
     @include('Window.AuthorReport.create_payment', ['authorId' => $user['id']])
     @include('Window.AuthorReport.create_file_report', ['authorId' => $user['id']])
+    @include('Window.AuthorReport.send_document', ['user' => $user])
     @endrole
-
-
-
 
 @endsection
 
@@ -463,6 +468,12 @@
                 event.preventDefault();
             }
         }
+
+        $('.btn_send_document').click(function () {
+            let dataDocumentId = $(this).attr('data-document-id');
+            let inputDocumentId = $('form#send_document_form input[name="document_id"]');
+            inputDocumentId.val(dataDocumentId);
+        })
 
     </script>
 
