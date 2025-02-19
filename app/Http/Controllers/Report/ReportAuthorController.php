@@ -21,7 +21,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 class ReportAuthorController extends Controller
@@ -335,24 +334,13 @@ class ReportAuthorController extends Controller
             ->orderByDesc('id')
             ->get();
 
-        $uniqueNumberDocument = Redis::get('unique_number_document');
-        if (is_null($uniqueNumberDocument)) {
-            Redis::set('unique_number_document', 1);
-            $uniqueNumberDocument = 1;
-        }
-
         $html = view('pdf.' . $type, [
             'articles'             => $articles,
             'author'               => $author,
             'amount'               => $amount,
             'currentDate'          => DocumentHelper::currentDateFormat(),
             'dateDocumentAuthor'   => DocumentHelper::currentDateFormat($author['date_contract_for_doc']),
-            'uniqueNumberDocument' => $uniqueNumberDocument,
         ])->render();
-
-        if ($type == 'act') {
-            Redis::set('unique_number_document', ($uniqueNumberDocument + 1));
-        }
 
         $dompdf->setPaper('A4', 'portrait');
 
