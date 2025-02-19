@@ -441,7 +441,7 @@
                                         <td style="padding: 0 10px 0 12px!important">
                                             <div class="form-group col-12 d-flex justify-content-between destroy">
                                                 <a href="{{route('project.destroy',['project' => $project['id']])}}"
-                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()">
+                                                   class="btn btn-sm btn-danger" onclick="confirmDelete()">
                                                     <i class="fas fa-trash-alt"></i></a>
                                         </td>
                                         @endrole

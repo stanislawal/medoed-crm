@@ -135,7 +135,7 @@
                                         @if((bool)!$payment['mark'])
                                             <div class="form-group col-12 d-flex justify-content-between destroy">
                                                 <a href="{{route('payment.delete', ['id' => $payment['id']])}}"
-                                                   class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
+                                                   class="btn btn-sm btn-danger" onclick="confirmDelete()"><i
                                                         class="fas fa-minus"></i></a>
                                             </div>
                                         @else

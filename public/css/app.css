@@ -2,8 +2,31 @@
     box-sizing: border-box;
 }
 
+body{
+    position: relative;
+    background-color: transparent!important;
+    min-height: 100vh;
+}
+
+body:after {
+
+    background-image: url("/img/fon2.webp")!important;
+    background-size: cover;
+    content: "";
+    opacity: 0.7;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    z-index: -1;
+}
+
+.bg-white, .card{
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
 .menu-active {
-    /*background-color: #47abf7;*/
     border: 1px solid #47abf7;
 }
 

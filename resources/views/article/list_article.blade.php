@@ -422,7 +422,7 @@
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
                                             <a href="{{route('article.destroy', ['article' => $article['id']])}}"
-                                               class="btn btn-sm btn-outline-danger" onclick="confirmDelete()"><i
+                                               class="btn btn-sm btn-danger" onclick="confirmDelete()"><i
                                                     class="fas fa-minus"></i></a>
                                         </div>
                                     </td>

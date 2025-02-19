@@ -40,7 +40,7 @@
                                <td> <div class="form-group col-12 d-flex justify-content-between destroy">
 
                                     <a href="{{route('add_option_status.destroy',['status' => $item['id']])}}"
-                                       class="btn btn-sm btn-outline-danger"><i
+                                       class="btn btn-sm btn-danger"><i
                                             class="fas fa-minus"></i></a>
                                 </div>
                             </td>

@@ -120,7 +120,7 @@
                                     <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
                                             <a href="{{route('client.destroy',['client' => $client['id']])}}"
-                                               class="btn btn-sm btn-outline-danger" onclick="confirmDelete()">
+                                               class="btn btn-sm btn-danger" onclick="confirmDelete()">
                                                 <i class="fas fa-minus"></i>
                                             </a>
                                         </div>
