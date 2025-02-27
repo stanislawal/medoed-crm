@@ -193,7 +193,7 @@ ul.pagination {
 }
 
 select {
-    border: 1px solid #ebedf2 !important;
+    border: 1px solid #ced4da !important;
 }
 
 span.select2 {
@@ -463,6 +463,40 @@ textarea {
 .project-event-table .new-value {
     background-color: #11e1116b;
     width: 33%;
+}
+
+.select2-container .select2-selection--single{
+    height: 32px!important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    line-height: 31px!important;
+}
+
+.select-2-custom-state-color{
+    color: #ffffff;
+    padding: 2px 15px;
+    border-radius: 3px;
+    text-shadow: 1px 0 1px #3d3d3d,
+    0 1px 1px #3d3d3d,
+    -1px 0 1px #3d3d3d,
+    0 -1px 1px #3d3d3d;
+}
+
+.loading {
+    font-weight: bold;
+    display:inline-block;
+    font-family: monospace;
+    font-size: 24px;
+    -webkit-clip-path: inset(0 3ch 0 0);
+            clip-path: inset(0 3ch 0 0);
+    animation: l 1s steps(4) infinite;
+}
+@keyframes l {
+    to {
+        -webkit-clip-path: inset(0 -1ch 0 0);
+                clip-path: inset(0 -1ch 0 0)
+    }
 }
 
 

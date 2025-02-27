@@ -4,6 +4,7 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Article\ArticleController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Lid\LidController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Option\StatusPaymentController;
 use App\Http\Controllers\Payment\PaymentController;
@@ -180,4 +181,9 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     Route::get('report/client/export/item/{id}', [ReportClientController::class, 'exportItem'])
         ->name('report.client_item');
     #-----------------------------------ЭКСПОРТ В ЭКСЕЛЬ----------------------------------------
+
+    Route::middleware('role:Администратор|Реклама')->group(function (){
+        Route::get('lid/get-by-id-html', [LidController::class, 'getByIdHtml'])->name('lid.get_by_id_html');
+        Route::resource('lid', LidController::class)->only(['index', 'store', 'update', 'destroy']);
+    });
 });

@@ -65,4 +65,28 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Bank::class, 'bank_id');
     }
+
+    /*
+     *  Минималькое имя
+     */
+    public function getMinNameAttribute()
+    {
+        // Получаем полное имя
+        $fullName = $this->full_name; // Замените 'full_name' на ваше поле с ФИО
+
+        // Разбиваем строку на части
+        $parts = explode(' ', $fullName);
+
+        $minName = '';
+
+        foreach ($parts as $key => $item) {
+            if ($key == 0) {
+                $minName .= $item;
+            } else {
+                $minName .= ' ' . mb_substr($item, 0, 1) . '.';
+            }
+        }
+
+        return $minName;
+    }
 }

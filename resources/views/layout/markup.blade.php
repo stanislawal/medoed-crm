@@ -238,7 +238,6 @@
                                 </ul>
                             </div>
                         </li>
-
                         @endhasanyrole
 
                         @hasanyrole('Администратор|Менеджер|Автор')
@@ -296,6 +295,25 @@
                                         </li>
                                     @endif
                                     @endrole
+                                </ul>
+                            </div>
+                        </li>
+                        @endhasanyrole
+
+                        @hasanyrole('Администратор|Реклама')
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#lid">
+                                <i class="fas fa-users"></i>
+                                <p>Лиды</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="lid">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('lid.index') }}">
+                                            <span class="sub-item">База лидов</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

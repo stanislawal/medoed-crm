@@ -31,6 +31,8 @@ mix.js('resources/js/socket/socket.js', 'public/js');
 mix.js('resources/js/reports/author.js', 'public/js');
 // project files
 mix.js('resources/js/project/files.js', 'public/js');
+// lid
+mix.js('resources/js/lid/lid.js', 'public/js');
 
 //---------------------CSS-----------------
 // app css
