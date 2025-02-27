@@ -40,17 +40,17 @@
 
                     <div class="form-group">
                         <label for="">Статус</label>
-                        <select name="lid_status_id" required class="form-select form-select-sm">
+                        <select name="lid_status_id" required class="form-select form-select-sm select2-with-color">
                             <option value="">Не выбрано</option>
                             @foreach($lidStatuses as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option value="{{ $item->id }}" data-color="{{ $item->color ?? '' }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="">Состояние</label>
-                        <textarea class="form-control form-control-sm" required name="state" cols="30" rows="3"></textarea>
+                        <textarea class="form-control form-control-sm " required name="state" cols="30" rows="3"></textarea>
                     </div>
 
                     <div class="form-group">

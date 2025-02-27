@@ -115,7 +115,7 @@
 @endsection
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="{{ asset('js/lid.js') }}"></script>
+    <script src="{{ asset('js/lid.js') }}?v=@version"></script>
 
     <script>
         const getLitInfoURL = '{{ route('lid.get_by_id_html') }}';
@@ -137,6 +137,11 @@
                 return state.text
             }
         }
+
+        $('.select2-with-color').select2({
+            templateSelection: window.formatState,
+            templateResult: window.formatState
+        })
     </script>
 
 @endsection
