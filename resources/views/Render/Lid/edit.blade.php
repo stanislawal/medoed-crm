@@ -41,7 +41,6 @@
             @endforeach
         </select>
     </div>
-    `
     <div class="mb-3">
         <label for="" class="form-label">Ссылка на лида</label>
         <input type="text" class="form-control form-control-sm" name="link_lid" value="{{ $lid->link_lid ?? '' }}">
@@ -58,11 +57,11 @@
     </div>
     <div class="mb-3">
         <label for="" class="form-label">Созвон</label>
-        <select class="form-select form-select-sm" name="call_up_id" id="">
+        <select class="form-select form-select-sm select2-with-color" name="call_up_id" id="">
             <option value="">Не выбрано</option>
             @foreach($callUps as $item)
                 <option
-                    value="{{ $item->id }}" {{ $lid->call_up_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                    value="{{ $item->id }}" {{ $lid->call_up_id == $item->id ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
             @endforeach
         </select>
     </div>

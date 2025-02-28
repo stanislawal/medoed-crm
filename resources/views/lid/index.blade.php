@@ -14,7 +14,7 @@
         <div class="mb-3">
             <div class="w-100 shadow border rounded p-3 bg-white">
                 <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i
-                        class="fa fa-search search-icon mr-2"></i>Поиск
+                            class="fa fa-search search-icon mr-2"></i>Поиск
                 </div>
 
                 <form action="" class="check__field">
@@ -57,39 +57,115 @@
                             <tr>
                                 <th class="text-center">ID</th>
                                 <th class="text-center" style="width: 60px;"><i class="fas fa-pen"></i></th>
-                                <th style="width: 90px;">Рекламмная компания</th>
+                                <th style="width: 50px;">Рек. комп.</th>
                                 <th style="width: 90px;">Дата поступления</th>
                                 <th>Ресурс</th>
                                 <th>Имя/Ссылка</th>
-                                <th class="text-center">Статус</th>
-                                <th>Состояние</th>
+                                <th>Место вед. диалога</th>
+                                <th>Ссылка на лида</th>
+                                <th>Услуга</th>
+                                <th>Созвон</th>
+                                <th>Дата и время созвона</th>
+                                <th>Аудит</th>
+                                <th>Задача специалиста</th>
+                                <th>Дата[<br>передан<br>принят<br>сделан]</th>
+                                <th>Специалист</th>
+                                <th>Прописка</th>
+                                <th>Статус / Состояние</th>
+                                <th>Ссылка на сайт</th>
+                                <th>Регион</th>
+                                <th>Цена</th>
+                                <th>Сфера бизнеса</th>
                                 <th>Создал</th>
-                                <th class="text-center" style="width: 60px;"><i class="fas fa-trash"></i></th>
+                                @if(auth()->user()->hasRole('Администратор'))
+                                    <th class="text-center" style="width: 60px;"><i class="fas fa-trash"></i></th>
+                                @endif
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($lids as $lid)
+                            @foreach($lids as $key => $lid)
+
+                                {{--                                @if()--}}
+
                                 <tr data-id="{{ $lid->id }}">
                                     <td class="text-center">{{ $lid->id }}</td>
+
                                     <td class="text-center">
                                         <div class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                              data-bs-target="#edit_lid" data-id="{{ $lid->id }}"><i
-                                                class="fas fa-pen"></i></div>
+                                                    class="fas fa-pen"></i></div>
                                     </td>
+
                                     <td class="text-center">{{ $lid->advertising_company }}</td>
-                                    <td>{{ $lid->date_receipt }}</td>
+
+                                    <td class="text-center">{{ date('d.m.Y', strtotime($lid->date_receipt)) }}</td>
+
                                     <td>{{ $lid->resource->name ?? '' }}</td>
-                                    <td>{{ $lid->name_link }}</td>
-                                    <td class="text-center"><span class="select-2-custom-state-color" style="background-color: {{ $lid->lidStatus->color ?? '' }};">{{ $lid->lidStatus->name ?? 'Не указан' }}</span></td>
-                                    <td>{{ $lid->state }}</td>
-                                    <td>{{ $lid->createUser->minName }}</td>
-                                    <td class="text-center">
-                                        <form action="{{ route('lid.destroy', ['lid' => $lid->id ]) }}" method="post">
-                                            @csrf @method('DELETE')
-                                            <button class="btn btn-sm btn-danger" onclick="window.confirmDelete()"><i
-                                                    class="fas fa-trash"></i></button>
-                                        </form>
+
+                                    <td>{{ $lid->name_link ?? '' }}</td>
+
+                                    <td>{{ $lid->locationDialogue->name ?? '' }}</td>
+
+                                    <td>{{ $lid->link_lid ?? '' }}</td>
+
+                                    <td>{{ $lid->service->name ?? '' }}</td>
+
+                                    <td>
+                                        @if($lid->callUp?->color)
+                                            <span class="select-2-custom-state-color nowrap px-2 me-1"
+                                                  style="background-color: {{ $lid->callUp->color ?? '' }};">{{ $lid->callUp->name ?? '' }}</span>
+                                        @else
+                                            {{ $lid->callUp->name ?? '' }}
+                                        @endif
                                     </td>
+                                    <td>{{ $lid->date_time_call_up ?? '' }}</td>
+                                    <td>
+                                        @if($lid->audit?->color)
+                                            <span class="select-2-custom-state-color nowrap px-2 me-1"
+                                                  style="background-color: {{ $lid->audit->color ?? '' }};">{{ $lid->audit->name ?? '' }}</span>
+                                        @else
+                                            {{ $lid->audit->name ?? '' }}
+                                        @endif
+                                    </td>
+                                    <td>{{ $lid->specialistTask->name ?? '' }}</td>
+                                    <td>
+                                        <span
+                                                class="nowrap">{{ $lid->transfer_date ? date('d.m.Y', strtotime($lid->transfer_date)) : '---' }}</span><br>
+                                        <span
+                                                class="nowrap">{{ $lid->date_acceptance ? date('d.m.Y', strtotime($lid->date_acceptance)) : '---' }}</span><br>
+                                        <span
+                                                class="nowrap">{{ $lid->ready_date ? date('d.m.Y', strtotime($lid->ready_date)) : '---' }}</span>
+                                    </td>
+                                    <td>{{ $lid->specialistUser->minName ?? '' }}</td>
+                                    <td class="text-center" style="color:#606060;">
+                                        @if($lid->write_lid)
+                                            <i class="fas fa-check-square text-22"></i>
+                                        @else
+                                            <i class="far fa-square text-22"></i>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <span class="select-2-custom-state-color nowrap px-2 me-1"
+                                              style="background-color: {{ $lid->lidStatus->color ?? '' }};">{{ $lid->lidStatus->name ?? 'Не указан' }}</span>
+                                        {{ $lid->state }}
+                                    </td>
+                                    <td>{{ $lid->link_to_site ?? '' }}</td>
+                                    <td>{{ $lid->region ?? '' }}</td>
+                                    <td>{{ $lid->price ?? '' }}</td>
+                                    <td>{{ $lid->business_are ?? '' }}</td>
+
+                                    <td>{{ $lid->createUser->minName ?? '' }}</td>
+
+                                    @if(auth()->user()->hasRole('Администратор'))
+                                        <td class="text-center">
+                                            <form action="{{ route('lid.destroy', ['lid' => $lid->id ]) }}"
+                                                  method="post">
+                                                @csrf @method('DELETE')
+                                                <button class="btn btn-sm btn-danger" onclick="window.confirmDelete()">
+                                                    <i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

@@ -37,7 +37,7 @@ class LidController extends Controller
             'lidStatus',
             'createUser'
         ])
-            ->orderByDesc('id')
+            ->orderByDesc('date_receipt')
             ->paginate(20);
 
         return view('lid.index', [
@@ -109,8 +109,12 @@ class LidController extends Controller
      */
     public function destroy($id)
     {
-        Lid::on()->delete($id);
-        return redirect()->back()->with(['success' => "Лид успешно удален [ID: {$id}]"]);
+        if(UserHelper::isAdmin()){
+            Lid::on()->where('id', $id)->delete();
+            return redirect()->back()->with(['success' => "Лид успешно удален [ID: {$id}]"]);
+        }
+
+        abort(403);
     }
 
     public function getByIdHtml(Request $request)
