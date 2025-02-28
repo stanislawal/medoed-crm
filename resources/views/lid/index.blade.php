@@ -85,7 +85,13 @@
                             <tbody>
                             @foreach($lids as $key => $lid)
 
-                                {{--                                @if()--}}
+                                @if($key == 0 || $lid['date_receipt'] != $lids[$key - 1]['date_receipt'])
+                                    <tr>
+                                        <td class="text-center font-weight-bold" style="font-size: 16px!important;" colspan="30">
+                                                {{ date('d.m.Y', strtotime($lid->date_receipt)) }}
+                                        </td>
+                                    </tr>
+                                @endif
 
                                 <tr data-id="{{ $lid->id }}">
                                     <td class="text-center">{{ $lid->id }}</td>
