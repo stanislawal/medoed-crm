@@ -72,11 +72,11 @@
     </div>
     <div class="mb-3">
         <label for="" class="form-label">Аудит</label>
-        <select class="form-select form-select-sm" name="audit_id" id="">
+        <select class="form-select form-select-sm select2-with-color" name="audit_id" id="">
             <option value="">Не выбрано</option>
             @foreach($audits as $item)
                 <option
-                    value="{{ $item->id }}" {{ $lid->audit_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                    value="{{ $item->id }}" {{ $lid->audit_id == $item->id ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
             @endforeach
         </select>
     </div>

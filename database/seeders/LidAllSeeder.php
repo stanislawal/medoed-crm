@@ -44,23 +44,23 @@ class LidAllSeeder extends Seeder
         $list = [
             [
                 'name' => 'Аудит назначен',
-                'color' => ''
+                'color' => '#ffd825'
             ],
             [
                 'name' => 'Аудит в работе',
-                'color' => ''
+                'color' => '#6d9eeb'
             ],
             [
                 'name' => 'Аудит проведен',
-                'color' => ''
+                'color' => '#0a9b2f'
             ],
             [
                 'name' => 'Аудит не сделан',
-                'color' => ''
+                'color' => '#f37979'
             ],
             [
                 'name' => 'Аудит в запасе',
-                'color' => ''
+                'color' => '#b131f5'
             ]
         ];
 
