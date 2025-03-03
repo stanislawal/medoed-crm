@@ -21,6 +21,7 @@ class Lid extends Model
         'link_lid', // ссылка на лида
         'service_id', // услуга
         'call_up_id', // созвон
+        'result_call', // итоги созвона, если он прошел
         'date_time_call_up', // дата и время созвона
         'audit_id', // аудит
         'specialist_task_id', // задача специалиста

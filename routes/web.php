@@ -183,6 +183,7 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     #-----------------------------------ЭКСПОРТ В ЭКСЕЛЬ----------------------------------------
 
     Route::middleware('role:Администратор|Реклама')->group(function (){
+        Route::post('lid/partial-update/{id}', [LidController::class, 'ajaxUpdate'])->name('lid.partial_update');
         Route::get('lid/get-by-id-html', [LidController::class, 'getByIdHtml'])->name('lid.get_by_id_html');
         Route::resource('lid', LidController::class)->only(['index', 'store', 'update', 'destroy']);
     });

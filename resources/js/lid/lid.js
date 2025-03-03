@@ -38,7 +38,32 @@ modalEdit.on('hidden.bs.modal', function () {
     modalBody.empty();
 })
 
-window.showNotification = function (status, message) {
+$('tr td input[name="write_lid"]').change(function () {
+    var url = $(this).data('url');
+    var value = $(this).is(':checked') ? 1 : 0;
+
+    $(this).prop('disabled', true);
+
+    $.ajax({
+        url: url,
+        method: 'POST',
+        data: {'write_lid': value},
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    }).done((res) => {
+        if (res.result) {
+            showNotification('success', 'Поле успешно обновлено.', true)
+        } else {
+            showNotification('error', res.message)
+        }
+    }).fail((error) => {
+        showNotification('error', 'Произошла ошибка.')
+        $(this).is(':checked') ? $(this).prop('checked', false) : $(this).prop('checked', true);
+    })
+
+    $(this).prop('disabled', false);
+})
+
+window.showNotification = function (status, message, audio = false) {
 
     let alertSuccess = $('.ajax-success');
     let alertError = $('.ajax-error');
@@ -49,6 +74,9 @@ window.showNotification = function (status, message) {
     switch (status) {
         case 'success' :
             alertSuccess.text(message).show();
+            if (audio) {
+                window.saveAudio.play();
+            }
             break;
         case 'error' :
             alertError.text(message).show();
@@ -60,5 +88,7 @@ window.showNotification = function (status, message) {
         alertError.hide();
     }, 4000);
 }
+
+
 
 

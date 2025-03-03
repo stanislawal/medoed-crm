@@ -57,7 +57,7 @@
     </div>
     <div class="mb-3">
         <label for="" class="form-label">Созвон</label>
-        <select class="form-select form-select-sm select2-with-color" name="call_up_id" id="">
+        <select class="form-select form-select-sm select2-with-color" id="call_up_id" name="call_up_id" id="">
             <option value="">Не выбрано</option>
             @foreach($callUps as $item)
                 <option
@@ -65,6 +65,13 @@
             @endforeach
         </select>
     </div>
+
+    <div class="mb-3" id="result_call" @if($lid->call_up_id != 2) style="display: none" @endif >
+        <label for="" class="form-label">Итоги созвона <span class="text-danger text-12">(обязательно)</span></label>
+        <textarea class="form-control form-control-sm"   @if($lid->call_up_id == 2) required @endif name="result_call" required cols="30"
+                  rows="3">{{ $lid->result_call ?? '' }}</textarea>
+    </div>
+
     <div class="mb-3">
         <label for="" class="form-label">Дата и время созвона</label>
         <input type="text" class="form-control form-control-sm" name="date_time_call_up"
@@ -115,15 +122,6 @@
             @endforeach
         </select>
     </div>
-    <div>
-        <div class="form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" type="checkbox"
-                       value="1" name="write_lid" {{ $lid->write_lid ? 'checked' : '' }}>
-                <span class="form-check-sign">Прописка</span>
-            </label>
-        </div>
-    </div>
     <div class="mb-3">
         <label for="" class="form-label">Статус</label>
         <select class="form-select form-select-sm select2-with-color" name="lid_status_id" id="">
@@ -137,7 +135,7 @@
         </select>
     </div>
     <div class="mb-3">
-        <label for="" class="form-label"></label>
+        <label for="" class="form-label">Состояние</label>
         <textarea class="form-control form-control-sm" required name="state" cols="30"
                   rows="3">{{ $lid->state ?? '' }}</textarea>
     </div>

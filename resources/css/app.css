@@ -497,3 +497,11 @@ textarea {
     }
 }
 
+.checkbox{
+    transform: scale(1.3)
+}
+
+.checkbox:checked{
+    background-color: red;
+}
+

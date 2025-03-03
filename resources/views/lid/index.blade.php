@@ -14,7 +14,7 @@
         <div class="mb-3">
             <div class="w-100 shadow border rounded p-3 bg-white">
                 <div class="btn btn-sm btn-secondary" onclick="searchToggle()"><i
-                            class="fa fa-search search-icon mr-2"></i>Поиск
+                        class="fa fa-search search-icon mr-2"></i>Поиск
                 </div>
 
                 <form action="" class="check__field">
@@ -67,15 +67,16 @@
                                 <th>Созвон</th>
                                 <th>Дата и время созвона</th>
                                 <th>Аудит</th>
-                                <th>Задача специалиста</th>
-                                <th>Дата[<br>передан<br>принят<br>сделан]</th>
-                                <th>Специалист</th>
-                                <th>Прописка</th>
+                                <th>Задача спец.</th>
+                                <th></th>
                                 <th>Статус / Состояние</th>
                                 <th>Ссылка на сайт</th>
                                 <th>Регион</th>
                                 <th>Цена</th>
                                 <th>Сфера бизнеса</th>
+                                <th>Дата[<br>передан<br>принят<br>сделан]</th>
+                                <th>Специалист</th>
+                                <th>Итоги созвона</th>
                                 <th>Создал</th>
                                 @if(auth()->user()->hasRole('Администратор'))
                                     <th class="text-center" style="width: 60px;"><i class="fas fa-trash"></i></th>
@@ -87,8 +88,9 @@
 
                                 @if($key == 0 || $lid['date_receipt'] != $lids[$key - 1]['date_receipt'])
                                     <tr>
-                                        <td class="text-center font-weight-bold" style="font-size: 16px!important;" colspan="30">
-                                                {{ date('d.m.Y', strtotime($lid->date_receipt)) }}
+                                        <td class="text-center font-weight-bold" style="font-size: 16px!important;"
+                                            colspan="30">
+                                            {{ date('d.m.Y', strtotime($lid->date_receipt)) }}
                                         </td>
                                     </tr>
                                 @endif
@@ -99,7 +101,7 @@
                                     <td class="text-center">
                                         <div class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                              data-bs-target="#edit_lid" data-id="{{ $lid->id }}"><i
-                                                    class="fas fa-pen"></i></div>
+                                                class="fas fa-pen"></i></div>
                                     </td>
 
                                     <td class="text-center">{{ $lid->advertising_company }}</td>
@@ -134,23 +136,12 @@
                                         @endif
                                     </td>
                                     <td>{{ $lid->specialistTask->name ?? '' }}</td>
-                                    <td>
-                                        <span
-                                                class="nowrap">{{ $lid->transfer_date ? date('d.m.Y', strtotime($lid->transfer_date)) : '---' }}</span><br>
-                                        <span
-                                                class="nowrap">{{ $lid->date_acceptance ? date('d.m.Y', strtotime($lid->date_acceptance)) : '---' }}</span><br>
-                                        <span
-                                                class="nowrap">{{ $lid->ready_date ? date('d.m.Y', strtotime($lid->ready_date)) : '---' }}</span>
-                                    </td>
-                                    <td>{{ $lid->specialistUser->minName ?? '' }}</td>
                                     <td class="text-center" style="color:#606060;">
-                                        @if($lid->write_lid)
-                                            <i class="fas fa-check-square text-22"></i>
-                                        @else
-                                            <i class="far fa-square text-22"></i>
-                                        @endif
+                                        <input type="checkbox" name="write_lid" class="checkbox"
+                                               @if($lid->write_lid) checked
+                                               @endif data-url="{{ route('lid.partial_update', ['id' => $lid->id]) }}">
                                     </td>
-                                    <td>
+                                    <td style="min-width: 200px;">
                                         <span class="select-2-custom-state-color nowrap px-2 me-1"
                                               style="background-color: {{ $lid->lidStatus->color ?? '' }};">{{ $lid->lidStatus->name ?? 'Не указан' }}</span>
                                         {{ $lid->state }}
@@ -159,6 +150,18 @@
                                     <td>{{ $lid->region ?? '' }}</td>
                                     <td>{{ $lid->price ?? '' }}</td>
                                     <td>{{ $lid->business_are ?? '' }}</td>
+
+                                    <td>
+                                        <span
+                                            class="nowrap">{{ $lid->transfer_date ? date('d.m.Y', strtotime($lid->transfer_date)) : '---' }}</span><br>
+                                        <span
+                                            class="nowrap">{{ $lid->date_acceptance ? date('d.m.Y', strtotime($lid->date_acceptance)) : '---' }}</span><br>
+                                        <span
+                                            class="nowrap">{{ $lid->ready_date ? date('d.m.Y', strtotime($lid->ready_date)) : '---' }}</span>
+                                    </td>
+                                    <td>{{ $lid->specialistUser->minName ?? '' }}</td>
+
+                                    <td>{{ $lid->result_call }}</td>
 
                                     <td>{{ $lid->createUser->minName ?? '' }}</td>
 
@@ -172,6 +175,7 @@
                                             </form>
                                         </td>
                                     @endif
+
                                 </tr>
                             @endforeach
                             </tbody>
@@ -208,6 +212,7 @@
             }
         }
 
+
         window.formatState = function (state) {
             if (!state.id) {
                 return state.text;
@@ -223,6 +228,19 @@
         $('.select2-with-color').select2({
             templateSelection: window.formatState,
             templateResult: window.formatState
+        })
+
+        $('body').on('change', '#call_up_id', function () {
+            let resultCall = $('#result_call');
+            let textarea = resultCall.find('textarea');
+            let value = $(this).val();
+            if (parseInt(value) === 2) {
+                resultCall.show();
+                textarea.prop('required', true)
+            } else {
+                resultCall.hide();
+                textarea.prop('required', false)
+            }
         })
     </script>
 
