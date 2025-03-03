@@ -175,7 +175,6 @@
                                             </form>
                                         </td>
                                     @endif
-
                                 </tr>
                             @endforeach
                             </tbody>

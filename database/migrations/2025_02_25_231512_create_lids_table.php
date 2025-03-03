@@ -32,7 +32,7 @@ class CreateLidsTable extends Migration
             $table->unsignedBigInteger('specialist_user_id')->nullable();
             $table->boolean('write_lid')->nullable();
             $table->unsignedBigInteger('lid_status_id');
-            $table->string('state', 500);
+            $table->string('state', 500)->nullable();
             $table->string('link_to_site', 100)->nullable();
             $table->string('region', 100)->nullable();
             $table->decimal('price', 8, 2)->nullable();

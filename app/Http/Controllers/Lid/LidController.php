@@ -61,7 +61,7 @@ class LidController extends Controller
             'resource_id'         => ['required', 'integer'],
             'name_link'           => ['required', 'string', 'max:500'],
             'lid_status_id'       => ['required', 'integer'],
-            'state'               => ['required', 'string', 'max:500'],
+            'state'               => ['nullable', 'string', 'max:500'],
         ]);
 
         $attr['create_user_id'] = UserHelper::getUserId();
@@ -84,7 +84,7 @@ class LidController extends Controller
             'resource_id'          => ['required', 'integer'],
             'name_link'            => ['required', 'string', 'max:500'],
             'lid_status_id'        => ['required', 'integer'],
-            'state'                => ['required', 'string', 'max:500'],
+            'state'                => ['nullable', 'string', 'max:500'],
             'location_dialogue_id' => ['nullable', 'integer'],
             'link_lid'             => ['nullable', 'string', 'max:500'],
             'service_id'           => ['nullable', 'integer'],

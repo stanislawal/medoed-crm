@@ -68,7 +68,7 @@
 
     <div class="mb-3" id="result_call" @if($lid->call_up_id != 2) style="display: none" @endif >
         <label for="" class="form-label">Итоги созвона <span class="text-danger text-12">(обязательно)</span></label>
-        <textarea class="form-control form-control-sm"   @if($lid->call_up_id == 2) required @endif name="result_call" required cols="30"
+        <textarea class="form-control form-control-sm" @if($lid->call_up_id == 2) required @endif name="result_call" cols="30"
                   rows="3">{{ $lid->result_call ?? '' }}</textarea>
     </div>
 
