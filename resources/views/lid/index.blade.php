@@ -229,19 +229,6 @@
             templateSelection: window.formatState,
             templateResult: window.formatState
         })
-
-        $('body').on('change', '#call_up_id', function () {
-            let resultCall = $('#result_call');
-            let textarea = resultCall.find('textarea');
-            let value = $(this).val();
-            if (parseInt(value) === 2) {
-                resultCall.show();
-                textarea.prop('required', true)
-            } else {
-                resultCall.hide();
-                textarea.prop('required', false)
-            }
-        })
     </script>
 
 @endsection
