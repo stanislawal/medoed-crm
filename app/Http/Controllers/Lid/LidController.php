@@ -39,6 +39,7 @@ class LidController extends Controller
             'createUser'
         ])
             ->orderByDesc('date_receipt')
+            ->orderByDesc('created_at')
             ->paginate(20);
 
         return view('lid.index', [
