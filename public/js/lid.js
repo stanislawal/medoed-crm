@@ -87,5 +87,17 @@ window.showNotification = function (status, message) {
     alertError.hide();
   }, 4000);
 };
+$('body').on('change', '#call_up_id', function () {
+  var resultCall = $('#result_call');
+  var textarea = resultCall.find('textarea');
+  var value = $(this).val();
+  if (parseInt(value) === 2) {
+    resultCall.show();
+    textarea.prop('required', true);
+  } else {
+    resultCall.hide();
+    textarea.prop('required', false);
+  }
+});
 /******/ })()
 ;
