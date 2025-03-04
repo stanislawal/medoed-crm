@@ -91,7 +91,6 @@
                                 <th class="text-center">ID</th>
                                 <th class="text-center" style="width: 60px;"><i class="fas fa-pen"></i></th>
                                 <th style="width: 50px;">Рек. комп.</th>
-                                <th style="width: 90px;">Дата поступления</th>
                                 <th>Ресурс</th>
                                 <th>Имя/Ссылка</th>
                                 <th>Место вед. диалога</th>
@@ -142,8 +141,6 @@
                                     </td>
 
                                     <td class="text-center">{{ $lid->advertising_company }}</td>
-
-                                    <td class="text-center">{{ date('d.m.Y', strtotime($lid->date_receipt)) }}</td>
 
                                     <td>{{ $lid->resource->name ?? '' }}</td>
 
