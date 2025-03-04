@@ -32,6 +32,8 @@ class Lid extends Model
         'write_lid', // прописать
         'lid_status_id', // статус
         'state', // состояние
+        'lid_specialist_status_id', // статус специалиста
+        'state_specialist', // // состояние специалиста
         'link_to_site', // ссылка на сайт
         'region', // регион
         'price', // цена
@@ -84,5 +86,10 @@ class Lid extends Model
     public function createUser()
     {
         return $this->belongsTo(User::class, 'create_user_id');
+    }
+
+    public function lidSpecialistStatus()
+    {
+        return $this->belongsTo(LidSpecialistStatus::class, 'lid_specialist_status_id');
     }
 }

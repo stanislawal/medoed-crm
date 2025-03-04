@@ -179,14 +179,14 @@ class ProjectController extends Controller
                 'project_status_text'              => $request->project_status_text ?? null,
                 'date_notification'                => $request->date_notification ?? null,
                 'date_last_change'                 => $request->date_last_change ?? null,
-
-                'date_connect_with_client' => $request->date_connect_with_client ?? null,
-                'company_name'             => $request->company_name ?? null,
-                'deadline_accepting_work'  => $request->deadline_accepting_work ?? null,
-                'contract_number'          => $request->contract_number ?? null,
-                'legal_name_company'       => $request->legal_name_company ?? null,
-                'period_work_performed'    => $request->period_work_performed ?? null,
-                'requisite_id'             => $request->requisite_id ?? null,
+                'call_up'                          => $request->call_up ?? null,
+                'date_connect_with_client'         => $request->date_connect_with_client ?? null,
+                'company_name'                     => $request->company_name ?? null,
+                'deadline_accepting_work'          => $request->deadline_accepting_work ?? null,
+                'contract_number'                  => $request->contract_number ?? null,
+                'legal_name_company'               => $request->legal_name_company ?? null,
+                'period_work_performed'            => $request->period_work_performed ?? null,
+                'requisite_id'                     => $request->requisite_id ?? null,
             ];
 
             $project = Project::on()->create($attr);
@@ -381,6 +381,7 @@ class ProjectController extends Controller
             'content_public_platform'          => $request->content_public_platform ?? null,
             'project_perspective_sees_account' => $request->project_perspective_sees_account ?? null,
             'edo'                              => $request->edo ?? null,
+            'call_up'                          => $request->call_up ?? null,
             'date_connect_with_client'         => $request->date_connect_with_client ?? null,
             'company_name'                     => $request->company_name ?? null,
             'deadline_accepting_work'          => $request->deadline_accepting_work ?? null,

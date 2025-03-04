@@ -34,6 +34,17 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="" class="form-label">Услуга</label>
+                        <select class="form-select form-select-sm" required name="service_id" id="">
+                            <option value="">Не выбрано</option>
+                            @foreach($services as $item)
+                                <option
+                                    value="{{ $item->id }}" >{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="">Имя/Ссылка</label>
                         <input class="form-control form-control-sm" type="text" name="name_link" required>
                     </div>

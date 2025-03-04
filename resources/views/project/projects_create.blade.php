@@ -215,6 +215,13 @@
             </div>
 
             <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Созвон</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="call_up">
+                </div>
+            </div>
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Назначить авторов</label>
                 <div class="col-sm-9">
                     <select class="form-select form-select-sm select-2" multiple name="author_id[]">

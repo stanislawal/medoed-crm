@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Lid\Audit;
 use App\Models\Lid\CallUp;
+use App\Models\Lid\LidSpecialistStatus;
 use App\Models\Lid\LocationDialogue;
 use App\Models\Lid\Resource;
 use App\Models\Lid\Service;
@@ -96,76 +97,99 @@ class LidAllSeeder extends Seeder
 //                'name' => $item['name']
 //            ], $item);
 //        }
+//
+//        Resource::on()->truncate();
+//
+//        $list = [
+//            ['name' => 'Фл', 'color' => ''],
+//            ['name' => 'Телеграм', 'color' => ''],
+//            ['name' => 'Юду', 'color' => ''],
+//            ['name' => 'Профи', 'color' => ''],
+//            ['name' => 'Фриланс', 'color' => ''],
+//            ['name' => 'Кворк', 'color' => ''],
+//            ['name' => 'ЯУ', 'color' => ''],
+//            ['name' => 'Реклама кворк', 'color' => ''],
+//            ['name' => 'Реклама яу', 'color' => ''],
+//            ['name' => 'Таргет', 'color' => ''],
+//            ['name' => 'Сам', 'color' => ''],
+//            ['name' => 'Сарафан', 'color' => ''],
+//            ['name' => 'заявка ВК', 'color' => ''],
+//            ['name' => 'Сайт', 'color' => ''],
+//            ['name' => 'Юла', 'color' => ''],
+//            ['name' => 'Авито', 'color' => ''],
+//            ['name' => 'Хедхантер', 'color' => ''],
+//            ['name' => 'Реклама Авито', 'color' => ''],
+//            ['name' => 'Реклама фриланс ру', 'color' => ''],
+//            ['name' => 'реклама фл', 'color' => ''],
+//            ['name' => 'старый зак', 'color' => ''],
+//            ['name' => 'тенчат', 'color' => '']
+//        ];
+//
+//        foreach ($list as $item) {
+//            Resource::on()->updateOrCreate([
+//                'name' => $item['name']
+//            ], $item);
+//        }
+//
+//
+//        Service::on()->truncate();
+//
+//        $list = [
+//            ['name' => 'SEO'],
+//            ['name' => 'Контент-маркетинг'],
+//            ['name' => 'Контент'],
+//            ['name' => 'Дзен'],
+//            ['name' => 'блоги'],
+//            ['name' => 'SMM']
+//        ];
+//
+//        foreach ($list as $item) {
+//            Service::on()->updateOrCreate([
+//                'name' => $item['name']
+//            ], $item);
+//        }
+//
+//
+//        LocationDialogue::on()->truncate();
+//
+//        $list = [
+//            ['name' => 'тг2'],
+//            ['name' => 'тг4'],
+//            ['name' => 'тг кирилл'],
+//            ['name' => 'тг даша'],
+//            ['name' => 'тг1'],
+//            ['name' => 'вотсап к'],
+//            ['name' => 'вотсап д'],
+//            ['name' => 'вотсап а'],
+//            ['name' => 'вк д'],
+//            ['name' => 'вк а']
+//        ];
+//
+//        foreach ($list as $item) {
+//            LocationDialogue::on()->updateOrCreate([
+//                'name' => $item['name']
+//            ], $item);
+//        }
 
-        Resource::on()->truncate();
+
+        LidSpecialistStatus::on()->truncate();
 
         $list = [
-            ['name' => 'Фл', 'color' => ''],
-            ['name' => 'Телеграм', 'color' => ''],
-            ['name' => 'Юду', 'color' => ''],
-            ['name' => 'Профи', 'color' => ''],
-            ['name' => 'Фриланс', 'color' => ''],
-            ['name' => 'Кворк', 'color' => ''],
-            ['name' => 'ЯУ', 'color' => ''],
-            ['name' => 'Реклама кворк', 'color' => ''],
-            ['name' => 'Реклама яу', 'color' => ''],
-            ['name' => 'Таргет', 'color' => ''],
-            ['name' => 'Сам', 'color' => ''],
-            ['name' => 'Сарафан', 'color' => ''],
-            ['name' => 'заявка ВК', 'color' => ''],
-            ['name' => 'Сайт', 'color' => ''],
-            ['name' => 'Юла', 'color' => ''],
-            ['name' => 'Авито', 'color' => ''],
-            ['name' => 'Хедхантер', 'color' => ''],
-            ['name' => 'Реклама Авито', 'color' => ''],
-            ['name' => 'Реклама фриланс ру', 'color' => ''],
-            ['name' => 'реклама фл', 'color' => ''],
-            ['name' => 'старый зак', 'color' => ''],
-            ['name' => 'тенчат', 'color' => '']
+            ['name' => 'На ответе', 'color' => ''],
+            ['name' => 'Отвечен', 'color' => ''],
+            ['name' => 'На аудите', 'color' => ''],
+            ['name' => 'Аудит на проверке', 'color' => ''],
+            ['name' => 'План работ в работе', 'color' => ''],
+            ['name' => 'План работ на проверке', 'color' => ''],
+            ['name' => 'КП в работе', 'color' => ''],
+            ['name' => 'КП на проверке', 'color' => ''],
+            ['name' => 'Изучает договор', 'color' => ''],
+            ['name' => 'На подписании', 'color' => ''],
+            ['name' => 'Подписан', 'color' => '']
         ];
 
         foreach ($list as $item) {
-            Resource::on()->updateOrCreate([
-                'name' => $item['name']
-            ], $item);
-        }
-
-
-        Service::on()->truncate();
-
-        $list = [
-            ['name' => 'SEO'],
-            ['name' => 'Контент-маркетинг'],
-            ['name' => 'Контент'],
-            ['name' => 'Дзен'],
-            ['name' => 'блоги'],
-            ['name' => 'SMM']
-        ];
-
-        foreach ($list as $item) {
-            Service::on()->updateOrCreate([
-                'name' => $item['name']
-            ], $item);
-        }
-
-
-        LocationDialogue::on()->truncate();
-
-        $list = [
-            ['name' => 'тг2'],
-            ['name' => 'тг4'],
-            ['name' => 'тг кирилл'],
-            ['name' => 'тг даша'],
-            ['name' => 'тг1'],
-            ['name' => 'вотсап к'],
-            ['name' => 'вотсап д'],
-            ['name' => 'вотсап а'],
-            ['name' => 'вк д'],
-            ['name' => 'вк а']
-        ];
-
-        foreach ($list as $item) {
-            LocationDialogue::on()->updateOrCreate([
+            LidSpecialistStatus::on()->updateOrCreate([
                 'name' => $item['name']
             ], $item);
         }

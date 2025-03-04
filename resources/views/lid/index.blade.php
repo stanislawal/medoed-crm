@@ -24,7 +24,20 @@
                             <label class="form-label">Месяц</label>
                             <div class="input-group">
                                 <input type="month" name="month" class="form-control form-control-sm"
-                                       value="{{ request()->month ?? now()->format('n')}}">
+                                       value="{{ request()->month }}">
+                            </div>
+                        </div>
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label class="form-label">Специалист</label>
+                            <div class="input-group">
+                                <select class="form-select form-select-sm" name="specialist_user_id">
+                                    <option value="">Все</option>
+                                    @foreach($specialistUsers as $item)
+                                        <option
+                                            value="{{ $item->id }}" {{ request()->specialist_user_id == $item->id ? 'selected' : '' }}>{{ $item->minName }}</option>
+                                    @endforeach
+                                    <option value="null">Не назначен</option>
+                                </select>
                             </div>
                         </div>
                         <div>
@@ -32,6 +45,26 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <div class="mb-2">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="px-3 py-2 shadow border bg-white rounded d-flex justify-content-center">
+                                <div style="width: 200px" class="d-flex justify-content-between">
+                                    @foreach($analytics as $item)
+                                        <div>
+                                            <strong>{{ $item['advertising_company'] }}:</strong>
+                                            {{ $item['count'] }}</div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -52,7 +85,7 @@
                     </div>
                     <div class="table-responsive">
                         <table id="basic-datatables"
-                               class="display table table-cut table-hover table-head-bg-info table-center">
+                               class="display table table-cut table-head-bg-info table-center">
                             <thead>
                             <tr>
                                 <th class="text-center">ID</th>
@@ -70,6 +103,7 @@
                                 <th>Задача спец.</th>
                                 <th></th>
                                 <th>Статус / Состояние</th>
+                                <th>Статус спец. / Состояние спец.</th>
                                 <th>Ссылка на сайт</th>
                                 <th>Регион</th>
                                 <th>Цена</th>
@@ -88,14 +122,17 @@
 
                                 @if($key == 0 || $lid['date_receipt'] != $lids[$key - 1]['date_receipt'])
                                     <tr>
-                                        <td class="text-center font-weight-bold" style="font-size: 16px!important;"
+                                        <td class="text-center font-weight-bold"
+                                            style="font-size: 16px!important; background-color: #48abf750; color: #000000;"
                                             colspan="30">
                                             {{ date('d.m.Y', strtotime($lid->date_receipt)) }}
                                         </td>
                                     </tr>
                                 @endif
 
-                                <tr data-id="{{ $lid->id }}">
+                                <tr data-id="{{ $lid->id }}"
+                                    @if($key != 0 && $lids[$key - 1]['advertising_company'] != $lid['advertising_company']) style="border-top: 2px solid #a9a8a8;" @endif
+                                >
                                     <td class="text-center">{{ $lid->id }}</td>
 
                                     <td class="text-center">
@@ -136,7 +173,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $lid->specialistTask->name ?? '' }}</td>
-                                    <td class="text-center" style="color:#606060;">
+                                    <td class="text-center" style="min-width: 40px; color:#606060;">
                                         <input type="checkbox" name="write_lid" class="checkbox"
                                                @if($lid->write_lid) checked
                                                @endif data-url="{{ route('lid.partial_update', ['id' => $lid->id]) }}">
@@ -145,6 +182,11 @@
                                         <span class="select-2-custom-state-color nowrap px-2 me-1"
                                               style="background-color: {{ $lid->lidStatus->color ?? '' }};">{{ $lid->lidStatus->name ?? 'Не указан' }}</span>
                                         {{ $lid->state }}
+                                    </td>
+                                    <td style="min-width: 200px;">
+                                        <span class="select-2-custom-state-color nowrap px-2 me-1"
+                                              style="background-color: {{ $lid->lidSpecialistStatus->color ?? '' }};">{{ $lid->lidSpecialistStatus->name ?? 'Не указан' }}</span>
+                                        {{ $lid->state_specialist }}
                                     </td>
                                     <td>{{ $lid->link_to_site ?? '' }}</td>
                                     <td>{{ $lid->region ?? '' }}</td>
