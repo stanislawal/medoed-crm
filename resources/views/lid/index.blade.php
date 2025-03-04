@@ -28,6 +28,18 @@
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label class="form-label">Рек. комп.</label>
+                            <div class="input-group">
+                                <select class="form-select form-select-sm" name="advertising_company">
+                                    <option value="">Все</option>
+                                    @foreach($advertisingCompany as $item)
+                                        <option
+                                            value="{{ $item }}" {{ request()->advertising_company == $item ? 'selected' : '' }}>{{ $item }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-12 col-md-4 col-lg-3">
                             <label class="form-label">Специалист</label>
                             <div class="input-group">
                                 <select class="form-select form-select-sm" name="specialist_user_id">

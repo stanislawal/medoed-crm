@@ -167,7 +167,7 @@
     </div>
     <div class="form-group">
         <label for="" class="form-label">Цена</label>
-        <input type="number" class="form-control form-control-sm" name="price" value="{{ $lid->price ?? '' }}">
+        <input type="text" class="form-control form-control-sm" name="price" value="{{ $lid->price ?? '' }}">
     </div>
     <div class="form-group">
         <label for="" class="form-label">Сфера бизнеса</label>

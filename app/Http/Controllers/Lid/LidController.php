@@ -88,6 +88,9 @@ class LidController extends Controller
                 } else {
                     $where->where('specialist_user_id', $request->specialist_user_id);
                 }
+            })
+            ->when(!empty($request->advertising_company), function (Builder $where) use ($request) {
+                $where->where('advertising_company', $request->advertising_company);
             });
     }
 
