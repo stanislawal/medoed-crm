@@ -52,6 +52,13 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label class="form-label">Имя/Ссылка</label>
+                            <div class="input-group">
+                                <input type="text" name="name_link" class="form-control form-control-sm"
+                                       value="{{ request()->name_link ?? '' }}">
+                            </div>
+                        </div>
                         <div>
                             <button class="btn btn-sm btn-success">Искать</button>
                         </div>

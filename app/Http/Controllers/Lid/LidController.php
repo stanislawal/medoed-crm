@@ -73,6 +73,11 @@ class LidController extends Controller
         ]);
     }
 
+    /**
+     * @param $lids
+     * @param $request
+     * @return void
+     */
     private function filter(&$lids, $request)
     {
         $lids->when(!empty($request->month), function ($where) use ($request) {
@@ -91,6 +96,9 @@ class LidController extends Controller
             })
             ->when(!empty($request->advertising_company), function (Builder $where) use ($request) {
                 $where->where('advertising_company', $request->advertising_company);
+            })
+            ->when(!empty($request->name_link), function (Builder $where) use ($request) {
+                $where->whereRaw("name_link like '%{$request->name_link}%'");
             });
     }
 
