@@ -3,6 +3,7 @@ var __webpack_exports__ = {};
 /*!*********************************!*\
   !*** ./resources/js/lid/lid.js ***!
   \*********************************/
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var modalEdit = $('#edit_lid');
 var modalBody = modalEdit.find('.modal-body');
 
@@ -39,17 +40,21 @@ modalEdit.on('show.bs.modal', function (e) {
 modalEdit.on('hidden.bs.modal', function () {
   modalBody.empty();
 });
-$('tr td input[name="write_lid"]').change(function () {
+$('table input, table select, table textarea').change(function () {
   var _this = this;
-  var url = $(this).data('url');
-  var value = $(this).is(':checked') ? 1 : 0;
+  var url = $(this).closest('tr').data('url');
+  var name = $(this).prop('name');
+  var value = '';
+  if ($(this).prop('type') === 'checkbox') {
+    value = $(this).is(':checked') ? 1 : 0;
+  } else {
+    value = $(this).val();
+  }
   $(this).prop('disabled', true);
   $.ajax({
     url: url,
     method: 'POST',
-    data: {
-      'write_lid': value
-    },
+    data: _defineProperty({}, name, value),
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }

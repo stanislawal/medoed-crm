@@ -2,6 +2,12 @@
 @section('title', 'База лидов')
 @section('custom_css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <style>
+        .textarea-table {
+            border: 1px solid #ced4da;
+            border-radius: 3px;
+        }
+    </style>
 @endsection
 @section('content')
     <div>
@@ -36,19 +42,6 @@
                                         <option
                                             value="{{ $item }}" {{ request()->advertising_company == $item ? 'selected' : '' }}>{{ $item }}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group col-12 col-md-4 col-lg-3">
-                            <label class="form-label">Специалист</label>
-                            <div class="input-group">
-                                <select class="form-select form-select-sm" name="specialist_user_id">
-                                    <option value="">Все</option>
-                                    @foreach($specialistUsers as $item)
-                                        <option
-                                            value="{{ $item->id }}" {{ request()->specialist_user_id == $item->id ? 'selected' : '' }}>{{ $item->minName }}</option>
-                                    @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -112,24 +105,24 @@
                                 <th style="width: 50px;">Рек. комп.</th>
                                 <th>Ресурс</th>
                                 <th>Имя/Ссылка</th>
-                                <th>Место вед. диалога</th>
-                                <th>Ссылка на лида</th>
-                                <th>Услуга</th>
-                                <th>Созвон</th>
-                                <th>Дата и время созвона</th>
-                                <th>Аудит</th>
-                                <th>Задача спец.</th>
-                                <th></th>
-                                <th>Статус / Состояние</th>
-                                <th>Статус спец. / Состояние спец.</th>
-                                <th>Ссылка на сайт</th>
-                                <th>Регион</th>
-                                <th>Цена</th>
-                                <th>Сфера бизнеса</th>
-                                <th>Дата[<br>передан<br>принят<br>сделан]</th>
-                                <th>Специалист</th>
-                                <th>Итоги созвона</th>
-                                <th>Создал</th>
+                                <th style="min-width: 125px;">Место вед. диалога</th>
+                                <th style="min-width: 100px;">Ссылка на лида</th>
+                                <th style="min-width: 130px;">Услуга</th>
+                                <th style="min-width: 160px;">Созвон</th>
+                                <th style="min-width: 100px;">Дата и время созвона</th>
+                                <th style="min-width: 160px;">Аудит</th>
+                                <th style="min-width: 120px;">Задача спец.</th>
+                                <th style="min-width: 40px;"></th>
+                                <th style="min-width: 200px;">Статус / Состояние</th>
+                                <th style="min-width: 200px;">Статус спец. / Состояние спец.</th>
+                                <th style="min-width: 130px;">Ссылка на сайт</th>
+                                <th style="min-width: 130px;">Регион</th>
+                                <th style="min-width: 130px;">Цена</th>
+                                <th style="min-width: 130px;">Сфера бизнеса</th>
+                                <th style="min-width: 80px;">Дата[<br>передан<br>принят<br>сделан]</th>
+                                <th style="min-width: 140px;">Специалист</th>
+                                <th style="min-width: 130px;">Итоги созвона</th>
+                                <th style="min-width: 100px;">Создал</th>
                                 @if(auth()->user()->hasRole('Администратор'))
                                     <th class="text-center" style="width: 60px;"><i class="fas fa-trash"></i></th>
                                 @endif
@@ -150,6 +143,7 @@
 
                                 <tr data-id="{{ $lid->id }}"
                                     @if($key != 0 && $lids[$key - 1]['advertising_company'] != $lid['advertising_company']) style="border-top: 2px solid #a9a8a8;" @endif
+                                    data-url="{{ route('lid.partial_update', ['id' => $lid->id]) }}"
                                 >
                                     <td class="text-center">{{ $lid->id }}</td>
 
@@ -165,49 +159,112 @@
 
                                     <td>{{ $lid->name_link ?? '' }}</td>
 
-                                    <td>{{ $lid->locationDialogue->name ?? '' }}</td>
-
-                                    <td>{{ $lid->link_lid ?? '' }}</td>
-
-                                    <td>{{ $lid->service->name ?? '' }}</td>
+                                    <td>
+                                        <select class="form-select form-select-sm" name="location_dialogue_id" id="">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($locationDialogues as $item)
+                                                <option
+                                                    value="{{ $item->id }}" {{ $lid->location_dialogue_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
 
                                     <td>
-                                        @if($lid->callUp?->color)
-                                            <span class="select-2-custom-state-color nowrap px-2 me-1"
-                                                  style="background-color: {{ $lid->callUp->color ?? '' }};">{{ $lid->callUp->name ?? '' }}</span>
-                                        @else
-                                            {{ $lid->callUp->name ?? '' }}
-                                        @endif
+                                        <textarea class="textarea-table" name="link_lid" id="" cols="15"
+                                                  rows="2">{{ $lid->link_lid ?? '' }}</textarea>
                                     </td>
-                                    <td>{{ $lid->date_time_call_up ?? '' }}</td>
+
                                     <td>
-                                        @if($lid->audit?->color)
-                                            <span class="select-2-custom-state-color nowrap px-2 me-1"
-                                                  style="background-color: {{ $lid->audit->color ?? '' }};">{{ $lid->audit->name ?? '' }}</span>
-                                        @else
-                                            {{ $lid->audit->name ?? '' }}
-                                        @endif
+                                        <select class="form-select form-select-sm" name="service_id">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($services as $item)
+                                                <option
+                                                    value="{{ $item->id }}" {{ $lid->service_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </td>
-                                    <td>{{ $lid->specialistTask->name ?? '' }}</td>
-                                    <td class="text-center" style="min-width: 40px; color:#606060;">
+                                    <td>
+                                        <select class="form-select form-select-sm select2-with-color-t"
+                                                name="call_up_id">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($callUps as $item)
+                                                <option
+                                                    value="{{ $item->id }}"
+                                                    {{ $lid->call_up_id == $item->id ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td><textarea class="textarea-table" name="date_time_call_up" cols="15"
+                                                  rows="2">{{ $lid->date_time_call_up ?? '' }}</textarea></td>
+                                    <td>
+                                        <select class="form-select form-select-sm select2-with-color-t" name="audit_id"
+                                                id="">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($audits as $item)
+                                                <option
+                                                    value="{{ $item->id }}"
+                                                    {{ $lid->audit_id == $item->id ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-select-sm" name="specialist_task_id" id="">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($specialistTasks as $item)
+                                                <option
+                                                    value="{{ $item->id }}" {{ $lid->specialist_task_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td class="text-center">
                                         <input type="checkbox" name="write_lid" class="checkbox"
-                                               @if($lid->write_lid) checked
-                                               @endif data-url="{{ route('lid.partial_update', ['id' => $lid->id]) }}">
+                                               @if($lid->write_lid) checked @endif>
                                     </td>
-                                    <td style="min-width: 200px;">
-                                        <span class="select-2-custom-state-color nowrap px-2 me-1"
-                                              style="background-color: {{ $lid->lidStatus->color ?? '' }};">{{ $lid->lidStatus->name ?? 'Не указан' }}</span>
-                                        {{ $lid->state }}
+                                    <td >
+
+                                        <select class="form-select form-select-sm select2-with-color"
+                                                name="lid_status_id" id="">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($lidStatuses as $item)
+                                                <option
+                                                    value="{{ $item->id }}"
+                                                    {{ $lid->lid_status_id == $item->id ? 'selected' : '' }}
+                                                    data-color="{{ $item->color ?? '' }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <textarea class="textarea-table w-100" name="state"
+                                                  rows="2">{{ $lid->state ?? '' }}</textarea>
                                     </td>
-                                    <td style="min-width: 200px;">
-                                        <span class="select-2-custom-state-color nowrap px-2 me-1"
-                                              style="background-color: {{ $lid->lidSpecialistStatus->color ?? '' }};">{{ $lid->lidSpecialistStatus->name ?? 'Не указан' }}</span>
-                                        {{ $lid->state_specialist }}
+                                    <td>
+                                        <select class="form-select form-select-sm select2-with-color-t"
+                                                name="lid_specialist_status_id">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($lidSpecialistStatus as $item)
+                                                <option
+                                                    value="{{ $item->id }}"
+                                                    {{ $lid->lid_specialist_status_id == $item->id ? 'selected' : '' }}
+                                                    data-color="{{ $item->color ?? '' }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <textarea class="textarea-table w-100" name="state_specialist"
+                                                  rows="2">{{ $lid->state_specialist ?? '' }}</textarea>
                                     </td>
-                                    <td>{{ $lid->link_to_site ?? '' }}</td>
-                                    <td>{{ $lid->region ?? '' }}</td>
-                                    <td>{{ $lid->price ?? '' }}</td>
-                                    <td>{{ $lid->business_are ?? '' }}</td>
+                                    <td>
+                                        <textarea class="textarea-table w-100" name="link_to_site"
+                                                  rows="2">{{ $lid->link_to_site ?? '' }}</textarea>
+                                    </td>
+                                    <td>
+                                        <textarea class="textarea-table w-100" name="region"
+                                                  rows="2">{{ $lid->region ?? '' }}</textarea>
+                                    </td>
+                                    <td>
+                                        <textarea class="textarea-table w-100" name="price"
+                                                  rows="2">{{ $lid->price ?? '' }}</textarea>
+                                    </td>
+                                    <td>
+                                        <textarea class="textarea-table w-100" name="business_are"
+                                                  rows="2">{{ $lid->business_are ?? '' }}</textarea>
+                                    </td>
 
                                     <td>
                                         <span
@@ -217,9 +274,20 @@
                                         <span
                                             class="nowrap">{{ $lid->ready_date ? date('d.m.Y', strtotime($lid->ready_date)) : '---' }}</span>
                                     </td>
-                                    <td>{{ $lid->specialistUser->minName ?? '' }}</td>
+                                    <td>
+                                        <select class="form-select form-select-sm" name="specialist_user_id" id="">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($specialistUsers as $item)
+                                                <option
+                                                    value="{{ $item->id }}" {{ $lid->specialist_user_id == $item->id ? 'selected' : '' }}>{{ $item->minName }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
 
-                                    <td>{{ $lid->result_call }}</td>
+                                    <td>
+                                        <textarea class="textarea-table w-100" name="result_call"
+                                                  rows="2">{{ $lid->result_call ?? '' }}</textarea>
+                                    </td>
 
                                     <td>{{ $lid->createUser->minName ?? '' }}</td>
 
@@ -238,7 +306,6 @@
                             </tbody>
                         </table>
                     </div>
-
                     <div class="w-100 d-flex justify-content-center">
                         {{ $lids->appends(request()->input())->links('vendor.pagination.custom')  }}
                     </div>
@@ -259,9 +326,9 @@
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/lid.js') }}?v=@version"></script>
-
     <script>
         const getLitInfoURL = '{{ route('lid.get_by_id_html') }}';
+
         window.confirmDelete = function () {
             var res = confirm('Вы действительно хотите удалить этого лида?')
             if (!res) {
@@ -276,7 +343,7 @@
             }
             let color = state.element.dataset.color;
             if (color !== '' && color !== undefined) {
-                return $("<span class='select-2-custom-state-color' style='background-color: " + color + "; '>" + state.text + "</span>");
+                return $("<span class='nowrap select-2-custom-state-color' style='background-color: " + color + "; '>" + state.text + "</span>");
             } else {
                 return state.text
             }
@@ -284,7 +351,14 @@
 
         $('.select2-with-color').select2({
             templateSelection: window.formatState,
-            templateResult: window.formatState
+            templateResult: window.formatState,
+            minimumResultsForSearch: -1
+        })
+
+        $('table .select2-with-color-t').select2({
+            templateSelection: window.formatState,
+            templateResult: window.formatState,
+            minimumResultsForSearch: -1
         })
     </script>
 

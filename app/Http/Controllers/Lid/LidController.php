@@ -203,7 +203,7 @@ class LidController extends Controller
 
             $attr['write_lid'] = $request->write_lid == 1 ? 1 : 0;
 
-            Lid::on()->where('id', $id)->update($attr);
+//            Lid::on()->where('id', $id)->update($attr);
 
             return response()->json([
                 'result' => true
