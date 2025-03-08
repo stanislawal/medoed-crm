@@ -121,12 +121,12 @@
                                 <th style="min-width: 125px;">Место вед. диалога</th>
                                 <th style="min-width: 100px;">Ссылка на лида</th>
                                 <th style="min-width: 130px;">Услуга</th>
+                                <th style="min-width: 40px;"></th>
                                 <th style="min-width: 200px;">Статус / Состояние</th>
                                 <th style="min-width: 160px;">Созвон</th>
                                 <th style="min-width: 100px;">Дата и время созвона</th>
                                 <th style="min-width: 160px;">Аудит</th>
                                 <th style="min-width: 120px;">Задача спец.</th>
-                                <th style="min-width: 40px;"></th>
                                 <th style="min-width: 200px;">Статус спец. / Состояние спец.</th>
                                 <th style="min-width: 130px;">Ссылка на сайт</th>
                                 <th style="min-width: 130px;">Регион</th>
@@ -207,6 +207,10 @@
                                             @endforeach
                                         </select>
                                     </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" name="write_lid" class="checkbox"
+                                               @if($lid->write_lid) checked @endif>
+                                    </td>
                                     <td>
                                         <select class="form-select form-select-sm select2-with-color"
                                                 name="lid_status_id" id="">
@@ -253,10 +257,6 @@
                                                     value="{{ $item->id }}" {{ $lid->specialist_task_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
                                             @endforeach
                                         </select>
-                                    </td>
-                                    <td class="text-center">
-                                        <input type="checkbox" name="write_lid" class="checkbox"
-                                               @if($lid->write_lid) checked @endif>
                                     </td>
                                     <td>
                                         <select class="form-select form-select-sm select2-with-color-t"
