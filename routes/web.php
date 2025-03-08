@@ -5,6 +5,11 @@ use App\Http\Controllers\Article\ArticleController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Lid\LidController;
+use App\Http\Controllers\Lid\LidStatusController;
+use App\Http\Controllers\Lid\LocationDialogueController;
+use App\Http\Controllers\Lid\ResourceController;
+use App\Http\Controllers\Lid\ServiceController;
+use App\Http\Controllers\Lid\SpecialistTaskController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Option\StatusPaymentController;
 use App\Http\Controllers\Payment\PaymentController;
@@ -101,6 +106,15 @@ Route::middleware(['auth', 'is_work'])->group(function () {
         Route::get('add_option_socialnetwork-destroy/{socialnetwork}', [SocialNetworkController::class, 'destroy'])->name('add_option_socialnetwork.destroy');
 
 
+        Route::prefix('book')->group(function () {
+            Route::resource('resource', ResourceController::class)->only(['index', 'store', 'destroy']);
+            Route::resource('location-dialogue', LocationDialogueController::class)->only(['index', 'store', 'destroy']);
+            Route::resource('service', ServiceController::class)->only(['index', 'store', 'destroy']);
+            Route::resource('specialist-task', SpecialistTaskController::class)->only(['index', 'store', 'destroy']);
+            Route::resource('lid-status', LidStatusController::class)->only(['index', 'store', 'destroy']);
+        });
+
+
         #----------------------------------------ВАЛЮТА----------------------------------------
         Route::prefix('rate')->group(function () {
             Route::get('/', [RateController::class, 'index'])->name('rate.index');
@@ -182,7 +196,7 @@ Route::middleware(['auth', 'is_work'])->group(function () {
         ->name('report.client_item');
     #-----------------------------------ЭКСПОРТ В ЭКСЕЛЬ----------------------------------------
 
-    Route::middleware('role:Администратор|Реклама')->group(function (){
+    Route::middleware('role:Администратор|Реклама')->group(function () {
         Route::post('lid/partial-update/{id}', [LidController::class, 'ajaxUpdate'])->name('lid.partial_update');
         Route::get('lid/get-by-id-html', [LidController::class, 'getByIdHtml'])->name('lid.get_by_id_html');
         Route::resource('lid', LidController::class)->only(['index', 'store', 'update', 'destroy']);

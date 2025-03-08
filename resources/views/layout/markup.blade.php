@@ -211,6 +211,31 @@
                                             <span class="sub-item">Соц. сети</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('resource.index') }}">
+                                            <span class="sub-item">Ресурс (Лид)</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('location-dialogue.index') }}">
+                                            <span class="sub-item">Место ведения диалога (Лид)</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('service.index') }}">
+                                            <span class="sub-item">Услуги (Лид)</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('specialist-task.index') }}">
+                                            <span class="sub-item">Задачи специалиста (Лид)</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('lid-status.index') }}">
+                                            <span class="sub-item">Статусы (Лид)</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

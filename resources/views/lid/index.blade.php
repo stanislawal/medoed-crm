@@ -46,6 +46,19 @@
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label class="form-label">Специалист</label>
+                            <div class="input-group">
+                                <select class="form-select form-select-sm" name="specialist_user_id">
+                                    <option value="">Все</option>
+                                    @foreach($specialistUsers as $item)
+                                        <option
+                                            value="{{ $item->id }}" {{ request()->specialist_user_id == $item->id ? 'selected' : '' }}>{{ $item->minName }}</option>
+                                    @endforeach
+                                    <option value="null">Не назначен</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-12 col-md-4 col-lg-3">
                             <label class="form-label">Имя/Ссылка</label>
                             <div class="input-group">
                                 <input type="text" name="name_link" class="form-control form-control-sm"
@@ -108,12 +121,12 @@
                                 <th style="min-width: 125px;">Место вед. диалога</th>
                                 <th style="min-width: 100px;">Ссылка на лида</th>
                                 <th style="min-width: 130px;">Услуга</th>
+                                <th style="min-width: 200px;">Статус / Состояние</th>
                                 <th style="min-width: 160px;">Созвон</th>
                                 <th style="min-width: 100px;">Дата и время созвона</th>
                                 <th style="min-width: 160px;">Аудит</th>
                                 <th style="min-width: 120px;">Задача спец.</th>
                                 <th style="min-width: 40px;"></th>
-                                <th style="min-width: 200px;">Статус / Состояние</th>
                                 <th style="min-width: 200px;">Статус спец. / Состояние спец.</th>
                                 <th style="min-width: 130px;">Ссылка на сайт</th>
                                 <th style="min-width: 130px;">Регион</th>
@@ -135,14 +148,25 @@
                                     <tr>
                                         <td class="text-center font-weight-bold"
                                             style="font-size: 16px!important; background-color: #48abf750; color: #000000;"
-                                            colspan="30">
+                                            colspan="8">
+                                            {{ date('d.m.Y', strtotime($lid->date_receipt)) }}
+                                        </td>
+                                        <td class="text-center font-weight-bold"
+                                            style="font-size: 16px!important; background-color: #48abf750; color: #000000;"
+                                            colspan="8">
+                                            {{ date('d.m.Y', strtotime($lid->date_receipt)) }}
+                                        </td>
+                                        <td class="text-center font-weight-bold"
+                                            style="font-size: 16px!important; background-color: #48abf750; color: #000000;"
+                                            colspan="8">
                                             {{ date('d.m.Y', strtotime($lid->date_receipt)) }}
                                         </td>
                                     </tr>
                                 @endif
 
                                 <tr data-id="{{ $lid->id }}"
-                                    @if($key != 0 && $lids[$key - 1]['advertising_company'] != $lid['advertising_company']) style="border-top: 2px solid #a9a8a8;" @endif
+                                    @if($key != 0 && $lids[$key - 1]['advertising_company'] != $lid['advertising_company']) style="border-top: 2px solid #a9a8a8;"
+                                    @endif
                                     data-url="{{ route('lid.partial_update', ['id' => $lid->id]) }}"
                                 >
                                     <td class="text-center">{{ $lid->id }}</td>
@@ -184,6 +208,20 @@
                                         </select>
                                     </td>
                                     <td>
+                                        <select class="form-select form-select-sm select2-with-color"
+                                                name="lid_status_id" id="">
+                                            <option value="">Не выбрано</option>
+                                            @foreach($lidStatuses as $item)
+                                                <option
+                                                    value="{{ $item->id }}"
+                                                    {{ $lid->lid_status_id == $item->id ? 'selected' : '' }}
+                                                    data-color="{{ $item->color ?? '' }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <textarea class="textarea-table w-100" name="state"
+                                                  rows="2">{{ $lid->state ?? '' }}</textarea>
+                                    </td>
+                                    <td>
                                         <select class="form-select form-select-sm select2-with-color-t"
                                                 name="call_up_id">
                                             <option value="">Не выбрано</option>
@@ -219,21 +257,6 @@
                                     <td class="text-center">
                                         <input type="checkbox" name="write_lid" class="checkbox"
                                                @if($lid->write_lid) checked @endif>
-                                    </td>
-                                    <td >
-
-                                        <select class="form-select form-select-sm select2-with-color"
-                                                name="lid_status_id" id="">
-                                            <option value="">Не выбрано</option>
-                                            @foreach($lidStatuses as $item)
-                                                <option
-                                                    value="{{ $item->id }}"
-                                                    {{ $lid->lid_status_id == $item->id ? 'selected' : '' }}
-                                                    data-color="{{ $item->color ?? '' }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <textarea class="textarea-table w-100" name="state"
-                                                  rows="2">{{ $lid->state ?? '' }}</textarea>
                                     </td>
                                     <td>
                                         <select class="form-select form-select-sm select2-with-color-t"
