@@ -330,6 +330,10 @@
                             <a data-toggle="collapse" href="#lid">
                                 <i class="fas fa-users"></i>
                                 <p>Лиды</p>
+                                @php $countWrite = \App\Models\Lid\Lid::on()->where('date_write_lid', now()->format('Y-m-d'))->count() @endphp
+                                @if($countWrite > 0)
+                                    <span class="badge badge-success">{{ $countWrite }}</span>
+                                @endif
                                 <span class="caret"></span>
                             </a>
                             <div class="collapse" id="lid">

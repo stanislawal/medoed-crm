@@ -65,6 +65,22 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="" class="form-label">Место ведения диалога</label>
+                        <select class="form-select form-select-sm" name="location_dialogue_id" id="">
+                            <option value="">Не выбрано</option>
+                            @foreach($locationDialogues as $item)
+                                <option
+                                    value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="" class="form-label">Ссылка на лида</label>
+                        <input type="text" class="form-control form-control-sm" name="link_lid">
+                    </div>
+
+                    <div class="form-group">
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-sm btn-success">Создать</button>
                         </div>

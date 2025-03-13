@@ -45,7 +45,8 @@ class LidController extends Controller
         $this->filter($lids, $request);
         $lids->orderByDesc('date_receipt')
             ->orderByDesc('advertising_company')
-            ->orderBy('write_lid');
+            ->orderBy('write_lid')
+            ->orderByDesc('id');
         $lids = $lids->paginate(20);
 
 
@@ -53,23 +54,39 @@ class LidController extends Controller
         $analytics = Lid::on()->selectRaw("
                distinct advertising_company,
                count(id) as count
-        ")->groupBy('advertising_company');
-        $this->filter($analytics, $request);
-        $analytics = $analytics->get();
+        ")
+            ->when(!empty($request->month), function ($where) use ($request) {
+                $where->whereBetween('date_receipt', [
+                    Carbon::parse($request->month)->startOfMonth()->toDateTimeString(),
+                    Carbon::parse($request->month)->endOfMonth()->toDateTimeString(),
+
+                ]);
+            })
+            ->groupBy('advertising_company')
+            ->get();
+
+        // аналитика за текущий месяц
+        $analyticsCurrentMonth = Lid::on()->selectRaw("
+               distinct advertising_company,
+               count(id) as count
+        ")->groupBy('advertising_company')
+            ->whereBetween('date_receipt', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+            ->get();
 
         return view('lid.index', [
-            'lids'                => $lids,
-            'analytics'           => $analytics,
-            'advertisingCompany'  => self::ADVERTISING_COMPANY,
-            'resources'           => Resource::on()->get(),
-            'lidStatuses'         => LidStatus::on()->get(),
-            'lidSpecialistStatus' => LidSpecialistStatus::on()->get(),
-            'services'            => Service::on()->get(),
-            'locationDialogues'   => LocationDialogue::on()->get(),
-            'callUps'             => CallUp::on()->get(),
-            'audits'              => Audit::on()->get(),
-            'specialistTasks'     => SpecialistTask::on()->get(),
-            'specialistUsers'     => User::on()->select(['id', 'full_name'])->whereIn('id', [1, 41])->get(),
+            'lids'                  => $lids,
+            'analytics'             => $analytics,
+            'analyticsCurrentMonth' => $analyticsCurrentMonth,
+            'advertisingCompany'    => self::ADVERTISING_COMPANY,
+            'resources'             => Resource::on()->get(),
+            'lidStatuses'           => LidStatus::on()->get(),
+            'lidSpecialistStatus'   => LidSpecialistStatus::on()->get(),
+            'services'              => Service::on()->get(),
+            'locationDialogues'     => LocationDialogue::on()->get(),
+            'callUps'               => CallUp::on()->get(),
+            'audits'                => Audit::on()->get(),
+            'specialistTasks'       => SpecialistTask::on()->get(),
+            'specialistUsers'       => User::on()->select(['id', 'full_name'])->whereIn('id', [1, 41])->get(),
         ]);
     }
 
@@ -105,8 +122,52 @@ class LidController extends Controller
             ->when(!empty($request->name_link), function (Builder $where) use ($request) {
                 $where->whereRaw("name_link like '%{$request->name_link}%'");
             })
+            // статусы
             ->when(!empty($request->lid_status_id), function (Builder $where) use ($request) {
                 $where->whereIn('lid_status_id', $request->lid_status_id);
+            })
+            // статусы исключение
+            ->when(!empty($request->without_lid_status_id), function (Builder $where) use ($request) {
+                $where->whereNotIn('lid_status_id', $request->without_lid_status_id);
+            })
+            // ресурс
+            ->when(!empty($request->resource_id), function (Builder $where) use ($request) {
+                $where->whereIn('resource_id', $request->resource_id);
+            })
+            // услуги
+            ->when(!empty($request->service_id), function (Builder $where) use ($request) {
+                $where->whereIn('service_id', $request->service_id);
+            })
+            // диапазон дат
+            ->when(!empty($request->date_from) && !empty($request->date_before), function (Builder $where) use ($request) {
+                $where->whereBetween('date_receipt', [
+                    Carbon::parse($request->date_from)->startOfDay()->toDateTimeString(),
+                    Carbon::parse($request->date_before)->endOfDay()->toDateTimeString(),
+                ]);
+            })
+            // аудит
+            ->when(!empty($request->audit_id), function (Builder $where) use ($request) {
+                $where->whereIn('audit_id', $request->audit_id);
+            })
+
+            // Статус специалиста
+            ->when(!empty($request->lid_specialist_status_id), function (Builder $where) use ($request) {
+                $where->whereIn('lid_specialist_status_id', $request->lid_specialist_status_id);
+            })
+
+            // Исключить статус специалиста
+            ->when(!empty($request->without_lid_specialist_status_id), function (Builder $where) use ($request) {
+                $where->whereIn('without_lid_specialist_status_id', $request->without_lid_specialist_status_id);
+            })
+
+            // созвон
+            ->when(!empty($request->call_up_id), function (Builder $where) use ($request) {
+                $where->whereIn('call_up_id', $request->call_up_id);
+            })
+
+            // задача специалиста
+            ->when(!empty($request->specialist_task_id), function (Builder $where) use ($request) {
+                $where->whereIn('specialist_task_id', $request->specialist_task_id);
             });
     }
 
@@ -117,13 +178,15 @@ class LidController extends Controller
     public function store(Request $request)
     {
         $attr = $request->validate([
-            'advertising_company' => ['required', 'string', Rule::in(self::ADVERTISING_COMPANY)],
-            'date_receipt'        => ['required', 'date'],
-            'resource_id'         => ['required', 'integer'],
-            'service_id'          => ['required', 'integer'],
-            'name_link'           => ['required', 'string', 'max:500'],
-            'lid_status_id'       => ['required', 'integer'],
-            'state'               => ['nullable', 'string', 'max:500'],
+            'advertising_company'  => ['required', 'string', Rule::in(self::ADVERTISING_COMPANY)],
+            'date_receipt'         => ['required', 'date'],
+            'resource_id'          => ['required', 'integer'],
+            'service_id'           => ['required', 'integer'],
+            'name_link'            => ['required', 'string', 'max:500'],
+            'lid_status_id'        => ['required', 'integer'],
+            'state'                => ['nullable', 'string', 'max:500'],
+            'location_dialogue_id' => ['nullable', 'integer'],
+            'link_lid'             => ['nullable', 'string', 'max:500']
         ]);
 
         $attr['create_user_id'] = UserHelper::getUserId();
@@ -164,10 +227,12 @@ class LidController extends Controller
             'link_to_site'             => ['nullable', 'string', 'max:100'],
             'region'                   => ['nullable', 'string', 'max:100'],
             'price'                    => ['nullable', 'string', 'max:256'],
-            'business_are'             => ['nullable', 'string', 'max:100']
+            'business_are'             => ['nullable', 'string', 'max:100'],
+            'date_write_lid'           => ['nullable', 'date']
         ]);
 
         $attr['write_lid'] = $request->write_lid == 1 ? 1 : 0;
+        $attr['interesting'] = $request->interesting == 1 ? 1 : 0;
 
         Lid::on()->where('id', $id)->update($attr);
 
@@ -206,10 +271,12 @@ class LidController extends Controller
                 'link_to_site'             => ['nullable', 'string', 'max:100'],
                 'region'                   => ['nullable', 'string', 'max:100'],
                 'price'                    => ['nullable', 'string', 'max:256'],
-                'business_are'             => ['nullable', 'string', 'max:100']
+                'business_are'             => ['nullable', 'string', 'max:100'],
+                'date_write_lid'           => ['nullable', 'date']
             ]);
 
             $attr['write_lid'] = $request->write_lid == 1 ? 1 : 0;
+            $attr['interesting'] = $request->interesting == 1 ? 1 : 0;
 
             Lid::on()->where('id', $id)->update($attr);
 

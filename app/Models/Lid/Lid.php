@@ -29,6 +29,8 @@ class Lid extends Model
         'date_acceptance', // дата принятия
         'ready_date', // дата готовности
         'specialist_user_id', // специалист
+        'interesting', // интересный
+        'date_write_lid', // дата прописки лиду
         'write_lid', // прописать
         'lid_status_id', // статус
         'state', // состояние
