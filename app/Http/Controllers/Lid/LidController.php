@@ -80,13 +80,16 @@ class LidController extends Controller
      */
     private function filter(&$lids, $request)
     {
-        $lids->when(!empty($request->month), function ($where) use ($request) {
-            $where->whereBetween('date_receipt', [
-                Carbon::parse($request->month)->startOfMonth()->toDateTimeString(),
-                Carbon::parse($request->month)->endOfMonth()->toDateTimeString(),
+        $lids
+            // месяц
+            ->when(!empty($request->month), function ($where) use ($request) {
+                $where->whereBetween('date_receipt', [
+                    Carbon::parse($request->month)->startOfMonth()->toDateTimeString(),
+                    Carbon::parse($request->month)->endOfMonth()->toDateTimeString(),
 
-            ]);
-        })
+                ]);
+            })
+            // специалист
             ->when(!empty($request->specialist_user_id), function (Builder $where) use ($request) {
                 if ($request->specialist_user_id == 'null') {
                     $where->whereNull('specialist_user_id');
@@ -94,11 +97,16 @@ class LidController extends Controller
                     $where->where('specialist_user_id', $request->specialist_user_id);
                 }
             })
+            // рекламная компания
             ->when(!empty($request->advertising_company), function (Builder $where) use ($request) {
                 $where->where('advertising_company', $request->advertising_company);
             })
+            // имя ссылка
             ->when(!empty($request->name_link), function (Builder $where) use ($request) {
                 $where->whereRaw("name_link like '%{$request->name_link}%'");
+            })
+            ->when(!empty($request->lid_status_id), function (Builder $where) use ($request) {
+                $where->whereIn('lid_status_id', $request->lid_status_id);
             });
     }
 

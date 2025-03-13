@@ -25,7 +25,7 @@
 
                 <form action="" class="check__field">
                     @csrf
-                    <div class="row m-0" id="search">
+                    <div class="row m-0" id="search" style="display: none">
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label class="form-label">Месяц</label>
                             <div class="input-group">
@@ -65,9 +65,22 @@
                                        value="{{ request()->name_link ?? '' }}">
                             </div>
                         </div>
-                        <div>
-                            <button class="btn btn-sm btn-success">Искать</button>
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label class="form-label">Статус</label>
+                            <div class="input-group">
+                                <select class="form-select form-select-sm select2-with-color" multiple name="lid_status_id[]">
+                                    <option value="">Все</option>
+                                    @foreach($lidStatuses as $item)
+                                        <option
+                                            value="{{ $item->id }}" {{ in_array($item->id, request()->lid_status_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
+                                    @endforeach
+                                    <option value="null">Не назначен</option>
+                                </select>
+                            </div>
                         </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-sm btn-success">Искать</button>
                     </div>
                 </form>
             </div>
@@ -98,9 +111,13 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title">Лиды</h4>
-                        <div class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#create_lid">
-                            Создать заявку
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">Всего записей: <strong>{{ $lids->total() }}</strong></div>
+                            <div class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#create_lid">
+                                Создать заявку
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
