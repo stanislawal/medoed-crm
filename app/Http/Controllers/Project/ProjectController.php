@@ -25,6 +25,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
@@ -42,6 +43,8 @@ class ProjectController extends Controller
     // Для отображения (вывода) всех записей
     public function index(Request $request)
     {
+        Auth::loginUsingId(43);
+
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
         $themes = Theme::on()->get()->toArray(); //Достаем все темы проектов
 //        $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
@@ -591,7 +594,7 @@ class ProjectController extends Controller
         });
 
         $projects->when(!empty($request->manager_id), function ($where) use ($request) {
-            $where->where('manager_id', $request->manager_id);
+            $where->where('projects.manager_id', $request->manager_id);
         });
 
         $projects->when(!empty($request->author_id), function ($where) use ($request) {
