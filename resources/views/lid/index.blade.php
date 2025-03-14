@@ -34,7 +34,7 @@
         thead tr:first-child {
             position: sticky !important;
             top: 0;
-            z-index: 999999999;
+            z-index: 3;
         }
 
         thead tr:last-child {
@@ -166,7 +166,7 @@
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-4 col-lg-3">
-                            <label class="form-label">Сервисы</label>
+                            <label class="form-label">Услуги</label>
                             <div class="input-group">
                                 <select class="form-select form-select-sm select2-with-color" multiple
                                         name="service_id[]">
