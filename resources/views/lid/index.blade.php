@@ -410,7 +410,7 @@
                                     <td class="table-fixed">{!! \App\Helpers\StringHelper::insertBreaks($lid->name_link ?? '') !!}</td>
 
                                     <td>
-                                        <select class="form-select form-select-sm" name="location_dialogue_id" id="">
+                                        <select class="form-select form-select-sm" name="location_dialogue_id">
                                             <option value="">-</option>
                                             @foreach($locationDialogues as $item)
                                                 <option

@@ -37,14 +37,14 @@
                             <label for="" class="form-label">Счёт</label>
                             <select class="form-select form-select-sm" name="invoice">
                                 <option value="">Не выбрано</option>
-                                <option value="sber_a">ИП Алла (Сбер)</option>
+{{--                                <option value="sber_a">ИП Алла (Сбер)</option>--}}
                                 <option value="tinkoff_a"> ИП Алла (Т-Банк)</option>
                                 <option value="tinkoff_k">Т-Банк К.К</option>
                                 <option value="sber_d">ИП Даша ( Т-Банк)</option>
                                 <option value="sber_k">Сбер К.Г</option>
-                                <option value="privat">Приват</option>
-                                <option value="um">ЮМ</option>
-                                <option value="wmz">Сбер К.К</option>
+{{--                                <option value="privat">Приват</option>--}}
+{{--                                <option value="um">ЮМ</option>--}}
+{{--                                <option value="wmz">Сбер К.К</option>--}}
                                 <option value="birja">Биржи</option>
                             </select>
                         </div>
@@ -90,14 +90,14 @@
                                 <th>Проект</th>
                                 <th>Удалить</th>
                                 <th>Изменить</th>
-                                <th>ИП Алла (Сбер)</th>
+{{--                                <th>ИП Алла (Сбер)</th>--}}
                                 <th> ИП Алла (Т-Банк)</th>
                                 <th>Т-Банк К.К</th>
                                 <th>ИП Даша ( Т-Банк)</th>
                                 <th>Сбер К.Г</th>
-                                <th>Приват</th>
-                                <th>ЮМ</th>
-                                <th>Сбер К.К</th>
+{{--                                <th>Приват</th>--}}
+{{--                                <th>ЮМ</th>--}}
+{{--                                <th>Сбер К.К</th>--}}
                                 <th>Биржи</th>
 
                                 <th>Комментарий</th>
@@ -157,12 +157,12 @@
                                             <span class="text-12 font-weight-bold">Недоступно</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <div>
-                                            <input type="number" name="sber_a" class="min-input"
-                                                   value="{{ $payment['sber_a'] }}" disabled>
-                                        </div>
-                                    </td>
+{{--                                    <td>--}}
+{{--                                        <div>--}}
+{{--                                            <input type="number" name="sber_a" class="min-input"--}}
+{{--                                                   value="{{ $payment['sber_a'] }}" disabled>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
                                     <td>
                                         <div>
                                             <input type="number" name="tinkoff_a" class="min-input"
@@ -187,24 +187,24 @@
                                                    value="{{ $payment['sber_k'] }}" disabled>
                                         </div>
                                     </td>
-                                    <td>
-                                        <div>
-                                            <input type="number" name="privat" class="min-input"
-                                                   value="{{ $payment['privat'] }}" disabled>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <input type="number" name="um" class="min-input"
-                                                   value="{{ $payment['um'] }}" disabled>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <input type="number" name="wmz" class="min-input"
-                                                   value="{{ $payment['wmz'] }}" disabled>
-                                        </div>
-                                    </td>
+{{--                                    <td>--}}
+{{--                                        <div>--}}
+{{--                                            <input type="number" name="privat" class="min-input"--}}
+{{--                                                   value="{{ $payment['privat'] }}" disabled>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div>--}}
+{{--                                            <input type="number" name="um" class="min-input"--}}
+{{--                                                   value="{{ $payment['um'] }}" disabled>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div>--}}
+{{--                                            <input type="number" name="wmz" class="min-input"--}}
+{{--                                                   value="{{ $payment['wmz'] }}" disabled>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
 
                                     <td>
                                         <div>

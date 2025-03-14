@@ -26,10 +26,10 @@
 
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-4 mb-2">
-                                <label for="">ИП Алла (Сбер)</label>
-                                <input type="number" required name="sber_a" class="form-control form-control-sm" step="0.01" value="0">
-                            </div>
+{{--                            <div class="col-4 mb-2">--}}
+{{--                                <label for="">ИП Алла (Сбер)</label>--}}
+{{--                                <input type="number" required name="sber_a" class="form-control form-control-sm" step="0.01" value="0">--}}
+{{--                            </div>--}}
                             <div class="col-4 mb-2">
                                 <label for=""> ИП Алла (Т-Банк)</label>
                                 <input type="number" required name="tinkoff_a" class="form-control form-control-sm" step="0.01" value="0">
@@ -46,18 +46,18 @@
                                 <label for="">Сбер К.Г</label>
                                 <input type="number" required name="sber_k" class="form-control form-control-sm" step="0.01" value="0">
                             </div>
-                            <div class="col-4 mb-2">
-                                <label for="">Приват</label>
-                                <input type="number" required name="privat" class="form-control form-control-sm" step="0.01" value="0">
-                            </div>
-                            <div class="col-4 mb-2">
-                                <label for="">ЮМ</label>
-                                <input type="number" required name="um" class="form-control form-control-sm" step="0.01" value="0">
-                            </div>
-                            <div class="col-4 mb-2">
-                                <label for="">Сбер К.К</label>
-                                <input type="number" required name="wmz" class="form-control form-control-sm" step="0.01" value="0">
-                            </div>
+{{--                            <div class="col-4 mb-2">--}}
+{{--                                <label for="">Приват</label>--}}
+{{--                                <input type="number" required name="privat" class="form-control form-control-sm" step="0.01" value="0">--}}
+{{--                            </div>--}}
+{{--                            <div class="col-4 mb-2">--}}
+{{--                                <label for="">ЮМ</label>--}}
+{{--                                <input type="number" required name="um" class="form-control form-control-sm" step="0.01" value="0">--}}
+{{--                            </div>--}}
+{{--                            <div class="col-4 mb-2">--}}
+{{--                                <label for="">Сбер К.К</label>--}}
+{{--                                <input type="number" required name="wmz" class="form-control form-control-sm" step="0.01" value="0">--}}
+{{--                            </div>--}}
                             <div class="col-4 mb-2">
                                 <label for="">Биржи</label>
                                 <input type="number" required name="birja" class="form-control form-control-sm" step="0.01" value="0">

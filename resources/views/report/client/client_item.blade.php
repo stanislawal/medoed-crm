@@ -137,14 +137,14 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>ИП Алла (Сбер)</th>
+{{--                            <th>ИП Алла (Сбер)</th>--}}
                             <th> ИП Алла (Т-Банк)</th>
                             <th>Т-Банк К.К</th>
                             <th>ИП Даша ( Т-Банк)</th>
                             <th>Сбер К.Г</th>
-                            <th>Приват</th>
-                            <th>ЮМ</th>
-                            <th>Сбер К.К</th>
+{{--                            <th>Приват</th>--}}
+{{--                            <th>ЮМ</th>--}}
+{{--                            <th>Сбер К.К</th>--}}
                             <th>Биржи</th>
                             <th>Дата оплаты</th>
                         </tr>
@@ -153,10 +153,10 @@
                         @forelse($paymentHistory as $item)
                             <tr @if(!$item['mark']) style="background-color: #cd30304a" @endif>
                                 <td>{{ $item['id'] }}</td>
-                                <td class="nowrap @if($item['sber_a'] > 0) text-primary fw-bold @endif">
-                                    {{ $item['sber_a'] }}
-                                    <span>₽</span>
-                                </td>
+{{--                                <td class="nowrap @if($item['sber_a'] > 0) text-primary fw-bold @endif">--}}
+{{--                                    {{ $item['sber_a'] }}--}}
+{{--                                    <span>₽</span>--}}
+{{--                                </td>--}}
                                 <td class="nowrap @if($item['tinkoff_a'] > 0) text-primary fw-bold @endif">
                                     {{ $item['tinkoff_a'] }}
                                     <span>₽</span>
@@ -173,18 +173,18 @@
                                     {{ $item['sber_k'] }}
                                     <span>₽</span>
                                 </td>
-                                <td class="nowrap @if($item['privat'] > 0) text-primary fw-bold @endif">
-                                    {{ $item['privat'] }}
-                                    <span>₽</span>
-                                </td>
-                                <td class="nowrap @if($item['um'] > 0) text-primary fw-bold @endif">
-                                    {{ $item['um'] }}
-                                    <span>₽</span>
-                                </td>
-                                <td class="nowrap @if($item['wmz'] > 0) text-primary fw-bold @endif">
-                                    {{ $item['wmz'] }}
-                                    <span>₽</span>
-                                </td>
+{{--                                <td class="nowrap @if($item['privat'] > 0) text-primary fw-bold @endif">--}}
+{{--                                    {{ $item['privat'] }}--}}
+{{--                                    <span>₽</span>--}}
+{{--                                </td>--}}
+{{--                                <td class="nowrap @if($item['um'] > 0) text-primary fw-bold @endif">--}}
+{{--                                    {{ $item['um'] }}--}}
+{{--                                    <span>₽</span>--}}
+{{--                                </td>--}}
+{{--                                <td class="nowrap @if($item['wmz'] > 0) text-primary fw-bold @endif">--}}
+{{--                                    {{ $item['wmz'] }}--}}
+{{--                                    <span>₽</span>--}}
+{{--                                </td>--}}
                                 <td class="nowrap @if($item['birja'] > 0) text-primary fw-bold @endif">
                                     {{ $item['birja'] }}
                                     <span>₽</span>
