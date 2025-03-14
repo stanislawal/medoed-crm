@@ -100,7 +100,7 @@ class ProjectController extends Controller
         });
 
         $projects->when(UserHelper::isManager(), function ($where) {
-            $where->where('manager_id', UserHelper::getUserId());
+            $where->where('projects.manager_id', UserHelper::getUserId());
         });
 
         // фильтр
