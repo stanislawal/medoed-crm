@@ -340,8 +340,8 @@
                                 <th class="text-center" style="width: 60px;"><i class="fas fa-pen"></i></th>
                                 <th style="width: 50px;">Рек. комп.</th>
                                 <th>Ресурс</th>
-                                <th class="table-fixed">Имя/Ссылка</th>
-                                <th style="min-width: 80px;">Место вед. диалога</th>
+                                <th style="min-width: 250px;" class="table-fixed">Имя/Ссылка</th>
+                                <th style="min-width: 140px;">Место вед. диалога</th>
                                 <th style="min-width: 100px;">Ссылка на лида</th>
                                 <th style="min-width: 130px;">Услуга</th>
                                 <th style="min-width: 40px;"><i class="fas fa-user-edit"></i></th>
@@ -407,7 +407,7 @@
 
                                     <td>{{ $lid->resource->name ?? '' }}</td>
 
-                                    <td class="table-fixed">{{ $lid->name_link ?? '' }}</td>
+                                    <td class="table-fixed">{!! \App\Helpers\StringHelper::insertBreaks($lid->name_link ?? '') !!}</td>
 
                                     <td>
                                         <select class="form-select form-select-sm" name="location_dialogue_id" id="">
