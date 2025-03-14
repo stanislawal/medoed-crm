@@ -66,7 +66,14 @@ class ProjectController extends Controller
                 users.full_name,
                 moods.name as mood_name,
                 moods.color as mood_color,
-                CAST(price_client as FLOAT) as price_client_float
+                CAST(projects.price_client as FLOAT) as price_client_float,
+                SUM(
+                    CASE
+                        WHEN articles.is_fixed_price_client = 1
+                        THEN articles.price_client
+                        ELSE (articles.price_client * (articles.without_space / 1000))
+                    END
+                ) as sum_gross_income
             ")
             ->with([
                 'projectTheme',
@@ -83,6 +90,15 @@ class ProjectController extends Controller
         $projects->leftJoin('themes', 'themes.id', '=', 'projects.theme_id');
         $projects->leftJoin('moods', 'moods.id', '=', 'projects.mood_id');
 
+        $projects->leftJoin('articles', function ($leftJoin) {
+            $leftJoin->on('articles.project_id', '=', 'projects.id')
+                ->whereBetween('articles.created_at', [
+                    Carbon::parse(now())->startOfMonth()->toDateTimeString(),
+                    Carbon::parse(now())->endOfMonth()->toDateTimeString()
+                ])
+                ->where('articles.ignore', false);
+        });
+
         $projects->when(UserHelper::isManager(), function ($where) {
             $where->where('manager_id', UserHelper::getUserId());
         });
@@ -90,6 +106,7 @@ class ProjectController extends Controller
         // фильтр
         $this->filter($projects, $request);
 
+        $projects->groupBy('projects.id');
         $projects->orderBy('id', 'desc');
         $projects = $projects->paginate(50);
 

@@ -271,6 +271,7 @@
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Состояние', 'column' => 'statuses|name', 'routeName' => 'project.index'] )</th>
                                     <th style="min-width: 200px !important;">Состояние проекта</th>
                                     <th style="min-width: 220px !important;">Перспектива проекта</th>
+                                    <th>ВД</th>
                                     <th>Автор</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client_float', 'routeName' => 'project.index'] )</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
@@ -383,7 +384,6 @@
                                             </div>
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">
-
                                             @if(\App\Helpers\UserHelper::isAdmin())
                                                 <div class="d-flex align-items-center">
                                                     <textarea style="width: 100%; height: 100%; border: none"
@@ -394,8 +394,8 @@
                                             @else
                                                 {{ $project['project_status_text'] }}
                                             @endif
-
                                         </td>
+                                        <td class="nowrap">{{ number_format($project['sum_gross_income'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             @forelse ($project['projectAuthor'] as $author)
                                                 <div class="nowrap">{{ $author['full_name'] }}</div>
