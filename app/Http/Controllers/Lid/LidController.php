@@ -103,8 +103,11 @@ class LidController extends Controller
                 $where->whereBetween('date_receipt', [
                     Carbon::parse($request->month)->startOfMonth()->toDateTimeString(),
                     Carbon::parse($request->month)->endOfMonth()->toDateTimeString(),
-
                 ]);
+            })
+            // id
+            ->when(!empty($request->id), function (Builder $where) use ($request) {
+                $where->where('id', $request->id);
             })
             // специалист
             ->when(!empty($request->specialist_user_id), function (Builder $where) use ($request) {
@@ -120,7 +123,9 @@ class LidController extends Controller
             })
             // имя ссылка
             ->when(!empty($request->name_link), function (Builder $where) use ($request) {
-                $where->whereRaw("name_link like '%{$request->name_link}%'");
+
+                $where->whereRaw("name_link like '%{$request->name_link}%'")
+                    ->orWhereRaw("link_lid like '%{$request->name_link}%'");
             })
             // статусы
             ->when(!empty($request->lid_status_id), function (Builder $where) use ($request) {
@@ -149,25 +154,25 @@ class LidController extends Controller
             ->when(!empty($request->audit_id), function (Builder $where) use ($request) {
                 $where->whereIn('audit_id', $request->audit_id);
             })
-
             // Статус специалиста
             ->when(!empty($request->lid_specialist_status_id), function (Builder $where) use ($request) {
                 $where->whereIn('lid_specialist_status_id', $request->lid_specialist_status_id);
             })
-
             // Исключить статус специалиста
             ->when(!empty($request->without_lid_specialist_status_id), function (Builder $where) use ($request) {
                 $where->whereIn('without_lid_specialist_status_id', $request->without_lid_specialist_status_id);
             })
-
             // созвон
             ->when(!empty($request->call_up_id), function (Builder $where) use ($request) {
                 $where->whereIn('call_up_id', $request->call_up_id);
             })
-
             // задача специалиста
             ->when(!empty($request->specialist_task_id), function (Builder $where) use ($request) {
                 $where->whereIn('specialist_task_id', $request->specialist_task_id);
+            })
+            // Дата прописки лиду
+            ->when(!empty($request->date_write_lid), function (Builder $where) use ($request) {
+                $where->where('date_write_lid', now()->toDateString());
             });
     }
 

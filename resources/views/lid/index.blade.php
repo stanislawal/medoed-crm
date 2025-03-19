@@ -8,29 +8,37 @@
             border: 1px solid #ced4da;
             border-radius: 3px;
         }
+
         .table td, .table th {
             height: 50px !important;
             font-weight: 600;
             padding: 0 15px !important;
         }
+
         .table-head-bg-info thead {
             border: none !important;
         }
+
         .table-head-bg-info thead th {
             border-right: 1px solid #f2f2f2 !important;
         }
+
         .table-head-bg-info thead th:last-child {
             border-right: none !important;
         }
+
         .table-head-bg-info tbody td:last-child {
             border-right: none !important;
         }
+
         tbody {
             border-bottom: 1px solid #46464624 !important;
         }
+
         thead tr {
             border-color: #1a202c;
         }
+
         thead tr:first-child {
             position: sticky !important;
             top: 0;
@@ -41,23 +49,28 @@
             position: sticky !important;
             top: 0;
         }
+
         .table-fixed {
             position: sticky;
             left: 0;
             z-index: 1; /* Убедитесь, что фиксированные ячейки находятся выше остальных */
             background-color: #ffffff;
         }
-        .table-fixed.sticked{
+
+        .table-fixed.sticked {
             background-color: #48abf7 !important;
             color: #ffffff;
             transition: 0.2s linear;
         }
+
         tbody tr:nth-child(even) > td {
             background-color: #f2f2f2 !important; /* Цвет для четных строк */
         }
+
         tbody tr:nth-child(odd) > td {
             background-color: #ffffff !important; /* Цвет для нечетных строк */
         }
+
         tbody tr.interesting > td {
             background-color: #31ce3630 !important;
         }
@@ -97,7 +110,20 @@
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-4 col-lg-3">
-                            <label class="form-label">Имя/Ссылка</label>
+                            <label class="form-label">Специалист</label>
+                            <div class="input-group">
+                                <select class="form-select form-select-sm" name="specialist_user_id">
+                                    <option value="">Все</option>
+                                    @foreach($specialistUsers as $item)
+                                        <option
+                                            value="{{ $item->id }}" {{ request()->specialist_user_id == $item->id ? 'selected' : '' }}>{{ $item->minName }}</option>
+                                    @endforeach
+                                    <option value="null">Не назначен</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label class="form-label">Имя/Ссылка | Ссылка на лида</label>
                             <div class="input-group">
                                 <input type="text" name="name_link" class="form-control form-control-sm"
                                        value="{{ request()->name_link ?? '' }}">
@@ -125,6 +151,14 @@
                         </div>
                     </div>
                     <div class="row m-0" id="search" style="display: none">
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label class="form-label">ID</label>
+                            <div class="input-group">
+                                <input type="text" name="id" class="form-control form-control-sm"
+                                       value="{{ request()->id ?? '' }}">
+                            </div>
+                        </div>
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label class="form-label">Диапазон добавления</label>
@@ -256,16 +290,10 @@
                             </div>
                         </div>
                         <div class="form-group col-12 col-md-4 col-lg-3">
-                            <label class="form-label">Специалист</label>
-                            <div class="input-group">
-                                <select class="form-select form-select-sm" name="specialist_user_id">
-                                    <option value="">Все</option>
-                                    @foreach($specialistUsers as $item)
-                                        <option
-                                            value="{{ $item->id }}" {{ request()->specialist_user_id == $item->id ? 'selected' : '' }}>{{ $item->minName }}</option>
-                                    @endforeach
-                                    <option value="null">Не назначен</option>
-                                </select>
+                            <label class="form-label">Дата прописки лиду</label>
+                            <div class="d-flex flex-nowrap align-items-center" style="height: 31px;">
+                                <input type="checkbox" name="date_write_lid" value="1" class="checkbox" id="date_write_lid" @if(request()->date_write_lid ?? false) checked @endif>
+                                <label class="ms-3 mb-0" for="date_write_lid">текущий день</label>
                             </div>
                         </div>
                     </div>
@@ -456,7 +484,7 @@
                                                @if($lid->interesting) checked @endif>
                                     </td>
                                     <td>
-                                        <input type="date" class="form-control form-control-sm" name="date_write_lid"
+                                        <input style="width: 107px;" type="date" class="form-control form-control-sm" name="date_write_lid"
                                                value="{{ $lid->date_write_lid }}">
                                     </td>
                                     <td>
@@ -629,13 +657,13 @@
         })
 
 
-        $('.table-responsive').on('scroll', function() {
+        $('.table-responsive').on('scroll', function () {
             const stickyTD = $('.table-fixed');
             const tableResponsive = $('.table-responsive');
 
-            if(stickyTD.offset().left === tableResponsive.offset().left){
+            if (stickyTD.offset().left === tableResponsive.offset().left) {
                 stickyTD.addClass('sticked')
-            }else{
+            } else {
                 stickyTD.removeClass('sticked')
             }
         })
