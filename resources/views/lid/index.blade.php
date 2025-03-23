@@ -453,7 +453,6 @@
                                         </select>
                                     </td>
                                     <td class="text-center">
-                                        {{ $lid->write_lid }}
                                         <input type="checkbox" name="write_lid" class="checkbox"
                                                @if($lid->write_lid) checked @endif>
                                     </td>
@@ -472,7 +471,6 @@
                                                   rows="2">{{ $lid->state ?? '' }}</textarea>
                                     </td>
                                     <td>
-                                        {{ $lid->interesting }}
                                         <input type="checkbox" name="interesting" class="checkbox"
                                                @if($lid->interesting) checked @endif>
                                     </td>
