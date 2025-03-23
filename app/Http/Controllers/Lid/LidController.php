@@ -232,12 +232,8 @@ class LidController extends Controller
             'link_to_site'             => ['nullable', 'string', 'max:100'],
             'region'                   => ['nullable', 'string', 'max:100'],
             'price'                    => ['nullable', 'string', 'max:256'],
-            'business_are'             => ['nullable', 'string', 'max:100'],
-            'date_write_lid'           => ['nullable', 'date']
+            'business_are'             => ['nullable', 'string', 'max:100']
         ]);
-
-        $attr['write_lid'] = $request->write_lid == 1 ? 1 : 0;
-        $attr['interesting'] = $request->interesting == 1 ? 1 : 0;
 
         Lid::on()->where('id', $id)->update($attr);
 
@@ -280,8 +276,25 @@ class LidController extends Controller
                 'date_write_lid'           => ['nullable', 'date']
             ]);
 
-            $attr['write_lid'] = $request->write_lid == 1 ? 1 : 0;
-            $attr['interesting'] = $request->interesting == 1 ? 1 : 0;
+            if (($attr['audit_id'] ?? null) == 1) {
+                $attr['transfer_date'] = now();
+            }
+
+            if (($attr['audit_id'] ?? null) == 2) {
+                $attr['date_acceptance'] = now();
+            }
+
+            if (($attr['audit_id'] ?? null == 3) || ($attr['audit_id'] ?? null) == 4 || ($attr['audit_id'] ?? null) == 5) {
+                $attr['ready_date'] = now();
+            }
+
+            if($request->has('write_lid')){
+                $attr['write_lid'] = $request->write_lid == 1 ? 1 : 0;
+            }
+
+            if($request->has('interesting')){
+                $attr['interesting'] = $request->interesting == 1 ? 1 : 0;
+            }
 
             Lid::on()->where('id', $id)->update($attr);
 

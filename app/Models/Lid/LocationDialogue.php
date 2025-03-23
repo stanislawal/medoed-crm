@@ -16,4 +16,9 @@ class LocationDialogue extends Model
     ];
 
     public $timestamps = true;
+
+    public function lids()
+    {
+        return $this->hasMany(Lid::class, 'location_dialogue_id');
+    }
 }

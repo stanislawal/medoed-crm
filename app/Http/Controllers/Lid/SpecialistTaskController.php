@@ -21,7 +21,7 @@ class SpecialistTaskController extends Controller
     public function index()
     {
         return view('lid.specialist_tasks.index', [
-                'list' => $this->model->get()
+                'list' => $this->model->with('lids')->get()
             ]
         );
     }

@@ -17,4 +17,9 @@ class LidStatus extends Model
     ];
 
     public $timestamps = true;
+
+    public function lids()
+    {
+        return $this->hasMany(Lid::class, 'lid_status_id');
+    }
 }

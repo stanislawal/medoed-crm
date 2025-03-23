@@ -31,10 +31,15 @@
                         <td>{{$item['id']}}</td>
                         <td>{{$item['name']}}</td>
                         <td>
-                            <form action="{{route('specialist-task.destroy', ['specialist_task' => $item['id']])}}" method="post">
-                                @csrf @method('delete')
-                                <button class="btn btn-sm btn-danger"><i class="fas fa-minus"></i></button>
-                            </form>
+                            @if($item->lids->isEmpty())
+                                <form action="{{route('specialist-task.destroy', ['specialist_task' => $item['id']])}}"
+                                      method="post">
+                                    @csrf @method('delete')
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-minus"></i></button>
+                                </form>
+                            @else
+                                Недоступно
+                            @endif
                         </td>
                     </tr>
                 @endforeach

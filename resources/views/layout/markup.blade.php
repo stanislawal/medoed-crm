@@ -236,6 +236,11 @@
                                             <span class="sub-item">Статусы (Лид)</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('lid-specialist-status.index') }}">
+                                            <span class="sub-item">Статусы специалиста (Лид)</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

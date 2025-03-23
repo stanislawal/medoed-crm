@@ -16,4 +16,9 @@ class Service extends Model
     ];
 
     public $timestamps = true;
+
+    public function lids()
+    {
+        return $this->hasMany(Lid::class, 'service_id');
+    }
 }

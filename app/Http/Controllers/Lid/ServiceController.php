@@ -21,7 +21,7 @@ class ServiceController extends Controller
     public function index()
     {
         return view('lid.services.index', [
-                'list' => $this->model->get()
+                'list' => $this->model->with('lids')->get()
             ]
         );
     }

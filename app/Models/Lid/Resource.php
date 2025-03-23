@@ -17,4 +17,9 @@ class Resource extends Model
     ];
 
     public $timestamps = true;
+
+    public function lids()
+    {
+        return $this->hasMany(Lid::class, 'resource_id');
+    }
 }

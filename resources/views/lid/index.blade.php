@@ -140,7 +140,6 @@
                                             value="{{ $item->id }}"
                                             {{ in_array($item->id, request()->lid_status_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                     @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -180,7 +179,6 @@
                                             value="{{ $item->id }}"
                                             {{ in_array($item->id, request()->without_lid_status_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                     @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -195,7 +193,6 @@
                                             value="{{ $item->id }}"
                                             {{ in_array($item->id, request()->resource_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                     @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -210,7 +207,6 @@
                                             value="{{ $item->id }}"
                                             {{ in_array($item->id, request()->service_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                     @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -225,7 +221,6 @@
                                             value="{{ $item->id }}"
                                             {{ in_array($item->id, request()->audit_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                     @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -235,12 +230,11 @@
                                 <select class="form-select form-select-sm select2-with-color" multiple
                                         name="lid_specialist_status_id[]">
                                     <option value="">Все</option>
-                                    @foreach($lidStatuses as $item)
+                                    @foreach($lidSpecialistStatus as $item)
                                         <option
                                             value="{{ $item->id }}"
                                             {{ in_array($item->id, request()->lid_specialist_status_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                     @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -250,12 +244,11 @@
                                 <select class="form-select form-select-sm select2-with-color" multiple
                                         name="without_lid_specialist_status_id[]">
                                     <option value="">Все</option>
-                                    @foreach($lidStatuses as $item)
+                                    @foreach($lidSpecialistStatus as $item)
                                         <option
                                             value="{{ $item->id }}"
                                             {{ in_array($item->id, request()->without_lid_specialist_status_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                     @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -270,7 +263,6 @@
                                             value="{{ $item->id }}"
                                             {{ in_array($item->id, request()->call_up_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                     @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -285,7 +277,6 @@
                                             value="{{ $item->id }}"
                                             {{ in_array($item->id, request()->specialist_task_id ?? []) ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                     @endforeach
-                                    <option value="null">Не назначен</option>
                                 </select>
                             </div>
                         </div>
@@ -376,7 +367,7 @@
                                 <th style="min-width: 250px;">Статус / Состояние</th>
                                 <th style="min-width: 40px;"><i class="fas fa-star"></i></th>
                                 <th>Прописать лиду</th>
-                                <th style="min-width: 120px;">Аудит</th>
+                                <th style="min-width: 145px;">Аудит</th>
                                 <th style="min-width: 200px;">Статус спец. / Состояние спец.</th>
                                 <th style="min-width: 120px;">Задача спец.</th>
                                 <th style="min-width: 125px;">Созвон</th>
@@ -462,6 +453,7 @@
                                         </select>
                                     </td>
                                     <td class="text-center">
+                                        {{ $lid->write_lid }}
                                         <input type="checkbox" name="write_lid" class="checkbox"
                                                @if($lid->write_lid) checked @endif>
                                     </td>
@@ -480,6 +472,7 @@
                                                   rows="2">{{ $lid->state ?? '' }}</textarea>
                                     </td>
                                     <td>
+                                        {{ $lid->interesting }}
                                         <input type="checkbox" name="interesting" class="checkbox"
                                                @if($lid->interesting) checked @endif>
                                     </td>

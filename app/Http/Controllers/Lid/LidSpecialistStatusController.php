@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Lid;
 
-use App\Http\Controllers\Controller;
-use App\Models\Lid\Resource;
+use App\Models\Lid\LidSpecialistStatus;
 use Illuminate\Http\Request;
 
-class ResourceController extends Controller
+class LidSpecialistStatusController
 {
     private $model;
 
     public function __construct()
     {
-        $this->model = Resource::on();
+        $this->model = LidSpecialistStatus::on();
     }
 
     /**
@@ -20,7 +19,7 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        return view('lid.resources.index', [
+        return view('lid.status_specialist.index', [
                 'list' => $this->model->with('lids')->get()
             ]
         );
@@ -33,7 +32,8 @@ class ResourceController extends Controller
     public function store(Request $request)
     {
         $attr = $request->validate([
-            'name'  => ['required', 'string', 'max:255']
+            'name'  => ['required', 'string', 'max:255'],
+            'color' => ['nullable', 'string', 'max:255'],
         ]);
 
         $this->model->create($attr);

@@ -17,4 +17,9 @@ class SpecialistTask extends Model
     ];
 
     public $timestamps = true;
+
+    public function lids()
+    {
+        return $this->hasMany(Lid::class, 'specialist_task_id');
+    }
 }

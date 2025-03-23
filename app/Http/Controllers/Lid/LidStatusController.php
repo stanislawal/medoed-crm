@@ -21,7 +21,7 @@ class LidStatusController extends Controller
     public function index()
     {
         return view('lid.status.index', [
-                'list' => $this->model->get()
+                'list' => $this->model->with('lids')->get()
             ]
         );
     }

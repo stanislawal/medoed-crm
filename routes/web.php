@@ -5,6 +5,7 @@ use App\Http\Controllers\Article\ArticleController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Lid\LidController;
+use App\Http\Controllers\Lid\LidSpecialistStatusController;
 use App\Http\Controllers\Lid\LidStatusController;
 use App\Http\Controllers\Lid\LocationDialogueController;
 use App\Http\Controllers\Lid\ResourceController;
@@ -112,6 +113,8 @@ Route::middleware(['auth', 'is_work'])->group(function () {
             Route::resource('service', ServiceController::class)->only(['index', 'store', 'destroy']);
             Route::resource('specialist-task', SpecialistTaskController::class)->only(['index', 'store', 'destroy']);
             Route::resource('lid-status', LidStatusController::class)->only(['index', 'store', 'destroy']);
+            Route::resource('lid-status', LidStatusController::class)->only(['index', 'store', 'destroy']);
+            Route::resource('lid-specialist-status', LidSpecialistStatusController::class)->only(['index', 'store', 'destroy']);
         });
 
 

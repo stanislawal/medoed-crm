@@ -8,9 +8,9 @@
                 @csrf
                 <div class="mb-3 col-6 col-md-4">
                     <label for="" class="form-label mb-3">Добавить</label>
-                   <div class="mb-3">
-                       <input type="text" class="form-control form-control" name="name">
-                   </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control form-control" name="name">
+                    </div>
                     <div class="mb-3">
                         <input type="color" name="color">
                     </div>
@@ -36,12 +36,21 @@
                     <tr>
                         <td>{{$item['id']}}</td>
                         <td>{{$item['name']}}</td>
-                        <td>@if(!empty($item['color'])) <input type="color" value="{{ $item['color'] }}"> @else - @endif</td>
+                        <td>@if(!empty($item['color']))
+                                <input type="color" value="{{ $item['color'] }}">
+                            @else
+                                -
+                            @endif</td>
                         <td>
-                            <form action="{{route('lid-status.destroy', ['lid_status' => $item['id']])}}" method="post">
-                                @csrf @method('delete')
-                                <button class="btn btn-sm btn-danger"><i class="fas fa-minus"></i></button>
-                            </form>
+                            @if($item->lids->isEmpty())
+                                <form action="{{route('lid-status.destroy', ['lid_status' => $item['id']])}}"
+                                      method="post">
+                                    @csrf @method('delete')
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-minus"></i></button>
+                                </form>
+                            @else
+                                Недоступно
+                            @endif
                         </td>
                     </tr>
                 @endforeach

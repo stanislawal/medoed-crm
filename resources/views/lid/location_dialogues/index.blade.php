@@ -31,10 +31,16 @@
                         <td>{{$item['id']}}</td>
                         <td>{{$item['name']}}</td>
                         <td>
-                            <form action="{{route('location-dialogue.destroy', ['location_dialogue' => $item['id']])}}" method="post">
-                                @csrf @method('delete')
-                                <button class="btn btn-sm btn-danger"><i class="fas fa-minus"></i></button>
-                            </form>
+                            @if($item->lids->isEmpty())
+                                <form
+                                    action="{{route('location-dialogue.destroy', ['location_dialogue' => $item['id']])}}"
+                                    method="post">
+                                    @csrf @method('delete')
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-minus"></i></button>
+                                </form>
+                            @else
+                                Недоступно
+                            @endif
                         </td>
                     </tr>
                 @endforeach
