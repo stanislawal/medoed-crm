@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Lid;
 
+use App\Constants\NotificationTypeConstants;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NotificationController;
 use App\Models\Lid\Audit;
 use App\Models\Lid\CallUp;
 use App\Models\Lid\Lid;
@@ -24,6 +26,12 @@ class LidController extends Controller
 {
 
     public const ADVERTISING_COMPANY = ['А', 'К', 'Д'];
+    private NotificationController $notificationController;
+
+    public function __construct(NotificationController $notificationController)
+    {
+        $this->notificationController = $notificationController;
+    }
 
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -235,7 +243,26 @@ class LidController extends Controller
             'business_are'             => ['nullable', 'string', 'max:100']
         ]);
 
+        $oldLid = Lid::on()->find($id);
         Lid::on()->where('id', $id)->update($attr);
+
+        if (!empty($attr['lid_status_id']) && ($oldLid->lid_status_id != $attr['lid_status_id']) && in_array($attr['lid_status_id'], [4, 13, 3, 2, 5])) {
+            $lidStatus = LidStatus::on()->find($attr['lid_status_id']);
+            $message = 'Изменение статуса на:
+                    <span class="select-2-custom-state-color nowrap px-1" style="background-color: ' . ($lidStatus->color ?? '#c7c7c7') . '">
+                       ' . $lidStatus->name . '
+                    </span> ';
+            $this->notification($id, $message);
+        }
+
+        if (!empty($attr['lid_specialist_status_id']) && ($oldLid->lid_specialist_status_id != $attr['lid_specialist_status_id']) && in_array($attr['lid_specialist_status_id'], [])) {
+            $lidSpecialistStatus = LidSpecialistStatus::on()->find($attr['lid_specialist_status_id']);
+            $message = 'Изменение статуса специалиста на:
+                    <span class="select-2-custom-state-color nowrap px-1" style="background-color: ' . ($lidSpecialistStatus->color ?? '#c7c7c7') . ' ">
+                        ' . $lidSpecialistStatus->name . '
+                    </span>';
+            $this->notification($id, $message);
+        }
 
         return redirect()->back()->with(['success' => 'Данные успешно обновлены.']);
     }
@@ -288,15 +315,34 @@ class LidController extends Controller
                 $attr['ready_date'] = now();
             }
 
-            if($request->has('write_lid')){
+            if ($request->has('write_lid')) {
                 $attr['write_lid'] = $request->write_lid == 1 ? 1 : 0;
             }
 
-            if($request->has('interesting')){
+            if ($request->has('interesting')) {
                 $attr['interesting'] = $request->interesting == 1 ? 1 : 0;
             }
 
+            $oldLid = Lid::on()->find($id);
             Lid::on()->where('id', $id)->update($attr);
+
+            if (!empty($attr['lid_status_id']) && ($oldLid->lid_status_id != $attr['lid_status_id']) && in_array($attr['lid_status_id'], [4, 13, 3, 2, 5])) {
+                $lidStatus = LidStatus::on()->find($attr['lid_status_id']);
+                $message = 'Изменение статуса на:
+                    <span class="select-2-custom-state-color nowrap px-1" style="background-color: ' . ($lidStatus->color ?? '#c7c7c7') . '">
+                       ' . $lidStatus->name . '
+                    </span> ';
+                $this->notification($id, $message);
+            }
+
+            if (!empty($attr['lid_specialist_status_id']) && ($oldLid->lid_specialist_status_id != $attr['lid_specialist_status_id']) && in_array($attr['lid_specialist_status_id'], [])) {
+                $lidSpecialistStatus = LidSpecialistStatus::on()->find($attr['lid_specialist_status_id']);
+                $message = 'Изменение статуса специалиста на:
+                    <span class="select-2-custom-state-color nowrap px-1" style="background-color: ' . ($lidSpecialistStatus->color ?? '#c7c7c7') . ' ">
+                        ' . $lidSpecialistStatus->name . '
+                    </span>';
+                $this->notification($id, $message);
+            }
 
             return response()->json([
                 'result' => true
@@ -355,5 +401,17 @@ class LidController extends Controller
                 'lidSpecialistStatus' => LidSpecialistStatus::on()->get(),
             ])->render()
         ]);
+    }
+
+    private function notification($lidId, $message)
+    {
+        $this->notificationController->createNotification(
+            NotificationTypeConstants::UPDATE_STATUS_LID,
+            '',
+            '',
+            $message,
+            UserHelper::getUserId(),
+            $lidId
+        );
     }
 }

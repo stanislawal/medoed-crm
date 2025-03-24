@@ -57,6 +57,12 @@
                                 @endif
                                 value="{{ \App\Constants\NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT }}">Дата связи с клиентом
                             </option>
+
+                            <option
+                                @if(request()->type == \App\Constants\NotificationTypeConstants::UPDATE_STATUS_LID) selected
+                                @endif
+                                value="{{ \App\Constants\NotificationTypeConstants::UPDATE_STATUS_LID }}">Смена статуса лида
+                            </option>
                         </select>
                     </div>
 
@@ -279,6 +285,33 @@
                                                class="text-primary">{{ $item['projects']['project_name'] ?? null }}</a>
                                             <br>
                                             <span>Менеджер: <strong>{{ $item['projects']['project_user']['full_name'] ?? '' }}</strong></span>
+                                            <div class="time">{{ $item['date_time'] }}</div>
+                                        </div>
+                                    </div>
+                                    @if(!$item['is_viewed'])
+                                        <a href="{{ route('notification.browse', ['id' => $item['id']]) }}">
+                                            <div class="browse">
+                                                <i class="fas fa-eye" title="Пометить как прочитанное"></i>
+                                            </div>
+                                        </a>
+                                    @endif
+                                </div>
+
+                                @break
+
+                            @case('UPDATE_STATUS_LID')
+
+                                <div class="d-flex notification-item @if(!$item['is_viewed']) not-viewed @endif">
+                                    <div class="icon bg-primary">
+                                        <i class="fas fa-info text-white"></i>
+                                    </div>
+                                    <div class="description">
+                                        <div class="text-notify">
+                                            <span>{!! $item['message'] ?? '' !!}</span>
+                                            <br>
+                                            <span>Обновил: <strong>{{ $item['user']?->minName ?? '' }}</strong></span>
+                                            <br>
+                                            <span>Лид ID: <strong><a href="#">{{ $item['lid_id'] }}</a></strong></span>
                                             <div class="time">{{ $item['date_time'] }}</div>
                                         </div>
                                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Lid\Lid;
 use App\Models\Project\Project;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,9 @@ class Notification extends Model
         'message',
         'project_id',
         'article_id',
-        'is_viewed',
+        'user_id', // запись пользователя, который обновил статус в базе лида
+        'lid_id',
+        'is_viewed'
     ];
     public $timestamps = false;
 
@@ -31,5 +34,15 @@ class Notification extends Model
 
     public function articles() {
         return $this->belongsTo(Article::class, 'article_id');
+    }
+
+    public function lid()
+    {
+        return $this->belongsTo(Lid::class, 'lid_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

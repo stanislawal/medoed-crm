@@ -6,6 +6,7 @@
     $writeToClientMonth = $notifications->where('type', \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH)->toArray();
     $projectPayment = $notifications->where('type', \App\Constants\NotificationTypeConstants::PROJECT_PAYMENT)->toArray();
     $dateConnectWithClient = $notifications->where('type', \App\Constants\NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT)->toArray();
+    $updateStatusLid = $notifications->where('type', \App\Constants\NotificationTypeConstants::UPDATE_STATUS_LID);
 @endphp
 
 <div class="accordion accordion-flush" id="accordion-notification">
@@ -307,6 +308,49 @@
             </div>
         </div>
     </div>
-</div>
 
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#UPDATE_STATUS_LID" aria-expanded="false" aria-controls="flush-collapseOne">
+                <div class="icon bg-warning">
+                    <i class="fas fa-info text-white"></i>
+                </div>
+                <span class="ps-2">Смена статуса лида: <strong
+                        class="text-primary">{{ count($updateStatusLid) }}</strong></span>
+            </button>
+        </h2>
+        <div id="UPDATE_STATUS_LID" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+             data-bs-parent="#accordion-notification">
+            <div class="accordion-body">
+                @forelse($updateStatusLid as $item)
+                    <div class="d-flex notification-item">
+                        <div class="icon bg-warning">
+                            <i class="fas fa-info text-white"></i>
+                        </div>
+                        <div class="description">
+                            <div class="text-notify">
+                                <span>{!! $item['message'] ?? '' !!}</span>
+                                <br>
+                                <span>Обновил: <strong>{{ $item['user']?->minName ?? '' }}</strong></span>
+                                <br>
+                                <span>Лид ID: <strong><a href="#">{{ $item['lid_id'] }}</a></strong></span>
+                                <div class="time">{{ $item['date_time'] }}</div>
+                            </div>
+                        </div>
+                        <div class="browse"
+                             onclick="browseNotification(this, '{{ route('notification.browse', ['id' => $item['id']]) }}')">
+                            <i class="fas fa-eye" title="Пометить как прочитанное"></i>
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center text-12 fst-italic w-100 p-3 text-gray">
+                        Пусто
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+</div>
 

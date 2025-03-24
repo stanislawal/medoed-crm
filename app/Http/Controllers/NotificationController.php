@@ -18,7 +18,7 @@ class NotificationController extends Controller
         $viewed = $request->is_viewed ?? null;
 
         $notification = Notification::on()
-            ->with(['projects:id,project_name,manager_id', 'articles:id,article', 'projects.projectUser:id,full_name'])
+            ->with(['projects:id,project_name,manager_id', 'articles:id,article', 'projects.projectUser:id,full_name', 'lid:id', 'user:id,full_name'])
             ->where('recipient_id', UserHelper::getUserId())
             ->when(!is_null($type), function ($where) use ($type) {
                 $where->where('type', $type);
@@ -108,47 +108,52 @@ class NotificationController extends Controller
      * Создать уведомление
      *
      * @param $type
-     * @param $userId
-     * @param $id
+     * @param $recipients
+     * @param $projectId
      * @param $message
      * @return void
      */
-    public function createNotification($type, $userId, $id, $message = null)
+    public function createNotification($type, $recipients, $projectId, $message = null, $userId = null, $lidId = null)
     {
         switch ($type) {
             // назначение прокта на менеджера
             case NotificationTypeConstants::ASSIGNED_PROJECT :
-                $this->assignedProject($userId, $id);
+                $this->assignedProject($recipients, $projectId);
                 break;
 
             // редактирование статьи
             case NotificationTypeConstants::CHANGE_ARTICLE :
-                $this->changeArticle($userId, $id, $message);
+                $this->changeArticle($recipients, $projectId, $message);
                 break;
 
             // редактирование цены в проекте
             case NotificationTypeConstants::CHANGE_PRICE_PROJECT :
-                $this->changePriceProject($userId, $id);
+                $this->changePriceProject($recipients, $projectId);
                 break;
 
             // отписать клиенту через неделю
             case NotificationTypeConstants::WRITE_TO_CLIENT_WEEK :
-                $this->writeToClient($userId, $id, NotificationTypeConstants::WRITE_TO_CLIENT_WEEK);
+                $this->writeToClient($recipients, $projectId, NotificationTypeConstants::WRITE_TO_CLIENT_WEEK);
                 break;
 
             // отписать клиенту через месяц
             case NotificationTypeConstants::WRITE_TO_CLIENT_MONTH :
-                $this->writeToClient($userId, $id, NotificationTypeConstants::WRITE_TO_CLIENT_MONTH);
+                $this->writeToClient($recipients, $projectId, NotificationTypeConstants::WRITE_TO_CLIENT_MONTH);
                 break;
 
             // уведомление об необходимости оплатить по проекту
             case NotificationTypeConstants::PROJECT_PAYMENT :
-                $this->projectPayment($userId, $id, NotificationTypeConstants::PROJECT_PAYMENT);
+                $this->projectPayment($recipients, $projectId, NotificationTypeConstants::PROJECT_PAYMENT);
                 break;
 
             // уведомление о дате связи с клиентом
             case NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT :
-                $this->dateConnectWithClient($userId, $id, NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT);
+                $this->dateConnectWithClient($recipients, $projectId, NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT);
+                break;
+
+            // уведомление обновления статуса лида
+            case NotificationTypeConstants::UPDATE_STATUS_LID :
+                $this->updateStatusLid($userId, $lidId, NotificationTypeConstants::UPDATE_STATUS_LID, $message);
                 break;
         }
 
@@ -329,6 +334,35 @@ class NotificationController extends Controller
                 'message'      => null,
                 'project_id'   => $projectId,
                 'article_id'   => null
+            ];
+        }
+
+        if (count($notifications) > 0) {
+            Notification::on()->insert($notifications);
+        }
+    }
+
+    /**
+     * Обновление статуса лида
+     *
+     * @param $userId
+     * @param $lidId
+     * @param $type
+     * @param $message
+     * @return void
+     */
+    private function updateStatusLid($userId, $lidId, $type, $message)
+    {
+        $recipients = $this->getAllAdmin();
+
+        foreach ($recipients as $recipient) {
+            $notifications[] = [
+                'date_time'    => now(),
+                'type'         => $type,
+                'message'      => $message,
+                'recipient_id' => $recipient,
+                'lid_id'       => $lidId,
+                'user_id'      => $userId
             ];
         }
 

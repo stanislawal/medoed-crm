@@ -11,4 +11,5 @@ class NotificationTypeConstants
     public const WRITE_TO_CLIENT_MONTH = 'WRITE_TO_CLIENT_MONTH'; // написать клиенту прошел месяц
     public const PROJECT_PAYMENT = 'PROJECT_PAYMENT'; // уведомление об плате по проекту
     public const DATE_CONTACT_WITH_CLIENT = 'DATE_CONTACT_WITH_CLIENT'; // Дата связи с клиентом
+    public const UPDATE_STATUS_LID = 'UPDATE_STATUS_LID'; // обновление статуса лида
 }
