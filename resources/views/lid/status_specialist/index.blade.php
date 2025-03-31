@@ -4,7 +4,7 @@
     <h2>Список статусов специалиста</h2>
     <div>
         <div class="shadow border p-4 my-3 bg-white">
-            <form action="{{route('lid-status.store')}}" method="POST">
+            <form action="{{route('lid-specialist-status.store')}}" method="POST">
                 @csrf
                 <div class="mb-3 col-6 col-md-4">
                     <label for="" class="form-label mb-3">Добавить</label>
@@ -43,7 +43,7 @@
                             @endif</td>
                         <td>
                             @if($item->lids->isEmpty())
-                                <form action="{{route('lid-status.destroy', ['lid_status' => $item['id']])}}"
+                                <form action="{{route('lid-specialist-status.destroy', ['lid_specialist_status' => $item['id']])}}"
                                       method="post">
                                     @csrf @method('delete')
                                     <button class="btn btn-sm btn-danger"><i class="fas fa-minus"></i></button>

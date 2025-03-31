@@ -362,12 +362,12 @@
                                 <th style="min-width: 250px;" class="table-fixed">Имя/Ссылка</th>
                                 <th style="min-width: 140px;">Место вед. диалога</th>
                                 <th style="min-width: 100px;">Ссылка на лида</th>
-                                <th style="min-width: 130px;">Услуга</th>
+                                <th class="sort-p" style="min-width: 130px;">@include('components.table.sort', ['title' => 'Услуга', 'column' => 'service_id', 'routeName' => 'lid.index'] )</th>
                                 <th style="min-width: 40px;"><i class="fas fa-user-edit"></i></th>
                                 <th style="min-width: 250px;">Статус / Состояние</th>
                                 <th style="min-width: 40px;"><i class="fas fa-star"></i></th>
-                                <th>Прописать лиду</th>
-                                <th style="min-width: 145px;">Аудит</th>
+                                <th class="sort-p">@include('components.table.sort', ['title' => 'Прописать лиду', 'column' => 'date_write_lid', 'routeName' => 'lid.index'] )</th>
+                                <th class="sort-p" style="min-width: 145px;">@include('components.table.sort', ['title' => 'Аудит', 'column' => 'audit_id', 'routeName' => 'lid.index'] )</th>
                                 <th style="min-width: 200px;">Статус спец. / Состояние спец.</th>
                                 <th style="min-width: 120px;">Задача спец.</th>
                                 <th style="min-width: 125px;">Созвон</th>

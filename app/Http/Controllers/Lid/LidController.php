@@ -51,12 +51,31 @@ class LidController extends Controller
             'lidSpecialistStatus'
         ]);
         $this->filter($lids, $request);
-        $lids->orderByDesc('date_receipt')
-            ->orderByDesc('advertising_company')
-            ->orderBy('write_lid')
-            ->orderByDesc('id');
-        $lids = $lids->paginate(20);
 
+        if ($request->has('sort')) {
+            // sort
+            if (str_contains($request->sort, '|')) {
+                $parts = explode('|', $request->sort);
+
+                $orderBy = implode('.', $parts);
+
+                $lids->orderByRaw($orderBy . ' ' . $request->direction ?? 'asc');
+
+            } else {
+                $lids->when(!empty($request->sort), function ($orderBy) use ($request) { // use ($request) - это то самое замыкание, о котормо я тебе говорил)))
+                    $orderBy->orderBy($request->sort, $request->direction ?? 'asc');
+                });
+            }
+        } else {
+            $lids->orderByDesc('date_receipt')
+                ->orderByDesc('advertising_company')
+                ->orderBy('write_lid')
+                ->orderByDesc('id');
+        }
+
+//        dd($lids->toSql());
+
+        $lids = $lids->paginate(20);
 
         // аналитика
         $analytics = Lid::on()->selectRaw("
@@ -243,6 +262,8 @@ class LidController extends Controller
             'business_are'             => ['nullable', 'string', 'max:100']
         ]);
 
+        $this->auditCheck($request, $attr);
+
         $oldLid = Lid::on()->find($id);
         Lid::on()->where('id', $id)->update($attr);
 
@@ -303,17 +324,7 @@ class LidController extends Controller
                 'date_write_lid'           => ['nullable', 'date']
             ]);
 
-            if (($attr['audit_id'] ?? null) == 1) {
-                $attr['transfer_date'] = now();
-            }
-
-            if (($attr['audit_id'] ?? null) == 2) {
-                $attr['date_acceptance'] = now();
-            }
-
-            if (($attr['audit_id'] ?? null == 3) || ($attr['audit_id'] ?? null) == 4 || ($attr['audit_id'] ?? null) == 5) {
-                $attr['ready_date'] = now();
-            }
+            $this->auditCheck($request, $attr);
 
             if ($request->has('write_lid')) {
                 $attr['write_lid'] = $request->write_lid == 1 ? 1 : 0;
@@ -401,6 +412,39 @@ class LidController extends Controller
                 'lidSpecialistStatus' => LidSpecialistStatus::on()->get(),
             ])->render()
         ]);
+    }
+
+    /**
+     * @param $request
+     * @param $attr
+     * @return void
+     */
+    private function auditCheck($request, &$attr)
+    {
+        if ($request->has('audit_id')) {
+            switch ($request['audit_id']) {
+                case null :
+                    $attr['transfer_date'] = $attr['transfer_date'] ?? null;
+                    $attr['date_acceptance'] = $attr['date_acceptance'] ?? null;
+                    $attr['ready_date'] = $attr['ready_date'] ?? null;
+                    break;
+
+                case 1 :
+                    $attr['transfer_date'] = $attr['transfer_date'] ?? now();
+                    break;
+
+                case 2 :
+                    $attr['date_acceptance'] = $attr['date_acceptance'] ?? now();
+                    break;
+
+                case 3 || 4 || 5 :
+                    $attr['ready_date'] = $attr['ready_date'] ?? now();
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 
     private function notification($lidId, $message)

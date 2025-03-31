@@ -19,7 +19,6 @@
                             class="fa fa-search search-icon mr-2"></i>Поиск
                     </div>
                     <form action="{{ route('project.index') }}" method="GET" class="check__field">
-                        @csrf
                         <div class="row m-0" id="search" style="display: none;">
                             <div class="w-100 row m-0 py-3">
                                 <div class="form-group col-12 col-md-4 col-lg-3">
