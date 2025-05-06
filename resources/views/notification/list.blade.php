@@ -300,7 +300,6 @@
                                 @break
 
                             @case('UPDATE_STATUS_LID')
-
                                 <div class="d-flex notification-item @if(!$item['is_viewed']) not-viewed @endif">
                                     <div class="icon bg-primary">
                                         <i class="fas fa-info text-white"></i>
@@ -309,7 +308,7 @@
                                         <div class="text-notify">
                                             <span>{!! $item['message'] ?? '' !!}</span>
                                             <br>
-                                            <span>Обновил: <strong>{{ $item['user']?->minName ?? '' }}</strong></span>
+                                            <span>Обновил: <strong>{{ $item['user']['full_name'] ?? '' }}</strong></span>
                                             <br>
                                             <span>Лид ID: <strong><a href="#">{{ $item['lid_id'] }}</a></strong></span>
                                             <div class="time">{{ $item['date_time'] }}</div>

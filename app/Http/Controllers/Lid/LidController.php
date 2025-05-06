@@ -106,7 +106,7 @@ class LidController extends Controller
             'analyticsCurrentMonth' => $analyticsCurrentMonth,
             'advertisingCompany'    => self::ADVERTISING_COMPANY,
             'resources'             => Resource::on()->get(),
-            'lidStatuses'           => LidStatus::on()->get(),
+            'lidStatuses'           => LidStatus::on()->orderBy('order')->get(),
             'lidSpecialistStatus'   => LidSpecialistStatus::on()->get(),
             'services'              => Service::on()->get(),
             'locationDialogues'     => LocationDialogue::on()->get(),
@@ -124,6 +124,9 @@ class LidController extends Controller
      */
     private function filter(&$lids, $request)
     {
+
+//        dd($request->all());
+
         $lids
             // месяц
             ->when(!empty($request->month), function ($where) use ($request) {
@@ -187,7 +190,7 @@ class LidController extends Controller
             })
             // Исключить статус специалиста
             ->when(!empty($request->without_lid_specialist_status_id), function (Builder $where) use ($request) {
-                $where->whereIn('without_lid_specialist_status_id', $request->without_lid_specialist_status_id);
+                $where->whereNotIn('lid_specialist_status_id', $request->without_lid_specialist_status_id);
             })
             // созвон
             ->when(!empty($request->call_up_id), function (Builder $where) use ($request) {
