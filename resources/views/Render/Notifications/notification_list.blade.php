@@ -335,7 +335,7 @@
                                 <br>
                                 <span>Обновил: <strong>{{ $item['user']?->minName ?? '' }}</strong></span>
                                 <br>
-                                <span>Лид ID: <strong><a href="#">{{ $item['lid_id'] }}</a></strong></span>
+                                <span>Лид ID: <strong><a href="{{ route('lid.index', ['id' => $item['lid_id']]) }}">{{ $item['lid_id'] }}</a></strong></span>
                                 <div class="time">{{ $item['date_time'] }}</div>
                             </div>
                         </div>

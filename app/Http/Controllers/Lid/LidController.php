@@ -56,11 +56,8 @@ class LidController extends Controller
             // sort
             if (str_contains($request->sort, '|')) {
                 $parts = explode('|', $request->sort);
-
                 $orderBy = implode('.', $parts);
-
                 $lids->orderByRaw($orderBy . ' ' . $request->direction ?? 'asc');
-
             } else {
                 $lids->when(!empty($request->sort), function ($orderBy) use ($request) { // use ($request) - это то самое замыкание, о котормо я тебе говорил)))
                     $orderBy->orderBy($request->sort, $request->direction ?? 'asc');
@@ -72,8 +69,6 @@ class LidController extends Controller
                 ->orderBy('write_lid')
                 ->orderByDesc('id');
         }
-
-//        dd($lids->toSql());
 
         $lids = $lids->paginate(20);
 
@@ -124,9 +119,6 @@ class LidController extends Controller
      */
     private function filter(&$lids, $request)
     {
-
-//        dd($request->all());
-
         $lids
             // месяц
             ->when(!empty($request->month), function ($where) use ($request) {
@@ -270,7 +262,7 @@ class LidController extends Controller
         $oldLid = Lid::on()->find($id);
         Lid::on()->where('id', $id)->update($attr);
 
-        if (!empty($attr['lid_status_id']) && ($oldLid->lid_status_id != $attr['lid_status_id']) && in_array($attr['lid_status_id'], [4, 13, 3, 2, 5])) {
+        if (!empty($attr['lid_status_id']) && ($oldLid->lid_status_id != $attr['lid_status_id']) && in_array($attr['lid_status_id'], [4, 13, 3, 2, 5, 25])) {
             $lidStatus = LidStatus::on()->find($attr['lid_status_id']);
             $message = 'Изменение статуса на:
                     <span class="select-2-custom-state-color nowrap px-1" style="background-color: ' . ($lidStatus->color ?? '#c7c7c7') . '">
@@ -340,7 +332,7 @@ class LidController extends Controller
             $oldLid = Lid::on()->find($id);
             Lid::on()->where('id', $id)->update($attr);
 
-            if (!empty($attr['lid_status_id']) && ($oldLid->lid_status_id != $attr['lid_status_id']) && in_array($attr['lid_status_id'], [4, 13, 3, 2, 5])) {
+            if (!empty($attr['lid_status_id']) && ($oldLid->lid_status_id != $attr['lid_status_id']) && in_array($attr['lid_status_id'], [4, 13, 3, 2, 5, 25])) {
                 $lidStatus = LidStatus::on()->find($attr['lid_status_id']);
                 $message = 'Изменение статуса на:
                     <span class="select-2-custom-state-color nowrap px-1" style="background-color: ' . ($lidStatus->color ?? '#c7c7c7') . '">

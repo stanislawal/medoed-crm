@@ -353,7 +353,10 @@ class NotificationController extends Controller
      */
     private function updateStatusLid($userId, $lidId, $type, $message)
     {
-        $recipients = $this->getAllAdmin();
+        $admins = $this->getAllAdmin();
+        $advertisement = $this->getUserRole(['Реклама']);
+
+        $recipients = [...$admins, ...$advertisement];
 
         foreach ($recipients as $recipient) {
             $notifications[] = [
@@ -384,5 +387,18 @@ class NotificationController extends Controller
             })
             ->get()
             ->pluck('id');
+    }
+
+    /**
+     * Возвращает id пользователей по указанным ролям
+     *
+     * @param $roles
+     * @return array
+     */
+    private function getUserRole($roles = [])
+    {
+        return User::on()->whereHas('roles', function ($query) use ($roles) {
+            $query->whereIn('name', $roles);
+        })->get()->pluck('id')->toArray() ?? [];
     }
 }

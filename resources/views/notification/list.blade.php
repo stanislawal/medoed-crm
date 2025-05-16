@@ -17,51 +17,58 @@
                         <select name="type" id="" class="form-select form-select-sm">
                             <option value="">Все типы</option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::ASSIGNED_PROJECT) selected
-                                @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::ASSIGNED_PROJECT }}">Назначен проект
+                                    @if(request()->type == \App\Constants\NotificationTypeConstants::ASSIGNED_PROJECT) selected
+                                    @endif
+                                    value="{{ \App\Constants\NotificationTypeConstants::ASSIGNED_PROJECT }}">Назначен
+                                проект
                             </option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT) selected
-                                @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT }}">Изменение
+                                    @if(request()->type == \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT) selected
+                                    @endif
+                                    value="{{ \App\Constants\NotificationTypeConstants::CHANGE_PRICE_PROJECT }}">
+                                Изменение
                                 цены в проекте
                             </option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE) selected
-                                @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE }}">Изменения в базе
+                                    @if(request()->type == \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE) selected
+                                    @endif
+                                    value="{{ \App\Constants\NotificationTypeConstants::CHANGE_ARTICLE }}">Изменения в
+                                базе
                                 статей
                             </option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK) selected
-                                @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK }}">Связаться с
+                                    @if(request()->type == \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK) selected
+                                    @endif
+                                    value="{{ \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_WEEK }}">
+                                Связаться с
                                 клиентов (7 дней)
                             </option>
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH) selected
-                                @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH }}">Связаться
+                                    @if(request()->type == \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH) selected
+                                    @endif
+                                    value="{{ \App\Constants\NotificationTypeConstants::WRITE_TO_CLIENT_MONTH }}">
+                                Связаться
                                 с клиентов (30 дней)
                             </option>
 
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::PROJECT_PAYMENT) selected
-                                @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::PROJECT_PAYMENT }}">Оплата
+                                    @if(request()->type == \App\Constants\NotificationTypeConstants::PROJECT_PAYMENT) selected
+                                    @endif
+                                    value="{{ \App\Constants\NotificationTypeConstants::PROJECT_PAYMENT }}">Оплата
                             </option>
 
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT) selected
-                                @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT }}">Дата связи с клиентом
+                                    @if(request()->type == \App\Constants\NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT) selected
+                                    @endif
+                                    value="{{ \App\Constants\NotificationTypeConstants::DATE_CONTACT_WITH_CLIENT }}">
+                                Дата связи с клиентом
                             </option>
 
                             <option
-                                @if(request()->type == \App\Constants\NotificationTypeConstants::UPDATE_STATUS_LID) selected
-                                @endif
-                                value="{{ \App\Constants\NotificationTypeConstants::UPDATE_STATUS_LID }}">Смена статуса лида
+                                    @if(request()->type == \App\Constants\NotificationTypeConstants::UPDATE_STATUS_LID) selected
+                                    @endif
+                                    value="{{ \App\Constants\NotificationTypeConstants::UPDATE_STATUS_LID }}">Смена
+                                статуса лида
                             </option>
                         </select>
                     </div>
@@ -310,7 +317,8 @@
                                             <br>
                                             <span>Обновил: <strong>{{ $item['user']['full_name'] ?? '' }}</strong></span>
                                             <br>
-                                            <span>Лид ID: <strong><a href="#">{{ $item['lid_id'] }}</a></strong></span>
+                                            <span>Лид ID: <strong><a
+                                                            href="{{ route('lid.index', ['id'=> $item['lid_id']]) }}">{{ $item['lid_id'] }}</a></strong></span>
                                             <div class="time">{{ $item['date_time'] }}</div>
                                         </div>
                                     </div>
