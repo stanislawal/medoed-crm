@@ -195,6 +195,12 @@ class LidController extends Controller
             // Дата прописки лиду
             ->when(!empty($request->date_write_lid), function (Builder $where) use ($request) {
                 $where->where('date_write_lid', now()->toDateString());
+            })
+            ->when(!empty($request->transfer_date_from) && !empty($request->transfer_date_before), function (Builder $where) use ($request) {
+                $where->whereBetween('transfer_date', [
+                    Carbon::parse($request->transfer_date_from)->startOfDay()->toDateTimeString(),
+                    Carbon::parse($request->transfer_date_before)->endOfDay()->toDateTimeString()
+                ]);
             });
     }
 
@@ -218,7 +224,16 @@ class LidController extends Controller
 
         $attr['create_user_id'] = UserHelper::getUserId();
 
-        Lid::on()->create($attr);
+        $lid = Lid::on()->create($attr);
+
+        if (in_array($attr['lid_status_id'], [13, 25, 26, 4])) {
+            $lidSpecialistStatus = LidStatus::on()->find($attr['lid_status_id']);
+            $message = 'Создан лид со статусом:
+                    <span class="select-2-custom-state-color nowrap px-1" style="background-color: ' . ($lidSpecialistStatus->color ?? '#c7c7c7') . ' ">
+                        ' . $lidSpecialistStatus->name . '
+                    </span>';
+            $this->notification($lid->id, $message);
+        }
 
         return redirect()->route('lid.index');
     }

@@ -287,6 +287,15 @@
                                 <label class="ms-3 mb-0" for="date_write_lid">текущий день</label>
                             </div>
                         </div>
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label class="form-label">Диапазон добавления (Аудит передан)</label>
+                            <div class="input-group">
+                                <input type="date" name="transfer_date_from" class="form-control form-control-sm"
+                                       value="{{ request()->transfer_date_from ?? '' }}">
+                                <input type="date" name="transfer_date_before" class="form-control form-control-sm"
+                                       value="{{ request()->transfer_date_before ?? '' }}">
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-end mt-3">
                         @if(count(request()->all()) > 0)
