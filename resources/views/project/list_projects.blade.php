@@ -262,6 +262,7 @@
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name', 'routeName' => 'project.index'] )</th>
                                     @endrole
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
+                                    <th>Юр. имя проекта</th>
 {{--                                    <th>Заказчик(и)</th>--}}
 {{--                                    <th style="min-width: 100px !important;">Настроение</th>--}}
                                     <th>Дата последнего контакта</th>
@@ -337,6 +338,9 @@
 {{--                                                </select>--}}
 {{--                                            </div>--}}
 {{--                                        </td>--}}
+                                        <td>
+                                            {{ $project['legal_name_company'] }}
+                                        </td>
                                         <td>
                                             <div>
                                                 <input class="form-control form-control-sm"
