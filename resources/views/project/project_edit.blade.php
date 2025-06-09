@@ -86,10 +86,12 @@
 
                                     <div class="col-12 mb-3 col-lg-6">
                                         <label for="source_client_id" class="form-label">Источник поступления</label>
-                                        <select name="source_client_id" id="source_client_id" class="form-select form-select-sm">
+                                        <select name="source_client_id" id="source_client_id"
+                                                class="form-select form-select-sm">
                                             <option value="">Не выбрано</option>
                                             @foreach($sourceClients as $item)
-                                                <option value="{{ $item['id'] }}" @if($item['id'] == $projectClient['source_client_id']) selected @endif>{{ $item['name'] }}</option>
+                                                <option value="{{ $item['id'] }}"
+                                                        @if($item['id'] == $projectClient['source_client_id']) selected @endif>{{ $item['name'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -111,7 +113,13 @@
                                             </div>
                                             <div class="items_socialwork" data-id="{{ $projectClient['id'] }}">
                                                 @foreach($projectClient['social_network'] as $socialNetworkClientItem)
-                                                    <div class="input-group mb-3 item">
+                                                    <div class="input-group input-group-sm mb-3 item">
+                                                        <input class="form-check-input m-0" type="checkbox"
+                                                               style="margin: 8px 12px 0 0!important;"
+                                                               name="view"
+                                                               @if($socialNetworkClientItem['pivot']['view']) checked @endif
+                                                               onclick="window.write_socialnetwork(this)"
+                                                        >
                                                         <select class="form-select form-select-sm" required
                                                                 onchange="window.write_socialnetwork(this)">
                                                             <option value="">Не выбрано</option>
@@ -125,6 +133,7 @@
                                                                 class="fas fa-arrows-alt-h"></i></span>
                                                         <input placeholder="Ник" class="form-control form-control-sm"
                                                                type="text"
+                                                               name="description"
                                                                value="{{ $socialNetworkClientItem['pivot']['description'] }}"
                                                                required oninput="window.write_socialnetwork(this)">
                                                         <div class="btn btn-sm btn-danger delete"
@@ -642,7 +651,8 @@
                     <select class="form-select form-select-sm" name="requisite_id" disabled>
                         <option value="">Не выбрано</option>
                         @foreach($requisite as $item)
-                            <option value="{{ $item['id'] }}" @if($item['id'] == $projectInfo['requisite_id']) selected @endif>{{ $item['name'] }}</option>
+                            <option value="{{ $item['id'] }}"
+                                    @if($item['id'] == $projectInfo['requisite_id']) selected @endif>{{ $item['name'] }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -822,7 +832,8 @@
             $('.items_socialwork[data-id="' + id + '"] .item').each(function (i, item) {
                 array.push({
                     'socialnetrowk_id': $(this).children('select').val(),
-                    'link': $(this).children('input').val()
+                    'link': $(this).children('input[name="description"]').val(),
+                    'view': $(this).children('input[name="view"]').is(':checked')
                 })
             });
 

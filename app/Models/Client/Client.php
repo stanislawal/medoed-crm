@@ -19,7 +19,7 @@ class Client extends BaseModel
         'characteristic', //характеристика клиента
         'company_name', //Название компании
         'site', //сайт компании
-        'link_socialnetwork', //ccылка на соцсети
+        'link_socialnetwork', // cылка на соцсети
         'contact_info',
         'birthday',
         'lpr_contacts',
@@ -38,8 +38,8 @@ class Client extends BaseModel
 
     public function socialNetwork()
     {
-        //Отношение многие ко многим. первый параметр - связь с конечной таблице. второй параметр - название промежуточной таблицы.
-        return $this->belongsToMany(SocialNetwork::class, CrossClientSocialNetwork::class)->withPivot('description');
+        //Отношение многие ко многим. Первый параметр - связь с конечной таблице. Второй параметр - название промежуточной таблицы.
+        return $this->belongsToMany(SocialNetwork::class, CrossClientSocialNetwork::class)->withPivot('description', 'view');
     }
 
     public function projectClients()

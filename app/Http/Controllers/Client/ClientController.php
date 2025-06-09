@@ -143,6 +143,7 @@ class ClientController extends Controller
                     'client_id'         => $client,
                     'social_network_id' => $item['socialnetrowk_id'],
                     'description'       => $item['link'],
+                    'view'       => $item['view'],
                 ];
             }
             CrossClientSocialNetwork::on()->insert($attr);

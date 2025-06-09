@@ -98,18 +98,19 @@
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Договор</label>
                                     <select class="form-select form-select-sm" name="contract">
-                                        <option value="">Не выбрано</option>
-                                        <option value="1">Да</option>
-                                        <option value="0">Нет</option>
+                                        <option @if(request()->contract == null) selected @endif value="">Не выбрано
+                                        </option>
+                                        <option @if(request()->contract == '1') selected @endif value="1">Да</option>
+                                        <option @if(request()->contract == '0') selected @endif value="0">Нет</option>
                                     </select>
                                 </div>
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">NDA</label>
                                     <select class="form-select form-select-sm" name="nds">
-                                        <option value="">Не выбрано</option>
-                                        <option value="1">Да</option>
-                                        <option value="0">Нет</option>
+                                        <option @if(request()->nds == null) selected @endif value="">Не выбрано</option>
+                                        <option @if(request()->nds == '1') selected @endif value="1">Да</option>
+                                        <option @if(request()->nds == '0') selected @endif value="0">Нет</option>
                                     </select>
                                 </div>
 
@@ -194,33 +195,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-
-{{--                                <div class="form-group col-12 col-md-4 col-lg-3">--}}
-{{--                                    <label for="" class="form-label">Настроение</label>--}}
-{{--                                    <select class="form-select form-select-sm" name="mood_id" id="">--}}
-{{--                                        <option value="">Не выбрано</option>--}}
-{{--                                        @foreach ($moods as $mood)--}}
-{{--                                            <option value="{{$mood['id']}}"--}}
-{{--                                                    @if($mood['id'] == request()->mood_id)--}}
-{{--                                                        selected--}}
-{{--                                                @endif--}}
-{{--                                            >{{$mood['name']}}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                        <option value="empty" @if('empty' == request()->mood_id)--}}
-{{--                                            selected--}}
-{{--                                            @endif>Не указано настроение--}}
-{{--                                        </option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-
                                 <div class="col-12 p-0">
                                     <div class="form-group col-12">
                                         <div class="w-100 d-flex justify-content-end">
-                                            {{--                                            @if(!empty(request()->all() && count(request()->all())) > 0)--}}
-                                            {{--                                                <a href="{{ route('project.index') }}"--}}
-                                            {{--                                                   class="btn btn-sm btn-danger mr-3">Сбросить--}}
-                                            {{--                                                    фильтр</a>--}}
-                                            {{--                                            @endif--}}
+                                            @if(count(request()->all()) > 0 && empty(request()->reset_filters))
+                                                <a href="{{ route('project.index', ['reset_filters' => '1']) }}"
+                                                   class="btn btn-sm btn-danger mr-3">Сбросить все</a>
+                                            @endif
                                             <button class="btn btn-sm btn-success">Искать</button>
                                         </div>
                                     </div>
@@ -263,8 +244,7 @@
                                     @endrole
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
                                     <th>Юр. имя проекта</th>
-{{--                                    <th>Заказчик(и)</th>--}}
-{{--                                    <th style="min-width: 100px !important;">Настроение</th>--}}
+                                    <th>Контакт с клиентом</th>
                                     <th>Дата последнего контакта</th>
                                     <th>Дата оплаты</th>
                                     <th>Дата связи с клиентом</th>
@@ -272,7 +252,7 @@
                                     <th style="min-width: 200px !important;">Состояние проекта</th>
                                     <th style="min-width: 220px !important;">Перспектива проекта</th>
                                     @role('Администратор')
-                                        <th>ВД</th>
+                                    <th>ВД</th>
                                     @endrole
                                     <th>Автор</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client_float', 'routeName' => 'project.index'] )</th>
@@ -315,31 +295,15 @@
                                         <td style="padding: 0 10px 0 12px!important"><a
                                                 href="{{ route('client_project.show', ['project' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}">{{$project['project_name'] ?? '------'}}</a>
                                         </td>
-{{--                                        <td style="padding: 0 10px 0 12px!important">--}}
-{{--                                            @forelse ($project['projectClients'] as $client)--}}
-{{--                                                {{ $client['name'] }}--}}
-{{--                                            @empty--}}
-{{--                                                ---}}
-{{--                                            @endforelse--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <div class="d-flex align-items-center">--}}
-{{--                                                <select--}}
-{{--                                                    @if(!is_null($project['mood_color'])) style="background-color: {{ $project['mood_color'] }};"--}}
-{{--                                                    @endif--}}
-{{--                                                    class="form-select form-select-sm mr-1"--}}
-{{--                                                    onchange="editMoodProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')"--}}
-{{--                                                    name="mood_id">--}}
-{{--                                                    @foreach ($moods as $mood)--}}
-{{--                                                        <option value="{{$mood['id']}}"--}}
-{{--                                                                @if($mood['id'] == $project['mood_id']) selected @endif--}}
-{{--                                                        >{{$mood['name']}}</option>--}}
-{{--                                                    @endforeach--}}
-{{--                                                </select>--}}
-{{--                                            </div>--}}
-{{--                                        </td>--}}
                                         <td>
                                             {{ $project['legal_name_company'] }}
+                                        </td>
+                                        <td>
+                                            @foreach($project['projectClients'][0]['socialNetwork'] as $item)
+                                                @if($item['pivot']['view'])
+                                                    <span class="badge bg-primary">{{ $item['name'] }}:{{ $item['pivot']['description'] }}</span>
+                                                @endif
+                                            @endforeach
                                         </td>
                                         <td>
                                             <div>
@@ -401,7 +365,7 @@
                                             @endif
                                         </td>
                                         @role('Администратор')
-                                            <td class="nowrap">{{ number_format($project['sum_gross_income'] + 0 ?? '-', 2, '.', ' ') }}</td>
+                                        <td class="nowrap">{{ number_format($project['sum_gross_income'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                         @endrole
                                         <td style="padding: 0 10px 0 12px!important">
                                             @forelse ($project['projectAuthor'] as $author)

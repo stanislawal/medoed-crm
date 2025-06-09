@@ -11,7 +11,8 @@ public $table = 'cross_client_social_networks';
 protected $fillable = [
     'client_id', //id клиента
     'social_network_id', //id социальной сети
-    'description' //описание
+    'description', //описание
+    'view' // отображение в таблице проектов
 ];
 
  public $timestamps = false;

@@ -45,7 +45,6 @@ class ProjectController extends Controller
     {
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
         $themes = Theme::on()->get()->toArray(); //Достаем все темы проектов
-//        $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
         $statuses = Status::on()->get()->toArray(); //Достаем все статусы из бд
         $style = Style::on()->get()->toArray();
         $managers = User::on()->whereHas('roles', function ($query) {
@@ -115,7 +114,6 @@ class ProjectController extends Controller
         return view('project.list_projects', [
             'projects'       => $projects,
             'statuses'       => $statuses,
-            //            'moods'          => $moods,
             'themes'         => $themes,
             'clients'        => $clients,
             'style'          => $style,
@@ -329,7 +327,8 @@ class ProjectController extends Controller
             $data = collect($item['social_network'])->map(function ($item) {
                 return [
                     'socialnetrowk_id' => $item['id'],
-                    'link'             => $item['pivot']['description']
+                    'link'             => $item['pivot']['description'],
+                    'view'             => $item['pivot']['view'],
                 ];
             })->toArray();
             $item['json'] = json_encode($data);
@@ -656,14 +655,17 @@ class ProjectController extends Controller
                 $orderBy->orderBy($request->sort, $request->direction ?? 'asc');
             });
         }
+
         $this->saveFilterHistory($request);
     }
 
     private function saveFilterHistory($request)
     {
-        $history = collect($request->all())->except(['sort', 'direction', '_token'])->toArray();
-        $history = json_encode($history);
-        Cookie::queue('project_filter', $history);
+        if (empty($request->reset_filters)) {
+            $history = collect($request->all())->except(['sort', 'direction', '_token'])->toArray();
+            $history = json_encode($history);
+            Cookie::queue('project_filter', $history);
+        }
     }
 
     /**
