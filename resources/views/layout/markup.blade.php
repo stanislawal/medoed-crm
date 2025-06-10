@@ -137,7 +137,8 @@
                         </li>
                         @endunlessrole
 
-                        @unlessrole('Автор')
+                        @role('Администратор')
+
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#projectService">
                                 <i class="fas fa-th-list"></i>
@@ -154,9 +155,7 @@
                                 </ul>
                             </div>
                         </li>
-                        @endunlessrole
 
-                        @role('Администратор')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#user">
                                 <i class="fas fa-users"></i>

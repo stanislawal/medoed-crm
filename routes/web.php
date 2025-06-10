@@ -209,7 +209,9 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     #-----------------------------------ЛИДЫ----------------------------------------
 
     #-----------------------------------УСЛУГИ----------------------------------------
-    Route::resource('project-service', ProjectServiceController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::middleware('role:Администратор')->group(function () {
+        Route::resource('project-service', ProjectServiceController::class)->only(['index', 'store', 'update', 'destroy']);
+    });
     #-----------------------------------УСЛУГИ----------------------------------------
 
 });

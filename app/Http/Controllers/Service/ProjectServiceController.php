@@ -96,20 +96,19 @@ class ProjectServiceController extends Controller
     {
         DB::beginTransaction();
         try {
-            Service::on()->find($id)->delete();
+            $service = Service::on()->find($id);
+
+            $service->specialists()->detach();
+
+            $service->delete();
 
             DB::commit();
 
-            return response()->json(['result' => true]);
+            return redirect()->back()->with(['success' => 'Услуга удалена']);
 
         } catch (\Exception $exception) {
-
             DB::rollBack();
-
-            return response()->json([
-                'result'  => false,
-                'message' => $exception->getMessage()
-            ]);
+            return redirect()->back()->with(['error' => $exception->getMessage()]);
         }
 
     }

@@ -19,7 +19,7 @@
                             <div class="me-3">Всего записей: <strong>{{ $projectServices->total() }}</strong></div>
                             <div class="btn btn-sm btn-success" data-bs-toggle="modal"
                                  data-bs-target="#create_project_service">
-                                Создать услугу
+                                Добавить услугу
                             </div>
                         </div>
                     </div>
