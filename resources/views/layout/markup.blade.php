@@ -8,10 +8,8 @@
 
     <div class="wrapper">
         <div class="main-header">
-            <!-- Logo Header -->
             <div class="logo-header" data-background-color="blue">
                 <a href="/" class="logo d-flex align-items-center">
-{{--                    <h3 class="text-white m-auto">CRM</h3>--}}
                     <img src="{{ asset('img/logo1.png') }}" style="max-width: 150px;" alt="">
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
@@ -27,10 +25,6 @@
                     </button>
                 </div>
             </div>
-            <!-- End Logo Header -->
-
-            <!-- Navbar Header -->
-
             <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
                 <div class="container-fluid">
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
@@ -74,21 +68,7 @@
         <div class="sidebar sidebar-style-2">
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
-{{--                    <div class="user">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <div>--}}
-{{--                                <div class="text-dark text-12 font-weight-bold">{{ auth()->user()->full_name }}</div>--}}
-{{--                                <div--}}
-{{--                                    class="text-dark text-12 fst-italic mt-2">{{ \App\Helpers\UserHelper::getRoleName() }}--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
                     <div class="user">
-{{--                        <div class="avatar-sm float-left mr-2">--}}
-{{--                            <img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">--}}
-{{--                        </div>--}}
                         <div class="info">
                             <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
@@ -156,6 +136,26 @@
                             </div>
                         </li>
                         @endunlessrole
+
+                        @unlessrole('Автор')
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#projectService">
+                                <i class="fas fa-th-list"></i>
+                                <p>Услуги</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="projectService">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('project-service.index') }}">
+                                            <span class="sub-item">База услуг</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        @endunlessrole
+
                         @role('Администратор')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#user">
@@ -239,6 +239,11 @@
                                     <li>
                                         <a href="{{ route('lid-specialist-status.index') }}">
                                             <span class="sub-item">Статусы специалиста (Лид)</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('specialist.index') }}">
+                                            <span class="sub-item">Специалист по услугам</span>
                                         </a>
                                     </li>
                                 </ul>

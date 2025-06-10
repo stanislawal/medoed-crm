@@ -9,6 +9,7 @@
     "/js/author.js": "/js/author.js",
     "/js/files.js": "/js/files.js",
     "/js/lid.js": "/js/lid.js",
+    "/js/project_service.js": "/js/project_service.js",
     "/css/auth.css": "/css/auth.css",
     "/css/app.css": "/css/app.css"
 }

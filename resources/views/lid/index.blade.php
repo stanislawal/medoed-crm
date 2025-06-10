@@ -283,7 +283,8 @@
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label class="form-label">Дата прописки лиду</label>
                             <div class="d-flex flex-nowrap align-items-center" style="height: 31px;">
-                                <input type="checkbox" name="date_write_lid" value="1" class="checkbox" id="date_write_lid" @if(request()->date_write_lid ?? false) checked @endif>
+                                <input type="checkbox" name="date_write_lid" value="1" class="checkbox"
+                                       id="date_write_lid" @if(request()->date_write_lid ?? false) checked @endif>
                                 <label class="ms-3 mb-0" for="date_write_lid">текущий день</label>
                             </div>
                         </div>
@@ -371,12 +372,14 @@
                                 <th style="min-width: 250px;" class="table-fixed">Имя/Ссылка</th>
                                 <th style="min-width: 140px;">Место вед. диалога</th>
                                 <th style="min-width: 100px;">Ссылка на лида</th>
-                                <th class="sort-p" style="min-width: 130px;">@include('components.table.sort', ['title' => 'Услуга', 'column' => 'service_id', 'routeName' => 'lid.index'] )</th>
+                                <th class="sort-p"
+                                    style="min-width: 130px;">@include('components.table.sort', ['title' => 'Услуга', 'column' => 'service_id', 'routeName' => 'lid.index'] )</th>
                                 <th style="min-width: 40px;"><i class="fas fa-user-edit"></i></th>
                                 <th style="min-width: 250px;">Статус / Состояние</th>
                                 <th style="min-width: 40px;"><i class="fas fa-star"></i></th>
                                 <th class="sort-p">@include('components.table.sort', ['title' => 'Прописать лиду', 'column' => 'date_write_lid', 'routeName' => 'lid.index'] )</th>
-                                <th class="sort-p" style="min-width: 145px;">@include('components.table.sort', ['title' => 'Аудит', 'column' => 'audit_id', 'routeName' => 'lid.index'] )</th>
+                                <th class="sort-p"
+                                    style="min-width: 145px;">@include('components.table.sort', ['title' => 'Аудит', 'column' => 'audit_id', 'routeName' => 'lid.index'] )</th>
                                 <th style="min-width: 200px;">Статус спец. / Состояние спец.</th>
                                 <th style="min-width: 120px;">Задача спец.</th>
                                 <th style="min-width: 125px;">Созвон</th>
@@ -484,7 +487,8 @@
                                                @if($lid->interesting) checked @endif>
                                     </td>
                                     <td>
-                                        <input style="width: 107px;" type="date" class="form-control form-control-sm" name="date_write_lid"
+                                        <input style="width: 107px;" type="date" class="form-control form-control-sm"
+                                               name="date_write_lid"
                                                value="{{ $lid->date_write_lid }}">
                                     </td>
                                     <td>
@@ -602,9 +606,9 @@
     </div>
 
     @include('Window.Lid.create', [
-    'advertisingCompany' => $advertisingCompany,
-    'resources' => $resources,
-    'lidStatuses' => $lidStatuses,
+        'advertisingCompany' => $advertisingCompany,
+        'resources' => $resources,
+        'lidStatuses' => $lidStatuses,
     ])
 
     @include('Window.Lid.edit')
@@ -656,7 +660,6 @@
             minimumResultsForSearch: -1
         })
 
-
         $('.table-responsive').on('scroll', function () {
             const stickyTD = $('.table-fixed');
             const tableResponsive = $('.table-responsive');
@@ -667,7 +670,5 @@
                 stickyTD.removeClass('sticked')
             }
         })
-
     </script>
-
 @endsection

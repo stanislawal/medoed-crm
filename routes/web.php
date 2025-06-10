@@ -22,6 +22,8 @@ use App\Http\Controllers\Report\ReportAuthorController;
 use App\Http\Controllers\Report\ReportClientController;
 use App\Http\Controllers\Report\ReportRedactorController;
 use App\Http\Controllers\Report\WorkloadController;
+use App\Http\Controllers\Service\ProjectServiceController;
+use App\Http\Controllers\Service\SpecialistController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -86,7 +88,6 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     Route::middleware('role:Администратор')->group(function () {
         # Пользователи (users)
         Route::resource('user', UserController::class)->except('destroy');
-//        Route::get('user-destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
         // Добавление статуса для проекта
         Route::resource('add_option_status', StatusController::class);
@@ -106,7 +107,6 @@ Route::middleware(['auth', 'is_work'])->group(function () {
         Route::resource('add_option_socialnetwork', SocialNetworkController::class);
         Route::get('add_option_socialnetwork-destroy/{socialnetwork}', [SocialNetworkController::class, 'destroy'])->name('add_option_socialnetwork.destroy');
 
-
         Route::prefix('book')->group(function () {
             Route::resource('resource', ResourceController::class)->only(['index', 'store', 'destroy']);
             Route::resource('location-dialogue', LocationDialogueController::class)->only(['index', 'store', 'destroy']);
@@ -115,6 +115,7 @@ Route::middleware(['auth', 'is_work'])->group(function () {
             Route::resource('lid-status', LidStatusController::class)->only(['index', 'store', 'destroy']);
             Route::resource('lid-status', LidStatusController::class)->only(['index', 'store', 'destroy']);
             Route::resource('lid-specialist-status', LidSpecialistStatusController::class)->only(['index', 'store', 'destroy']);
+            Route::resource('specialist', SpecialistController::class)->only(['index', 'store', 'destroy']);
         });
 
 
@@ -199,9 +200,16 @@ Route::middleware(['auth', 'is_work'])->group(function () {
         ->name('report.client_item');
     #-----------------------------------ЭКСПОРТ В ЭКСЕЛЬ----------------------------------------
 
+    #-----------------------------------ЛИДЫ----------------------------------------
     Route::middleware('role:Администратор|Реклама')->group(function () {
         Route::post('lid/partial-update/{id}', [LidController::class, 'ajaxUpdate'])->name('lid.partial_update');
         Route::get('lid/get-by-id-html', [LidController::class, 'getByIdHtml'])->name('lid.get_by_id_html');
         Route::resource('lid', LidController::class)->only(['index', 'store', 'update', 'destroy']);
     });
+    #-----------------------------------ЛИДЫ----------------------------------------
+
+    #-----------------------------------УСЛУГИ----------------------------------------
+    Route::resource('project-service', ProjectServiceController::class)->only(['index', 'store', 'update', 'destroy']);
+    #-----------------------------------УСЛУГИ----------------------------------------
+
 });
