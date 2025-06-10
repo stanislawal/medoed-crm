@@ -604,6 +604,10 @@ class ProjectController extends Controller
             $where->where('project_name', 'like', '%' . $request->project_name . '%');
         });
 
+        $projects->when(!empty($request->legal_name_company), function ($where) use ($request) {
+            $where->where('legal_name_company', 'like', '%' . $request->legal_name_company . '%');
+        });
+
         $projects->when(!empty($request->price_client_float), function ($where) use ($request) {
             $where->whereRaw("CAST(price_client as FLOAT) >= {$request->price_client_float} ");
         });

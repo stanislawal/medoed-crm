@@ -195,6 +195,13 @@
                                         @endforeach
                                     </select>
                                 </div>
+
+                                <div class="form-group col-12 col-md-4 col-lg-3">
+                                    <label for="" class="form-label">Юр. имя проекта</label>
+                                    <input type="text" class="form-control form-control-sm" name="legal_name_company"
+                                           value="{{ request()->legal_name_company ?? '' }}">
+                                </div>
+
                                 <div class="col-12 p-0">
                                     <div class="form-group col-12">
                                         <div class="w-100 d-flex justify-content-end">
