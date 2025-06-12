@@ -101,7 +101,7 @@ class LidController extends Controller
             'analyticsCurrentMonth' => $analyticsCurrentMonth,
             'advertisingCompany'    => self::ADVERTISING_COMPANY,
             'resources'             => Resource::on()->get(),
-            'lidStatuses'           => LidStatus::on()->orderBy('order')->get(),
+            'lidStatuses'           => LidStatus::on()->orderBy('order', 'desc')->orderBy('id', 'asc')->get(),
             'lidSpecialistStatus'   => LidSpecialistStatus::on()->get(),
             'services'              => Service::on()->get(),
             'locationDialogues'     => LocationDialogue::on()->get(),

@@ -134,8 +134,8 @@
 @endsection
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="{{asset('js/select2.js')}}"></script>
-    <script src="{{asset('js/project_service.js')}}"></script>
+    <script src="{{asset('js/select2.js')}}?v=@version"></script>
+    <script src="{{asset('js/project_service.js')}}?v=@version"></script>
 
     <script>
         $(document).on('shown.bs.modal', '.modal', function () {
