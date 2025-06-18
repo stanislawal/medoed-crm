@@ -13,6 +13,11 @@ window.editCommentProject = function (el, url) {
     ajax('post', url, {comment: comment})
 }
 
+window.editPlanGrossIncome = function (el, url) {
+    const plan_gross_income = $(el).val();
+    ajax('post', url, {plan_gross_income: plan_gross_income})
+}
+
 window.editStatusTextProject = function (el, url) {
     const projectStatusText = $(el).val();
     ajax('post', url, {project_status_text: projectStatusText})

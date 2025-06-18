@@ -22,6 +22,12 @@ window.editCommentProject = function (el, url) {
     comment: comment
   });
 };
+window.editPlanGrossIncome = function (el, url) {
+  var plan_gross_income = $(el).val();
+  ajax('post', url, {
+    plan_gross_income: plan_gross_income
+  });
+};
 window.editStatusTextProject = function (el, url) {
   var projectStatusText = $(el).val();
   ajax('post', url, {

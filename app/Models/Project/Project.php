@@ -67,7 +67,16 @@ class Project extends Model
         'contract_number', // номер договора при выборе наличия договора
         'legal_name_company', // юридическое название компании
         'period_work_performed', // Срок подписания акта выполненных работ
-        'requisite_id' // id реквизита
+        'requisite_id', // id реквизита
+
+        'plan_gross_income', // план ВД
+
+        // для услуг поля
+        'project_theme', // тема проекта тянется в услуги
+        'reporting_data', // регион
+        'terms_payment', // условия оплаты
+        'region', // регион
+        'passport_to_work_plan', // паспорт на план работы
     ];
 
     public $timestamps = true;

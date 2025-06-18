@@ -545,7 +545,8 @@ class ProjectController extends Controller
             'project_status_text',
             'mood_id',
             'payment_terms',
-            'date_connect_with_client'
+            'date_connect_with_client',
+            'plan_gross_income'
         ]);
 
         if (count($param) > 0) {

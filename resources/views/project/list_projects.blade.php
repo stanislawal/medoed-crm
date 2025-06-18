@@ -261,6 +261,7 @@
                                     @role('Администратор')
                                     <th>ВД</th>
                                     @endrole
+                                    <th>План ВД</th>
                                     <th>Автор</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Цена заказчика', 'column' => 'price_client_float', 'routeName' => 'project.index'] )</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Цена автора', 'column' => 'price_author', 'routeName' => 'project.index'] )</th>
@@ -374,6 +375,14 @@
                                         @role('Администратор')
                                         <td class="nowrap">{{ number_format($project['sum_gross_income'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                         @endrole
+                                        <td>
+                                            <input class="form-control form-control-sm"
+                                                   style="width: 70px"
+                                                   type="number"
+                                                   onchange="editPlanGrossIncome(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
+                                                   name="plan_gross_income"
+                                            value="{{$project['plan_gross_income']}}">
+                                        </td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             @forelse ($project['projectAuthor'] as $author)
                                                 <div class="nowrap">{{ $author['full_name'] }}</div>
