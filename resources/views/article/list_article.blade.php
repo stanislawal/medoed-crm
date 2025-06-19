@@ -61,17 +61,18 @@
 
                             <div class="form-group col-12 col-md-6 col-lg-4">
                                 <label class="form-label">Статья</label>
-{{--                                <select class="form-select form-select-sm select-2"--}}
-{{--                                        name="article">--}}
-{{--                                    <option value="">Не выбрано</option>--}}
-{{--                                    @foreach($articles as $article)--}}
-{{--                                        <option value="{{ $article['article'] }}"--}}
-{{--                                                @if($article['id'] == request()->article_id ?? '') selected @endif>--}}
-{{--                                            {{ $article['article'] }}--}}
-{{--                                        </option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-                                <input type="text" class="form-control form-control-sm" name="article" value="{{ request()->article ?? '' }}">
+                                {{--                                <select class="form-select form-select-sm select-2"--}}
+                                {{--                                        name="article">--}}
+                                {{--                                    <option value="">Не выбрано</option>--}}
+                                {{--                                    @foreach($articles as $article)--}}
+                                {{--                                        <option value="{{ $article['article'] }}"--}}
+                                {{--                                                @if($article['id'] == request()->article_id ?? '') selected @endif>--}}
+                                {{--                                            {{ $article['article'] }}--}}
+                                {{--                                        </option>--}}
+                                {{--                                    @endforeach--}}
+                                {{--                                </select>--}}
+                                <input type="text" class="form-control form-control-sm" name="article"
+                                       value="{{ request()->article ?? '' }}">
                             </div>
 
                             <div class="form-group col-12 col-md-6 col-lg-4">
@@ -205,7 +206,12 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="card-title ">Редактирование статей</h4>
-                        <div class="text-16">Найдено записей: {{ $articles->total() }}</div>
+                        <div class="d-flex align-items-center">
+                            <div class="text-16 me-3">Найдено записей: {{ $articles->total() }}</div>
+                            <div class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#create_article">
+                                Создать статью
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -313,7 +319,8 @@
                                             <input class="form-control form-control-sm" name="price_client"
                                                    value="{{$article['price_client'] ?? ''}}">
                                             <span class="px-1">|</span>
-                                            <input type="checkbox" name="is_fixed_price_client" @if($article['is_fixed_price_client']) checked @endif>
+                                            <input type="checkbox" name="is_fixed_price_client"
+                                                   @if($article['is_fixed_price_client']) checked @endif>
                                         </div>
                                     </td>
 
@@ -372,7 +379,8 @@
                                             <input class="form-control form-control-sm" name="price_author"
                                                    value="{{$article['price_author'] ?? ''}}">
                                             <span class="px-1">|</span>
-                                            <input type="checkbox" name="is_fixed_price_author" @if($article['is_fixed_price_author']) checked @endif>
+                                            <input type="checkbox" name="is_fixed_price_author"
+                                                   @if($article['is_fixed_price_author']) checked @endif>
                                         </div>
                                     </td>
 
@@ -400,7 +408,8 @@
                                             <input class="form-control form-control-sm" name="price_redactor"
                                                    value="{{$article['price_redactor'] ?? ''}}">
                                             <span class="px-1">|</span>
-                                            <input type="checkbox" name="is_fixed_price_redactor" @if($article['is_fixed_price_redactor']) checked @endif>
+                                            <input type="checkbox" name="is_fixed_price_redactor"
+                                                   @if($article['is_fixed_price_redactor']) checked @endif>
                                         </div>
                                     </td>
 
@@ -445,6 +454,9 @@
             </div>
         </div>
     </div>
+
+    @include('Window.Article.create_article_modal')
+
 @endsection
 
 @section('custom_js')
@@ -459,5 +471,12 @@
                 event.preventDefault();
             }
         }
+
+        $(document).ready(function () {
+            window.setPrice = function (el, name) {
+                const price = $(el).text().trim();
+                $('input[name="' + name + '"]').val(price)
+            }
+        })
     </script>
 @endsection

@@ -14,7 +14,7 @@ window.editCommentProject = function (el, url) {
 }
 
 window.editPlanGrossIncome = function (el, url) {
-    const plan_gross_income = $(el).val();
+    const plan_gross_income = $(el).val().replaceAll(' ', '');
     ajax('post', url, {plan_gross_income: plan_gross_income})
 }
 

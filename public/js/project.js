@@ -23,7 +23,7 @@ window.editCommentProject = function (el, url) {
   });
 };
 window.editPlanGrossIncome = function (el, url) {
-  var plan_gross_income = $(el).val();
+  var plan_gross_income = $(el).val().replaceAll(' ', '');
   ajax('post', url, {
     plan_gross_income: plan_gross_income
   });

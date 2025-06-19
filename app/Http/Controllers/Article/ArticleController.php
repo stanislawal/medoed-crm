@@ -72,7 +72,6 @@ class ArticleController extends Controller
             ->get()
             ->toArray();
 
-
         return view('article.list_article', [
             'articles'   => $articles,
             'currency'   => $currency,
@@ -80,7 +79,7 @@ class ArticleController extends Controller
             'managers'   => $managers,
             'statistics' => $statistics,
             'authors'    => $authors,
-            'redactors'  => $redactors,
+            'redactors'  => $redactors
         ]);
     }
 

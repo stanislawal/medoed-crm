@@ -246,9 +246,6 @@
                                     <th></th>
                                     <th style="max-width: 80px;"
                                         class="sort-p">@include('components.table.sort', ['title' => 'Приор', 'column' => 'styles|name', 'routeName' => 'project.index'] )</th>
-                                    @role('Администратор')
-                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name', 'routeName' => 'project.index'] )</th>
-                                    @endrole
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
                                     <th>Юр. имя проекта</th>
                                     <th>Контакт с клиентом</th>
@@ -273,8 +270,7 @@
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'NDA', 'column' => 'nds', 'routeName' => 'project.index'] )</th>
                                     @role('Администратор')
                                     <th>Дата поступления</th>
-                                    @endrole
-                                    @role('Администратор')
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Менеджер', 'column' => 'users|full_name', 'routeName' => 'project.index'] )</th>
                                     <th>Удалить</th>
                                     @endrole
                                 </tr>
@@ -295,11 +291,6 @@
                                                     class="fas fa-grip-horizontal"></i></a>
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectStyle']['name'] ?? '------'}}</td>
-                                        @role('Администратор')
-                                        <td style="padding: 0 10px 0 12px!important"><textarea disabled
-                                                                                               style="border: none; width: 100px; border-radius: 10px; background-color: rgba(255,255,255,0);"
-                                            >{{$project['projectUser']['full_name'] ?? '------'}}</textarea></td>
-                                        @endrole
                                         <td style="padding: 0 10px 0 12px!important"><a
                                                 href="{{ route('client_project.show', ['project' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}">{{$project['project_name'] ?? '------'}}</a>
                                         </td>
@@ -309,7 +300,8 @@
                                         <td>
                                             @foreach($project['projectClients'][0]['socialNetwork'] as $item)
                                                 @if($item['pivot']['view'])
-                                                    <span class="badge bg-primary">{{ $item['name'] }}:{{ $item['pivot']['description'] }}</span>
+                                                    <span
+                                                        class="badge bg-primary">{{ $item['name'] }}:{{ $item['pivot']['description'] }}</span>
                                                 @endif
                                             @endforeach
                                         </td>
@@ -377,11 +369,11 @@
                                         @endrole
                                         <td>
                                             <input class="form-control form-control-sm"
-                                                   style="width: 70px"
-                                                   type="number"
+                                                   style="width: 100px"
+                                                   type="string"
                                                    onchange="editPlanGrossIncome(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
                                                    name="plan_gross_income"
-                                            value="{{$project['plan_gross_income']}}">
+                                                   value="{{$project['plan_gross_income']}}">
                                         </td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             @forelse ($project['projectAuthor'] as $author)
@@ -415,7 +407,6 @@
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectTheme']['name'] ?? ''}}
                                         </td>
 
-
                                         <td style="padding: 0 10px 0 12px!important">@if($project['nds'] == 0)
                                                 Нет
                                             @else
@@ -423,8 +414,9 @@
                                             @endif
                                         </td>
 
-                                        <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
                                         @role('Администратор')
+                                        <td style="padding: 0 10px 0 12px!important">{{Illuminate\Support\Carbon::parse($project['start_date_project'])->format('d.m.Y')}}</td>
+                                        <td>{{$project['projectUser']['full_name'] ?? '------'}}</td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             <div class="form-group col-12 d-flex justify-content-between destroy">
                                                 <a href="{{route('project.destroy',['project' => $project['id']])}}"
@@ -450,6 +442,7 @@
 
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{asset('js/select2.js')}}"></script>
     <script src="{{asset('js/project.js')}}"></script>
 
@@ -460,6 +453,7 @@
                 event.preventDefault();
             }
         }
+        $('input[name="plan_gross_income"]').mask('# ### ###', {reverse: true});
     </script>
 @endsection
 

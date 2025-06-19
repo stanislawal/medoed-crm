@@ -80,6 +80,7 @@
                             <thead>
                             <tr>
                                 <th></th>
+                                <th>ID</th>
                                 <th>Имя</th>
                                 <th>Проект</th>
                                 <th>Сфера деятельности</th>
@@ -99,6 +100,7 @@
                                                 class="fas fa-grip-horizontal"></i>
                                         </a>
                                     </td>
+                                    <td>{{ $client['id'] }}</td>
                                     <td>{{$client['name'] ?? '-'}}</td>
                                     <td>
                                         @foreach($client['projectClients'] as $item)
