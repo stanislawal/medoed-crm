@@ -74,7 +74,7 @@
 
                         <div class="form-group col-12 ">
                             <label for="" class="form-label">Название проекта</label>
-                            <select class="form-control border form-control-sm select-2"
+                            <select class="form-control border form-control-sm select-2-modal"
                                     title="Пожалуйста, выберите"
                                     name="project_id">
                                 <option value="" selected>Не выбрано</option>
