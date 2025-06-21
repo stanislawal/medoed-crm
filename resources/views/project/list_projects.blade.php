@@ -256,7 +256,7 @@
                                     <th style="min-width: 200px !important;">Состояние проекта</th>
                                     <th style="min-width: 220px !important;">Перспектива проекта</th>
                                     @role('Администратор')
-                                    <th>ВД</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'ВД', 'column' => 'sum_gross_income', 'routeName' => 'project.index'] )</th>
                                     @endrole
                                     <th>План ВД</th>
                                     <th>Автор</th>
