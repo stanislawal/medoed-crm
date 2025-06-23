@@ -30,21 +30,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="">Тема проекта <span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" type="text" name="project_theme" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">Отчетная дата <span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" type="date" name="reporting_data" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">Условия оплаты <span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" type="text" name="terms_payment" required>
-                    </div>
-
-                    <div class="form-group">
                         <label for="">Специалисты <span class="text-danger">*</span></label>
                         <select class="form-select form-select-sm select-2-modal" multiple name="specialist_service_id[]"
                                 required>
@@ -53,11 +38,6 @@
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">Регион продвижения <span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" type="text" name="region" required>
                     </div>
 
                     <div class="form-group">
@@ -77,11 +57,6 @@
                             <option>Разовая</option>
                             <option>Сопровождение</option>
                         </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">Ссылка на план работы</label>
-                        <input class="form-control form-control-sm" type="text" name="link_to_work_plan">
                     </div>
 
                     <div class="form-group">

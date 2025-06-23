@@ -22,6 +22,10 @@ $('table input, table select, table textarea').change(function () {
     }).done((res) => {
         if (res.result) {
             showNotification('success', 'Поле успешно обновлено.', true)
+
+            if(name === 'project_id'){
+                location.reload();
+            }
         } else {
             showNotification('error', res.message)
         }

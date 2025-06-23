@@ -16,10 +16,11 @@ class ProjectServiceController extends Controller
     public function index()
     {
         $projectServices = Service::on()->with([
-            'project',
+            'project:id,project_name,project_theme_service,reporting_data,terms_payment,region,passport_to_work_plan',
             'serviceType',
             'specialists'
         ])
+            ->orderByDesc('id')
             ->paginate(20);
 
         return view('project_service.service_index', [
@@ -60,15 +61,10 @@ class ProjectServiceController extends Controller
             $attr = collect($request->validate([
                 'project_id'            => 'nullable|integer',
                 'service_type_id'       => 'nullable|integer',
-                'project_theme'         => 'nullable|string',
-                'reporting_data'        => 'nullable|date',
-                'terms_payment'         => 'nullable|string',
-                'region'                => 'nullable|string',
                 'all_price'             => 'nullable|numeric',
                 'accrual_this_month'    => 'nullable|numeric',
                 'task'                  => 'nullable|string',
                 'specialist_service_id' => 'nullable|array',
-                'link_to_work_plan'     => 'nullable|string',
             ]));
 
             $service = Service::on()->find($id);

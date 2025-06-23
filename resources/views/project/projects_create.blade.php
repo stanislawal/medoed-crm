@@ -91,7 +91,7 @@
             </div>
 
             <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Состояние проекта</label>
+                <label class="col-sm-3 col-form-label">Состояние проекта <span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <select class="form-control form-control-sm" required name="status_id" id="">
                         @foreach ($statuses as $status)
@@ -106,7 +106,7 @@
             </div>
 
             <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Название проекта</label>
+                <label class="col-sm-3 col-form-label">Название проекта <span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" required name="project_name">
                 </div>
@@ -252,6 +252,49 @@
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
+                Доп. информация для услуг
+            </div>
+            <hr class="bg-black">
+
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Тема проекта </label>
+                <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="text" name="project_theme_service" >
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Отчетная дата</label>
+                <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="date" name="reporting_data">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Условия оплаты</label>
+                <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="text" name="terms_payment">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Регион продвижения</label>
+                <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="text" name="region">
+                </div>
+            </div>
+
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Ссылка на план работы</label>
+                <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="text" name="passport_to_work_plan">
+                </div>
+            </div>
+
+            <hr class="bg-black">
+            <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
                 Условия оплаты
             </div>
 
@@ -359,10 +402,10 @@
             <hr class="bg-black">
 
             <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Заказчик</label>
+                <label class="col-sm-3 col-form-label">Заказчик <span class="text-danger">*</span></label>
                 <div class="col-sm-9">
                     <select class="form-select form-select-sm select-2" size="5"
-                            title="Пожалуйста, выберите" name="client_id[]">
+                            title="Пожалуйста, выберите" name="client_id[]" required>
                         <option value="">Не выбрано</option>
                         @foreach ($clients as $client)
                             <option value="{{$client['id']}}">{{$client['name']}}</option>

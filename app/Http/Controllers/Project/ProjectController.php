@@ -203,6 +203,11 @@ class ProjectController extends Controller
                 'legal_name_company'               => $request->legal_name_company ?? null,
                 'period_work_performed'            => $request->period_work_performed ?? null,
                 'requisite_id'                     => $request->requisite_id ?? null,
+                'project_theme_service'            => $request->project_theme_service ?? null,
+                'reporting_data'                   => $request->reporting_data ?? null,
+                'terms_payment'                    => $request->terms_payment ?? null,
+                'region'                           => $request->region ?? null,
+                'passport_to_work_plan'            => $request->passport_to_work_plan ?? null,
             ];
 
             $project = Project::on()->create($attr);
@@ -406,6 +411,11 @@ class ProjectController extends Controller
             'legal_name_company'               => $request->legal_name_company ?? null,
             'period_work_performed'            => $request->period_work_performed ?? null,
             'requisite_id'                     => $request->requisite_id ?? null,
+            'project_theme_service'            => $request->project_theme_service ?? null,
+            'reporting_data'                   => $request->reporting_data ?? null,
+            'terms_payment'                    => $request->terms_payment ?? null,
+            'region'                           => $request->region ?? null,
+            'passport_to_work_plan'            => $request->passport_to_work_plan ?? null,
         ];
 
         if (UserHelper::isAdmin()) {
@@ -442,35 +452,43 @@ class ProjectController extends Controller
     //Удалить запись
     public function destroy($id)
     {
-        $project = Project::on()->with([
-            'projectArticle',
-            'payment',
-            'files'
-        ])->find($id);
+        DB::beginTransaction();
+        try {
+            $project = Project::on()->with([
+                'projectArticle',
+                'payment',
+                'files'
+            ])->find($id);
 
-        $relation = [];
+            $relation = [];
 
-        if (count($project->projectArticle) > 0) {
-            $relation[] = 'статьями';
+            if (count($project->projectArticle) > 0) {
+                $relation[] = 'статьями';
+            }
+
+            if (count($project->payment) > 0) {
+                $relation[] = 'оплатами';
+            }
+
+            if (count($project->files) > 0) {
+                $relation[] = 'файлами';
+            }
+
+            if (count($relation) > 0) {
+                return redirect()->back()->with(['error' => 'Невозможно удалить проект (id ' . $id . '). Есть связь c ' . implode(', ', $relation)]);
+            }
+
+            Notification::on()->where('project_id', $id)->delete();
+
+            Project::on()->find($id)->delete();
+
+            DB::commit();
+
+            return redirect()->back()->with(['success' => 'Проект успешно удален']);
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return redirect()->back()->with(['error' => $exception->getMessage()]);
         }
-
-        if (count($project->payment) > 0) {
-            $relation[] = 'оплатами';
-        }
-
-        if (count($project->files) > 0) {
-            $relation[] = 'файлами';
-        }
-
-        if (count($relation) > 0) {
-            return redirect()->back()->with(['error' => 'Невозможно удалить проект (id ' . $id . '). Есть связь c ' . implode(', ', $relation)]);
-        }
-
-        Notification::on()->where('project_id', $id)->delete();
-
-        Project::on()->find($id)->delete();
-
-        return redirect()->back()->with(['success' => 'Проект успешно удален']);
     }
 
 

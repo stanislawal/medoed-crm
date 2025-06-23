@@ -72,7 +72,7 @@ class Project extends Model
         'plan_gross_income', // план ВД
 
         // для услуг поля
-        'project_theme', // тема проекта тянется в услуги
+        'project_theme_service', // тема проекта тянется в услуги
         'reporting_data', // регион
         'terms_payment', // условия оплаты
         'region', // регион

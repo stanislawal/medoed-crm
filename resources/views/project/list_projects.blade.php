@@ -278,7 +278,6 @@
                                 <tbody>
 
                                 @foreach ($projects as $project)
-                                    {{--                                    @dd($project)--}}
                                     <tr>
                                         <td>{{ $project['id'] }}</td>
                                         <td style="padding: 0 10px 0 12px!important">
@@ -307,7 +306,7 @@
                                         </td>
                                         <td>
                                             <div>
-                                                <input class="form-control form-control-sm"
+                                                <input class="form-control form-control-sm" style="max-width: 72px;"
                                                        onchange="editDateLastChangeProject(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
                                                        name="date_last_change" type="date"
                                                        value="{{$project['date_last_change']}}">
@@ -315,7 +314,7 @@
                                         </td>
                                         <td>
                                             <div>
-                                                <input class="form-control form-control-sm"
+                                                <input class="form-control form-control-sm" style="max-width: 72px;"
                                                        onchange="editDatePayment(this, '{{ route('project.partial_update', ['id'=>$project['id']]) }}')"
                                                        name="date_notification" type="date"
                                                        value="{{$project['date_notification']}}">
@@ -324,7 +323,7 @@
 
                                         <td>
                                             <div>
-                                                <input class="form-control form-control-sm"
+                                                <input class="form-control form-control-sm" style="max-width: 72px;"
                                                        onchange="editDatePayment(this, '{{ route('project.partial_update', ['id' => $project['id']]) }}')"
                                                        name="date_connect_with_client" type="date"
                                                        value="{{$project['date_connect_with_client']}}">
@@ -333,7 +332,7 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <select
-                                                    style=" background-color: {{ $project['projectStatus']['color'] ?? "" }} ;"
+                                                    style="background-color: {{ $project['projectStatus']['color'] ?? "" }}; width: 120px;"
                                                     class="form-select form-select-sm mr-1" id="edit_status_project"
                                                     onchange="editStatusProject(this, '{{ route('project.partial_update', ['id'=> $project['id']]) }}')">
                                                     @foreach ($statuses as $status)
@@ -383,7 +382,7 @@
                                                     style="font-style: italic; font-size: 12px; color: rgba(0,0,0,0.53);">Пусто</span>
                                             @endforelse
                                         </td>
-                                        {{--@dd($project)--}}
+
                                         <td style="padding: 0 10px 0 12px!important">{{ $project['price_client'] ?? ''}}</td>
                                         <td style="padding: 0 10px 0 12px!important">{{ $project['price_author'] ?? ''}}</td>
 
@@ -403,7 +402,6 @@
                                                 @endforeach
                                             @endforeach
                                         </td>
-                                        {{--                                        <td style="padding: 0 10px 0 12px!important">{{$project['projectClients'][0]['contact_info'] ?? '------'}}</td>--}}
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectTheme']['name'] ?? ''}}
                                         </td>
 

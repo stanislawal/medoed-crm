@@ -16,7 +16,7 @@ class UpdateProjectTableAddColumnService extends Migration
         Schema::table('projects', function (Blueprint $table) {
             $table->integer('plan_gross_income')->nullable();
 
-            $table->string('project_theme', 255)->nullable();
+            $table->string('project_theme_service', 255)->nullable();
             $table->date('reporting_data')->nullable();
             $table->string('terms_payment', 255)->nullable();
             $table->string('region', 255)->nullable();

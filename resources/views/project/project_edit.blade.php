@@ -558,6 +558,50 @@
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
+                Доп. информация для услуг
+            </div>
+            <hr class="bg-black">
+
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Тема проекта </label>
+                <div class="col-sm-9">
+                    <input disabled class="form-control form-control-sm" type="text" name="project_theme_service" value="{{ $projectInfo['project_theme_service'] ?? '' }}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Отчетная дата</label>
+                <div class="col-sm-9">
+                    <input disabled class="form-control form-control-sm" type="date" name="reporting_data" value="{{ $projectInfo['reporting_data'] ?? '' }}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Условия оплаты</label>
+                <div class="col-sm-9">
+                    <input disabled class="form-control form-control-sm" type="text" name="terms_payment" value="{{ $projectInfo['terms_payment'] ?? '' }}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Регион продвижения</label>
+                <div class="col-sm-9">
+                    <input disabled class="form-control form-control-sm" type="text" name="region" value="{{ $projectInfo['region'] ?? '' }}">
+                </div>
+            </div>
+
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Ссылка на план работы</label>
+                <div class="col-sm-9">
+                    <input disabled class="form-control form-control-sm" type="text" name="passport_to_work_plan" value="{{ $projectInfo['passport_to_work_plan'] ?? '' }}">
+                </div>
+            </div>
+
+            <hr class="bg-black">
+
+            <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
                 Условия оплаты
             </div>
 

@@ -54,63 +54,82 @@
                                 <tr data-url="{{ route('project-service.update', ['project_service' => $item->id ]) }}">
                                     <td class="text-center">{{ $item->id }}</td>
                                     <td>
-                                        <select class="form-select form-select-sm select-2" name="project_id">
-                                            <option value="">Не выбрано</option>
-                                            @foreach($projects as $project)
-                                                <option @if($project->id === $item->project->id) selected @endif
+                                        <div class="d-flex flex-nowrap">
+                                            <select class="form-select form-select-sm select-2" name="project_id">
+                                                <option value="">Не выбрано</option>
+                                                @foreach($projects as $project)
+                                                    <option @if($project->id === $item->project->id) selected @endif
                                                     value="{{ $project->id }}">{{ $project->project_name }}</option>
-                                            @endforeach
-                                        </select>
+                                                @endforeach
+                                            </select>
+
+                                            @if(!empty($item->project->id))
+                                                <a target="_blank" class="px-3 d-flex align-items-center text-primary" href="{{route('project.edit',['project'=> $item->project->id])}}"><i class="fas fa-external-link-alt"></i></a>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td>
                                         <select class="form-select form-select-sm" name="service_type_id">
                                             <option value="">Не выбрано</option>
                                             @foreach($service_type as $type)
-                                                <option @if($type->id === $item->serviceType->id) selected @endif value="{{ $type->id }}">{{ $type->name }}</option>
+                                                <option @if($type->id === $item->serviceType->id) selected
+                                                        @endif value="{{ $type->id }}">{{ $type->name }}</option>
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td><input class="form-control form-control-sm" type="text" name="project_theme" value="{{ $item->project_theme ?? '' }}"></td>
+                                    <td>
+                                        {{ $item->project->project_theme_service ?? '' }}
+                                    </td>
                                     <td class="text-center">
-                                        <input class="form-control form-control-sm" type="date" name="reporting_data" value="{{ $item->reporting_data ?? '' }}">
+                                        {{ $item->project->reporting_data ?? '' }}
                                     </td>
                                     <td>
-                                        <input class="form-control form-control-sm" type="text" name="terms_payment" value="{{ $item->terms_payment ?? ''}}">
+                                        {{ $item->project->terms_payment ?? ''}}
                                     </td>
                                     <td>
-
-                                        <select class="form-select form-select-sm select-2" multiple name="specialist_service_id[]"
+                                        <select class="form-select form-select-sm select-2" multiple
+                                                name="specialist_service_id[]"
                                                 required>
                                             <option value="">Не выбрано</option>
                                             @foreach($specialists as $specialist)
-                                                <option @if(in_array($specialist->id, $item->specialists->pluck('id')->toArray())) selected @endif value="{{ $specialist->id }}">{{ $specialist->name }}</option>
+                                                <option
+                                                    @if(in_array($specialist->id, $item->specialists->pluck('id')->toArray())) selected
+                                                    @endif value="{{ $specialist->id }}">{{ $specialist->name }}</option>
                                             @endforeach
                                         </select>
-
                                     </td>
                                     <td>
-                                        <input class="form-control form-control-sm" type="text" name="region" value="{{ $item->region ?? '' }}">
+                                        {{ $item->project->region ?? '' }}
                                     </td>
                                     <td class="text-center">
-                                        <input class="form-control form-control-sm" type="number" name="all_price" value="{{ $item->all_price }}">
+                                        <input class="form-control form-control-sm" type="number" name="all_price"
+                                               value="{{ $item->all_price }}">
                                     </td>
                                     <td class="text-center">
-                                        <input class="form-control form-control-sm" type="number" name="accrual_this_month" value="{{ $item->accrual_this_month }}">
+                                        <input class="form-control form-control-sm" type="number"
+                                               name="accrual_this_month" value="{{ $item->accrual_this_month }}">
                                     </td>
                                     <td class="text-center">
                                         <select class="form-select form-select-sm" name="task" required>
                                             <option value="">Не выбрано</option>
                                             <option @if($item->task === 'Разовая') selected @endif>Разовая</option>
-                                            <option @if($item->task === 'Сопровождение') selected @endif>Сопровождение</option>
+                                            <option @if($item->task === 'Сопровождение') selected @endif>Сопровождение
+                                            </option>
                                         </select>
                                     </td>
                                     <td>
-                                        <input class="form-control form-control-sm" type="text" name="link_to_work_plan" value="{{ $item->link_to_work_plan ?? '' }}">
+                                        @if($item->project->passport_to_work_plan !== '')
+                                            <a class="text-primary" target="_blank"
+                                               href="{{ $item->project->passport_to_work_plan }}">{{ $item->project->passport_to_work_plan }}</a>
+                                        @else
+                                            {{ $item->project->passport_to_work_plan ?? '' }}
+                                        @endif
                                     </td>
                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}</td>
                                     <td class="text-center">
-                                        <form action="{{ route('project-service.destroy', ['project_service' => $item->id ]) }}"
-                                              method="post">
+                                        <form
+                                            action="{{ route('project-service.destroy', ['project_service' => $item->id ]) }}"
+                                            method="post">
                                             @csrf @method('DELETE')
                                             <button class="btn btn-sm btn-danger" onclick="window.confirmDelete()">
                                                 <i class="fas fa-trash"></i></button>
