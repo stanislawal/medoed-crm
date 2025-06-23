@@ -108,7 +108,7 @@ class ProjectController extends Controller
 
         $projects->groupBy('projects.id');
         $projects->orderBy('id', 'desc');
-        $projects = $projects->paginate(50);
+        $projects = $projects->paginate(20);
 
 
         return view('project.list_projects', [
