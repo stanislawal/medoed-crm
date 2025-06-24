@@ -58,7 +58,9 @@ class ProjectServiceController extends Controller
                 $attr->except('specialist_service_id')->toArray()
             );
 
-            $service->specialists()->sync($attr['specialist_service_id']);
+            if (!empty($attr['specialist_service_id'])) {
+                $service->specialists()->sync($attr['specialist_service_id']);
+            }
 
             DB::commit();
 
@@ -82,6 +84,7 @@ class ProjectServiceController extends Controller
                 'accrual_this_month'    => 'nullable|numeric',
                 'task'                  => 'nullable|string',
                 'specialist_service_id' => 'nullable|array',
+                'name'                  => 'nullable|string',
             ]));
 
             $service = Service::on()->find($id);

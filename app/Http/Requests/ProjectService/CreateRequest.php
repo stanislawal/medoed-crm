@@ -24,12 +24,13 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
+            'name'                  => 'required|string',
             'project_id'            => 'required|integer',
             'service_type_id'       => 'required|integer',
             'all_price'             => 'required|numeric',
             'accrual_this_month'    => 'required|numeric',
             'task'                  => 'required|string',
-            'specialist_service_id' => 'required|array',
+            'specialist_service_id' => 'nullable|array',
         ];
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Service;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service\ServiceType;
-use App\Models\Service\SpecialistService;
 use Illuminate\Http\Request;
 
 class ServiceTypeController extends Controller

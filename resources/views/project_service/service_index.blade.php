@@ -128,6 +128,7 @@
                                 <th style="min-width: 180px">Проект</th>
                                 <th style="min-width: 100px">Отдел</th>
                                 <th style="min-width: 100px">Тема проекта</th>
+                                <th style="min-width: 200px">Услуга</th>
                                 <th style="min-width: 100px">Отчетная дата</th>
                                 <th style="min-width: 100px">Условия оплаты</th>
                                 <th style="min-width: 170px">Специалисты</th>
@@ -175,6 +176,13 @@
                                     </td>
                                     <td>
                                         {{ $item->project->project_theme_service ?? '' }}
+                                    </td>
+                                    <td>
+                                        <textarea style="width: 100%; resize: vertical!important; padding: 2px 5px!important;"
+                                                  cols="2" type="text"
+                                                  name="name"
+                                                  class="form-control form-control-sm"
+                                        >{{ $item->name }}</textarea>
                                     </td>
                                     <td class="text-center">
                                         {{ $item->project->reporting_data ?? '' }}

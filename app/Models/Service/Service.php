@@ -19,7 +19,8 @@ class Service extends Model
         'all_price',
         'accrual_this_month',
         'task',
-        'user_id'
+        'user_id',
+        'name'
     ];
 
 

@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Вид услуги <span class="text-danger">*</span></label>
+                        <label class="form-label">Отдел <span class="text-danger">*</span></label>
                         <select class="form-select form-select-sm select2-with-color" name="service_type_id" required>
                             <option value="">Не выбрано</option>
                             @foreach($service_type as $item)
@@ -30,10 +30,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="">Специалисты <span class="text-danger">*</span></label>
-                        <select class="form-select form-select-sm select2-with-color" multiple name="specialist_service_id[]"
-                                required>
-                            <option value="">Не выбрано</option>
+                        <label for="">Услуга <span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" type="text" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Специалисты</label>
+                        <select class="form-select form-select-sm select2-with-color" multiple name="specialist_service_id[]">
                             @foreach($specialists as $item)
                                 <option data-color="{{ $item->color }}" value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
