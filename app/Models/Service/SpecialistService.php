@@ -12,7 +12,8 @@ class SpecialistService extends Model
     protected $table = 'specialist_services';
 
     protected $fillable = [
-        'name'
+        'name',
+        'color'
     ];
 
     public function services()
