@@ -4,7 +4,7 @@
     <h2>Добавление отдел для услуг</h2>
     <div>
         <div class="shadow border p-4 my-3 bg-white">
-            <form action="" method="POST">
+            <form action="{{ route('service-type.store') }}" method="POST">
                 @csrf
                 <div class="mb-3 col-6 col-md-4">
                     <label for="" class="form-label mb-3">Добавить новый отдел</label>
