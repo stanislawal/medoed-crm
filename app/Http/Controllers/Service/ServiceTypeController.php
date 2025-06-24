@@ -20,7 +20,7 @@ class ServiceTypeController extends Controller
     public function store(Request $request)
     {
         $attr = $request->validate([
-            'name' => 'required|string|unique:specialist_services',
+            'name' => 'required|string|unique:service_types',
             'color' => 'nullable|string',
         ]);
         ServiceType::on()->create($attr);
