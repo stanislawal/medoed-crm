@@ -628,7 +628,7 @@ class ProjectController extends Controller
         });
 
         $projects->when(!empty($request->price_client_float), function ($where) use ($request) {
-            $where->whereRaw("CAST(price_client as FLOAT) >= {$request->price_client_float} ");
+            $where->whereRaw("CAST(projects.price_client as FLOAT) >= {$request->price_client_float} ");
         });
 
         $projects->when(!empty($request->price_author), function ($where) use ($request) {
