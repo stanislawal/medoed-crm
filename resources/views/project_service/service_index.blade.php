@@ -228,7 +228,7 @@
                                             {{ $item->project->passport_to_work_plan ?? '' }}
                                         @endif
                                     </td>
-                                    <td>{{ $item->createdUser->minName ?? '' }}</td>
+                                    <td class="nowrap">{{ $item->createdUser->minName ?? '' }}</td>
                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}</td>
                                     <td class="text-center">
                                         <form
