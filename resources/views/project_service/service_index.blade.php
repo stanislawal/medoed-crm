@@ -166,7 +166,6 @@
                                     <td>
                                         <select class="form-select form-select-sm select2-with-color"
                                                 name="service_type_id">
-                                            <option value="">Не выбрано</option>
                                             @foreach($service_type as $type)
                                                 <option @if($type->id === $item->serviceType->id) selected
                                                         @endif value="{{ $type->id }}"
