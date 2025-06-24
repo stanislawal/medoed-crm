@@ -193,7 +193,6 @@
                                         <select class="form-select form-select-sm select2-with-color" multiple
                                                 name="specialist_service_id[]"
                                                 required>
-                                            <option value="">Не выбрано</option>
                                             @foreach($specialists as $specialist)
                                                 <option
                                                     data-color="{{ $specialist->color }}"
