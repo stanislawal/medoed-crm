@@ -8,7 +8,14 @@
                 @csrf
                 <div class="mb-3 col-6 col-md-4">
                     <label for="" class="form-label mb-3">Добавить нового специалиста</label>
-                    <input type="text" class="form-control form-control" name="name">
+                    <div class="mb-3">
+                        <input type="text" class="form-control form-control" name="name">
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="color" name="color">
+                    </div>
+
                     <button class="btn btn-sm btn-success mt-3">Добавить</button>
                 </div>
             </form>
@@ -22,6 +29,7 @@
                 <tr>
                     <th>#id</th>
                     <th>Название социальной сети</th>
+                    <th>Цвет</th>
                     <th>Удалить</th>
                 </tr>
                 </thead>
@@ -30,6 +38,13 @@
                     <tr>
                         <td>{{$item['id']}}</td>
                         <td>{{$item['name']}}</td>
+                        <td>
+                            @if(!empty($item['color']))
+                                <input type="color" value="{{ $item['color'] }}">
+                            @else
+                                -
+                            @endif</td>
+                        <td>
                         <td>
                             @if(!$item->services()->count())
                                 <form method="post"

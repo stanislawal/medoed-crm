@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Service;
 
-
+use App\Http\Controllers\Controller;
+use App\Models\Service\ServiceType;
 use App\Models\Service\SpecialistService;
 use Illuminate\Http\Request;
 
-class SpecialistController
+class ServiceTypeController extends Controller
 {
     public function index()
     {
-        $specialists = SpecialistService::on()->with('services')->get();
-        return view('project_service.specialist.index', [
-            'specialists' => $specialists
+        $serviceType = ServiceType::on()->with('services')->get();
+        return view('project_service.service_type.index', [
+            'serviceType' => $serviceType
         ]);
     }
 
@@ -20,15 +21,15 @@ class SpecialistController
     {
         $attr = $request->validate([
             'name' => 'required|string|unique:specialist_services',
-            'color' => 'required|string',
+            'color' => 'nullable|string',
         ]);
-        SpecialistService::on()->create($attr);
+        ServiceType::on()->create($attr);
         return redirect()->back();
     }
 
     public function destroy($id)
     {
-        SpecialistService::on()->find($id)->delete();
+        ServiceType::on()->find($id)->delete();
         return redirect()->back();
     }
 }

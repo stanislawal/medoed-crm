@@ -137,7 +137,7 @@
                         </li>
                         @endunlessrole
 
-                        @role('Администратор')
+                        @role('Администратор|Менеджер')
 
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#projectService">
@@ -155,7 +155,9 @@
                                 </ul>
                             </div>
                         </li>
+                        @endrole
 
+                        @role('Администратор')
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#user">
                                 <i class="fas fa-users"></i>
@@ -245,6 +247,11 @@
                                             <span class="sub-item">Специалист по услугам</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('service-type.index') }}">
+                                            <span class="sub-item">Отдел услуг</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -285,11 +292,11 @@
 
                                 <ul class="nav nav-collapse">
                                     @unlessrole('Автор')
-                                        <li>
-                                            <a href="{{ route('report_client.index') }}">
-                                                <span class="sub-item">Заказчики</span>
-                                            </a>
-                                        </li>
+                                    <li>
+                                        <a href="{{ route('report_client.index') }}">
+                                            <span class="sub-item">Заказчики</span>
+                                        </a>
+                                    </li>
                                     @endunlessrole
 
                                     @role('Администратор')

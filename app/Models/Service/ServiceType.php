@@ -15,4 +15,9 @@ class ServiceType extends Model
         'name',
         'color'
     ];
+
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'service_type_id');
+    }
 }

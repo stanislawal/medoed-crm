@@ -23,6 +23,7 @@ use App\Http\Controllers\Report\ReportClientController;
 use App\Http\Controllers\Report\ReportRedactorController;
 use App\Http\Controllers\Report\WorkloadController;
 use App\Http\Controllers\Service\ProjectServiceController;
+use App\Http\Controllers\Service\ServiceTypeController;
 use App\Http\Controllers\Service\SpecialistController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -116,6 +117,7 @@ Route::middleware(['auth', 'is_work'])->group(function () {
             Route::resource('lid-status', LidStatusController::class)->only(['index', 'store', 'destroy']);
             Route::resource('lid-specialist-status', LidSpecialistStatusController::class)->only(['index', 'store', 'destroy']);
             Route::resource('specialist', SpecialistController::class)->only(['index', 'store', 'destroy']);
+            Route::resource('service-type', ServiceTypeController::class)->only(['index', 'store', 'destroy']);
         });
 
 
@@ -209,7 +211,7 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     #-----------------------------------ЛИДЫ----------------------------------------
 
     #-----------------------------------УСЛУГИ----------------------------------------
-    Route::middleware('role:Администратор')->group(function () {
+    Route::middleware('role:Администратор|Менеджер')->group(function () {
         Route::resource('project-service', ProjectServiceController::class)->only(['index', 'store', 'update', 'destroy']);
     });
     #-----------------------------------УСЛУГИ----------------------------------------
