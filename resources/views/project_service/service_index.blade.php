@@ -48,7 +48,7 @@
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label class="form-label">Проект</label>
-                            <select class="form-select form-select-sm" name="project_id">
+                            <select class="form-select form-select-sm select-2" name="project_id">
                                 <option value="">Не выбрано</option>
                                 @foreach($projects as $project)
                                     <option @if($project->id === request()->project_id) selected @endif
@@ -147,7 +147,7 @@
                                     <td class="text-center">{{ $item->id }}</td>
                                     <td>
                                         <div class="d-flex flex-nowrap">
-                                            <select class="form-select form-select-sm" name="project_id">
+                                            <select class="form-select form-select-sm select-2" name="project_id">
                                                 <option value="">Не выбрано</option>
                                                 @foreach($projects as $project)
                                                     <option @if($project->id === $item->project->id) selected @endif
