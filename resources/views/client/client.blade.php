@@ -132,7 +132,8 @@
             $('.items_socialwork .item').each(function (i, item) {
                 array.push({
                     'socialnetrowk_id': $(this).children('select').val(),
-                    'link': $(this).children('input').val()
+                    'link': $(this).children('input[name="description"]').val(),
+                    'view': $(this).children('input[name="view"]').is(':checked')
                 })
             });
 
