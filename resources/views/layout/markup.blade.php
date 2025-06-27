@@ -94,7 +94,7 @@
                             </a>
                             <div class="collapse" id="base">
                                 <ul class="nav nav-collapse">
-                                    @hasanyrole('Администратор|Менеджер')
+                                    @hasanyrole('Администратор|Менеджер|Реклама')
                                     <li>
                                         <a href="{{ route('project.index') }}">
                                             <span class="sub-item">База проектов</span>
