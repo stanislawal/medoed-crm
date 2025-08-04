@@ -35,14 +35,6 @@
 
                 @foreach ($statuses as $item)
                     <tr>
-                        {{--                            <form action="{{route('add_option_status.update', ['id' => $item['id']])}}" method="post">--}}
-                        {{--                                @csrf--}}
-                        {{--                                @method('PUT')--}}
-                        {{--                                <td>{{$item['id']}}</td>--}}
-                        {{--                                <td>{{$item['name']}}</td>--}}
-                        {{--                                <td><button class="btn btn-sm btn-success">Сохранить</button></td>--}}
-                        {{--                            </form>--}}
-
                         <td>{{$item['id']}}</td>
                         <td>{{$item['name']}}</td>
                         <td>
@@ -53,11 +45,16 @@
                             @endif
                         </td>
                         <td>
-                            <div class="form-group col-12 d-flex justify-content-between destroy">
+                            @if($item['projects_exists'])
+                                Недоступно
+                            @else
+                                <div class="form-group col-12 d-flex justify-content-between destroy">
 
-                                <a href="{{route('add_option_status.destroy',['status' => $item['id']])}}"
-                                   class="btn btn-sm btn-danger"><i
-                                        class="fas fa-minus"></i></a>
+                                    <a href="{{route('add_option_status.destroy',['status' => $item['id']])}}"
+                                       class="btn btn-sm btn-danger"><i
+                                            class="fas fa-minus"></i></a>
+                            @endif
+
                             </div>
                         </td>
                     </tr>
@@ -66,6 +63,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
     </div>
 @endsection

@@ -41,11 +41,15 @@
                         <td>{{$item['name']}}</td>
                         <td><input type="color" disabled value="{{ $item['color'] }}"></td>
                         <td>
-                            <div class="form-group col-12 d-flex justify-content-between destroy">
-                                <a href="{{route('status_payment.destroy',['id' => $item['id']])}}"
-                                   class="btn btn-sm btn-danger"><i
-                                        class="fas fa-minus"></i></a>
-                            </div>
+                            @if($item['projects_exists'])
+                                Недоступно
+                            @else
+                                <div class="form-group col-12 d-flex justify-content-between destroy">
+                                    <a href="{{route('status_payment.destroy',['id' => $item['id']])}}"
+                                       class="btn btn-sm btn-danger"><i
+                                            class="fas fa-minus"></i></a>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

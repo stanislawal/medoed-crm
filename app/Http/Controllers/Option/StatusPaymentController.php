@@ -12,15 +12,12 @@ class StatusPaymentController extends Controller
     public function index()
     {
         return view('Option.add_option_status_payment', [
-            'statuses' => StatusPaymentProject::on()->get()
+            'statuses' => StatusPaymentProject::on()->withExists('projects')->get()
         ]);
     }
 
     public function store(Request $request)
     {
-
-
-
         StatusPaymentProject::on()->create([
             'name' => $request->name,
             'color' => $request->color ?? '#ffffff'

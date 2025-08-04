@@ -53,7 +53,7 @@
         .table-fixed {
             position: sticky;
             left: 0;
-            z-index: 1; /* Убедитесь, что фиксированные ячейки находятся выше остальных */
+            z-index: 1;
             background-color: #ffffff;
         }
 

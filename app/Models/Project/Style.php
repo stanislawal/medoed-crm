@@ -14,4 +14,9 @@ class Style extends Model
     ];
 
     public $timestamps = false;
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'style_id');
+    }
 }

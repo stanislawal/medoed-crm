@@ -11,21 +11,24 @@ class StatusController extends Controller
 
     public function index()
     {
+        $statuses = Status::on()
+            ->withExists('projects')
+            ->get();
+
         return view('Option.add_option_status', [
-            'statuses' => Status::on()->orderBy('id', "asc")->get()
+            'statuses' => $statuses
         ]);
     }
 
     public function store(Request $request)
     {
         Status::on()->create([
-            'name' => $request->add_new_status,
+            'name'  => $request->add_new_status,
             'color' => $request->color
         ]);
 
         return redirect()->back()->with(['message' => 'Состояние успешно добавлено']);
     }
-
 
     public function destroy($id)
     {
