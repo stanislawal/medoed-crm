@@ -43,6 +43,8 @@ class ProjectController extends Controller
     // Для отображения (вывода) всех записей
     public function index(Request $request)
     {
+//        Auth::loginUsingId(43);
+
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
         $themes = Theme::on()->get()->toArray(); //Достаем все темы проектов
         $statuses = Status::on()->get()->toArray(); //Достаем все статусы из бд

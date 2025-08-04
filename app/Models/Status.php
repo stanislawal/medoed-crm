@@ -10,7 +10,8 @@ class Status extends Model
     public $table = 'statuses';
 
     protected $fillable = [
-        'name' //статус проекта
+        'name', //статус проекта
+        'color'
     ];
 
     public $timestamps = false;

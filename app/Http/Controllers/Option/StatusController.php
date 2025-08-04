@@ -16,24 +16,12 @@ class StatusController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-
     public function store(Request $request)
     {
-        $status = [
-            'name' => $request->add_new_status
-        ];
-
-        Status::on()->create($status);
+        Status::on()->create([
+            'name' => $request->add_new_status,
+            'color' => $request->color
+        ]);
 
         return redirect()->back()->with(['message' => 'Состояние успешно добавлено']);
     }

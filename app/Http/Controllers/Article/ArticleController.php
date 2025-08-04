@@ -32,7 +32,13 @@ class ArticleController extends Controller
                 WHEN articles.is_fixed_price_client = 1
                 THEN articles.price_client
                 ELSE ((COALESCE(articles.without_space, 0) * (COALESCE(articles.price_client, 0) / 1000)))
-            END as gross_income
+            END as gross_income,
+
+            CASE
+                WHEN articles.is_fixed_price_author = 1
+                THEN articles.price_author
+                ELSE ((COALESCE(articles.without_space, 0) * (COALESCE(articles.price_author, 0) / 1000)))
+            END as gross_income_author
         ")
             ->with([
                 'articleProject.projectClients',
@@ -88,6 +94,7 @@ class ArticleController extends Controller
         $result = Article::on()->selectRaw("
             sum(articles.without_space) as sum_without_space,
             sum(articles.gross_income) as sum_gross_income,
+            sum(articles.gross_income_author) as sum_gross_income_author,
             sum(
                 if(cast(articles.created_at as date) = '" . now()->format('Y-m-d') . "', articles.without_space, 0)
             ) as passed
@@ -106,12 +113,13 @@ class ArticleController extends Controller
         }
 
         $indicators = [
-            "count_days_in_range"  => $countDays,
-            "current_day_in_range" => $currentDay ?? 0,
-            "expectation"          => $expectation ?? 0,
-            "passed"               => $passed ?? 0,
-            "sum_gross_income"     => $result['sum_gross_income'],
-            "sum_without_space"    => $result['sum_without_space']
+            "count_days_in_range"     => $countDays,
+            "current_day_in_range"    => $currentDay ?? 0,
+            "expectation"             => $expectation ?? 0,
+            "passed"                  => $passed ?? 0,
+            "sum_gross_income"        => $result['sum_gross_income'],
+            "sum_gross_income_author" => $result['sum_gross_income_author'],
+            "sum_without_space"       => $result['sum_without_space'],
         ];
 
         $salary = UserHelper::getUser()->manager_salary ?? 0;

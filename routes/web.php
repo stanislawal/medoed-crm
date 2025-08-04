@@ -20,6 +20,7 @@ use App\Http\Controllers\Project\ProjectEventController;
 use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Report\ReportAuthorController;
 use App\Http\Controllers\Report\ReportClientController;
+use App\Http\Controllers\Report\ReportService;
 use App\Http\Controllers\Report\ReportRedactorController;
 use App\Http\Controllers\Report\WorkloadController;
 use App\Http\Controllers\Service\ProjectServiceController;
@@ -139,6 +140,9 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     Route::resource('report_redactor', ReportRedactorController::class);
     Route::get('report_workload', [WorkloadController::class, 'index'])->name('report_workload');
     Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
+
+    Route::get('report-service', [ReportService:: class, 'index'])->name('report_service.index');
+    Route::get('report-service/{project_id}', [ReportService::class, 'show'])->name('report_service.show');
     #----------------------------------------ОТЧЕТЫ----------------------------------------
 
     #----------------------------------------Файлы----------------------------------------

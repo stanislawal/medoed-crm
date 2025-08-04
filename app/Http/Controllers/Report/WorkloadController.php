@@ -17,7 +17,8 @@ class WorkloadController extends Controller
 
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
-        })->get();
+        })
+            ->where('is_work', true)->get();
 
         $dates = $this->gerDate();
 

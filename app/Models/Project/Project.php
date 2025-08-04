@@ -9,6 +9,7 @@ use App\Models\Project\Cross\CrossprojectArticle;
 use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Cross\CrossProjectClient;
 use App\Models\Requisite;
+use App\Models\Service\Service;
 use App\Models\Status;
 use App\Models\StatusPaymentProject;
 use App\Models\User;
@@ -73,7 +74,7 @@ class Project extends Model
 
         // для услуг поля
         'project_theme_service', // тема проекта тянется в услуги
-        'reporting_data', // регион
+        'reporting_data', // отчетная дата
         'terms_payment', // условия оплаты
         'region', // регион
         'passport_to_work_plan', // паспорт на план работы
@@ -168,6 +169,11 @@ class Project extends Model
     public function requisite()
     {
         return $this->belongsTo(Requisite::class, 'requisite_id');
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'project_id');
     }
 
 }

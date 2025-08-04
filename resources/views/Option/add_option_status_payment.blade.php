@@ -6,8 +6,6 @@
         <div class="shadow border p-4 my-3 bg-white">
             <form action="{{route('status_payment.store')}}" method="POST">
                 @csrf
-
-
                 <div class="mb-3 col-6 col-md-4">
                     <label for="" class="form-label mb-3">Добавить новое состояние оплаты проекта</label>
 
@@ -21,8 +19,6 @@
 
                     <button class="btn btn-sm btn-success mt-3">Добавить</button>
                 </div>
-
-
             </form>
         </div>
     </div>
