@@ -137,7 +137,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
+                                <td>{{ $item->projectUser?->minName ?? '-' }}</td>
                                 <td>{{ $item['region'] }}</td>
                                 <td></td>
                                 <td></td>

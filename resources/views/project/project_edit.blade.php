@@ -314,6 +314,30 @@
             <hr class="bg-black">
 
             <div class="row mb-2">
+                <label class="col-sm-3 col-form-label">Название проекта</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="project_name" required disabled
+                           value="{{ $projectInfo['project_name'] ?? '' }}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Название компании (Бренда)</label>
+                <div class="col-sm-9">
+                    <input type="text" disabled class="form-control form-control-sm" name="company_name"
+                           value="{{ $projectInfo['company_name'] ?? '' }}">
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <label class="col-sm-3 col-form-label">Дата поступления проекта</label>
+                <div class="col-sm-9">
+                    <input type="date" class="form-control form-control-sm" name="start_date_project"
+                           disabled value="{{ $projectInfo['start_date_project'] ?? '' }}">
+                </div>
+            </div>
+
+            <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Менеджер</label>
                 <div class="col-sm-9">
                     <select class="form-select form-select-sm select-2" name="manager_id" disabled>
@@ -327,10 +351,25 @@
             </div>
 
             <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Дата поступления проекта</label>
+                <label class="col-sm-3 col-form-label">Автор в проекте</label>
                 <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" name="start_date_project"
-                           disabled value="{{ $projectInfo['start_date_project'] ?? '' }}">
+                    <select class="form-control form-control-sm select-2" multiple name="author_id[]"
+                            disabled>
+                        @foreach ($authors as $author)
+                            <option
+                                @if(in_array($author['id'], collect($projectInfo['project_author'])->pluck('id')->toArray()))
+                                    selected
+                                @endif value="{{$author['id']}}">{{$author['full_name']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Команда проекта</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="project_team"
+                           value="{{ $projectInfo['project_team'] ?? '' }}" disabled>
                 </div>
             </div>
 
@@ -365,86 +404,11 @@
                 </div>
             </div>
 
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Команда проекта</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="project_team"
-                           value="{{ $projectInfo['project_team'] ?? '' }}" disabled>
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Дата последнего контакта</label>
-                <div class="col-sm-9">
-                    <input disabled type="date" value="{{$projectInfo['date_last_change']}}"
-                           class="form-control form-control-sm" name="date_last_change">
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Перспектива проекта</label>
-                <div class="col-sm-9">
-                    <textarea type="text" rows="2"
-                              class="form-control form-control-sm @if(!\App\Helpers\UserHelper::isAdmin()) block @endif "
-                              name="project_status_text"
-                              placeholder="Укажите комментарий к проекту"
-                              disabled>{{ $projectInfo['project_status_text'] ?? '' }}</textarea>
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Состояние проекта</label>
-                <div class="col-sm-9">
-                    <select class="form-control form-control-sm" name="status_id" required disabled>
-                        @foreach ($statuses as $status)
-                            <option value="{{$status['id']}}"
-                                    @if($status['id'] == $projectInfo['status_id'])
-                                        selected
-                                @endif
-                            >{{$status['name']}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Название проекта</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="project_name" required disabled
-                           value="{{ $projectInfo['project_name'] ?? '' }}">
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Название компании (Бренда)</label>
-                <div class="col-sm-9">
-                    <input type="text" disabled class="form-control form-control-sm" name="company_name"
-                           value="{{ $projectInfo['company_name'] ?? '' }}">
-                </div>
-            </div>
-
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Ссылка на сайт</label>
                 <div class="col-sm-9">
                     <input disabled type="text" value="{{ $projectInfo['link_site'] }}"
                            class="form-control form-control-sm" name="link_site">
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Сфера бизнеса</label>
-                <div class="col-sm-9">
-                    <textarea type="text" disabled
-                              class="form-control form-control-sm"
-                              name="business_area">{{ $projectInfo['business_area'] }}</textarea>
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Продукт, который продает компания</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="product_company" disabled
-                           value="{{ $projectInfo['product_company'] ?? '' }}">
                 </div>
             </div>
 
@@ -466,6 +430,31 @@
             </div>
 
             <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Площадка размещения нашего контента</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="content_public_platform" disabled
+                           value="{{ $projectInfo['content_public_platform'] ?? '' }}">
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <label class="col-sm-3 col-form-label">Сфера бизнеса</label>
+                <div class="col-sm-9">
+                    <textarea type="text" disabled
+                              class="form-control form-control-sm"
+                              name="business_area">{{ $projectInfo['business_area'] }}</textarea>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Продукт, который продает компания</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="product_company" disabled
+                           value="{{ $projectInfo['product_company'] ?? '' }}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Задача заказчика</label>
                 <div class="col-sm-9">
                     <textarea disabled class="form-control form-control-sm" style="resize: vertical!important;"
@@ -478,14 +467,6 @@
                 <div class="col-sm-9">
                     <textarea disabled class="form-control form-control-sm" style="resize: vertical!important;"
                               name="type_task">{{ $projectInfo['type_task'] ?? '' }}</textarea>
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Площадка размещения нашего контента</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="content_public_platform" disabled
-                           value="{{ $projectInfo['content_public_platform'] ?? '' }}">
                 </div>
             </div>
 
@@ -514,6 +495,50 @@
                 </div>
             </div>
 
+            <div class="row mb-2">
+                <label class="col-sm-3 col-form-label">Состояние проекта</label>
+                <div class="col-sm-9">
+                    <select class="form-control form-control-sm" name="status_id" required disabled>
+                        @foreach ($statuses as $status)
+                            <option value="{{$status['id']}}"
+                                    @if($status['id'] == $projectInfo['status_id'])
+                                        selected
+                                @endif
+                            >{{$status['name']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <label class="col-sm-3 col-form-label">Текущие задачи</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
+                              placeholder="Комментарий"
+                              disabled>{{ $projectInfo['comment'] ?? '' }}</textarea>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Напоминание</label>
+                <div class="col-sm-9">
+                    <input type="date" disabled
+                           class="form-control form-control-sm" name="date_connect_with_client"
+                           value="{{$projectInfo['date_connect_with_client']}}">
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <label class="col-sm-3 col-form-label">План на месяц</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="2"
+                              class="form-control form-control-sm @if(!\App\Helpers\UserHelper::isAdmin()) block @endif "
+                              name="project_status_text"
+                              placeholder="Укажите комментарий к проекту"
+                              disabled>{{ $projectInfo['project_status_text'] ?? '' }}</textarea>
+                </div>
+            </div>
+
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Созвон</label>
                 <div class="col-sm-9">
@@ -523,43 +548,19 @@
             </div>
 
             <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Назначить авторов</label>
+                <label class="col-sm-3 col-form-label">Дата последнего контакта</label>
                 <div class="col-sm-9">
-                    <select class="form-control form-control-sm select-2" multiple name="author_id[]"
-                            disabled>
-                        @foreach ($authors as $author)
-                            <option
-                                @if(in_array($author['id'], collect($projectInfo['project_author'])->pluck('id')->toArray()))
-                                    selected
-                                @endif value="{{$author['id']}}">{{$author['full_name']}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <label class="col-sm-3 col-form-label">Состояние проекта</label>
-                <div class="col-sm-9">
-                    <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
-                              placeholder="Комментарий"
-                              disabled>{{ $projectInfo['comment'] ?? '' }}</textarea>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Дата связи с клиентом</label>
-                <div class="col-sm-9">
-                    <input type="date" disabled
-                           class="form-control form-control-sm" name="date_connect_with_client"
-                           value="{{$projectInfo['date_connect_with_client']}}">
+                    <input disabled type="date" value="{{$projectInfo['date_last_change']}}"
+                           class="form-control form-control-sm" name="date_last_change">
                 </div>
             </div>
 
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
-                Доп. информация для услуг
+                Для спецпроектов
             </div>
+
             <hr class="bg-black">
 
 
@@ -713,7 +714,7 @@
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
-                Дополнительная информация
+                Договор, ЭДО, NDA
             </div>
 
             <hr class="bg-black">

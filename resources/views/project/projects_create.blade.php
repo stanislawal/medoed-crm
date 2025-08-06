@@ -24,6 +24,32 @@
             <hr class="bg-black">
 
             <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Название проекта <span class="text-danger">*</span></label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" required name="project_name">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Название компании (Бренда)</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="company_name">
+                    <label class="form-check-label mt-1 user-select-none" style="padding-left: 20px;">
+                        <input class="form-check-input parse_check" type="checkbox" value="" name="company_name_parse">
+                        <span class="form-check-sign">Перенести с заказчика</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Дата поступления проекта</label>
+                <div class="col-sm-9">
+                    <input type="date" class="form-control form-control-sm" name="start_date_project"
+                           value="{{ now()->format('Y-m-d') }}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Менеджер</label>
                 <div class="col-sm-9">
                     <select class="form-select form-select-sm" name="manager_id">
@@ -36,10 +62,21 @@
             </div>
 
             <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Дата поступления проекта</label>
+                <label class="col-sm-3 col-form-label">Автор в проекте</label>
                 <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" name="start_date_project"
-                           value="{{ now()->format('Y-m-d') }}">
+                    <select class="form-select form-select-sm select-2" multiple name="author_id[]">
+                        <option value="">Не выбрано</option>
+                        @foreach ($authors as $author)
+                            <option value="{{$author['id']}}">{{$author['full_name']}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Команда проекта</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="project_team">
                 </div>
             </div>
 
@@ -67,62 +104,6 @@
                 </div>
             </div>
 
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Команда проекта</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="project_team">
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Дата последнего контакта</label>
-                <div class="col-sm-9">
-                    <input type="date"
-                           class="form-control form-control-sm" name="date_last_change">
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Перспектива проекта</label>
-                <div class="col-sm-9">
-                    <textarea type="text" rows="2" class="form-control form-control-sm" name="project_status_text"
-                              placeholder="Укажите комментарий к проекту"></textarea>
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Состояние проекта <span class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <select class="form-control form-control-sm" required name="status_id" id="">
-                        @foreach ($statuses as $status)
-                            <option value="{{$status['id']}}"
-                                    @if($status['id'] == \App\Constants\StatusConstants::DRAFT)
-                                        selected
-                                @endif
-                            >{{$status['name']}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Название проекта <span class="text-danger">*</span></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" required name="project_name">
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Название компании (Бренда)</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="company_name">
-                    <label class="form-check-label mt-1 user-select-none" style="padding-left: 20px;">
-                        <input class="form-check-input parse_check" type="checkbox" value="" name="company_name_parse">
-                        <span class="form-check-sign">Перенести с заказчика</span>
-                    </label>
-                </div>
-            </div>
-
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label">Ссылка на сайт</label>
                 <div class="col-sm-9">
@@ -131,6 +112,28 @@
                         <input class="form-check-input parse_check" type="checkbox" value="" name="link_site_parse">
                         <span class="form-check-sign">Перенести с заказчика</span>
                     </label>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Ссылка на ресурсы компании (соцсети, каналы)</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="link_to_resources">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">СМИ в которых были публикации/ссылки</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm"
+                           name="mass_media_with_publications">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Площадка размещения нашего контента</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="content_public_platform">
                 </div>
             </div>
 
@@ -153,21 +156,6 @@
             </div>
 
             <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Ссылка на ресурсы компании (соцсети, каналы)</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="link_to_resources">
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">СМИ в которых были публикации/ссылки</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm"
-                           name="mass_media_with_publications">
-                </div>
-            </div>
-
-            <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Задача заказчика</label>
                 <div class="col-sm-9">
                     <textarea class="form-control form-control-sm" style="resize: vertical!important;"
@@ -180,13 +168,6 @@
                 <div class="col-sm-9">
                     <textarea class="form-control form-control-sm" style="resize: vertical!important;"
                               name="type_task"></textarea>
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Площадка размещения нашего контента</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="content_public_platform">
                 </div>
             </div>
 
@@ -215,26 +196,22 @@
             </div>
 
             <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Созвон</label>
+                <label class="col-sm-3 col-form-label">Состояние проекта <span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" name="call_up">
-                </div>
-            </div>
-
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Назначить авторов</label>
-                <div class="col-sm-9">
-                    <select class="form-select form-select-sm select-2" multiple name="author_id[]">
-                        <option value="">Не выбрано</option>
-                        @foreach ($authors as $author)
-                            <option value="{{$author['id']}}">{{$author['full_name']}}</option>
+                    <select class="form-control form-control-sm" required name="status_id" id="">
+                        @foreach ($statuses as $status)
+                            <option value="{{$status['id']}}"
+                                    @if($status['id'] == \App\Constants\StatusConstants::DRAFT)
+                                        selected
+                                @endif
+                            >{{$status['name']}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
 
             <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Состояние проекта</label>
+                <label class="col-sm-3 col-form-label">Текущие задачи</label>
                 <div class="col-sm-9">
                     <textarea type="text" rows="2" class="form-control form-control-sm" name="comment"
                               placeholder="Комментарий"></textarea>
@@ -242,17 +219,41 @@
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label">Дата связи с клиентом</label>
+                <label class="col-sm-3 col-form-label">Напоминание</label>
                 <div class="col-sm-9">
                     <input type="date"
                            class="form-control form-control-sm" name="date_connect_with_client">
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">План на месяц</label>
+                <div class="col-sm-9">
+                    <textarea type="text" rows="2" class="form-control form-control-sm" name="project_status_text"
+                              placeholder="Укажите комментарий к проекту"></textarea>
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Созвон</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="call_up">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дата последнего контакта</label>
+                <div class="col-sm-9">
+                    <input type="date"
+                           class="form-control form-control-sm" name="date_last_change">
+                </div>
+            </div>
+
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
-                Доп. информация для услуг
+                Для спецпроектов
             </div>
             <hr class="bg-black">
 
@@ -396,7 +397,7 @@
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
-                Дополнительная информация
+                Договор, ЭДО, NDA
             </div>
 
             <hr class="bg-black">
