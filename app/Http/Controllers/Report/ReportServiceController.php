@@ -38,7 +38,8 @@ class ReportServiceController extends Controller
                 'leadingSpecialist',
                 'monthlyAccruals' => function ($query) use ($startDate, $endDate) {
                     $query->whereBetween('monthly_accruals.date', [$startDate, $endDate]);
-                }
+                },
+                'services.serviceType'
             ])
             ->from('projects')
             ->whereHas('services')

@@ -97,8 +97,8 @@
 
                         <tr>
                             <th></th>
-                            <th>ID</th>
                             <th>Проекта</th>
+                            <th>Отдел</th>
                             <th>Контрагент</th>
                             <th>Тема проекта</th>
                             <th>Отчетная дата</th>
@@ -122,8 +122,19 @@
                                         <i class="fas fa-grip-horizontal"></i>
                                     </a>
                                 </td>
-                                <td>{{ $item['id'] }}</td>
                                 <td>{{ $item['project_name'] }}</td>
+                                <td>
+                                   <div class="d-flex flex-wrap gap-1">
+                                       @foreach($item->services as $i => $service)
+                                           @if($i === 0 || $service->serviceType->id !== $item->services[$i-1]->serviceType->id)
+                                               <div class="select-2-custom-state-color"
+                                                    style="background-color: {{ $service->serviceType->color }}">
+                                                   {{ $service->serviceType->name }}
+                                               </div>
+                                           @endif
+                                       @endforeach
+                                   </div>
+                                </td>
                                 <td>{{ $item['legal_name_company'] }}</td>
                                 <td>{{ $item['project_theme_service'] }}</td>
                                 <td>{{ $item['reporting_data'] }}</td>
@@ -141,10 +152,13 @@
                                 </td>
                                 <td>
                                     @if($item['leadingSpecialist'])
-                                        <span class="select-2-custom-state-color" style="background-color: {{ $item['leadingSpecialist']['color'] ?? '' }}">
+                                        <span class="select-2-custom-state-color"
+                                              style="background-color: {{ $item['leadingSpecialist']['color'] ?? '' }}">
                                             {{ $item['leadingSpecialist']['name'] ?? '-' }}
                                         </span>
-                                    @else - @endif
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td>{{ $item->projectUser?->minName ?? '-' }}</td>
                                 <td>{{ $item['region'] }}</td>
@@ -169,12 +183,12 @@
 
     <script>
 
-        $('.input_amount').change(function(){
+        $('.input_amount').change(function () {
             let date = '{{ request()->month ?? now()->format('Y-m') }}'
             let amount = $(this).val();
             let projectId = $(this).data('project-id');
 
-            if(amount !== ''){
+            if (amount !== '') {
                 ajax('post', {data: date, project_id: projectId, amount: amount})
             }
         })

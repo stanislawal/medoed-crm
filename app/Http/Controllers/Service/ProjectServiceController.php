@@ -44,8 +44,7 @@ class ProjectServiceController extends Controller
             'projects'        => $projects,
             'service_type'    => ServiceType::on()->get(),
             'specialists'     => SpecialistService::on()->get(),
-            'creater'         => $creater
-        ]);
+            'creater'         => $creater]);
     }
 
     public function store(CreateRequest $request)
