@@ -124,18 +124,18 @@
                                 </td>
                                 <td>{{ $item['project_name'] }}</td>
                                 <td>
-                                   <div class="d-flex flex-wrap gap-1">
-                                       @foreach($item->services as $i => $service)
-                                           @if($i === 0 || $service->serviceType->id !== $item->services[$i-1]->serviceType->id)
-                                               <div class="select-2-custom-state-color"
-                                                    style="background-color: {{ $service->serviceType->color }}">
-                                                   {{ $service->serviceType->name }}
-                                               </div>
-                                           @endif
-                                       @endforeach
-                                   </div>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        @foreach($item->services as $i => $service)
+                                            @if($i === 0 || $service->serviceType->id !== $item->services[$i-1]->serviceType->id)
+                                                <div class="select-2-custom-state-color"
+                                                     style="background-color: {{ $service->serviceType->color }}">
+                                                    {{ $service->serviceType->name }}
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 </td>
-                                <td>{{ $item['legal_name_company'] }}</td>
+                                <td style="max-width: 180px;">{{ $item['legal_name_company'] }}</td>
                                 <td>{{ $item['project_theme_service'] }}</td>
                                 <td>{{ $item['reporting_data'] }}</td>
 
@@ -162,7 +162,12 @@
                                 </td>
                                 <td>{{ $item->projectUser?->minName ?? '-' }}</td>
                                 <td>{{ $item['region'] }}</td>
-                                <td style="max-width: 300px; word-break: break-word;">{{ $item['passport_to_work_plan'] }}</td>
+                                <td>
+                                    @if($item['passport_to_work_plan'])
+                                        <a href="{{ $item['passport_to_work_plan'] }}" target="_blank"
+                                           class="text-primary">Перейти</a>
+                                    @endif
+                                </td>
                                 <td class="text-center">{{ $item['hours'] + 0 }}</td>
                             </tr>
                         @endforeach
