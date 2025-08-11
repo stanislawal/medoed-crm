@@ -294,7 +294,34 @@
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Часы</label>
+                <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="number" name="hours">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Общая сумма договора</label>
+                <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="number" name="total_amount_agreement">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Ведущий специалист</label>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm select2-with-color" name="leading_specialist_id">
+                        <option value="">Не выбрано</option>
+                        @foreach($specialists as $item)
+                            <option data-color="{{ $item->color }}" value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <hr class="bg-black">
+
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">
                 Условия оплаты
             </div>

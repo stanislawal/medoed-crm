@@ -380,6 +380,7 @@
                                 <th class="sort-p">@include('components.table.sort', ['title' => 'Прописать лиду', 'column' => 'date_write_lid', 'routeName' => 'lid.index'] )</th>
                                 <th class="sort-p"
                                     style="min-width: 145px;">@include('components.table.sort', ['title' => 'Аудит', 'column' => 'audit_id', 'routeName' => 'lid.index'] )</th>
+                                <th style="min-width: 80px;">Дата<br>сдачи<br>аудита</th>
                                 <th style="min-width: 200px;">Статус спец. / Состояние спец.</th>
                                 <th style="min-width: 120px;">Задача спец.</th>
                                 <th style="min-width: 125px;">Созвон</th>
@@ -501,6 +502,11 @@
                                                     {{ $lid->audit_id == $item->id ? 'selected' : '' }} data-color="{{ $item->color }}">{{ $item->name }}</option>
                                             @endforeach
                                         </select>
+                                    </td>
+                                    <td>
+                                        <input style="width: 107px;" type="date" class="form-control form-control-sm"
+                                               name="date_report_audit"
+                                               value="{{ $lid->date_report_audit }}">
                                     </td>
                                     <td>
                                         <select class="form-select form-select-sm select2-with-color-t"

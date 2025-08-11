@@ -123,7 +123,8 @@
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Приоритет</label>
-                            <select class="form-control border form-control-sm select-2" multiple title="Пожалуйста, выберите"
+                            <select class="form-control border form-control-sm select-2" multiple
+                                    title="Пожалуйста, выберите"
                                     name="style_id[]">
                                 <option value="">Не выбрано</option>
                                 @foreach ($priorities as $priority)
@@ -189,6 +190,18 @@
                                         {{ $item['name'] }}
                                     </option>
                                 @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Проекты с 0 цены клиента</label>
+                            <select class="form-control border form-control-sm"
+                                    title="Пожалуйста, выберите"
+                                    name="price_client"
+                            >
+                                <option value="">Не выбрано</option>
+                                <option value="without_zero" @if((request()->price_client ?? null) == 'without_zero') selected @endif>Только без 0 (цена клиента)</option>
+                                <option value="only_zero" @if((request()->price_client ?? null) == 'only_zero') selected @endif>Только с 0 (цена клиента)</option>
                             </select>
                         </div>
 
@@ -408,7 +421,11 @@
                                             {{ number_format($item['finish_duty'] + $item['duty'] + $item['remainder_duty'] ?? '-', 2, '.', ' ') }}
                                         </span>
                                 </td>
-                                <td class="nowrap" @if(!$item['count_payment']) style="background-color: #ff00000f; color: red;" @endif title="Не было оплат более 14 дней">{{ $item['project_name'] ?? '-' }} @if(!$item['count_payment'])<i class="ms-2 fas fa-credit-card"></i>@endif</td>
+                                <td class="nowrap"
+                                    @if(!$item['count_payment']) style="background-color: #ff00000f; color: red;"
+                                    @endif title="Не было оплат более 14 дней">{{ $item['project_name'] ?? '-' }} @if(!$item['count_payment'])
+                                        <i class="ms-2 fas fa-credit-card"></i>
+                                    @endif</td>
                                 <td>{{ $item['projectTheme']['name'] ?? '' }}</td>
                                 <td>{{ $item['projectStyle']['name'] ?? '-' }}</td>
                                 <td>

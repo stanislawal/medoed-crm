@@ -40,7 +40,8 @@ class Lid extends Model
         'region', // регион
         'price', // цена
         'business_are', // сфера бизнеса
-        'create_user_id' // кто создал
+        'create_user_id', // кто создал
+        'date_report_audit' // дата сдачи аудита
     ];
 
     public $timestamps = true;

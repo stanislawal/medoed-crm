@@ -219,7 +219,7 @@ class LidController extends Controller
             'lid_status_id'        => ['required', 'integer'],
             'state'                => ['nullable', 'string', 'max:500'],
             'location_dialogue_id' => ['nullable', 'integer'],
-            'link_lid'             => ['nullable', 'string', 'max:500']
+            'link_lid'             => ['nullable', 'string', 'max:500'],
         ]);
 
         $attr['create_user_id'] = UserHelper::getUserId();
@@ -269,7 +269,8 @@ class LidController extends Controller
             'link_to_site'             => ['nullable', 'string', 'max:100'],
             'region'                   => ['nullable', 'string', 'max:100'],
             'price'                    => ['nullable', 'string', 'max:256'],
-            'business_are'             => ['nullable', 'string', 'max:100']
+            'business_are'             => ['nullable', 'string', 'max:100'],
+            'date_report_audit'        => ['nullable', 'date'],
         ]);
 
         $this->auditCheck($request, $attr);
@@ -331,7 +332,8 @@ class LidController extends Controller
                 'region'                   => ['nullable', 'string', 'max:100'],
                 'price'                    => ['nullable', 'string', 'max:256'],
                 'business_are'             => ['nullable', 'string', 'max:100'],
-                'date_write_lid'           => ['nullable', 'date']
+                'date_write_lid'           => ['nullable', 'date'],
+                'date_report_audit'        => ['nullable', 'date'],
             ]);
 
             $this->auditCheck($request, $attr);

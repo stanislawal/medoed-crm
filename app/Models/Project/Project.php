@@ -10,10 +10,12 @@ use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Cross\CrossProjectClient;
 use App\Models\Requisite;
 use App\Models\Service\Service;
+use App\Models\Service\SpecialistService;
 use App\Models\Status;
 use App\Models\StatusPaymentProject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Project extends Model
 {
@@ -78,9 +80,34 @@ class Project extends Model
         'terms_payment', // условия оплаты
         'region', // регион
         'passport_to_work_plan', // паспорт на план работы
+
+        'hours', // часы работы
+        'total_amount_agreement', // общая сумма договора
+        'leading_specialist_id' // ведущий специалист
     ];
 
     public $timestamps = true;
+
+    public function getCountMonthWorkAttribute()
+    {
+        // Получаем дату самой ранней услуги по связи services
+        $firstServiceDate = $this->services()
+            ->orderBy('created_at', 'asc')
+            ->value('created_at');
+
+        if (!$firstServiceDate) {
+            return null; // услуг нет, месяц работы определить нельзя
+        }
+
+        $start = Carbon::parse($firstServiceDate);
+
+        $diffYears = (int)now()->format('Y') - (int)$start->format('Y');
+        $diffMonths = (int)now()->format('m') - (int)$start->format('m');
+
+        $months = $diffYears * 12 + $diffMonths + 1; // +1 для частичного месяца
+
+        return $months;
+    }
 
     public function projectEvent()
     {
@@ -174,6 +201,16 @@ class Project extends Model
     public function services()
     {
         return $this->hasMany(Service::class, 'project_id');
+    }
+
+    public function leadingSpecialist()
+    {
+        return $this->belongsTo(SpecialistService::class, 'leading_specialist_id');
+    }
+
+    public function monthlyAccruals()
+    {
+        return $this->hasMany(MonthlyAccrual::class, 'project_id');
     }
 
 }

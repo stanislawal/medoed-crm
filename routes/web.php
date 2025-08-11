@@ -16,11 +16,12 @@ use App\Http\Controllers\Option\StatusPaymentController;
 use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\PaymentAuthor\PaymentAuthorController;
 use App\Http\Controllers\Project\FilesProjectController;
+use App\Http\Controllers\Project\MonthlyAccrualController;
 use App\Http\Controllers\Project\ProjectEventController;
 use App\Http\Controllers\Rate\RateController;
 use App\Http\Controllers\Report\ReportAuthorController;
 use App\Http\Controllers\Report\ReportClientController;
-use App\Http\Controllers\Report\ReportService;
+use App\Http\Controllers\Report\ReportServiceController;
 use App\Http\Controllers\Report\ReportRedactorController;
 use App\Http\Controllers\Report\WorkloadController;
 use App\Http\Controllers\Service\ProjectServiceController;
@@ -141,8 +142,8 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     Route::get('report_workload', [WorkloadController::class, 'index'])->name('report_workload');
     Route::get('report_client_project/{project}', [ReportClientController::class, 'show'])->name('client_project.show');
 
-    Route::get('report-service', [ReportService:: class, 'index'])->name('report_service.index');
-    Route::get('report-service/{project_id}', [ReportService::class, 'show'])->name('report_service.show');
+    Route::get('report-service', [ReportServiceController:: class, 'index'])->name('report_service.index');
+    Route::get('report-service/{project_id}', [ReportServiceController::class, 'show'])->name('report_service.show');
     #----------------------------------------ОТЧЕТЫ----------------------------------------
 
     #----------------------------------------Файлы----------------------------------------
@@ -167,7 +168,6 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     });
     #----------------------------------------ОПЛАТА----------------------------------------
 
-
     #----------------------------------------ОПЛАТА АВТОРУ----------------------------------------
     Route::middleware('role:Администратор')->prefix('payment-author')->group(function () {
         // создать оплату
@@ -178,7 +178,6 @@ Route::middleware(['auth', 'is_work'])->group(function () {
         Route::get('/delete/{id}', [PaymentAuthorController::class, 'delete'])->name('author_payment.delete');
     });
     #----------------------------------------ОПЛАТА АВТОРУ----------------------------------------
-
 
     #----------------------------------------УВЕДОМЛЕНИЯ----------------------------------------
     Route::prefix('notification')->group(function () {
@@ -194,11 +193,9 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     Route::resource('project-event', ProjectEventController::class)->only(['store', 'destroy']);
     #----------------------------------------СОБЫТИЕ ДЛЯ ПРОЕКТА----------------------------------------
 
-
     #----------------------------------------ПОЛЬЗОВАТЕЛИ ОНЛАЙН----------------------------------------
     Route::post('user-active', [UserController::class, 'userActive']);
     #----------------------------------------ПОЛЬЗОВАТЕЛИ ОНЛАЙН----------------------------------------
-
 
     #-----------------------------------ЭКСПОРТ В ЭКСЕЛЬ----------------------------------------
     Route::get('report/client/export', [ReportClientController::class, 'exportAll'])->name('report.client_all');
@@ -217,7 +214,7 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     #-----------------------------------УСЛУГИ----------------------------------------
     Route::middleware('role:Администратор|Менеджер')->group(function () {
         Route::resource('project-service', ProjectServiceController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::post('monthly-accrual', [MonthlyAccrualController::class, 'updateOrCreate'])->name('monthly_accrual.update');
     });
     #-----------------------------------УСЛУГИ----------------------------------------
-
 });

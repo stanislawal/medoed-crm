@@ -87,6 +87,14 @@
             @endforeach
         </select>
     </div>
+
+    <div class="form-group">
+        <label for="" class="form-label">Дата сдачи аудита</label>
+        <input type="date" class="form-control form-control-sm"
+               name="date_report_audit"
+               value="{{ $lid->date_report_audit }}">
+    </div>
+
     <div class="form-group">
         <label for="" class="form-label">Задача специалиста</label>
         <select class="form-select form-select-sm" name="specialist_task_id" id="">

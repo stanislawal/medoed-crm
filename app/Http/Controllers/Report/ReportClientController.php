@@ -195,6 +195,26 @@ class ReportClientController extends Controller
         }, function (Builder $orderBy) {
             $orderBy->orderByDesc('id');
         });
+
+        // фильтр показать скрыть проекты вс 0 цены в клиенте
+        $reports->when(!empty($request->price_client), function (Builder $where) use ($request) {
+
+            if($request->price_client == 'only_zero'){
+                $where->where('projects.sum_price_client', '==', 0)
+                    ->where('projects.count_articles', '>', 0);
+            }
+
+            if($request->price_client == 'without_zero'){
+                $where->where(function ($query) use ($request) {
+
+                    $query->where('projects.count_articles', 0)
+                        ->orWhere(function ($query) use ($request) {
+                            $query->where('projects.sum_price_client', '!=', 0)
+                                ->where('projects.count_articles', '>', 0);
+                        });
+                });
+            }
+        });
     }
 
     /**

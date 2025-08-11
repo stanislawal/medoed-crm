@@ -600,6 +600,32 @@
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Часы</label>
+                <div class="col-sm-9">
+                    <input disabled class="form-control form-control-sm" type="number" name="hours" value="{{ $projectInfo['hours'] + 0 }}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Общая сумма договора</label>
+                <div class="col-sm-9">
+                    <input disabled class="form-control form-control-sm" type="number" name="total_amount_agreement" value="{{ $projectInfo['total_amount_agreement'] + 0 }}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Ведущий специалист</label>
+                <div class="col-sm-9">
+                    <select disabled class="form-select form-select-sm select2-with-color" name="leading_specialist_id">
+                        <option value="">Не выбрано</option>
+                        @foreach($specialists as $item)
+                            <option @if($projectInfo['leading_specialist_id'] == $item->id) selected @endif data-color="{{ $item->color }}" value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">

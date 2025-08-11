@@ -20,6 +20,7 @@ use App\Models\Project\Project;
 use App\Models\Project\Style;
 use App\Models\Project\Theme;
 use App\Models\Requisite;
+use App\Models\Service\SpecialistService;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -146,14 +147,15 @@ class ProjectController extends Controller
 
         //передаем данные в view
         return view('project.projects_create', [
-            'statuses'  => $statuses,
-            'moods'     => $moods,
-            'themes'    => $themes,
-            'clients'   => $clients,
-            'style'     => $style,
-            'managers'  => $managers,
-            'authors'   => $authors,
-            'requisite' => $requisite,
+            'statuses'    => $statuses,
+            'moods'       => $moods,
+            'themes'      => $themes,
+            'clients'     => $clients,
+            'style'       => $style,
+            'managers'    => $managers,
+            'authors'     => $authors,
+            'requisite'   => $requisite,
+            'specialists' => SpecialistService::on()->get(),
         ]);
     }
 
@@ -210,6 +212,9 @@ class ProjectController extends Controller
                 'terms_payment'                    => $request->terms_payment ?? null,
                 'region'                           => $request->region ?? null,
                 'passport_to_work_plan'            => $request->passport_to_work_plan ?? null,
+                'hours'                            => $request->hours ?? null,
+                'total_amount_agreement'           => $request->total_amount_agreement ?? null,
+                'leading_specialist_id'            => $request->leading_specialist_id ?? null,
             ];
 
             $project = Project::on()->create($attr);
@@ -359,7 +364,8 @@ class ProjectController extends Controller
             'notifiProject' => $notifiProject,
             'projectClient' => $projectClient,
             'requisite'     => $requisite,
-            'sourceClients' => $sourceClients
+            'sourceClients' => $sourceClients,
+            'specialists'     => SpecialistService::on()->get(),
         ]);
     }
 
@@ -418,6 +424,9 @@ class ProjectController extends Controller
             'terms_payment'                    => $request->terms_payment ?? null,
             'region'                           => $request->region ?? null,
             'passport_to_work_plan'            => $request->passport_to_work_plan ?? null,
+            'hours'                            => $request->hours ?? null,
+            'total_amount_agreement'           => $request->total_amount_agreement ?? null,
+            'leading_specialist_id'            => $request->leading_specialist_id ?? null,
         ];
 
         if (UserHelper::isAdmin()) {

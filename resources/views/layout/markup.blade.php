@@ -312,6 +312,12 @@
                                         </a>
                                     </li>
 
+                                    <li>
+                                        <a href="{{ route('report_service.index') }}">
+                                            <span class="sub-item">Услуги</span>
+                                        </a>
+                                    </li>
+
                                     @endrole
 
                                     @unlessrole('Автор')

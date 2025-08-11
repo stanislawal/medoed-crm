@@ -37,9 +37,11 @@ class ProjectServiceController extends Controller
             ->where('is_work', true)
             ->get();
 
+        $projects = Project::on()->select(['id', 'project_name'])->whereHas('services')->get();
+
         return view('project_service.service_index', [
             'projectServices' => $projectServices,
-            'projects'        => Project::on()->select(['id', 'project_name'])->get(),
+            'projects'        => $projects,
             'service_type'    => ServiceType::on()->get(),
             'specialists'     => SpecialistService::on()->get(),
             'creater'         => $creater

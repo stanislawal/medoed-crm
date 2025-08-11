@@ -32,7 +32,7 @@ class ClientRepositories
                 projects.requisite_id,
                 requisites.name as requisite,
                 coalesce(SUM(articles.without_space), 0) as sum_without_space,
-
+                coalesce(COUNT(articles.id), 0) as count_articles,
                 SUM(
                     CASE
                         WHEN articles.is_fixed_price_client = 1
