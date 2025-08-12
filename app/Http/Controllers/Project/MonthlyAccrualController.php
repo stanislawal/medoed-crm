@@ -11,7 +11,12 @@ class MonthlyAccrualController extends Controller
 {
     public function updateOrCreate(Request $request)
     {
-        $date = Carbon::parse($request->date)->startOfMonth()->format('Y-m-d');
+        if(!empty($request->date)){
+
+            $date = Carbon::parse($request->date)->startOfMonth()->format('Y-m-d');
+        }else{
+            $date = now()->startOfMonth()->format('Y-m-d');
+        }
 
         MonthlyAccrual::on()->updateOrCreate([
             'date' => $date,

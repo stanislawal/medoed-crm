@@ -23,7 +23,7 @@
                         <div class="col-12 col-md-4 col-lg-3 mb-3">
                             <label class="form-label" for="">Дата</label>
                             <input class="form-control form-control-sm" type="month" name="month"
-                                   value="{{ request()->month ?? "" }}">
+                                   value="{{ request()->month ?? now()->format('Y-m') }}">
                         </div>
 
                         <div class="col-12 p-0">
@@ -46,31 +46,31 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>---</strong></div>
-                            <div class="text-12 nowrap-dot">Значение:</div>
+                            <div class="text-24"><strong>{{ number_format($indicators['sum_total_amount_agreement'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                            <div class="text-12 nowrap-dot">Общая сумма договоров:</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>---</strong></div>
-                            <div class="text-12 nowrap-dot">Значение:</div>
+                            <div class="text-24"><strong>{{ number_format($indicators['sum_amount'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                            <div class="text-12 nowrap-dot">Сумма начисленйи в месяце:</div>
                         </div>
                     </div>
 
-                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
-                        <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>---</strong></div>
-                            <div class="text-12 nowrap-dot">Значение:</div>
-                        </div>
-                    </div>
+{{--                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">--}}
+{{--                        <div class="px-3 py-2 shadow border bg-white rounded">--}}
+{{--                            <div class="text-24"><strong>---</strong></div>--}}
+{{--                            <div class="text-12 nowrap-dot">Значение:</div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
-                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
-                        <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>---</strong></div>
-                            <div class="text-12 nowrap-dot">Значение:</div>
-                        </div>
-                    </div>
+{{--                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">--}}
+{{--                        <div class="px-3 py-2 shadow border bg-white rounded">--}}
+{{--                            <div class="text-24"><strong>---</strong></div>--}}
+{{--                            <div class="text-12 nowrap-dot">Значение:</div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
             </div>
         </div>
@@ -97,6 +97,7 @@
 
                         <tr>
                             <th></th>
+                            <th>ID</th>
                             <th>Проекта</th>
                             <th>Отдел</th>
                             <th>Контрагент</th>
@@ -122,6 +123,7 @@
                                         <i class="fas fa-grip-horizontal"></i>
                                     </a>
                                 </td>
+                                <td>{{ $item['id'] }}</td>
                                 <td>{{ $item['project_name'] }}</td>
                                 <td>
                                     <div class="d-flex flex-wrap gap-1">
@@ -194,7 +196,10 @@
             let projectId = $(this).data('project-id');
 
             if (amount !== '') {
-                ajax('post', {data: date, project_id: projectId, amount: amount})
+                ajax('post', {date: date, project_id: projectId, amount: amount})
+            }else{
+                $(this).val(0)
+                ajax('post', {date: date, project_id: projectId, amount: 0})
             }
         })
 

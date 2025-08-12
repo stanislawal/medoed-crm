@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project\Project;
 use App\Models\Service\Service;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ReportServiceController extends Controller
@@ -30,7 +31,8 @@ class ReportServiceController extends Controller
             (SELECT MIN(services_project.created_at)
                 FROM services_project
                 WHERE services_project.project_id = projects.id
-            ) as first_service_date
+            ) as first_service_date,
+            SUM(COALESCE(monthly_accruals.amount, 0)) as sum_amount
         ")
             ->with([
                 'projectClients',
@@ -42,11 +44,22 @@ class ReportServiceController extends Controller
                 'services.serviceType'
             ])
             ->from('projects')
-            ->whereHas('services')
-            ->paginate(20);
+            ->leftJoin('monthly_accruals', function ($query) use ($startDate, $endDate) {
+                $query->on('monthly_accruals.project_id', '=', 'projects.id')
+                    ->whereBetween('monthly_accruals.date', [$startDate, $endDate]);
+            })
+            ->groupBy('projects.id')
+            ->whereHas('services');
+
+        $indicators = $this->calculate($reports);
+
+        //        dd([$startDate, $endDate], $reports->get()->toArray());
+
+        $reports = $reports->paginate(20);
 
         return view('report.service.service_list', [
-            'reports' => $reports,
+            'reports'    => $reports,
+            'indicators' => $indicators
         ]);
     }
 
@@ -77,5 +90,16 @@ class ReportServiceController extends Controller
         }
 
         return [$startDate, $endDate];
+    }
+
+    private function calculate(Builder $reports)
+    {
+        return Project::on()->selectRaw("
+            sum(projects.total_amount_agreement) as sum_total_amount_agreement,
+            sum(projects.sum_amount) as sum_amount
+        ")
+            ->fromSub($reports, 'projects')
+            ->first()
+            ->toArray();
     }
 }
