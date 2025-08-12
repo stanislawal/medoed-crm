@@ -131,7 +131,7 @@
                                 <th style="min-width: 200px">Услуга</th>
                                 <th style="min-width: 100px">Отчетная дата</th>
                                 <th style="min-width: 100px">Условия оплаты</th>
-                                <th style="min-width: 170px">Специалисты</th>
+                                <th style="min-width: 150px">Специалисты</th>
                                 <th style="min-width: 100px">Регион продвижения</th>
                                 <th style="min-width: 100px">Общая сумма договора</th>
                                 <th style="min-width: 100px">Начислено в этом месяце</th>
@@ -220,12 +220,10 @@
                                             </option>
                                         </select>
                                     </td>
-                                    <td>
-                                        @if($item->project->passport_to_work_plan !== '')
-                                            <a class="text-primary" target="_blank"
-                                               href="{{ $item->project->passport_to_work_plan }}">{{ $item->project->passport_to_work_plan }}</a>
-                                        @else
-                                            {{ $item->project->passport_to_work_plan ?? '' }}
+                                    <td class="text-center">
+                                        @if($item->project->passport_to_work_plan)
+                                            <a href="{{ $item->project->passport_to_work_plan }}" target="_blank"
+                                               class="text-primary">Перейти</a>
                                         @endif
                                     </td>
                                     <td class="nowrap">{{ $item->createdUser->minName ?? '' }}</td>
