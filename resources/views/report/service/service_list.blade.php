@@ -46,31 +46,25 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($indicators['sum_total_amount_agreement'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                            <div class="text-24">
+                                <strong> {{ number_format($indicators['sum_amount'] + 0, 0, '.', ' ') }} ₽</strong></div>
                             <div class="text-12 nowrap-dot">Общая сумма договоров:</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($indicators['sum_amount'] + 0, 0, '.', ' ') }} ₽</strong></div>
-                            <div class="text-12 nowrap-dot">Сумма начисленйи в месяце:</div>
+                            <div class="text-24"><strong>{{ number_format($indicators['sum_accrual_this_month'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                            <div class="text-12 nowrap-dot">Сумма начислений в месяце:</div>
                         </div>
                     </div>
 
-{{--                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">--}}
-{{--                        <div class="px-3 py-2 shadow border bg-white rounded">--}}
-{{--                            <div class="text-24"><strong>---</strong></div>--}}
-{{--                            <div class="text-12 nowrap-dot">Значение:</div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
-{{--                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">--}}
-{{--                        <div class="px-3 py-2 shadow border bg-white rounded">--}}
-{{--                            <div class="text-24"><strong>---</strong></div>--}}
-{{--                            <div class="text-12 nowrap-dot">Значение:</div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24"><strong>{{ number_format($indicators['sum_duty'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                            <div class="text-12 nowrap-dot">Общий долг:</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,22 +91,25 @@
 
                         <tr>
                             <th></th>
-                            <th>ID</th>
-                            <th>Проекта</th>
                             <th>Отдел</th>
-                            <th>Контрагент</th>
-                            <th>Тема проекта</th>
+                            <th>Проект</th>
+                            <th>Долг</th>
+
+                            <th>Заказчик</th>
                             <th>Отчетная дата</th>
 
                             <th>М-ц работы</th>
-                            <th>Способ оплаты</th>
-                            <th>Общ.сум.д</th>
-                            <th>Начис.за.м</th>
+
+                            <th>Сумма дог.</th>
+                            <th>Начислено</th>
+
+                            <th>Состояние</th>
+
                             <th>Спец. в проекте</th>
                             <th>Менеджер</th>
-                            <th>Регион продвижения</th>
                             <th>Планы</th>
                             <th>Часы</th>
+                            <th>Счет оплаты</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -123,8 +120,6 @@
                                         <i class="fas fa-grip-horizontal"></i>
                                     </a>
                                 </td>
-                                <td>{{ $item['id'] }}</td>
-                                <td>{{ $item['project_name'] }}</td>
                                 <td>
                                     <div class="d-flex flex-wrap gap-1">
                                         @foreach($item->services as $i => $service)
@@ -137,14 +132,24 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td style="max-width: 180px;">{{ $item['legal_name_company'] }}</td>
-                                <td>{{ $item['project_theme_service'] }}</td>
-                                <td>{{ $item['reporting_data'] }}</td>
-
-                                <td class="text-center">{{ $item->count_month_work }}</td>
-                                <td>{{ $item['terms_payment'] }}</td>
-                                <td>{{ $item['total_amount_agreement'] + 0 }}</td>
                                 <td>
+                                    <div class="d-flex flex-nowrap">
+                                        <span> {{ $item['project_name'] }}</span>
+
+                                        <a target="_blank" class="px-3 d-flex align-items-center text-primary"
+                                           href="{{route('project.edit',['project'=> $item['id']])}}"><i
+                                                class="fas fa-external-link-alt"></i></a>
+                                    </div>
+                                </td>
+                                <td><strong>{{ number_format($item->duty + 0, 2, '.', ' ')}}</strong></td>
+                                <td style="max-width: 180px;">
+                                    @foreach ($item['projectClients'] as $client)
+                                        {{ $client['name'] }}
+                                    @endforeach
+                                </td>
+                                <td>{{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}</td>
+                                <td class="text-center">{{ $item->count_month_work }}</td>
+                                <td style="max-width: 70px;">
                                     <input type="number"
                                            class="input_amount form-control form-control-sm"
                                            data-project-id="{{$item['id']}}"
@@ -152,6 +157,8 @@
                                            value="{{ count($item['monthlyAccruals']) > 0 ?  $item['monthlyAccruals'][0]['amount'] + 0 : 0 }}"
                                     >
                                 </td>
+                                <td>{{ number_format($item->sum_accrual_this_month + 0, 2, '.', ' ') }}</td>
+                                <td>Состояние</td>
                                 <td>
                                     @if($item['leadingSpecialist'])
                                         <span class="select-2-custom-state-color"
@@ -163,7 +170,6 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->projectUser?->minName ?? '-' }}</td>
-                                <td>{{ $item['region'] }}</td>
                                 <td>
                                     @if($item['passport_to_work_plan'])
                                         <a href="{{ $item['passport_to_work_plan'] }}" target="_blank"
@@ -171,6 +177,7 @@
                                     @endif
                                 </td>
                                 <td class="text-center">{{ $item['hours'] + 0 }}</td>
+                                <td>Счет оплаты</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -197,7 +204,7 @@
 
             if (amount !== '') {
                 ajax('post', {date: date, project_id: projectId, amount: amount})
-            }else{
+            } else {
                 $(this).val(0)
                 ajax('post', {date: date, project_id: projectId, amount: 0})
             }

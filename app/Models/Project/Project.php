@@ -208,9 +208,13 @@ class Project extends Model
         return $this->belongsTo(SpecialistService::class, 'leading_specialist_id');
     }
 
+    /**
+     * сумма договора, указывается каждый месяц
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function monthlyAccruals()
     {
         return $this->hasMany(MonthlyAccrual::class, 'project_id');
     }
-
 }

@@ -607,12 +607,12 @@
                 </div>
             </div>
 
-            <div class="row mb-1">
-                <label class="col-sm-3 col-form-label">Общая сумма договора</label>
-                <div class="col-sm-9">
-                    <input disabled class="form-control form-control-sm" type="number" name="total_amount_agreement" value="{{ $projectInfo['total_amount_agreement'] + 0 }}">
-                </div>
-            </div>
+{{--            <div class="row mb-1">--}}
+{{--                <label class="col-sm-3 col-form-label">Общая сумма договора</label>--}}
+{{--                <div class="col-sm-9">--}}
+{{--                    <input disabled class="form-control form-control-sm" type="number" name="total_amount_agreement" value="{{ $projectInfo['total_amount_agreement'] + 0 }}">--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Ведущий специалист</label>

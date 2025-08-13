@@ -51,7 +51,7 @@
                                 </label>
                             </div>
                             <div class="input-group mb-3">
-                                <input class="form-control form-control-sm" type="number" step="0.1" min="0.1"
+                                <input class="form-control form-control-sm" type="number" step="0.1" min="0"
                                        name="price_author">
                                 <div class="input-group-append input-group-sm">
                                     <span class="input-group-text" id="basic-addon2">РУБ</span>
@@ -82,7 +82,7 @@
                                 </label>
                             </div>
                             <div class="input-group mb-3">
-                                <input class="form-control form-control-sm" type="number" step="0.1" min="0.1"
+                                <input class="form-control form-control-sm" type="number" step="0.1" min="0"
                                        name="price_redactor">
                                 <div class="input-group-append input-group-sm">
                                     <span class="input-group-text" id="basic-addon2">РУБ</span>
@@ -98,7 +98,7 @@
                             <label for="" class="form-label">ЗБП</label>
                             <div class="input-group mb-3">
                                 <input class="form-control form-control-sm"  type="number" step="0.1"
-                                       min="0.1"
+                                       min="0"
                                        name="without_space">
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                             </div>
                             <div class="input-group mb-3">
                                 <input class="form-control form-control-sm"  type="number" step="0.1"
-                                       min="0.1"
+                                       min="0"
                                        name="price_client">
                                 <div class="input-group-append input-group-sm">
                                     <span class="input-group-text" id="basic-addon2">РУБ</span>
