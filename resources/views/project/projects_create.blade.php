@@ -320,6 +320,13 @@
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Продвигаем сайт</label>
+                <div class="col-sm-9">
+                    <input class="form-control form-control-sm" type="text" name="promoting_website">
+                </div>
+            </div>
+
             <hr class="bg-black">
 
             <div class="text-18 font-weight-bold mb-3 text-center" style="background-color: #f1c232">

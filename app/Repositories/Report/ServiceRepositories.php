@@ -36,6 +36,8 @@ class ServiceRepositories
             projects.requisite_id,
             projects.status_id,
             projects.duty_on_services,
+            projects.data_start_work,
+            projects.promoting_website,
             (SELECT MIN(services_project.created_at)
                 FROM services_project
                 WHERE services_project.project_id = projects.id

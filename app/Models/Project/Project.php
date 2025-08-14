@@ -84,7 +84,9 @@ class Project extends Model
         'hours', // часы работы
         'total_amount_agreement', // общая сумма договора
         'leading_specialist_id', // ведущий специалист
-        'duty_on_services' // долг по услугам
+        'duty_on_services', // долг по услугам
+        'data_start_work', // указание даты с которой работает проект (одноразово)
+        'promoting_website' // продвигаем сайт
     ];
 
     public $timestamps = true;
@@ -96,11 +98,11 @@ class Project extends Model
             ->orderBy('created_at', 'asc')
             ->value('created_at');
 
-        if (!$firstServiceDate) {
+        if (!$firstServiceDate && is_null($this->data_start_work)) {
             return null; // услуг нет, месяц работы определить нельзя
         }
 
-        $start = Carbon::parse($firstServiceDate);
+        $start = Carbon::parse($this->data_start_work ?? $firstServiceDate);
 
         $diffYears = (int)now()->format('Y') - (int)$start->format('Y');
         $diffMonths = (int)now()->format('m') - (int)$start->format('m');

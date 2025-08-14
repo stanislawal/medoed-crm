@@ -213,6 +213,7 @@ class ProjectController extends Controller
                 'hours'                            => $request->hours ?? null,
                 'total_amount_agreement'           => $request->total_amount_agreement ?? null,
                 'leading_specialist_id'            => $request->leading_specialist_id ?? null,
+                'promoting_website'                => $request->promoting_website ?? null,
             ];
 
             $project = Project::on()->create($attr);
@@ -363,7 +364,7 @@ class ProjectController extends Controller
             'projectClient' => $projectClient,
             'requisite'     => $requisite,
             'sourceClients' => $sourceClients,
-            'specialists'     => SpecialistService::on()->get(),
+            'specialists'   => SpecialistService::on()->get(),
         ]);
     }
 
@@ -425,6 +426,7 @@ class ProjectController extends Controller
             'hours'                            => $request->hours ?? null,
             'total_amount_agreement'           => $request->total_amount_agreement ?? null,
             'leading_specialist_id'            => $request->leading_specialist_id ?? null,
+            'promoting_website'                => $request->promoting_website ?? null,
         ];
 
         if (UserHelper::isAdmin()) {

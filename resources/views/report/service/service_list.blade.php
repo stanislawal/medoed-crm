@@ -100,7 +100,7 @@
                             <th>Долг</th>
                             <th>+ долг</th>
 
-                            <th>Заказчик</th>
+                            <th>Контрагент</th>
                             <th>Отчетная дата</th>
 
                             <th>М-ц работы</th>
@@ -113,6 +113,7 @@
                             <th>Спец. в проекте</th>
                             <th>Менеджер</th>
                             <th>Планы</th>
+                            <th>Продвигаем сайт</th>
                             <th>Часы</th>
                             <th>Счет оплаты</th>
                         </tr>
@@ -156,11 +157,7 @@
                                            value="{{ $item['duty_on_services'] + 0 }}"
                                     >
                                 </td>
-                                <td style="max-width: 180px;">
-                                    @foreach ($item['projectClients'] as $client)
-                                        {{ $client['name'] }}
-                                    @endforeach
-                                </td>
+                                <td style="max-width: 180px;">{{ $item->legal_name_company }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}</td>
                                 <td class="text-center">{{ $item->count_month_work }}</td>
                                 <td>
@@ -212,6 +209,7 @@
                                            class="text-primary">Перейти</a>
                                     @endif
                                 </td>
+                                <td>{{ $item['promoting_website'] }}</td>
                                 <td class="text-center">{{ $item['hours'] + 0 }}</td>
                                 <td>{{ $item->requisite?->name ?? '-' }}</td>
                             </tr>
@@ -249,7 +247,7 @@
         })
 
         window.update = function (el, url) {
-            if($(el).attr('name') === 'duty_on_services' && $(el).val() === ''){
+            if ($(el).attr('name') === 'duty_on_services' && $(el).val() === '') {
                 $(el).val(0)
             }
             ajax('post', url, {[$(el).attr('name')]: $(el).val()})
