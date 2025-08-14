@@ -36,6 +36,8 @@ mix.js('resources/js/lid/lid.js', 'public/js');
 // project_service
 mix.js('resources/js/project_service/project_service.js', 'public/js');
 
+mix.js('resources/js/reports/service.js', 'public/js');
+
 //---------------------CSS-----------------
 // app css
 mix.css('resources/css/app.css', 'public/css');

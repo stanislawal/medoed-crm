@@ -55,28 +55,21 @@
 
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($remainderDuty + 0, 2, '.', ' ') }}</strong></div>
+                            <div class="text-24"><strong>{{ number_format($remainderDuty, 2, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Переносящийся долг:</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                         <div style="background-color: rgba(255,0,0,0.48);" class="px-3 py-2 shadow border mb-3 rounded">
-                            <div class="text-24"><strong>{{ number_format($duty + 0, 2, '.', ' ') }}</strong></div>
+                            <div class="text-24"><strong>{{ number_format($duty, 2, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Долг:</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{ count($services) }}</strong></div>
-                            <div class="text-12 nowrap-dot">Начислено услуг:</div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
-                        <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($services->sum('accrual_this_month') + 0, 2, '.', ' ') }}</strong></div>
+                            <div class="text-24"><strong>{{ number_format($services->sum('accrual_this_month'), 2, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Сумма начислений:</div>
                         </div>
                     </div>

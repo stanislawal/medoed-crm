@@ -51,7 +51,7 @@
                             <select class="form-select form-select-sm select-2" name="project_id">
                                 <option value="">Не выбрано</option>
                                 @foreach($projects as $project)
-                                    <option @if($project->id === request()->project_id) selected @endif
+                                    <option @if($project->id == request()->project_id) selected @endif
                                     value="{{ $project->id }}">{{ $project->project_name }}</option>
                                 @endforeach
                             </select>

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
-use App\Models\Client\Client;
 use App\Models\Payment\Payment;
 use App\Models\Project\Project;
 use App\Models\Service\Service;
+use App\Models\Status;
 use App\Repositories\Report\ServiceRepositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,14 +29,16 @@ class ReportServiceController extends Controller
             'monthlyAccruals' => function ($query) use ($startDate, $endDate) {
                 $query->whereBetween('monthly_accruals.date', [$startDate, $endDate]);
             },
-            'services.serviceType'
+            'services.serviceType',
+            'requisite'
         ]);
 
         $reports = $reports->paginate(20);
 
         return view('report.service.service_list', [
             'reports'    => $reports,
-            'indicators' => $indicators
+            'indicators' => $indicators,
+            'statuses'   => Status::on()->get()
         ]);
     }
 
@@ -80,10 +82,10 @@ class ReportServiceController extends Controller
             ->toArray();
 
         // список проектов для модалки создания оплаты
-        $projects = Project::on()->select('id', 'project_name')->get()->toArray();
+        $projects = Project::on()->select(['id', 'project_name'])->get();
 
         // информация о проекте, клиенты проекта
-        $project = Project::on()->with('projectClients')->select(['id', 'project_name'])->find($id);
+        $project = Project::on()->with('projectClients')->select(['id', 'project_name', 'duty_on_services'])->find($id);
 
         // история оплат в выбранном месяце
         $paymentHistory = Payment::on()->where('project_id', $id)

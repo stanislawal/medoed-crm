@@ -83,7 +83,8 @@ class Project extends Model
 
         'hours', // часы работы
         'total_amount_agreement', // общая сумма договора
-        'leading_specialist_id' // ведущий специалист
+        'leading_specialist_id', // ведущий специалист
+        'duty_on_services' // долг по услугам
     ];
 
     public $timestamps = true;

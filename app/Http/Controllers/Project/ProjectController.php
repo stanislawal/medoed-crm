@@ -44,8 +44,6 @@ class ProjectController extends Controller
     // Для отображения (вывода) всех записей
     public function index(Request $request)
     {
-//        Auth::loginUsingId(43);
-
         $clients = Client::on()->get()->toArray(); //Достаем всех клиентов (заказчиков)
         $themes = Theme::on()->get()->toArray(); //Достаем все темы проектов
         $statuses = Status::on()->get()->toArray(); //Достаем все статусы из бд
@@ -575,7 +573,8 @@ class ProjectController extends Controller
             'mood_id',
             'payment_terms',
             'date_connect_with_client',
-            'plan_gross_income'
+            'plan_gross_income',
+            'duty_on_services'
         ]);
 
         if (count($param) > 0) {

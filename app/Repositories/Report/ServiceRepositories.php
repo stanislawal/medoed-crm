@@ -33,6 +33,9 @@ class ServiceRepositories
             projects.hours,
             projects.legal_name_company,
             projects.leading_specialist_id,
+            projects.requisite_id,
+            projects.status_id,
+            projects.duty_on_services,
             (SELECT MIN(services_project.created_at)
                 FROM services_project
                 WHERE services_project.project_id = projects.id
@@ -78,6 +81,8 @@ class ServiceRepositories
                     COALESCE(payment.wmz, 0) +
                     COALESCE(payment.birja, 0)
                 )
+                +
+                projects.duty_on_services
             ) as duty
         ")
             ->fromSub($reports, 'projects')
@@ -119,7 +124,8 @@ class ServiceRepositories
             ->where('created_at', '<=', $date)
             ->first()->sum_accrual_this_month ?? 0;
 
+        $dutyOnServices = Project::on()->selectRaw("duty_on_services")->find($projectId)->duty_on_services;
 
-        return $service - $payment;
+        return $service - $payment + $dutyOnServices;
     }
 }

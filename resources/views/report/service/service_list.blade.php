@@ -47,21 +47,25 @@
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong> {{ number_format($indicators['sum_amount'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                                <strong> {{ number_format($indicators['sum_amount'] + 0, 0, '.', ' ') }} ₽</strong>
+                            </div>
                             <div class="text-12 nowrap-dot">Общая сумма договоров:</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($indicators['sum_accrual_this_month'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                            <div class="text-24">
+                                <strong>{{ number_format($indicators['sum_accrual_this_month'] + 0, 0, '.', ' ') }}
+                                    ₽</strong></div>
                             <div class="text-12 nowrap-dot">Сумма начислений в месяце:</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($indicators['sum_duty'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                            <div class="text-24"><strong>{{ number_format($indicators['sum_duty'] + 0, 0, '.', ' ') }}
+                                    ₽</strong></div>
                             <div class="text-12 nowrap-dot">Общий долг:</div>
                         </div>
                     </div>
@@ -94,6 +98,7 @@
                             <th>Отдел</th>
                             <th>Проект</th>
                             <th>Долг</th>
+                            <th>+ долг</th>
 
                             <th>Заказчик</th>
                             <th>Отчетная дата</th>
@@ -133,7 +138,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="d-flex flex-nowrap">
+                                    <div class="d-flex justify-content-between flex-nowrap">
                                         <span> {{ $item['project_name'] }}</span>
 
                                         <a target="_blank" class="px-3 d-flex align-items-center text-primary"
@@ -141,7 +146,16 @@
                                                 class="fas fa-external-link-alt"></i></a>
                                     </div>
                                 </td>
-                                <td><strong>{{ number_format($item->duty + 0, 2, '.', ' ')}}</strong></td>
+                                <td class="nowrap"><strong>{{ number_format($item->duty, 2, '.', ' ')}}</strong></td>
+                                <td>
+                                    <input type="number"
+                                           onchange="window.update(this, '{{ route('project.partial_update', ['id' => $item->id]) }}')"
+                                           style="width: 80px"
+                                           class="form-control form-control-sm"
+                                           name="duty_on_services"
+                                           value="{{ $item['duty_on_services'] + 0 }}"
+                                    >
+                                </td>
                                 <td style="max-width: 180px;">
                                     @foreach ($item['projectClients'] as $client)
                                         {{ $client['name'] }}
@@ -149,16 +163,38 @@
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}</td>
                                 <td class="text-center">{{ $item->count_month_work }}</td>
-                                <td style="max-width: 70px;">
+                                <td>
                                     <input type="number"
+                                           style="width: 80px"
                                            class="input_amount form-control form-control-sm"
                                            data-project-id="{{$item['id']}}"
                                            name="amount"
                                            value="{{ count($item['monthlyAccruals']) > 0 ?  $item['monthlyAccruals'][0]['amount'] + 0 : 0 }}"
                                     >
                                 </td>
-                                <td>{{ number_format($item->sum_accrual_this_month + 0, 2, '.', ' ') }}</td>
-                                <td>Состояние</td>
+                                <td>
+                                    <div class="d-flex justify-content-between flex-nowrap">
+                                        <span
+                                            class="nowrap">{{ number_format($item->sum_accrual_this_month + 0, 2, '.', ' ') }}</span>
+
+                                        <a target="_blank" class="px-3 d-flex align-items-center text-primary"
+                                           href="{{ route('project-service.index', ['project_id' => $item['id']]) }}"><i
+                                                class="fas fa-external-link-alt"></i></a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="form-select form-select-sm select2-with-color"
+                                            name="status_id"
+                                            onchange="window.update(this, '{{ route('project.partial_update', ['id' => $item->id]) }}')"
+                                    >
+                                        <option value="">Не выбрано</option>
+                                        @foreach($statuses as $status)
+                                            <option @if($item->status_id == $status->id) selected
+                                                    @endif data-color="{{ $status->color }}"
+                                                    value="{{ $status->id }}">{{ $status->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
                                 <td>
                                     @if($item['leadingSpecialist'])
                                         <span class="select-2-custom-state-color"
@@ -177,7 +213,7 @@
                                     @endif
                                 </td>
                                 <td class="text-center">{{ $item['hours'] + 0 }}</td>
-                                <td>Счет оплаты</td>
+                                <td>{{ $item->requisite?->name ?? '-' }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -194,66 +230,30 @@
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/select2.js') }}"></script>
+    <script src="{{ asset('js/service.js') }}?v=@version"></script>
 
     <script>
 
         $('.input_amount').change(function () {
-            let date = '{{ request()->month ?? now()->format('Y-m') }}'
             let amount = $(this).val();
-            let projectId = $(this).data('project-id');
 
-            if (amount !== '') {
-                ajax('post', {date: date, project_id: projectId, amount: amount})
-            } else {
-                $(this).val(0)
-                ajax('post', {date: date, project_id: projectId, amount: 0})
+            let payload = {
+                date: '{{ request()->month ?? now()->format('Y-m') }}',
+                amount: amount !== '' ? amount : 0,
+                project_id: $(this).data('project-id')
             }
+
+            if (amount === '') $(this).val(0)
+
+            ajax('post', '{{ route('monthly_accrual.update') }}', payload)
         })
 
-        window.ajax = function (method, params) {
-            if (window.ajaxStatus) {
-                window.ajaxStatus = false;
-                $.ajax({
-                    url: '{{ route('monthly_accrual.update') }}',
-                    method: method,
-                    data: params,
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-                }).done((res) => {
-                    showNotification('success', 'Данные успешно обновлены.')
-                    console.log(res)
-                    window.ajaxStatus = true;
-                }).fail((error) => {
-                    showNotification('error', 'Произошла ошибка запроса.')
-                    console.log(error)
-                    window.ajaxStatus = true;
-                })
-            } else {
-                alert('Дождитесь завершения запроса');
+        window.update = function (el, url) {
+            if($(el).attr('name') === 'duty_on_services' && $(el).val() === ''){
+                $(el).val(0)
             }
+            ajax('post', url, {[$(el).attr('name')]: $(el).val()})
         }
 
-        window.showNotification = function (status, message) {
-
-            let alertSuccess = $('.ajax-success');
-            let alertError = $('.ajax-error');
-
-            alertSuccess.hide();
-            alertError.hide();
-
-            switch (status) {
-                case 'success' :
-                    alertSuccess.text(message).show();
-                    window.saveAudio.play();
-                    break;
-                case 'error' :
-                    alertError.text(message).show();
-                    break;
-            }
-
-            setTimeout(() => {
-                alertSuccess.hide();
-                alertError.hide();
-            }, 4000);
-        }
     </script>
 @endsection
