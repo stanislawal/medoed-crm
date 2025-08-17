@@ -42,9 +42,19 @@ window.searchToggle = function () {
  * Проверка фильтра на наличие не пустых полей, и добавление выделения
  */
 window.checkSearch = function () {
-  var formField = $('form.check__field').find('select, input');
+  var formField = $('form.check__field').find('select, input, textarea');
   formField.each(function (i, item) {
     var el = $(item);
+    if (el.val() !== '') {
+      el.addClass('border-primary');
+
+      // Проверяем, есть ли сразу после этого элемента блок с классом select-2
+      var nextBlock = el.next(".select2");
+      if (nextBlock.length) {
+        // например, также добавить класс
+        nextBlock.addClass('border-primary');
+      }
+    }
     if (el.val() !== '') {
       el.addClass('border-primary');
     }
@@ -52,6 +62,7 @@ window.checkSearch = function () {
 };
 $(document).ready(function () {
   checkSearch();
+  setTimeout(checkSearch, 2000);
 });
 window.sort = function (el) {
   var column = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;

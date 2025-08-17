@@ -43,10 +43,10 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="">Общая сумма договора <span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" type="number" name="all_price" required>
-                    </div>
+{{--                    <div class="form-group">--}}
+{{--                        <label for="">Общая сумма договора <span class="text-danger">*</span></label>--}}
+                        <input class="form-control form-control-sm" type="hidden" name="all_price" value="0">
+{{--                    </div>--}}
 
                     <div class="form-group">
                         <label for="">Начислено в этом месяце <span class="text-danger">*</span></label>

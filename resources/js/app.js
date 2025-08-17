@@ -37,16 +37,29 @@ window.searchToggle = function () {
  * Проверка фильтра на наличие не пустых полей, и добавление выделения
  */
 window.checkSearch = function () {
-    const formField = $('form.check__field').find('select, input');
+    const formField = $('form.check__field').find('select, input, textarea');
     formField.each(function (i, item) {
         let el = $(item);
+
+        if (el.val() !== '') {
+            el.addClass('border-primary');
+
+            // Проверяем, есть ли сразу после этого элемента блок с классом select-2
+            let nextBlock = el.next(".select2");
+            if (nextBlock.length) {
+                // например, также добавить класс
+                nextBlock.addClass('border-primary');
+            }
+        }
+
         if (el.val() !== '') {
             el.addClass('border-primary')
         }
     })
 }
 $(document).ready(function () {
-    checkSearch();
+    checkSearch()
+   setTimeout( checkSearch, 2000)
 })
 
 

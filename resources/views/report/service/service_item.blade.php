@@ -52,11 +52,31 @@
                             <div class="text-12 nowrap-dot">Заказчик:</div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+
 
                     <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
                             <div class="text-24"><strong>{{ number_format($remainderDuty, 2, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Переносящийся долг:</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+                        <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{ number_format($services->sum('accrual_this_month'), 2, '.', ' ') }}</strong>
+                            </div>
+                            <div class="text-12 nowrap-dot">Сумма начислений:</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
+                        <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{ number_format(collect($payment)->sum('amount'), 2, '.', ' ') }}</strong>
+                            </div>
+                            <div class="text-12 nowrap-dot">Оплата:</div>
                         </div>
                     </div>
 
@@ -67,19 +87,6 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
-                        <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($services->sum('accrual_this_month'), 2, '.', ' ') }}</strong></div>
-                            <div class="text-12 nowrap-dot">Сумма начислений:</div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-2">
-                        <div class="px-3 py-2 shadow border mb-3 bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format(collect($payment)->sum('amount'), 2, '.', ' ') }}</strong></div>
-                            <div class="text-12 nowrap-dot">Оплата:</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

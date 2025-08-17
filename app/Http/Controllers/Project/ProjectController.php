@@ -576,7 +576,8 @@ class ProjectController extends Controller
             'payment_terms',
             'date_connect_with_client',
             'plan_gross_income',
-            'duty_on_services'
+            'duty_on_services',
+            'checkbox_in_service'
         ]);
 
         if (count($param) > 0) {

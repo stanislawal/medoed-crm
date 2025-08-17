@@ -38,6 +38,7 @@ class ServiceRepositories
             projects.duty_on_services,
             projects.data_start_work,
             projects.promoting_website,
+            projects.checkbox_in_service,
             (SELECT MIN(services_project.created_at)
                 FROM services_project
                 WHERE services_project.project_id = projects.id
@@ -65,7 +66,9 @@ class ServiceRepositories
                     ->where('services_project_duty.created_at', '<=', Carbon::parse($endDate)->endOfMonth()->toDateTimeString());
             })
             ->groupBy('projects.id')
-            ->whereHas('services');
+            ->where(function ($where) {
+                $where->whereHas('services')->orWhere('duty_on_services', '>', 0);
+            });
 
         $reports = Project::on()->selectRaw("
             projects.*,
@@ -92,7 +95,7 @@ class ServiceRepositories
                 $leftJoin->on('payment.project_id', '=', 'projects.id')->where('payment.mark', 1)
                     ->where('payment.date', '<=', Carbon::parse($endDate)->endOfMonth()->toDateTimeString());
             })
-        ->groupBy('projects.id');
+            ->groupBy('projects.id');
 
         return $reports;
     }

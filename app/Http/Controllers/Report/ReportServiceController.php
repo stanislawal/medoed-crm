@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Report;
 use App\Http\Controllers\Controller;
 use App\Models\Payment\Payment;
 use App\Models\Project\Project;
+use App\Models\Requisite;
 use App\Models\Service\Service;
+use App\Models\Service\ServiceType;
+use App\Models\Service\SpecialistService;
 use App\Models\Status;
+use App\Models\User;
 use App\Repositories\Report\ServiceRepositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,6 +23,8 @@ class ReportServiceController extends Controller
         [$startDate, $endDate] = $this->monthElseRange($request);
 
         $reports = ServiceRepositories::getReport($startDate, $endDate);
+
+        $this->filter($reports, $request);
 
         $indicators = $this->calculate($reports);
 
@@ -35,10 +41,27 @@ class ReportServiceController extends Controller
 
         $reports = $reports->paginate(20);
 
+        $serviceType = ServiceType::on()->get();
+        $projects = Project::on()->select(['id', 'project_name'])
+            ->where(function ($where) {
+                $where->whereHas('services')->orWhere('duty_on_services', '>', 0);
+            })->get();
+
+        $specialistService = SpecialistService::on()->get();
+        $managers = User::on()->whereHas('roles', function ($query) {
+            $query->where('id', 2);
+        })->get();
+        $requisite = Requisite::on()->get();
+
         return view('report.service.service_list', [
-            'reports'    => $reports,
-            'indicators' => $indicators,
-            'statuses'   => Status::on()->get()
+            'reports'           => $reports,
+            'indicators'        => $indicators,
+            'statuses'          => Status::on()->get(),
+            'serviceType'       => $serviceType,
+            'projects'          => $projects,
+            'specialistService' => $specialistService,
+            'managers'          => $managers,
+            'requisite'         => $requisite,
         ]);
     }
 
@@ -140,5 +163,39 @@ class ReportServiceController extends Controller
             ->fromSub($reports, 'projects')
             ->first()
             ->toArray();
+    }
+
+    private function filter(Builder &$reports, Request $request)
+    {
+
+        $reports->when(!empty($request->service_type_id), function ($query) use ($request) {
+            $query->whereHas('services', function ($query) use ($request) {
+                $query->where('service_type_id', $request->service_type_id);
+            });
+        });
+
+        $reports->when(!empty($request->project_id), function ($query) use ($request) {
+            $query->where('projects.id', $request->project_id);
+        });
+
+        $reports->when(!empty($request->legal_name_company), function ($query) use ($request) {
+            $query->where('projects.legal_name_company', 'like', "%{$request->legal_name_company}%");
+        });
+
+        $reports->when(!empty($request->status_id), function ($query) use ($request) {
+            $query->where('projects.status_id', $request->status_id);
+        });
+
+        $reports->when(!empty($request->leading_specialist_id), function ($query) use ($request) {
+            $query->where('projects.leading_specialist_id', $request->leading_specialist_id);
+        });
+
+        $reports->when(!empty($request->manager_id), function ($query) use ($request) {
+            $query->where('projects.manager_id', $request->manager_id);
+        });
+
+        $reports->when(!empty($request->requisite_id), function ($query) use ($request) {
+            $query->where('projects.requisite_id', $request->requisite_id);
+        });
     }
 }

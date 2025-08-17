@@ -86,7 +86,8 @@ class Project extends Model
         'leading_specialist_id', // ведущий специалист
         'duty_on_services', // долг по услугам
         'data_start_work', // указание даты с которой работает проект (одноразово)
-        'promoting_website' // продвигаем сайт
+        'promoting_website', // продвигаем сайт
+        'checkbox_in_service' // чекбокс для отчета услуг
     ];
 
     public $timestamps = true;

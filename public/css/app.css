@@ -198,6 +198,8 @@ select {
 
 span.select2 {
     width: 100% !important;
+    border: 1px solid #ced4da;
+    border-radius: .2rem;
 }
 
 span.select2-selection {

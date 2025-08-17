@@ -133,7 +133,7 @@
                                 <th style="min-width: 100px">Условия оплаты</th>
                                 <th style="min-width: 150px">Специалисты</th>
                                 <th style="min-width: 100px">Регион продвижения</th>
-                                <th style="min-width: 100px">Общая сумма договора</th>
+{{--                                <th style="min-width: 100px">Общая сумма договора</th>--}}
                                 <th style="min-width: 100px">Начислено в этом месяце</th>
                                 <th style="min-width: 165px">Задача</th>
                                 <th style="min-width: 100px">Ссылка на план работы</th>
@@ -204,10 +204,10 @@
                                     <td>
                                         {{ $item->project->region ?? '' }}
                                     </td>
-                                    <td class="text-center">
-                                        <input class="form-control form-control-sm" type="number" name="all_price"
-                                               value="{{ $item->all_price }}">
-                                    </td>
+{{--                                    <td class="text-center">--}}
+{{--                                        <input class="form-control form-control-sm" type="number" name="all_price"--}}
+{{--                                               value="{{ $item->all_price }}">--}}
+{{--                                    </td>--}}
                                     <td class="text-center">
                                         <input class="form-control form-control-sm" type="number"
                                                name="accrual_this_month" value="{{ $item->accrual_this_month }}">

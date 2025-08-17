@@ -19,16 +19,102 @@
             <form action="" method="GET" class="check__field">
                 <div class="row m-0" id="search">
                     <div class="w-100 row m-0 py-3">
-
                         <div class="col-12 col-md-4 col-lg-3 mb-3">
                             <label class="form-label" for="">Дата</label>
                             <input class="form-control form-control-sm" type="month" name="month"
                                    value="{{ request()->month ?? now()->format('Y-m') }}">
                         </div>
 
+                        <div class="col-12 col-md-4 col-lg-3 mb-3">
+                            <label class="form-label" for="">Отдел</label>
+                            <select class="form-select form-select-sm select2-with-color" name="service_type_id">
+                                <option value="">Не выбрано</option>
+                                @foreach($serviceType as $item)
+                                    <option
+                                        @if($item->id == request()->service_type_id) selected @endif
+                                    data-color="{{ $item->color }}"
+                                        value="{{ $item->id }}"
+                                    >{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3 mb-3">
+                            <label class="form-label" for="">Проект</label>
+                            <select class="form-select form-select-sm select-2"
+                                    name="project_id">
+                                <option value="">Не выбрано</option>
+                                @foreach($projects as $item)
+                                    <option
+                                        @if($item->id == request()->project_id) selected @endif
+                                    value="{{ $item->id }}">{{ $item->project_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3 mb-3">
+                            <label class="form-label" for="">Контрагент</label>
+                            <input type="text" class="form-control form-control-sm" name="legal_name_company"
+                                   value="{{ request()->legal_name_company ?? '' }}"/>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3 mb-3">
+                            <label class="form-label" for="">Состояние</label>
+                            <select class="form-select form-select-sm select2-with-color" name="status_id">
+                                <option value="">Не выбрано</option>
+                                @foreach($statuses as $item)
+                                    <option
+                                        @if($item->id == request()->status_id) selected @endif
+                                    data-color="{{ $item->color }}"
+                                        value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3 mb-3">
+                            <label class="form-label" for="">Спец. в проекте</label>
+                            <select class="form-select form-select-sm select2-with-color" name="leading_specialist_id">
+                                <option value="">Не выбрано</option>
+                                @foreach($specialistService as $item)
+                                    <option
+                                        @if($item->id == request()->leading_specialist_id) selected @endif
+                                    data-color="{{ $item->color }}"
+                                        value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3 mb-3">
+                            <label class="form-label" for="">Менеджер</label>
+                            <select class="form-select form-select-sm select-2" name="manager_id">
+                                <option value="">Не выбрано</option>
+                                @foreach($managers as $item)
+                                    <option
+                                        @if($item->id == request()->manager_id) selected @endif
+                                    value="{{ $item->id }}">{{ $item->minName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3 mb-3">
+                            <label class="form-label" for="">Счет оплаты</label>
+                            <select class="form-select form-select-sm select-2" name="requisite_id">
+                                <option value="">Не выбрано</option>
+                                @foreach($requisite as $item)
+                                    <option
+                                        @if($item->id == request()->requisite_id) selected @endif
+                                    value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <div class="col-12 p-0">
                             <div class="form-group col-12">
                                 <div class="w-100 d-flex justify-content-end" style="gap: 10px">
+                                    @if(request()->all())
+                                        <a href="{{ route('report_service.index') }}" class="'btn btn-sm btn-danger">Сбросить
+                                            все</a>
+                                    @endif
                                     <button class="btn btn-sm btn-success">Искать</button>
                                 </div>
                             </div>
@@ -95,21 +181,17 @@
 
                         <tr>
                             <th></th>
+                            <th></th>
                             <th>Отдел</th>
                             <th>Проект</th>
                             <th>Долг</th>
                             <th>+ долг</th>
-
                             <th>Контрагент</th>
                             <th>Отчетная дата</th>
-
                             <th>М-ц работы</th>
-
                             <th>Сумма дог.</th>
                             <th>Начислено</th>
-
                             <th>Состояние</th>
-
                             <th>Спец. в проекте</th>
                             <th>Менеджер</th>
                             <th>Планы</th>
@@ -121,10 +203,18 @@
                         <tbody>
                         @foreach ($reports as $item)
                             <tr>
-                                <td>
+                                <td style="padding: 0 10px 0 12px!important">
                                     <a href="{{ route('report_service.show', ['project_id' => $item['id'], 'month' => request()->month]) }}">
                                         <i class="fas fa-grip-horizontal"></i>
                                     </a>
+                                </td>
+                                <td style="padding: 0 10px 0 12px!important">
+                                    <input
+                                        onchange="window.update(this, '{{ route('project.partial_update', ['id' => $item->id]) }}')"
+                                        type="checkbox"
+                                        name="checkbox_in_service"
+                                        @if($item->checkbox_in_service) checked @endif
+                                    >
                                 </td>
                                 <td>
                                     <div class="d-flex flex-wrap gap-1">
@@ -250,7 +340,13 @@
             if ($(el).attr('name') === 'duty_on_services' && $(el).val() === '') {
                 $(el).val(0)
             }
-            ajax('post', url, {[$(el).attr('name')]: $(el).val()})
+
+            if($(el).attr('type') == 'checkbox'){
+                let check = $(el).is(":checked") ? 1 : 0;
+                ajax('post', url, {[$(el).attr('name')]: check})
+            }else{
+                ajax('post', url, {[$(el).attr('name')]: $(el).val()})
+            }
         }
 
     </script>

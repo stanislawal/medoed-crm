@@ -111,7 +111,7 @@
                             <div class="col-12 col-sm-6 col-xl-4 mb-2">
                                 <div class="px-3 py-2 shadow border bg-white rounded">
                                     <div class="text-24">
-                                        <strong>{{$paymentInfoBackDuty['sum_back_duty']}}</strong>
+                                        <strong>{{$paymentInfoBackDuty['sum_back_duty'] ?? '-'}}</strong>
                                     </div>
                                     <div class="text-12 nowrap-dot">Сумма списаний (текущий месяц):</div>
                                 </div>
@@ -120,7 +120,7 @@
                             <div class="col-12 col-sm-6 col-xl-4 mb-2">
                                 <div class="px-3 py-2 shadow border bg-white rounded">
                                     <div class="text-24">
-                                        <strong>{{$paymentNowInfo['payment_now']}}</strong>
+                                        <strong>{{$paymentNowInfo['payment_now'] ?? '-'}}</strong>
                                     </div>
                                     <div class="text-12 nowrap-dot">Сумма сегодняшних оплат:</div>
                                 </div>
@@ -164,6 +164,7 @@
                                 </th>
                                 <th>Дата</th>
                                 <th>Проект</th>
+                                <th>Контрагент</th>
                                 <th></th>
                                 <th></th>
 {{--                                <th style="min-width: 120px;">ИП Алла (Сбер)</th>--}}
@@ -223,6 +224,9 @@
                                     </td>
                                     <td>
                                         {{ $payment['project']['project_name'] ?? ''}}
+                                    </td>
+                                    <td>
+                                        {{ $payment['project']['legal_name_company'] }}
                                     </td>
                                     <td>
                                         <div class="btn btn-sm btn-primary edit"
