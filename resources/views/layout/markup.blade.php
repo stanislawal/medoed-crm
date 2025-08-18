@@ -311,13 +311,14 @@
                                             <span class="sub-item">Редакторы</span>
                                         </a>
                                     </li>
+                                    @endrole
 
+                                    @role('Администратор|Менеджер')
                                     <li>
                                         <a href="{{ route('report_service.index') }}">
                                             <span class="sub-item">Услуги</span>
                                         </a>
                                     </li>
-
                                     @endrole
 
                                     @unlessrole('Автор')

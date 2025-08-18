@@ -84,17 +84,31 @@
                             </select>
                         </div>
 
-                        <div class="col-12 col-md-4 col-lg-3 mb-3">
-                            <label class="form-label" for="">Менеджер</label>
-                            <select class="form-select form-select-sm select-2" name="manager_id">
-                                <option value="">Не выбрано</option>
-                                @foreach($managers as $item)
-                                    <option
-                                        @if($item->id == request()->manager_id) selected @endif
-                                    value="{{ $item->id }}">{{ $item->minName }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        @if(\App\Helpers\UserHelper::isManager())
+                            <div class="col-12 col-md-4 col-lg-3 mb-3">
+                                <label class="form-label" for="">Менеджер</label>
+                                <select disabled class="form-select form-select-sm select-2">
+                                    <option value="">Не выбрано</option>
+                                    @foreach($managers as $item)
+                                        <option
+                                            @if($item->id == \App\Helpers\UserHelper::getUserId()) selected @endif
+                                        value="{{ $item->id }}">{{ $item->minName }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @else
+                            <div class="col-12 col-md-4 col-lg-3 mb-3">
+                                <label class="form-label" for="">Менеджер</label>
+                                <select class="form-select form-select-sm select-2" name="manager_id">
+                                    <option value="">Не выбрано</option>
+                                    @foreach($managers as $item)
+                                        <option
+                                            @if($item->id == request()->manager_id) selected @endif
+                                        value="{{ $item->id }}">{{ $item->minName }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
 
                         <div class="col-12 col-md-4 col-lg-3 mb-3">
                             <label class="form-label" for="">Счет оплаты</label>

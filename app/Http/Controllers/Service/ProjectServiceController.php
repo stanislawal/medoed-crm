@@ -23,12 +23,15 @@ class ProjectServiceController extends Controller
             'serviceType',
             'specialists',
             'createdUser'
-        ])
-            ->orderByDesc('id');
+        ]);
+
+        $projectServices->when(UserHelper::isManager(), function ($query) {
+            $query->where('user_id', UserHelper::getUserId());
+        });
 
         $this->filter($projectServices, $request);
 
-        $projectServices = $projectServices->paginate(20);
+        $projectServices = $projectServices->orderByDesc('id')->paginate(20);
 
         // получаем администраторов и менеджеров
         $creater = User::on()->whereHas('roles', function ($query) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Payment\Payment;
 use App\Models\Project\Project;
@@ -23,6 +24,10 @@ class ReportServiceController extends Controller
         [$startDate, $endDate] = $this->monthElseRange($request);
 
         $reports = ServiceRepositories::getReport($startDate, $endDate);
+
+        $reports->when(UserHelper::isManager(), function (Builder $builder) {
+            $builder->where('projects.manager_id', UserHelper::getUserId());
+        });
 
         $this->filter($reports, $request);
 
