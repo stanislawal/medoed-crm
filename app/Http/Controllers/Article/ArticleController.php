@@ -78,6 +78,8 @@ class ArticleController extends Controller
             ->get()
             ->toArray();
 
+        $clients = Client::on()->select(['id', 'name'])->get();
+
         return view('article.list_article', [
             'articles'   => $articles,
             'currency'   => $currency,
@@ -85,7 +87,8 @@ class ArticleController extends Controller
             'managers'   => $managers,
             'statistics' => $statistics,
             'authors'    => $authors,
-            'redactors'  => $redactors
+            'redactors'  => $redactors,
+            'clients'    => $clients,
         ]);
     }
 
@@ -322,6 +325,11 @@ class ArticleController extends Controller
             });
         });
 
+        $articles->when(!empty($request->client_id), function ($where) use ($request){
+            $where->wherehas('articleProject.projectClients', function ($where) use ($request) {
+                $where->whereIn('clients.id', $request->client_id);
+            });
+        });
     }
 
     private function getDate($request)

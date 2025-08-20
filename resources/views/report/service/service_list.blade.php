@@ -199,7 +199,7 @@
                             <th>Отдел</th>
                             <th>Проект</th>
                             <th>Долг</th>
-                            <th>+ долг</th>
+{{--                            <th>+ долг</th>--}}
                             <th>Контрагент</th>
                             <th>Отчетная дата</th>
                             <th>М-ц работы</th>
@@ -252,15 +252,15 @@
                                     </div>
                                 </td>
                                 <td class="nowrap"><strong>{{ number_format($item->duty, 2, '.', ' ')}}</strong></td>
-                                <td>
-                                    <input type="number"
-                                           onchange="window.update(this, '{{ route('project.partial_update', ['id' => $item->id]) }}')"
-                                           style="width: 80px"
-                                           class="form-control form-control-sm"
-                                           name="duty_on_services"
-                                           value="{{ $item['duty_on_services'] + 0 }}"
-                                    >
-                                </td>
+{{--                                <td>--}}
+{{--                                    <input type="number"--}}
+{{--                                           onchange="window.update(this, '{{ route('project.partial_update', ['id' => $item->id]) }}')"--}}
+{{--                                           style="width: 80px"--}}
+{{--                                           class="form-control form-control-sm"--}}
+{{--                                           name="duty_on_services"--}}
+{{--                                           value="{{ $item['duty_on_services'] + 0 }}"--}}
+{{--                                    >--}}
+{{--                                </td>--}}
                                 <td style="max-width: 180px;">{{ $item->legal_name_company }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}</td>
                                 <td class="text-center">{{ $item->count_month_work }}</td>

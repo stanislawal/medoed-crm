@@ -41,12 +41,13 @@ window.checkSearch = function () {
     formField.each(function (i, item) {
         let el = $(item);
 
-        if (el.val() !== '') {
+        if ((el.attr('multiple') === undefined && el.val() !== '') || (el.attr('multiple') === 'multiple' && el.val().length !== 0 )) {
             el.addClass('border-primary');
 
             // Проверяем, есть ли сразу после этого элемента блок с классом select-2
             let nextBlock = el.next(".select2");
             if (nextBlock.length) {
+
                 // например, также добавить класс
                 nextBlock.addClass('border-primary');
             }

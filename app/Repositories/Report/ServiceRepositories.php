@@ -22,14 +22,14 @@ class ServiceRepositories
     {
         // сумма общего договора в указанном месяце
         $monthlyAccruals = MonthlyAccrual::on()->selectRaw("
-            'project_id',
-            SUM(amount) as sum_amount
+            project_id,
+            SUM(COALESCE(amount, 0)) as sum_amount
         ")->whereBetween('date', [$startDate, $endDate])->groupBy('project_id');
 
         // сумма начислений в этом месяце
         $servicesProjectThisMonth = Service::on()->selectRaw("
             project_id,
-            SUM(accrual_this_month) as sum_accrual_this_month
+            SUM(COALESCE(accrual_this_month, 0)) as sum_accrual_this_month
         ")->whereBetween('created_at', [
             Carbon::parse($startDate)->startOfMonth()->toDateTimeString(),
             Carbon::parse($endDate)->endOfMonth()->toDateTimeString()
@@ -37,7 +37,7 @@ class ServiceRepositories
 
         $servicesProjectAllPeriod = Service::on()->selectRaw("
             project_id,
-            SUM(accrual_this_month) as sum_accrual_this_month_duty
+            SUM(COALESCE(accrual_this_month, 0)) as sum_accrual_this_month_duty
         ")->where('created_at', '<=', Carbon::parse($endDate)->endOfMonth()->toDateTimeString())
             ->groupBy('project_id');
 

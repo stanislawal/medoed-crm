@@ -101,6 +101,23 @@
             </div>
         </div>
 
+        <div class="mb-2">
+            <div class="row">
+                <div class="col-12 ">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                            <div class="px-3 py-2 shadow border bg-white rounded">
+                                <div class="text-24">
+                                    <strong>{{ number_format($projectServices->sum('accrual_this_month'), 2, '.', ' ') }} ₽</strong>
+                                </div>
+                                <div class="text-12 nowrap-dot">Общая сумма начислений:</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="w-100">
             <div class="card shadow border bg-white rounded mb-0">
                 <div class="card-header">

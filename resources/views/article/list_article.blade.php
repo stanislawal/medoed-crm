@@ -120,6 +120,20 @@
                                 </select>
                             </div>
 
+                            <div class="form-group col-12 col-md-6 col-lg-4">
+                                <label class="form-label">Заказчик</label>
+                                <select class="form-select form-select-sm select-2"
+                                        name="client_id[]" multiple>
+                                    <option value="">Не выбрано</option>
+                                    @foreach($clients as $client)
+                                        <option value="{{ $client['id'] }}"
+                                                @if(in_array($client['id'], request()->client_id ?? [])) selected @endif>
+                                            {{ $client['name'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="form-group col-12">
                                 <div class="w-100 d-flex justify-content-end">
                                     <button class="btn btn-sm btn-success">Искать</button>
@@ -235,7 +249,7 @@
                             <tr>
                                 <th>Сохр.</th>
                                 <th></th>
-{{--                                <th>ID</th>--}}
+                                {{--                                <th>ID</th>--}}
                                 <th style="min-width: 200px;">Проект</th>
                                 @role('Администратор')
                                 <th style="min-width: 150px;">Заказчик(и)</th>
@@ -243,12 +257,12 @@
                                 <th style="min-width: 200px;">Статья</th>
                                 <th style="min-width: 100px;">ЗБП</th>
                                 <th style="min-width: 110px;">Цена заказчика | Фикс. цена?</th>
-{{--                                <th style="min-width: 100px;">Валюта</th>--}}
+                                {{--                                <th style="min-width: 100px;">Валюта</th>--}}
                                 <th class="text-center" style="min-width: 100px;"><strong>ВД</strong></th>
                                 <th style="min-width: 150px;">Автор</th>
                                 <th style="min-width: 110px;">Цена автора | Фикс. цена?</th>
-{{--                                <th style="min-width: 150px;">Редактор</th>--}}
-{{--                                <th style="min-width: 110px;">Цена редактора | Фикс. цена?</th>--}}
+                                {{--                                <th style="min-width: 150px;">Редактор</th>--}}
+                                {{--                                <th style="min-width: 110px;">Цена редактора | Фикс. цена?</th>--}}
                                 <th>Итог автор</th>
                                 <th style="min-width: 200px;">Ссылка на текст</th>
                                 @unlessrole ('Менеджер')
@@ -285,7 +299,7 @@
                                     </td>
 
                                     {{--ID--}}
-{{--                                    <td>{{ $article['id'] }}</td>--}}
+                                    {{--                                    <td>{{ $article['id'] }}</td>--}}
 
                                     {{--Имя проекта--}}
                                     <td>
@@ -332,7 +346,8 @@
                                     {{--Цена заказчика--}}
                                     <td>
                                         <div class="d-flex align-items-center flex-nowrap">
-                                            <input class="form-control form-control-sm" name="price_client" type="number"
+                                            <input class="form-control form-control-sm" name="price_client"
+                                                   type="number"
                                                    value="{{$article['price_client'] + 0 ?? ''}}">
                                             <span class="px-1">|</span>
                                             <input type="checkbox" name="is_fixed_price_client"
@@ -341,16 +356,16 @@
                                     </td>
 
                                     {{--Валюта--}}
-{{--                                    <td>--}}
-{{--                                        <div>--}}
-{{--                                            <select class="form-select form-select-sm" name="id_currency">--}}
-{{--                                                @foreach($currency as $item)--}}
-{{--                                                    <option value="{{$item['id']}}"--}}
-{{--                                                            @if($item['id'] == $article['id_currency']) selected @endif>{{$item['currency']}}</option>--}}
-{{--                                                @endforeach--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
+                                    {{--                                    <td>--}}
+                                    {{--                                        <div>--}}
+                                    {{--                                            <select class="form-select form-select-sm" name="id_currency">--}}
+                                    {{--                                                @foreach($currency as $item)--}}
+                                    {{--                                                    <option value="{{$item['id']}}"--}}
+                                    {{--                                                            @if($item['id'] == $article['id_currency']) selected @endif>{{$item['currency']}}</option>--}}
+                                    {{--                                                @endforeach--}}
+                                    {{--                                            </select>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </td>--}}
 
                                     {{--ВАЛОВЫЙ ДОХОД--}}
                                     <td style="background-color: #f1f1f1; text-align: center">
@@ -383,33 +398,33 @@
                                     </td>
 
                                     {{--Редактор--}}
-{{--                                    <td class="td-author">--}}
-{{--                                        <select class="form-select form-select-sm select-2" multiple--}}
-{{--                                                name="select_redactors[]">--}}
+                                    {{--                                    <td class="td-author">--}}
+                                    {{--                                        <select class="form-select form-select-sm select-2" multiple--}}
+                                    {{--                                                name="select_redactors[]">--}}
 
-{{--                                            @foreach($authors as $author)--}}
-{{--                                                <option value="{{$author['id']}}"--}}
-{{--                                                        @if(in_array($author['id'], collect($article['articleRedactor'])->pluck('id')->toArray()))--}}
-{{--                                                            selected--}}
-{{--                                                    @endif>--}}
+                                    {{--                                            @foreach($authors as $author)--}}
+                                    {{--                                                <option value="{{$author['id']}}"--}}
+                                    {{--                                                        @if(in_array($author['id'], collect($article['articleRedactor'])->pluck('id')->toArray()))--}}
+                                    {{--                                                            selected--}}
+                                    {{--                                                    @endif>--}}
 
-{{--                                                    {{$author['full_name'] ?? ''}}--}}
-{{--                                                </option>--}}
+                                    {{--                                                    {{$author['full_name'] ?? ''}}--}}
+                                    {{--                                                </option>--}}
 
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </td>--}}
+                                    {{--                                            @endforeach--}}
+                                    {{--                                        </select>--}}
+                                    {{--                                    </td>--}}
 
                                     {{--Цена редактора--}}
-{{--                                    <td>--}}
-{{--                                        <div class="d-flex align-items-center flex-nowrap">--}}
-{{--                                            <input class="form-control form-control-sm" name="price_redactor"--}}
-{{--                                                   value="{{$article['price_redactor'] ?? ''}}">--}}
-{{--                                            <span class="px-1">|</span>--}}
-{{--                                            <input type="checkbox" name="is_fixed_price_redactor"--}}
-{{--                                                   @if($article['is_fixed_price_redactor']) checked @endif>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
+                                    {{--                                    <td>--}}
+                                    {{--                                        <div class="d-flex align-items-center flex-nowrap">--}}
+                                    {{--                                            <input class="form-control form-control-sm" name="price_redactor"--}}
+                                    {{--                                                   value="{{$article['price_redactor'] ?? ''}}">--}}
+                                    {{--                                            <span class="px-1">|</span>--}}
+                                    {{--                                            <input type="checkbox" name="is_fixed_price_redactor"--}}
+                                    {{--                                                   @if($article['is_fixed_price_redactor']) checked @endif>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </td>--}}
 
                                     <td>
                                         {{ $article['gross_income_author'] + 0 ?? '' }}
@@ -447,7 +462,7 @@
                                     <td class="text-center">{{ \Carbon\Carbon::parse($article['created_at'])->format('Y-m-d H:i') }}</td>
 
                                     @role('Администратор')
-                                        <td>
+                                    <td>
                                         <div class="form-group col-12 d-flex justify-content-between destroy">
                                             <a href="{{route('article.destroy', ['article' => $article['id']])}}"
                                                class="btn btn-sm btn-danger" onclick="confirmDelete()"><i
