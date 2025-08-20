@@ -54,10 +54,10 @@ window.ajax = function (method, url, params) {
       }
     }).done(function (res) {
       showNotification('success', 'Данные успешно обновлены.');
-      console.log(res);
+      console.log(res.responseJSON);
       window.ajaxStatus = true;
     }).fail(function (error) {
-      showNotification('error', 'Произошла ошибка запроса.');
+      showNotification('error', error.responseJSON.length > 0 ? error.responseJSON : 'Произошла ошибка запроса.');
       console.log(error);
       window.ajaxStatus = true;
     });

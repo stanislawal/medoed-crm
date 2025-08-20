@@ -53,10 +53,10 @@ window.ajax = function (method, url, params) {
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         }).done((res) => {
             showNotification('success', 'Данные успешно обновлены.')
-            console.log(res)
+            console.log(res.responseJSON)
             window.ajaxStatus = true;
         }).fail((error) => {
-            showNotification('error', 'Произошла ошибка запроса.')
+            showNotification('error', error.responseJSON.length > 0 ? error.responseJSON : 'Произошла ошибка запроса.')
             console.log(error)
             window.ajaxStatus = true;
         })

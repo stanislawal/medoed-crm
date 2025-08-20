@@ -216,7 +216,17 @@ class ArticleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $oldArticle = Article::on()->select(['without_space', 'price_client', 'price_author'])->find($id)->toArray();
+        $oldArticle = Article::on()->select(['without_space', 'price_client', 'price_author', 'created_at'])->find($id)->toArray();
+
+        if(!UserHelper::isAdmin()){
+
+            $dateArticle = Carbon::parse($oldArticle['created_at'])->format('Y-m');
+            $currentDate = now()->format('Y-m');
+
+            if($dateArticle !== $currentDate){
+                return response()->json('Невозможно обновить статью, созданную ранее текущего месяца', 400);
+            }
+        }
 
         $attr = $request->only([
             'article',

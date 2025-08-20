@@ -93,6 +93,18 @@ class ProjectServiceController extends Controller
 
             $service = Service::on()->find($id);
 
+            if(!UserHelper::isAdmin()){
+                $dateService = Carbon::parse($service['created_at'])->format('Y-m');
+                $currentDate = now()->format('Y-m');
+
+                if($dateService !== $currentDate){
+                    return response()->json([
+                        'result'  => false,
+                        'message' => 'Невозможно обновить услугу, созданную ранее текущего месяца'
+                    ]);
+                }
+            }
+
             $service->update(
                 $attr->except('specialist_service_id')->toArray()
             );
