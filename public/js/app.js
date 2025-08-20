@@ -45,7 +45,7 @@ window.checkSearch = function () {
   var formField = $('form.check__field').find('select, input, textarea');
   formField.each(function (i, item) {
     var el = $(item);
-    if (el.val() !== '') {
+    if (el.attr('multiple') === undefined && el.val() !== '' || el.attr('multiple') === 'multiple' && el.val().length !== 0) {
       el.addClass('border-primary');
 
       // Проверяем, есть ли сразу после этого элемента блок с классом select-2
