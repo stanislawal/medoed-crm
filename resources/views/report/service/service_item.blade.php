@@ -176,7 +176,7 @@
                             <th>Отдел</th>
                             <th>Услуга</th>
                             <th>Специалист</th>
-                            <th>Общая сумма договора</th>
+{{--                            <th>Общая сумма договора</th>--}}
                             <th>Начислено в этом месяце</th>
                             <th>Дата создания</th>
                         </tr>
@@ -204,7 +204,7 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td>{{ number_format($item['all_price'] + 0, 2, '.', ' ') }}</td>
+{{--                                <td>{{ number_format($item['all_price'] + 0, 2, '.', ' ') }}</td>--}}
                                 <td>{{ number_format($item['accrual_this_month'] + 0, 2, '.', ' ') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item['created_at'])->format('d.m.Y') }}</td>
                             </tr>

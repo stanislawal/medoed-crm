@@ -3,6 +3,7 @@
 namespace App\Repositories\Report;
 
 use App\Models\Payment\Payment;
+use App\Models\Project\MonthlyAccrual;
 use App\Models\Project\Project;
 use App\Models\Service\Service;
 use Carbon\Carbon;
@@ -19,6 +20,26 @@ class ServiceRepositories
      */
     public static function getReport($startDate, $endDate)
     {
+        // сумма общего договора в указанном месяце
+        $monthlyAccruals = MonthlyAccrual::on()->selectRaw("
+            'project_id',
+            SUM(amount) as sum_amount
+        ")->whereBetween('date', [$startDate, $endDate])->groupBy('project_id');
+
+        // сумма начислений в этом месяце
+        $servicesProjectThisMonth = Service::on()->selectRaw("
+            project_id,
+            SUM(accrual_this_month) as sum_accrual_this_month
+        ")->whereBetween('created_at', [
+            Carbon::parse($startDate)->startOfMonth()->toDateTimeString(),
+            Carbon::parse($endDate)->endOfMonth()->toDateTimeString()
+        ])->groupBy('project_id');
+
+        $servicesProjectAllPeriod = Service::on()->selectRaw("
+            project_id,
+            SUM(accrual_this_month) as sum_accrual_this_month_duty
+        ")->where('created_at', '<=', Carbon::parse($endDate)->endOfMonth()->toDateTimeString())
+            ->groupBy('project_id');
 
         $reports = Project::on()->selectRaw("
             projects.id,
@@ -43,28 +64,24 @@ class ServiceRepositories
                 FROM services_project
                 WHERE services_project.project_id = projects.id
             ) as first_service_date,
-            SUM(COALESCE(monthly_accruals.amount, 0)) as sum_amount,
-            SUM(COALESCE(services_project.accrual_this_month, 0)) as sum_accrual_this_month,
-            SUM(COALESCE(services_project_duty.accrual_this_month, 0)) as sum_accrual_this_month_duty
+            SUM(monthly_accruals.sum_amount) as sum_amount,
+            SUM(services_project.sum_accrual_this_month) as sum_accrual_this_month,
+            SUM(services_project_duty.sum_accrual_this_month_duty) as sum_accrual_this_month_duty
         ")
             ->from('projects')
+
             // сумма договора в указанном месяце
-            ->leftJoin('monthly_accruals', function ($query) use ($startDate, $endDate) {
-                $query->on('monthly_accruals.project_id', '=', 'projects.id')
-                    ->whereBetween('monthly_accruals.date', [$startDate, $endDate]);
+            ->leftJoinSub($monthlyAccruals, 'monthly_accruals', function ($join) {
+                $join->on('projects.id', '=', 'monthly_accruals.project_id');
             })
-            // общая сумма начисления за месяц
-            ->leftJoin('services_project', function ($query) use ($startDate, $endDate) {
-                $query->on('services_project.project_id', '=', 'projects.id')
-                    ->whereBetween('services_project.created_at', [
-                        Carbon::parse($startDate)->startOfMonth()->toDateTimeString(),
-                        Carbon::parse($endDate)->endOfMonth()->toDateTimeString()
-                    ]);
+
+            ->leftJoinSub($servicesProjectThisMonth, 'services_project', function ($join) {
+                $join->on('projects.id', '=', 'services_project.project_id');
             })
-            ->leftJoin('services_project as services_project_duty', function ($query) use ($endDate) {
-                $query->on('services_project_duty.project_id', '=', 'projects.id')
-                    ->where('services_project_duty.created_at', '<=', Carbon::parse($endDate)->endOfMonth()->toDateTimeString());
+            ->leftJoinSub($servicesProjectAllPeriod, 'services_project_duty', function ($join) {
+                $join->on('projects.id', '=', 'services_project_duty.project_id');
             })
+
             ->groupBy('projects.id')
             ->where(function ($where) {
                 $where->whereHas('services')->orWhere('duty_on_services', '>', 0);

@@ -105,6 +105,7 @@ class ClientRepositories
             })
             ->leftJoin('requisites', 'requisites.id', '=', 'projects.requisite_id')
             ->doesntHave('services')
+            ->where('projects.duty_on_services', 0)
             ->groupBy(['projects.id']);
 
         $reports = Project::on()

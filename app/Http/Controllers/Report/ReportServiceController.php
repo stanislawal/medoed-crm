@@ -55,7 +55,7 @@ class ReportServiceController extends Controller
         $specialistService = SpecialistService::on()->get();
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
-        })->get();
+        })->where('is_work', true)->get();
         $requisite = Requisite::on()->get();
 
         return view('report.service.service_list', [
