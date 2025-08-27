@@ -10,6 +10,7 @@ use App\Models\Project\Cross\CrossProjectAuthor;
 use App\Models\Project\Cross\CrossProjectClient;
 use App\Models\Requisite;
 use App\Models\Service\Service;
+use App\Models\Service\ServiceType;
 use App\Models\Service\SpecialistService;
 use App\Models\Status;
 use App\Models\StatusPaymentProject;
@@ -87,7 +88,8 @@ class Project extends Model
         'duty_on_services', // долг по услугам
         'data_start_work', // указание даты с которой работает проект (одноразово)
         'promoting_website', // продвигаем сайт
-        'checkbox_in_service' // чекбокс для отчета услуг
+        'checkbox_in_service', // чекбокс для отчета услуг
+        'service_type_id' // id отдела
     ];
 
     public $timestamps = true;
@@ -220,5 +222,10 @@ class Project extends Model
     public function monthlyAccruals()
     {
         return $this->hasMany(MonthlyAccrual::class, 'project_id');
+    }
+
+    public function serviceType()
+    {
+        return $this->belongsTo(ServiceType::class, 'service_type_id');
     }
 }

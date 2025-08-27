@@ -41,7 +41,8 @@ class ReportServiceController extends Controller
                 $query->whereBetween('monthly_accruals.date', [$startDate, $endDate]);
             },
             'services.serviceType',
-            'requisite'
+            'requisite',
+            'serviceType'
         ]);
 
         $reports = $reports->paginate(20);
@@ -163,7 +164,8 @@ class ReportServiceController extends Controller
             sum(projects.total_amount_agreement) as sum_total_amount_agreement,
             sum(projects.sum_amount) as sum_amount,
             sum(projects.sum_accrual_this_month) as sum_accrual_this_month,
-            sum(projects.duty) as sum_duty
+            sum(projects.duty) as sum_duty,
+            sum(COALESCE(projects.hours, 0)) as sum_hours
         ")
             ->fromSub($reports, 'projects')
             ->first()

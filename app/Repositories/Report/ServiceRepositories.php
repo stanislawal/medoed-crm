@@ -60,6 +60,7 @@ class ServiceRepositories
             projects.data_start_work,
             projects.promoting_website,
             projects.checkbox_in_service,
+            projects.service_type_id,
             (SELECT MIN(services_project.created_at)
                 FROM services_project
                 WHERE services_project.project_id = projects.id

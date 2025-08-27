@@ -169,6 +169,13 @@
                             <div class="text-12 nowrap-dot">Общий долг:</div>
                         </div>
                     </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24"><strong>{{ number_format($indicators['sum_hours'], 0, '.', ' ') }}</strong></div>
+                            <div class="text-12 nowrap-dot">Кол-во часов:</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -192,14 +199,12 @@
                     <table id="basic-datatables"
                            class="display table table-hover table-head-bg-info table-center table-cut">
                         <thead>
-
                         <tr>
                             <th></th>
                             <th></th>
                             <th>Отдел</th>
                             <th>Проект</th>
                             <th>Долг</th>
-{{--                            <th>+ долг</th>--}}
                             <th>Контрагент</th>
                             <th>Отчетная дата</th>
                             <th>М-ц работы</th>
@@ -231,36 +236,30 @@
                                     >
                                 </td>
                                 <td>
-                                    <div class="d-flex flex-wrap gap-1">
-                                        @foreach($item->services as $i => $service)
-                                            @if($i === 0 || $service->serviceType->id !== $item->services[$i-1]->serviceType->id)
-                                                <div class="select-2-custom-state-color"
-                                                     style="background-color: {{ $service->serviceType->color }}">
-                                                    {{ $service->serviceType->name }}
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    </div>
+                                    @if($item->serviceType)
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <div class="select-2-custom-state-color"
+                                                  style="background-color: {{ $item->serviceType->color }}">
+                                                {{ $item->serviceType->name }}
+                                            </div>
+                                        </div>
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-between flex-nowrap">
                                         <span> {{ $item['project_name'] }}</span>
 
-                                        <a target="_blank" class="px-3 d-flex align-items-center text-primary"
-                                           href="{{route('project.edit',['project'=> $item['id']])}}"><i
-                                                class="fas fa-external-link-alt"></i></a>
+                                        <div class="d-flex justify-content-between flex-nowrap">
+                                            <a target="_blank" class="px-3 d-flex align-items-center text-primary"
+                                               href="{{route('project.edit',['project'=> $item['id']])}}"><i
+                                                    class="fas fa-external-link-alt"></i></a>
+
+                                            <a target="_blank" class="pe-2 d-flex align-items-center text-primary"
+                                               href="{{ route('project.index', ['id' => $item['id']]) }}"><i class="fas fa-list-ul"></i></a>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="nowrap"><strong>{{ number_format($item->duty, 2, '.', ' ')}}</strong></td>
-{{--                                <td>--}}
-{{--                                    <input type="number"--}}
-{{--                                           onchange="window.update(this, '{{ route('project.partial_update', ['id' => $item->id]) }}')"--}}
-{{--                                           style="width: 80px"--}}
-{{--                                           class="form-control form-control-sm"--}}
-{{--                                           name="duty_on_services"--}}
-{{--                                           value="{{ $item['duty_on_services'] + 0 }}"--}}
-{{--                                    >--}}
-{{--                                </td>--}}
                                 <td style="max-width: 180px;">{{ $item->legal_name_company }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}</td>
                                 <td class="text-center">{{ $item->count_month_work }}</td>

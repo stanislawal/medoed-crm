@@ -20,6 +20,7 @@ use App\Models\Project\Project;
 use App\Models\Project\Style;
 use App\Models\Project\Theme;
 use App\Models\Requisite;
+use App\Models\Service\ServiceType;
 use App\Models\Service\SpecialistService;
 use App\Models\Status;
 use App\Models\User;
@@ -133,6 +134,7 @@ class ProjectController extends Controller
         $moods = Mood::on()->get()->toArray(); //достаем все настроения из бд
         $statuses = Status::on()->get()->toArray(); //Достаем все статусы из бд
         $style = Style::on()->get()->toArray();
+        $serviceTypes = ServiceType::on()->get();
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
         })
@@ -154,6 +156,7 @@ class ProjectController extends Controller
             'authors'     => $authors,
             'requisite'   => $requisite,
             'specialists' => SpecialistService::on()->get(),
+            'serviceTypes' => $serviceTypes,
         ]);
     }
 
@@ -214,6 +217,7 @@ class ProjectController extends Controller
                 'total_amount_agreement'           => $request->total_amount_agreement ?? null,
                 'leading_specialist_id'            => $request->leading_specialist_id ?? null,
                 'promoting_website'                => $request->promoting_website ?? null,
+                'service_type_id'                  => $request->service_type_id ?? null,
             ];
 
             $project = Project::on()->create($attr);
@@ -303,6 +307,7 @@ class ProjectController extends Controller
         $statuses = Status::on()->get()->toArray(); //Достаем все статусы из бд
         $style = Style::on()->get()->toArray();
         $sourceClients = SourceClient::on()->get();
+        $serviceTypes = ServiceType::on()->get();
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
         })
@@ -365,6 +370,7 @@ class ProjectController extends Controller
             'requisite'     => $requisite,
             'sourceClients' => $sourceClients,
             'specialists'   => SpecialistService::on()->get(),
+            'serviceTypes'  => $serviceTypes,
         ]);
     }
 
@@ -427,6 +433,7 @@ class ProjectController extends Controller
             'total_amount_agreement'           => $request->total_amount_agreement ?? null,
             'leading_specialist_id'            => $request->leading_specialist_id ?? null,
             'promoting_website'                => $request->promoting_website ?? null,
+            'service_type_id'                  => $request->service_type_id ?? null,
         ];
 
         if (UserHelper::isAdmin()) {

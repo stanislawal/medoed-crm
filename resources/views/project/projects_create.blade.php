@@ -257,6 +257,17 @@
             </div>
             <hr class="bg-black">
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">Отдел </label>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm select2-with-color" name="service_type_id">
+                        <option value="">Не выбрано</option>
+                        @foreach($serviceTypes as $item)
+                            <option data-color="{{ $item->color }}" value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
             <div class="row mb-1">
                 <label class="col-sm-3 col-form-label">Тема проекта </label>
