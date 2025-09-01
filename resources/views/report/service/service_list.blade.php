@@ -156,16 +156,21 @@
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ number_format($indicators['sum_accrual_this_month'] + 0, 0, '.', ' ') }}
-                                    ₽</strong></div>
+                                <strong>{{ number_format($indicators['sum_accrual_this_month'] + 0, 0, '.', ' ') }} ₽</strong></div>
                             <div class="text-12 nowrap-dot">Сумма начислений в месяце:</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($indicators['sum_duty'] + 0, 0, '.', ' ') }}
-                                    ₽</strong></div>
+                            <div class="text-24"><strong>{{ number_format($sumPayments, 0, '.', ' ') }} ₽</strong></div>
+                            <div class="text-12 nowrap-dot">Сумма оплат:</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24"><strong>{{ number_format($indicators['sum_duty'] + 0, 0, '.', ' ') }} ₽</strong></div>
                             <div class="text-12 nowrap-dot">Общий долг:</div>
                         </div>
                     </div>

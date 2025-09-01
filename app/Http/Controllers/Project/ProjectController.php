@@ -60,6 +60,8 @@ class ProjectController extends Controller
 
         $socialNetworks = SocialNetwork::on()->get();
 
+        $serviceTypes = ServiceType::on()->get();
+
         $projects = Project::on()
             ->selectRaw("
                 projects.*,
@@ -83,8 +85,10 @@ class ProjectController extends Controller
                 'projectStatus',
                 'projectClients.socialNetwork',
                 'projectAuthor',
-                'projectStyle'
-            ]);
+                'projectStyle',
+                'serviceType'
+            ])
+        ->withCount('services');
 
         $projects->leftJoin('users', 'users.id', '=', 'projects.manager_id');
         $projects->leftJoin('styles', 'styles.id', '=', 'projects.style_id');
@@ -112,7 +116,6 @@ class ProjectController extends Controller
         $projects->orderBy('id', 'desc');
         $projects = $projects->paginate(20);
 
-
         return view('project.list_projects', [
             'projects'       => $projects,
             'statuses'       => $statuses,
@@ -121,7 +124,8 @@ class ProjectController extends Controller
             'style'          => $style,
             'managers'       => $managers,
             'authors'        => $authors,
-            'socialNetworks' => $socialNetworks
+            'socialNetworks' => $socialNetworks,
+            'serviceTypes'   => $serviceTypes
         ]);
 
     }
@@ -684,6 +688,11 @@ class ProjectController extends Controller
         $projects->when(!empty($request->mood_id), function ($where) use ($request) {
             $where->where('projects.mood_id', $request->mood_id == 'empty' ? null : $request->mood_id);
         });
+
+        $projects->when(!empty($request->service_type_id), function ($where) use ($request) {
+            $where->where('projects.service_type_id', $request->service_type_id);
+        });
+
 
         // sort
         if (str_contains($request->sort, '|')) {

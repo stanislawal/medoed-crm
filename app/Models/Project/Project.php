@@ -107,8 +107,10 @@ class Project extends Model
 
         $start = Carbon::parse($this->data_start_work ?? $firstServiceDate);
 
-        $diffYears = (int)now()->format('Y') - (int)$start->format('Y');
-        $diffMonths = (int)now()->format('m') - (int)$start->format('m');
+        $end = !empty(request()->all()['month']) ? Carbon::parse(request()->all()['month']) : now();
+
+        $diffYears = (int)Carbon::parse($end)->format('Y') - (int)$start->format('Y');
+        $diffMonths = (int)Carbon::parse($end)->format('m') - (int)$start->format('m');
 
         $months = $diffYears * 12 + $diffMonths + 1; // +1 для частичного месяца
 

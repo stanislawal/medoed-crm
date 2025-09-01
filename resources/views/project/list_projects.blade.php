@@ -202,6 +202,21 @@
                                            value="{{ request()->legal_name_company ?? '' }}">
                                 </div>
 
+                                <div class="form-group col-12 col-md-4 col-lg-3">
+                                    <label for="" class="form-label">Отдел</label>
+                                    <select class="form-select form-select-sm select2-with-color"
+                                            name="service_type_id">
+                                        <option value="">Не выбрано</option>
+                                        @foreach($serviceTypes as $item)
+                                            <option
+                                                @if($item->id == request()->service_type_id) selected @endif
+                                            data-color="{{ $item->color }}"
+                                                value="{{ $item->id }}"
+                                            >{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <div class="col-12 p-0">
                                     <div class="form-group col-12">
                                         <div class="w-100 d-flex justify-content-end">
@@ -244,6 +259,7 @@
                                         </a>
                                     </th>
                                     <th></th>
+                                    <th>Отдел</th>
                                     <th style="max-width: 80px;"
                                         class="sort-p">@include('components.table.sort', ['title' => 'Приор', 'column' => 'styles|name', 'routeName' => 'project.index'] )</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
@@ -279,6 +295,7 @@
 
                                 @foreach ($projects as $project)
                                     <tr>
+                                        {{--                                        <td>services_count:{{ $project['services_count'] }} | duty_on_services:{{ $project['duty_on_services'] }}</td>--}}
                                         <td>{{ $project['id'] }}</td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             <input type="checkbox" name="check" @if((bool)$project['check']) checked
@@ -289,9 +306,27 @@
                                             <a href="{{route('project.edit',['project'=> $project['id']])}}"><i
                                                     class="fas fa-grip-horizontal"></i></a>
                                         </td>
+
+                                        <td>
+                                            @if($project->serviceType)
+                                                <div class="d-flex flex-wrap gap-1">
+                                                    <div class="select-2-custom-state-color"
+                                                         style="background-color: {{ $project->serviceType->color }}">
+                                                        {{ $project->serviceType->name }}
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </td>
+
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectStyle']['name'] ?? '------'}}</td>
                                         <td style="padding: 0 10px 0 12px!important"><a
-                                                href="{{ route('client_project.show', ['project' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}">{{$project['project_name'] ?? '------'}}</a>
+                                                @if($project['services_count'] > 0 || $project['duty_on_services'] != 0)
+                                                    href="{{ route('report_service.show', ['project_id' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}"
+                                                @else
+                                                    href="{{ route('client_project.show', ['project' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}"
+                                                @endif
+
+                                            >{{$project['project_name'] ?? '------'}}</a>
                                         </td>
                                         <td>
                                             {{ $project['legal_name_company'] }}
@@ -440,7 +475,9 @@
 
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"
+            integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{asset('js/select2.js')}}"></script>
     <script src="{{asset('js/project.js')}}"></script>
 

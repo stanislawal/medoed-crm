@@ -294,7 +294,7 @@
                                     @unlessrole('Автор')
                                     <li>
                                         <a href="{{ route('report_client.index') }}">
-                                            <span class="sub-item">Заказчики</span>
+                                            <span class="sub-item">Статьи</span>
                                         </a>
                                     </li>
                                     @endunlessrole

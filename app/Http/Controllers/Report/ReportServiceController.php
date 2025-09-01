@@ -59,6 +59,31 @@ class ReportServiceController extends Controller
         })->where('is_work', true)->get();
         $requisite = Requisite::on()->get();
 
+        $sumPayments = Payment::on()
+            ->selectRaw("
+                sum(
+                    coalesce(sber_a, 0) +
+                    coalesce(tinkoff_a, 0) +
+                    coalesce(tinkoff_k, 0) +
+                    coalesce(sber_d, 0) +
+                    coalesce(sber_k, 0) +
+                    coalesce(privat, 0) +
+                    coalesce(um, 0) +
+                    coalesce(wmz, 0) +
+                    coalesce(birja, 0)
+                ) as amount
+            ")
+            ->where('mark', true)
+            ->whereBetween('date', [
+                Carbon::parse($startDate)->startOfMonth()->toDateTimeString(),
+                Carbon::parse($endDate)->endOfMonth()->toDateTimeString(),
+            ])
+            ->whereHas('project', function ($where) {
+                $where->where(function ($where) {
+                    $where->whereHas('services')->orWhere('duty_on_services', '>', 0);
+                });
+            })->first()->amount;
+
         return view('report.service.service_list', [
             'reports'           => $reports,
             'indicators'        => $indicators,
@@ -68,6 +93,7 @@ class ReportServiceController extends Controller
             'specialistService' => $specialistService,
             'managers'          => $managers,
             'requisite'         => $requisite,
+            'sumPayments'       => $sumPayments,
         ]);
     }
 
