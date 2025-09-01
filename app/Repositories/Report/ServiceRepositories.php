@@ -91,7 +91,7 @@ class ServiceRepositories
         $reports = Project::on()->selectRaw("
             projects.*,
             (
-                projects.sum_accrual_this_month_duty
+                COALESCE(projects.sum_accrual_this_month_duty, 0)
                 -
                 SUM(
                     COALESCE(payment.sber_a, 0) +
