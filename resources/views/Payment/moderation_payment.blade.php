@@ -223,10 +223,10 @@
                                                type="date" value="{{$payment['date']}}">
                                     </td>
                                     <td>
-                                        {{ $payment['project']['project_name'] ?? ''}}
+                                        {{ $payment['project'] ? $payment['project']['project_name'] : ''}}
                                     </td>
                                     <td>
-                                        {{ $payment['project']['legal_name_company'] }}
+                                        {{ $payment['project'] ? $payment['project']['legal_name_company'] : '' }}
                                     </td>
                                     <td>
                                         <div class="btn btn-sm btn-primary edit"
