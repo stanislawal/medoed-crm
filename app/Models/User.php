@@ -39,8 +39,11 @@ class User extends Authenticatable
         'inn_for_doc',
         'contract_number_for_doc',
         'date_contract_for_doc',
-        'email_for_doc'
+        'email_for_doc',
+
+        'check_report_author' // галочка для отчета по авторам
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.

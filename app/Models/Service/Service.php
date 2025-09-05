@@ -20,7 +20,8 @@ class Service extends Model
         'accrual_this_month',
         'task',
         'user_id',
-        'name'
+        'name',
+        'created_at'
     ];
 
 

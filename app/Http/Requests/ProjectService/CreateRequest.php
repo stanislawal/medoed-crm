@@ -31,6 +31,7 @@ class CreateRequest extends FormRequest
             'accrual_this_month'    => 'required|numeric',
             'task'                  => 'required|string',
             'specialist_service_id' => 'nullable|array',
+            'created_at'            => 'nullable|date:Y-m-d',
         ];
     }
 }

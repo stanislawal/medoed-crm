@@ -63,6 +63,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="form-label">Дата <span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" type="date" name="created_at" required value="{{ now()->format('Y-m-d') }}">
+                    </div>
+
+                    <div class="form-group">
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-sm btn-success">Создать</button>
                         </div>

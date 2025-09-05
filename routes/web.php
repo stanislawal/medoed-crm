@@ -90,6 +90,7 @@ Route::middleware(['auth', 'is_work'])->group(function () {
     # only admin
     Route::middleware('role:Администратор')->group(function () {
         # Пользователи (users)
+        Route::post('/user/partial-update/{id}', [UserController::class, 'partialUpdate'])->name('user.partial_update');
         Route::resource('user', UserController::class)->except('destroy');
 
         // Добавление статуса для проекта

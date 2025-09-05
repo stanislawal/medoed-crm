@@ -114,7 +114,15 @@ class ProjectController extends Controller
 
         $projects->groupBy('projects.id');
         $projects->orderBy('id', 'desc');
+
+        $indicators = $projects;
+
         $projects = $projects->paginate(20);
+
+        $indicators = Project::on()->selectRaw("
+            SUM(COALESCE(projects.sum_gross_income, 0)) as sum_gross_income,
+            SUM(COALESCE(projects.plan_gross_income, 0)) as sum_plan_gross_income
+        ")->fromSub($indicators, 'projects')->first();
 
         return view('project.list_projects', [
             'projects'       => $projects,
@@ -125,7 +133,8 @@ class ProjectController extends Controller
             'managers'       => $managers,
             'authors'        => $authors,
             'socialNetworks' => $socialNetworks,
-            'serviceTypes'   => $serviceTypes
+            'serviceTypes'   => $serviceTypes,
+            'indicators'     => $indicators,
         ]);
 
     }

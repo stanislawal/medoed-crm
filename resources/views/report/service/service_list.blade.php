@@ -266,7 +266,11 @@
                                 </td>
                                 <td class="nowrap"><strong>{{ number_format($item->duty, 2, '.', ' ')}}</strong></td>
                                 <td style="max-width: 180px;">{{ $item->legal_name_company }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}</td>
+                                <td>
+                                    @if($item['reporting_data'])
+                                        {{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}
+                                    @endif
+                                </td>
                                 <td class="text-center">{{ $item->count_month_work }}</td>
                                 <td>
                                     <input type="number"

@@ -217,6 +217,7 @@
                         <thead>
                         <tr>
                             <th></th>
+                            <th></th>
                             <th class="sort-p">@include('components.table.sort', ['title' => 'Банк', 'column'       => 'bank', 'routeName' => 'report_author.index'])</th>
                             <th>К выплате</th>
                             <th class="sort-p">@include('components.table.sort', ['title' => 'Автор', 'column'       => 'full_name', 'routeName' => 'report_author.index'])</th>
@@ -239,10 +240,18 @@
 
                         @foreach($reports as $author)
                             <tr>
-                                <td>
+                                <td class="text-center">
                                     <a href="{{ route('report_author.show', ['report_author' => $author['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}">
                                         <i class="fas fa-grip-horizontal"></i>
                                     </a>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <input type="checkbox" name="check_report_author"
+                                               onchange="window.editUser(this, '{{ route('user.partial_update', ['id' => $author['id']]) }}')"
+                                            @if($author['check_report_author']) checked @endif
+                                        >
+                                    </div>
                                 </td>
                                 <td>{{ $author['bank'] ?? '-' }}</td>
                                 <td class="text-danger nowrap">{{number_format($author['duty'] + ($remainderDuty->where('author_id', $author['id'])->first()['remainder_duty'] ?? 0), 2, '.', ' ')  }}</td>
@@ -277,4 +286,18 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{asset('js/select2.js')}}"></script>
     <script src="{{asset('js/project.js')}}"></script>
+
+    <script>
+        window.editUser = function (el, url) {
+            let value = $(el).val();
+
+            if($(el).attr('type') === 'checkbox'){
+                value = $(el).is(':checked') ? 1 : 0;
+            }
+
+            const columnName = $(el).attr('name')
+            console.log({[columnName]: value})
+            ajax('post', url, {[columnName]: value})
+        }
+    </script>
 @endsection

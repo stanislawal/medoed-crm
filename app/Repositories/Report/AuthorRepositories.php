@@ -74,6 +74,7 @@ class AuthorRepositories
                 banks.name as bank,
                 banks.id as bank_id,
                 users.full_name,
+                users.check_report_author,
                 sum(articles.without_space_author) as without_space,
                 sum(articles.price) as amount,
                 sum(articles.price_article) as gross_income,

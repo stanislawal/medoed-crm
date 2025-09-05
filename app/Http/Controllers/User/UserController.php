@@ -138,4 +138,15 @@ class UserController extends Controller
             'count'  => count($userActive)
         ]);
     }
+
+    public function partialUpdate(Request $request, $id)
+    {
+        $attr = $request->validate([
+            'check_report_author' => 'nullable|boolean',
+        ]);
+
+        User::on()->where('id', $id)->update($attr);
+
+        return response()->json();
+    }
 }

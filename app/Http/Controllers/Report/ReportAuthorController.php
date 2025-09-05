@@ -33,8 +33,7 @@ class ReportAuthorController extends Controller
         $diffInWeekdays = Carbon::parse($startDate)->diffInWeekdays(Carbon::parse($endDate)) + 1;
         $diffInCurrentDay = Carbon::parse($startDate)->diffInWeekdays(Carbon::parse(now())) + 1;
 
-        $reports = AuthorRepositories::getReport($request, $startDate, $endDate,
-            $diffInWeekdays)
+        $reports = AuthorRepositories::getReport($request, $startDate, $endDate, $diffInWeekdays)
             ->paginate(50);
 
         $authors = User::on()->whereHas('roles', function ($query) {

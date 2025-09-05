@@ -58,6 +58,10 @@ class ProjectServiceController extends Controller
 
             $attr['user_id'] = UserHelper::getUserId();
 
+            if(!empty($attr['created_at'])){
+                $attr['created_at'] = Carbon::parse($attr['created_at'])->format('Y-m-d H:i:s');
+            }
+
             $service = Service::on()->create(
                 $attr->except('specialist_service_id')->toArray()
             );
