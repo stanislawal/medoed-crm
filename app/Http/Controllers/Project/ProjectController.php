@@ -77,7 +77,8 @@ class ProjectController extends Controller
                         THEN articles.price_client
                         ELSE (articles.price_client * (articles.without_space / 1000))
                     END
-                ) as sum_gross_income
+                ) as sum_gross_income,
+                SUM(COALESCE(services_project.accrual_this_month, 0)) as service_gross_income
             ")
             ->with([
                 'projectTheme',
@@ -105,6 +106,14 @@ class ProjectController extends Controller
                 ->where('articles.ignore', false);
         });
 
+        $projects->leftJoin('services_project', function ($leftJoin) {
+            $leftJoin->on('services_project.project_id', '=', 'projects.id')
+                ->whereBetween('services_project.created_at', [
+                    Carbon::parse(now())->startOfMonth()->toDateTimeString(),
+                    Carbon::parse(now())->endOfMonth()->toDateTimeString()
+                ]);
+        });
+
         $projects->when(UserHelper::isManager(), function ($where) {
             $where->where('projects.manager_id', UserHelper::getUserId());
         });
@@ -117,7 +126,7 @@ class ProjectController extends Controller
 
         $indicators = Project::on()->selectRaw("
             SUM(COALESCE(projects.sum_gross_income, 0)) as sum_gross_income,
-            SUM(COALESCE(projects.plan_gross_income, 0)) as sum_plan_gross_income
+            SUM(COALESCE(projects.plan_gross_income, 0) + COALESCE(service_gross_income, 0)) as sum_plan_gross_income
         ")->fromSub($projects, 'projects')->first();
 
         $projects = $projects->paginate(20);
@@ -134,7 +143,6 @@ class ProjectController extends Controller
             'serviceTypes'   => $serviceTypes,
             'indicators'     => $indicators,
         ]);
-
     }
 
     //Страница формы создания. Возвращаем view на которой форма создания

@@ -421,7 +421,7 @@
                                             @endif
                                         </td>
                                         @role('Администратор')
-                                        <td class="nowrap">{{ number_format($project['sum_gross_income'] + 0 ?? '-', 2, '.', ' ') }}</td>
+                                        <td class="nowrap">{{ number_format($project['sum_gross_income'] + $project['service_gross_income'] ?? '-', 2, '.', ' ') }}</td>
                                         @endrole
                                         <td>
                                             <input class="form-control form-control-sm"
