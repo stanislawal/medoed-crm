@@ -125,8 +125,8 @@ class ProjectController extends Controller
         $projects->orderBy('id', 'desc');
 
         $indicators = Project::on()->selectRaw("
-            SUM(COALESCE(projects.sum_gross_income, 0)) as sum_gross_income,
-            SUM(COALESCE(projects.plan_gross_income, 0) + COALESCE(service_gross_income, 0)) as sum_plan_gross_income
+            SUM(COALESCE(projects.sum_gross_income, 0) + COALESCE(service_gross_income, 0)) as sum_gross_income,
+            SUM(COALESCE(projects.plan_gross_income, 0)) as sum_plan_gross_income
         ")->fromSub($projects, 'projects')->first();
 
         $projects = $projects->paginate(20);
