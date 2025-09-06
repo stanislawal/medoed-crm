@@ -216,7 +216,11 @@ class ReportServiceController extends Controller
         });
 
         $reports->when(!empty($request->status_id), function ($query) use ($request) {
-            $query->where('projects.status_id', $request->status_id);
+            $query->whereIn('projects.status_id', $request->status_id);
+        });
+
+        $reports->when(!empty($request->without_status_id), function ($query) use ($request) {
+            $query->whereNotIn('projects.status_id', $request->without_status_id);
         });
 
         $reports->when(!empty($request->leading_specialist_id), function ($query) use ($request) {

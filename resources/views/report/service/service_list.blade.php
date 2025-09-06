@@ -60,11 +60,24 @@
 
                         <div class="col-12 col-md-4 col-lg-3 mb-3">
                             <label class="form-label" for="">Состояние</label>
-                            <select class="form-select form-select-sm select2-with-color" name="status_id">
+                            <select class="form-select form-select-sm select2-with-color" name="status_id[]" multiple>
                                 <option value="">Не выбрано</option>
                                 @foreach($statuses as $item)
                                     <option
-                                        @if($item->id == request()->status_id) selected @endif
+                                        @if(in_array($item->id, request()->status_id ?? [])) selected @endif
+                                    data-color="{{ $item->color }}"
+                                        value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-4 col-lg-3 mb-3">
+                            <label class="form-label" for="">Состояние (исключить)</label>
+                            <select class="form-select form-select-sm select2-with-color" name="without_status_id[]" multiple>
+                                <option value="">Не выбрано</option>
+                                @foreach($statuses as $item)
+                                    <option
+                                        @if(in_array($item->id, request()->without_status_id ?? [])) selected @endif
                                     data-color="{{ $item->color }}"
                                         value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
