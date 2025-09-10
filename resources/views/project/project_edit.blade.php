@@ -808,6 +808,13 @@
                 </div>
             </div>
 
+            <div class="row mb-1">
+                <label class="col-sm-3 col-form-label">E-mail клиента</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control form-control-sm" name="client_email" value="{{ $projectInfo['client_email'] ?? '' }}" disabled>
+                </div>
+            </div>
+
             <div class="row mb-2">
                 <label class="col-sm-3 col-form-label">Подпись NDA</label>
                 <div class="col-sm-9">

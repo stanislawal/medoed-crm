@@ -89,7 +89,9 @@ class Project extends Model
         'data_start_work', // указание даты с которой работает проект (одноразово)
         'promoting_website', // продвигаем сайт
         'checkbox_in_service', // чекбокс для отчета услуг
-        'service_type_id' // id отдела
+        'service_type_id', // id отдела
+
+        'client_email' // поста клиента
     ];
 
     public $timestamps = true;

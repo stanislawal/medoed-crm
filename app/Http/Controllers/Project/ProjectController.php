@@ -89,7 +89,7 @@ class ProjectController extends Controller
                 'projectStyle',
                 'serviceType'
             ])
-        ->withCount('services');
+            ->withCount('services');
 
         $projects->leftJoin('users', 'users.id', '=', 'projects.manager_id');
         $projects->leftJoin('styles', 'styles.id', '=', 'projects.style_id');
@@ -166,15 +166,15 @@ class ProjectController extends Controller
 
         //передаем данные в view
         return view('project.projects_create', [
-            'statuses'    => $statuses,
-            'moods'       => $moods,
-            'themes'      => $themes,
-            'clients'     => $clients,
-            'style'       => $style,
-            'managers'    => $managers,
-            'authors'     => $authors,
-            'requisite'   => $requisite,
-            'specialists' => SpecialistService::on()->get(),
+            'statuses'     => $statuses,
+            'moods'        => $moods,
+            'themes'       => $themes,
+            'clients'      => $clients,
+            'style'        => $style,
+            'managers'     => $managers,
+            'authors'      => $authors,
+            'requisite'    => $requisite,
+            'specialists'  => SpecialistService::on()->get(),
             'serviceTypes' => $serviceTypes,
         ]);
     }
@@ -237,6 +237,7 @@ class ProjectController extends Controller
                 'leading_specialist_id'            => $request->leading_specialist_id ?? null,
                 'promoting_website'                => $request->promoting_website ?? null,
                 'service_type_id'                  => $request->service_type_id ?? null,
+                'client_email'                     => $request->client_email ?? null,
             ];
 
             $project = Project::on()->create($attr);
@@ -453,6 +454,7 @@ class ProjectController extends Controller
             'leading_specialist_id'            => $request->leading_specialist_id ?? null,
             'promoting_website'                => $request->promoting_website ?? null,
             'service_type_id'                  => $request->service_type_id ?? null,
+            'client_email'                     => $request->client_email ?? null,
         ];
 
         if (UserHelper::isAdmin()) {
