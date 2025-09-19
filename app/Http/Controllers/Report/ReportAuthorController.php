@@ -196,7 +196,18 @@ class ReportAuthorController extends Controller
             }
 
             $fio = $author['fio_for_doc'];
-            $author['nameAndInitials'] = explode(' ', $fio)[0] . ' ' . mb_substr(explode(' ', $fio)[1], 0, 1) . '. ' . mb_substr(explode(' ', $fio)[2], 0, 1) . '.';
+
+            $parts = explode(' ', $fio);
+
+            $author['nameAndInitials'] = $parts[0]; // Фамилия
+
+            if (isset($parts[1])) {
+                $author['nameAndInitials'] .= ' ' . mb_substr($parts[1], 0, 1) . '.';
+            }
+
+            if (isset($parts[2])) {
+                $author['nameAndInitials'] .= ' ' . mb_substr($parts[2], 0, 1) . '.';
+            }
 
             $types = [
                 'act' => 'АКТ',
@@ -238,6 +249,17 @@ class ReportAuthorController extends Controller
             return redirect()->back()->with(['success' => 'Файл успешно создан. [file: ' . $fileName . ']']);
 
         } catch (\Exception $exception) {
+
+            $method = $exception->getTrace()[0]['function'] ?? 'unknown';
+
+            // Получить строку ошибки
+            $line = $exception->getLine();
+
+            // Получить файл
+            $file = $exception->getFile();
+
+            dd($method, $line, $file);
+
 
             if (!empty($url)) {
                 if (Storage::disk('public')->exists($url)) {
