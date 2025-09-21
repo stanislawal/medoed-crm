@@ -281,7 +281,7 @@
                                         </a>
                                     </th>
                                     <th></th>
-                                    <th>Отдел</th>
+                                    <th class="sort-p">@include('components.table.sort', ['title' => 'Отдел', 'column' => 'service_types|name', 'routeName' => 'project.index'] )</th>
                                     <th style="max-width: 80px;"
                                         class="sort-p">@include('components.table.sort', ['title' => 'Приор', 'column' => 'styles|name', 'routeName' => 'project.index'] )</th>
                                     <th class="sort-p">@include('components.table.sort', ['title' => 'Проект', 'column' => 'project_name', 'routeName' => 'project.index'] )</th>
