@@ -222,7 +222,11 @@ class ReportAuthorController extends Controller
                         article,
                         without_space,
                         price_author,
-                        CAST(((without_space / 1000) * price_author) as DECIMAL(10,2)) as price_article
+                        CASE
+                            WHEN is_fixed_price_author = 1
+                            THEN price_author
+                            ELSE CAST(((without_space / 1000) * price_author) as DECIMAL(10,2))
+                        END as price_article
                     ")
                     ->whereIn('id', $validated['article_ids'])
                     ->orderByDesc('id')
@@ -249,17 +253,6 @@ class ReportAuthorController extends Controller
             return redirect()->back()->with(['success' => 'Файл успешно создан. [file: ' . $fileName . ']']);
 
         } catch (\Exception $exception) {
-
-            $method = $exception->getTrace()[0]['function'] ?? 'unknown';
-
-            // Получить строку ошибки
-            $line = $exception->getLine();
-
-            // Получить файл
-            $file = $exception->getFile();
-
-            dd($method, $line, $file);
-
 
             if (!empty($url)) {
                 if (Storage::disk('public')->exists($url)) {
@@ -349,7 +342,11 @@ class ReportAuthorController extends Controller
                 article,
                 without_space,
                 price_author,
-                CAST(((without_space / 1000) * price_author) as DECIMAL(10,2)) as price_article
+                CASE
+                    WHEN is_fixed_price_author = 1
+                    THEN price_author
+                    ELSE CAST(((without_space / 1000) * price_author) as DECIMAL(10,2))
+                END as price_article
             ")
             ->whereIn('id', $articles)
             ->orderByDesc('id')
