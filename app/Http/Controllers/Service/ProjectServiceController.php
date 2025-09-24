@@ -31,6 +31,8 @@ class ProjectServiceController extends Controller
 
         $this->filter($projectServices, $request);
 
+        $sumAccrualThisMonth =  Service::on()->selectRaw('SUM(COALESCE(accrual_this_month, 0)) as sum_accrual_this_month')->fromSub($projectServices, 'services_project')->first()->sum_accrual_this_month;
+
         $projectServices = $projectServices->orderByDesc('id')->paginate(20);
 
         // получаем администраторов и менеджеров
@@ -47,7 +49,9 @@ class ProjectServiceController extends Controller
             'projects'        => $projects,
             'service_type'    => ServiceType::on()->get(),
             'specialists'     => SpecialistService::on()->get(),
-            'creater'         => $creater]);
+            'creater'         => $creater,
+            'sumAccrualThisMonth' => $sumAccrualThisMonth,
+        ]);
     }
 
     public function store(CreateRequest $request)
