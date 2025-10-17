@@ -236,8 +236,8 @@
                                         <select class="form-select form-select-sm" name="task" required>
                                             <option value="">Не выбрано</option>
                                             <option @if($item->task === 'Разовая') selected @endif>Разовая</option>
-                                            <option @if($item->task === 'Сопровождение') selected @endif>Сопровождение
-                                            </option>
+                                            <option @if($item->task === 'Сопровождение') selected @endif>Сопровождение</option>
+                                            <option @if($item->task === 'Сопр. посл. месяц') selected @endif>Сопр. посл. месяц</option>
                                         </select>
                                     </td>
                                     <td class="text-center">
