@@ -14,6 +14,8 @@
                             <option value="">Не выбрано</option>
                             @foreach($projects as $item)
                                 <option
+                                    @if(!is_null(request()->project_id) && request()->project_id == $item->id) selected
+                                    @endif
                                     value="{{ $item->id }}">{{ $item->project_name }}</option>
                             @endforeach
                         </select>
@@ -24,7 +26,12 @@
                         <select class="form-select form-select-sm select2-with-color" name="service_type_id" required>
                             <option value="">Не выбрано</option>
                             @foreach($service_type as $item)
-                                <option data-color="{{ $item->color }}" value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option
+                                    @if(!is_null(request()->project_id) && count($projectServices) && $projectServices[0]->serviceType->id === $item->id) selected
+                                    @endif
+                                    data-color="{{ $item->color }}"
+                                    value="{{ $item->id }}"
+                                >{{ $item->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -36,17 +43,16 @@
 
                     <div class="form-group">
                         <label for="">Специалисты</label>
-                        <select class="form-select form-select-sm select2-with-color" multiple name="specialist_service_id[]">
+                        <select class="form-select form-select-sm select2-with-color" multiple
+                                name="specialist_service_id[]">
                             @foreach($specialists as $item)
-                                <option data-color="{{ $item->color }}" value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option data-color="{{ $item->color }}"
+                                        value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
                     </div>
 
-{{--                    <div class="form-group">--}}
-{{--                        <label for="">Общая сумма договора <span class="text-danger">*</span></label>--}}
-                        <input class="form-control form-control-sm" type="hidden" name="all_price" value="0">
-{{--                    </div>--}}
+                    <input class="form-control form-control-sm" type="hidden" name="all_price" value="0">
 
                     <div class="form-group">
                         <label for="">Начислено в этом месяце <span class="text-danger">*</span></label>
@@ -59,12 +65,14 @@
                             <option value="">Не выбрано</option>
                             <option>Разовая</option>
                             <option>Сопровождение</option>
+                            <option>Сопр. посл. месяц</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Дата <span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" type="date" name="created_at" required value="{{ now()->format('Y-m-d') }}">
+                        <input class="form-control form-control-sm" type="date" name="created_at" required
+                               value="{{ now()->format('Y-m-d') }}">
                     </div>
 
                     <div class="form-group">

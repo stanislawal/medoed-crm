@@ -127,11 +127,32 @@ class ReportAuthorController extends Controller
         $indicators['duty'] = $indicators['duty'] - (collect($paymentHistory)->sum('amount'));
 
 
-        $documents = DocumentReport::on()->where('author_id', $id)
-            ->whereBetween('created_at', [
+        $documents = DocumentReport::on()
+            ->selectRaw("
+                document_reports.*,
+                COALESCE(SUM(
+                    CASE
+                        WHEN document_reports.type = 'АКТ' THEN
+                            CASE
+                                WHEN articles.is_fixed_price_author = 1
+                                THEN articles.price_author
+                                ELSE CAST(((articles.without_space / 1000) * articles.price_author) as DECIMAL(10,2))
+                            END
+                        ELSE 0
+                    END
+                ), 0) as total_articles_price
+            ")
+            ->leftJoin('cross_document_report_articles', 'document_reports.id', '=', 'cross_document_report_articles.document_report_id')
+            ->leftJoin('articles', 'cross_document_report_articles.article_id', '=', 'articles.id')
+            ->from('document_reports')
+            ->where('document_reports.author_id', $id)
+            ->whereBetween('document_reports.created_at', [
                 Carbon::parse($startDate)->startOfDay()->toDateTimeString(),
                 Carbon::parse($endDate)->endOfDay()->toDateTimeString(),
-            ])->orderByDesc('id')->get();
+            ])
+            ->groupBy('document_reports.id')
+            ->orderByDesc('document_reports.id')
+            ->get();
 
         return view('report.author.author_item', [
             'articles'          => $articles,

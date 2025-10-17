@@ -716,7 +716,7 @@
                                     disabled>
                                 <option value="">Не выбрано</option>
                                 @for($i = 1; $i <= 31; $i++)
-                                    <option @if(in_array($i, $notifiProject ?? [])) selected
+                                    <option @if(in_array($i, $notifyProject ?? [])) selected
                                             @endif  value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
@@ -725,7 +725,7 @@
                             <select class="form-control form-control-sm select-2" multiple name="weekday[]" disabled>
                                 <option value="">Не выбрано</option>
                                 @foreach(\App\Helpers\DateHelper::getWeekdayList() as $key => $value)
-                                    <option @if(in_array((string)$key, $notifiProject)) selected
+                                    <option @if(in_array((string)$key, $notifyProject)) selected
                                             @endif  value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>

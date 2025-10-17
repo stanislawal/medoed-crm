@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\CheckProjects;
+use App\Console\Commands\TransferService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -18,6 +19,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(CheckProjects::class)->dailyAt('09:00');
         $schedule->command('telescope:prune --hours=720')->daily();
+        $schedule->command(TransferService::class)->monthlyOn(1, '04:00');;
     }
 
     /**

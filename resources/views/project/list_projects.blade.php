@@ -317,7 +317,6 @@
 
                                 @foreach ($projects as $project)
                                     <tr>
-                                        {{--                                        <td>services_count:{{ $project['services_count'] }} | duty_on_services:{{ $project['duty_on_services'] }}</td>--}}
                                         <td>{{ $project['id'] }}</td>
                                         <td style="padding: 0 10px 0 12px!important">
                                             <input type="checkbox" name="check" @if((bool)$project['check']) checked
@@ -328,7 +327,6 @@
                                             <a href="{{route('project.edit',['project'=> $project['id']])}}"><i
                                                     class="fas fa-grip-horizontal"></i></a>
                                         </td>
-
                                         <td>
                                             @if($project->serviceType)
                                                 <div class="d-flex flex-wrap gap-1">
@@ -339,16 +337,19 @@
                                                 </div>
                                             @endif
                                         </td>
-
                                         <td style="padding: 0 10px 0 12px!important">{{$project['projectStyle']['name'] ?? '------'}}</td>
-                                        <td style="padding: 0 10px 0 12px!important"><a
-                                                @if($project['services_count'] > 0 || $project['duty_on_services'] != 0)
-                                                    href="{{ route('report_service.show', ['project_id' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}"
-                                                @else
-                                                    href="{{ route('client_project.show', ['project' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}"
-                                                @endif
+                                        <td style="padding: 0 10px 0 12px!important">
+                                            <div class="d-flex flex-row justify-content-between">
+                                                <span>{{$project['project_name'] ?? '-'}}</span>
+                                                <a target="_blank" class="text-primary ml-3 nowrap"
+                                                   @if($project['services_count'] > 0 || $project['duty_on_services'] != 0)
+                                                       href="{{ route('report_service.show', ['project_id' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}"
+                                                   @else
+                                                       href="{{ route('client_project.show', ['project' => $project['id'], 'month' => request()->month ?? now()->format('Y-m')]) }}"
+                                                    @endif
 
-                                            >{{$project['project_name'] ?? '------'}}</a>
+                                                ><i class="fas fa-external-link-alt"></i> свод</a>
+                                            </div>
                                         </td>
                                         <td>
                                             {{ $project['legal_name_company'] }}

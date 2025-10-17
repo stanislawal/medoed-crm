@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Project;
 use App\Models\Project\Project;
 use App\Models\Project\ProjectEvent;
 use App\Models\Project\Style;
+use App\Models\Service\SpecialistService;
 use App\Models\User;
 
 class AutoCreateEvent
@@ -126,13 +127,24 @@ class AutoCreateEvent
             ];
         }
 
+        if ($oldDate['leading_specialist_id'] != $newDate['leading_specialist_id']) { // ведущий специалист
+
+            $oldValue = is_null($oldDate['leading_specialist_id']) ? '' : SpecialistService::on()->find($oldDate['leading_specialist_id'])?->name ?? '';
+            $newValue = is_null($newDate['leading_specialist_id']) ? '' : SpecialistService::on()->find($newDate['leading_specialist_id'])?->name ?? '';
+
+            $arrayData[] = [
+                'name'      => 'Ведущий специалист',
+                'old_value' => $oldValue,
+                'new_value' => $newValue
+            ];
+        }
+
         $message = count($arrayData) > 0 ? $this->renderTable($arrayData) : null;
 
         return $message;
     }
 
-    private
-    function renderTable($arrayData)
+    private function renderTable($arrayData)
     {
 
         $message = ' <table class="project-event-table"><tbody>';

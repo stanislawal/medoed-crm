@@ -224,7 +224,7 @@
                             <th>Проект</th>
                             <th>Долг</th>
                             <th>Контрагент</th>
-                            <th>Отчетная дата</th>
+                            <th class="sort-p">@include('components.table.sort', ['title' => 'Отчетная дата', 'column' => 'reporting_data', 'routeName' => 'report_service.index'] )</th>
                             <th>М-ц работы</th>
                             <th>Сумма дог.</th>
                             <th>Начислено</th>

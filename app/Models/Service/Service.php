@@ -24,6 +24,9 @@ class Service extends Model
         'created_at'
     ];
 
+    public $casts= [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+    ];
 
     public function project()
     {

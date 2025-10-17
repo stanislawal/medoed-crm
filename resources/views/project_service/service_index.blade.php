@@ -27,8 +27,10 @@
                             <label class="form-label">Задача</label>
                             <select class="form-select form-select-sm" name="task">
                                 <option value="">Не выбрано</option>
-                                <option @if(request()->task === 'Разовая') selected @endif value="Разовая">Разовая</option>
-                                <option @if(request()->task === 'Сопровождение') selected @endif value="Сопровождение">Сопровождение
+                                <option @if(request()->task === 'Разовая') selected @endif value="Разовая">Разовая
+                                </option>
+                                <option @if(request()->task === 'Сопровождение') selected @endif value="Сопровождение">
+                                    Сопровождение
                                 </option>
                             </select>
                         </div>
@@ -43,7 +45,6 @@
                                 @endforeach
                             </select>
                         </div>
-
 
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
@@ -93,7 +94,8 @@
                     </div>
                     <div class="d-flex justify-content-end mt-3">
                         @if(count(request()->all()) > 0)
-                            <a href="{{ route('project-service.index') }}" class="btn btn-sm btn-danger me-3">Сбросить все</a>
+                            <a href="{{ route('project-service.index') }}" class="btn btn-sm btn-danger me-3">Сбросить
+                                все</a>
                         @endif
                         <button class="btn btn-sm btn-success">Искать</button>
                     </div>
@@ -150,7 +152,7 @@
                                 <th style="min-width: 100px">Условия оплаты</th>
                                 <th style="min-width: 150px">Специалисты</th>
                                 <th style="min-width: 100px">Регион продвижения</th>
-{{--                                <th style="min-width: 100px">Общая сумма договора</th>--}}
+                                {{--                                <th style="min-width: 100px">Общая сумма договора</th>--}}
                                 <th style="min-width: 100px">Начислено в этом месяце</th>
                                 <th style="min-width: 165px">Задача</th>
                                 <th style="min-width: 100px">Ссылка на план работы</th>
@@ -194,10 +196,11 @@
                                         {{ $item->project->project_theme_service ?? '' }}
                                     </td>
                                     <td>
-                                        <textarea style="width: 100%; resize: vertical!important; padding: 2px 5px!important;"
-                                                  cols="2" type="text"
-                                                  name="name"
-                                                  class="form-control form-control-sm"
+                                        <textarea
+                                            style="width: 100%; resize: vertical!important; padding: 2px 5px!important;"
+                                            cols="2" type="text"
+                                            name="name"
+                                            class="form-control form-control-sm"
                                         >{{ $item->name }}</textarea>
                                     </td>
                                     <td class="text-center">
@@ -221,10 +224,10 @@
                                     <td>
                                         {{ $item->project->region ?? '' }}
                                     </td>
-{{--                                    <td class="text-center">--}}
-{{--                                        <input class="form-control form-control-sm" type="number" name="all_price"--}}
-{{--                                               value="{{ $item->all_price }}">--}}
-{{--                                    </td>--}}
+                                    {{--                                    <td class="text-center">--}}
+                                    {{--                                        <input class="form-control form-control-sm" type="number" name="all_price"--}}
+                                    {{--                                               value="{{ $item->all_price }}">--}}
+                                    {{--                                    </td>--}}
                                     <td class="text-center">
                                         <input class="form-control form-control-sm" type="number"
                                                name="accrual_this_month" value="{{ $item->accrual_this_month }}">
@@ -267,7 +270,7 @@
         </div>
     </div>
 
-    @include('Window.ProjectService.create')
+    @include('Window.ProjectService.create', ['projectServices' => $projectServices])
 
 @endsection
 @section('custom_js')

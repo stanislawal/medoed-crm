@@ -20,11 +20,6 @@ class DocumentReport extends Model
         'date_time_send'
     ];
 
-//    public function sroccArticles()
-//    {
-//        return $this->hasMany(CrossDocumentReportArticle::class, 'document_report_id', 'id');
-//    }
-
     public function sroccArticles()
     {
         return $this->belongsToMany(Article::class, CrossDocumentReportArticle::class, 'document_report_id', 'article_id');

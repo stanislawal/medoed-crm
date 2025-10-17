@@ -372,7 +372,7 @@ class ProjectController extends Controller
             return $item;
         })->toArray();
 
-        $notifiProject = NotifiProject::on()->where('project_id', $project)->get()->pluck('day')->toArray() ?? [];
+        $notifyProject = NotifiProject::on()->where('project_id', $project)->get()->pluck('day')->toArray() ?? [];
 
         $projectClient = $projectInfo['project_clients'][0] ?? null;
 
@@ -386,7 +386,7 @@ class ProjectController extends Controller
             'managers'      => $managers,
             'authors'       => $authors,
             'socialNetwork' => $socialNetwork,
-            'notifiProject' => $notifiProject,
+            'notifyProject' => $notifyProject,
             'projectClient' => $projectClient,
             'requisite'     => $requisite,
             'sourceClients' => $sourceClients,

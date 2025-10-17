@@ -281,6 +281,7 @@
                                     <th>ID</th>
                                     <th>Файл</th>
                                     <th>Тип</th>
+                                    <th>Сумма</th>
                                     <th>Статус</th>
                                     <th>Дата отправки</th>
                                     <th>Дата создания</th>
@@ -293,6 +294,7 @@
                                         <td class="text-center">{{ $document['id'] }}</td>
                                         <td>{{ $document['file_name'] }}</td>
                                         <td>{{ $document['type'] }}</td>
+                                        <td>{{ number_format($document['total_articles_price'] + 0, 2, '.', ' ') }}</td>
                                         <td class="text-center">
                                             @if($document['is_send'])
                                                 <span class="badge bg-success">Отправлен</span>
@@ -381,8 +383,6 @@
                                 <th>Объем</th>
                                 <th>Цена</th>
                                 <th>Сумма</th>
-                                <th>Оплата</th>
-                                <th>Дата оплаты</th>
                                 @role('Администратор')
                                 <th>Цена заказчика</th>
                                 <th>Стоимость проекта</th>
@@ -404,13 +404,7 @@
                                     <td class="nowrap">{{number_format($article['price_author']+0, 2, '.', ' ')  }} @if($article['is_fixed_price_author'])
                                             <i class="ms-2 text-primary fas fa-lock"></i>
                                         @endif</td>
-                                    <td class="nowrap">{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
-                                    <td class="text-center bg-grey2">
-                                        {{ $article['payment_amount'] ?? 0 }}
-                                    </td>
-                                    <td class="text-center bg-grey2">
-                                        {{ $article['payment_date'] ?? '-' }}
-                                    </td>
+                                    <td class="nowrap bg-grey2">{{number_format($article['price']+0, 2, '.', ' ')  }}</td>
                                     @role('Администратор')
                                     <td class="nowrap">{{number_format($article['price_client']+0, 2, '.', ' ')  }} @if($article['is_fixed_price_client'])
                                             <i class="ms-2 text-primary fas fa-lock"></i>

@@ -202,9 +202,7 @@ class ReportServiceController extends Controller
     {
 
         $reports->when(!empty($request->service_type_id), function ($query) use ($request) {
-            $query->whereHas('services', function ($query) use ($request) {
-                $query->where('service_type_id', $request->service_type_id);
-            });
+            $query->where('projects.service_type_id', $request->service_type_id);
         });
 
         $reports->when(!empty($request->project_id), function ($query) use ($request) {
@@ -234,5 +232,19 @@ class ReportServiceController extends Controller
         $reports->when(!empty($request->requisite_id), function ($query) use ($request) {
             $query->where('projects.requisite_id', $request->requisite_id);
         });
+
+        // sort
+        if (str_contains($request->sort, '|')) {
+            $parts = explode('|', $request->sort);
+
+            $orderBy = implode('.', $parts);
+
+            $reports->orderByRaw($orderBy . ' ' . $request->direction ?? 'asc');
+
+        } else {
+            $reports->when(!empty($request->sort), function ($orderBy) use ($request) { // use ($request) - это то самое замыкание, о котормо я тебе говорил)))
+                $orderBy->orderBy($request->sort, $request->direction ?? 'asc');
+            });
+        }
     }
 }
