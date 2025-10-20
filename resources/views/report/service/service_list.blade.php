@@ -73,7 +73,8 @@
 
                         <div class="col-12 col-md-4 col-lg-3 mb-3">
                             <label class="form-label" for="">Состояние (исключить)</label>
-                            <select class="form-select form-select-sm select2-with-color" name="without_status_id[]" multiple>
+                            <select class="form-select form-select-sm select2-with-color" name="without_status_id[]"
+                                    multiple>
                                 <option value="">Не выбрано</option>
                                 @foreach($statuses as $item)
                                     <option
@@ -169,7 +170,8 @@
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
                             <div class="text-24">
-                                <strong>{{ number_format($indicators['sum_accrual_this_month'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                                <strong>{{ number_format($indicators['sum_accrual_this_month'] + 0, 0, '.', ' ') }}
+                                    ₽</strong></div>
                             <div class="text-12 nowrap-dot">Сумма начислений в месяце:</div>
                         </div>
                     </div>
@@ -183,14 +185,16 @@
 
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($indicators['sum_duty'] + 0, 0, '.', ' ') }} ₽</strong></div>
+                            <div class="text-24"><strong>{{ number_format($indicators['sum_duty'] + 0, 0, '.', ' ') }}
+                                    ₽</strong></div>
                             <div class="text-12 nowrap-dot">Общий долг:</div>
                         </div>
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
                         <div class="px-3 py-2 shadow border bg-white rounded">
-                            <div class="text-24"><strong>{{ number_format($indicators['sum_hours'], 0, '.', ' ') }}</strong></div>
+                            <div class="text-24">
+                                <strong>{{ number_format($indicators['sum_hours'], 0, '.', ' ') }}</strong></div>
                             <div class="text-12 nowrap-dot">Кол-во часов:</div>
                         </div>
                     </div>
@@ -257,7 +261,7 @@
                                     @if($item->serviceType)
                                         <div class="d-flex flex-wrap gap-1">
                                             <div class="select-2-custom-state-color"
-                                                  style="background-color: {{ $item->serviceType->color }}">
+                                                 style="background-color: {{ $item->serviceType->color }}">
                                                 {{ $item->serviceType->name }}
                                             </div>
                                         </div>
@@ -273,20 +277,17 @@
                                                     class="fas fa-external-link-alt"></i></a>
 
                                             <a target="_blank" class="pe-2 d-flex align-items-center text-primary"
-                                               href="{{ route('project.index', ['id' => $item['id']]) }}"><i class="fas fa-list-ul"></i></a>
+                                               href="{{ route('project.index', ['id' => $item['id']]) }}"><i
+                                                    class="fas fa-list-ul"></i></a>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="nowrap"><strong>{{ number_format($item->duty, 2, '.', ' ')}}</strong></td>
                                 <td style="max-width: 180px;">{{ $item->legal_name_company }}</td>
                                 <td>
-                                    <div @if(\Carbon\Carbon::parse($item['reporting_data']) >= now()->startOfMonth() && \Carbon\Carbon::parse($item['reporting_data']) <= now()->endOfMonth())
-                                             class="text-primary font-weight-bold"
-                                    @endif>
-                                        @if($item['reporting_data'])
-                                            {{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}
-                                        @endif
-                                    </div>
+                                    @if($item['reporting_data'])
+                                        {{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}
+                                    @endif
                                 </td>
                                 <td class="text-center">{{ $item->count_month_work }}</td>
                                 <td>
@@ -380,10 +381,10 @@
                 $(el).val(0)
             }
 
-            if($(el).attr('type') == 'checkbox'){
+            if ($(el).attr('type') == 'checkbox') {
                 let check = $(el).is(":checked") ? 1 : 0;
                 ajax('post', url, {[$(el).attr('name')]: check})
-            }else{
+            } else {
                 ajax('post', url, {[$(el).attr('name')]: $(el).val()})
             }
         }

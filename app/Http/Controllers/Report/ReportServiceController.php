@@ -236,21 +236,8 @@ class ReportServiceController extends Controller
 
         if ($request->sort == 'reporting_data') {
 
-            $reports->orderByRaw("
-
-            -- Группа 1: текущий месяц (TRUE=1) выше, чем остальные (FALSE=0)
-            (YEAR(reporting_data) = YEAR(CURDATE()) AND MONTH(reporting_data) = MONTH(CURDATE())) DESC,
-
-            -- Внутри текущего месяца — сортировка по дню месяца (возрастающе)
-            CASE
-                WHEN YEAR(reporting_data) = YEAR(CURDATE()) AND MONTH(reporting_data) = MONTH(CURDATE()) THEN DAYOFMONTH(reporting_data)
-            END " . $request->direction ?? 'asc' . ",
-
-            -- Для остальных месяцев — обычная сортировка по дате (возрастающе)
-            reporting_data " . $request->direction ?? 'asc' . ",
-
-            reporting_data IS NULL ASC
-            ");
+            $reports->orderByRaw('reporting_data IS NULL ASC')
+                ->orderByRaw("DAYOFMONTH(reporting_data) {$request->direction}");
 
         } elseif (str_contains($request->sort, '|')) {
             $parts = explode('|', $request->sort);
