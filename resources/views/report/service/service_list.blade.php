@@ -280,9 +280,13 @@
                                 <td class="nowrap"><strong>{{ number_format($item->duty, 2, '.', ' ')}}</strong></td>
                                 <td style="max-width: 180px;">{{ $item->legal_name_company }}</td>
                                 <td>
-                                    @if($item['reporting_data'])
-                                        {{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}
-                                    @endif
+                                    <div @if(\Carbon\Carbon::parse($item['reporting_data']) >= now()->startOfMonth() && \Carbon\Carbon::parse($item['reporting_data']) <= now()->endOfMonth())
+                                             class="text-primary font-weight-bold"
+                                    @endif>
+                                        @if($item['reporting_data'])
+                                            {{ \Carbon\Carbon::parse($item['reporting_data'])->format('d.m.y') }}
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="text-center">{{ $item->count_month_work }}</td>
                                 <td>

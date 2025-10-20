@@ -233,8 +233,26 @@ class ReportServiceController extends Controller
             $query->where('projects.requisite_id', $request->requisite_id);
         });
 
-        // sort
-        if (str_contains($request->sort, '|')) {
+
+        if ($request->sort == 'reporting_data') {
+
+            $reports->orderByRaw("
+
+            -- Группа 1: текущий месяц (TRUE=1) выше, чем остальные (FALSE=0)
+            (YEAR(reporting_data) = YEAR(CURDATE()) AND MONTH(reporting_data) = MONTH(CURDATE())) DESC,
+
+            -- Внутри текущего месяца — сортировка по дню месяца (возрастающе)
+            CASE
+                WHEN YEAR(reporting_data) = YEAR(CURDATE()) AND MONTH(reporting_data) = MONTH(CURDATE()) THEN DAYOFMONTH(reporting_data)
+            END " . $request->direction ?? 'asc' . ",
+
+            -- Для остальных месяцев — обычная сортировка по дате (возрастающе)
+            reporting_data " . $request->direction ?? 'asc' . ",
+
+            reporting_data IS NULL ASC
+            ");
+
+        } elseif (str_contains($request->sort, '|')) {
             $parts = explode('|', $request->sort);
 
             $orderBy = implode('.', $parts);
