@@ -111,7 +111,12 @@ class ArticleController extends Controller
         if (($dateStart < now()) && ($dateEnd > now())) {
             $currentDay = $this->diffInWeekdays($dateStart, now());
 
-            $expectation = $result['sum_without_space'] / $currentDay * $countDays;
+            if($currentDay !== 0){
+                $expectation = $result['sum_without_space'] / $currentDay * $countDays;
+            }else{
+                $expectation = $result['sum_without_space'] * $countDays;
+            }
+
             $passed = $result['passed'];
         }
 
