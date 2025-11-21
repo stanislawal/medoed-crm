@@ -372,7 +372,7 @@ class ReportClientController extends Controller
 
                 return [
                     $item->id,
-                    $item->articleAuthor->first()['full_name'],
+                    $item->articleAuthor->first()['full_name'] ?? '-',
                     $item->created_at,
                     $item->article_name,
                     $item->without_space,
