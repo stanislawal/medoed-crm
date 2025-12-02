@@ -12,6 +12,7 @@ use App\Models\Project\Style;
 use App\Models\Project\Theme;
 use App\Models\Rate\Rate;
 use App\Models\Requisite;
+use App\Models\Status;
 use App\Models\StatusPaymentProject;
 use App\Models\User;
 use App\Repositories\Report\ClientRepositories;
@@ -103,13 +104,14 @@ class ReportClientController extends Controller
             'diffInCurrentDay' => $diffInCurrentDay,
             'rates'            => $rates,
             'statusPayments'   => StatusPaymentProject::on()->get()->toArray(),
+            'statuses'         => Status::on()->get()->toArray(),
             'managers'         => $managers,
             'project'          => $project,
             'clients'          => $clients,
             'themes'           => $themes,
             'priorities'       => $priorities,
             'paymentMonth'     => $paymentMonth,
-            'requisite'        => $requisite
+            'requisite'        => $requisite,
         ]);
     }
 
@@ -189,6 +191,11 @@ class ReportClientController extends Controller
             $orderBy->whereIn('requisite_id', $request->requisite_id ?? []);
         });
 
+        // статус проекта
+        $reports->when(!empty($request->status_id), function (Builder $orderBy) use ($request) {
+            $orderBy->whereIn('status_id', $request->status_id ?? []);
+        });
+
         // сортировка
         $reports->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
             $orderBy->orderBy($request->sort, $request->direction);
@@ -199,12 +206,12 @@ class ReportClientController extends Controller
         // фильтр показать скрыть проекты вс 0 цены в клиенте
         $reports->when(!empty($request->price_client), function (Builder $where) use ($request) {
 
-            if($request->price_client == 'only_zero'){
+            if ($request->price_client == 'only_zero') {
                 $where->where('projects.sum_price_client', '==', 0)
                     ->where('projects.count_articles', '>', 0);
             }
 
-            if($request->price_client == 'without_zero'){
+            if ($request->price_client == 'without_zero') {
                 $where->where(function ($query) use ($request) {
 
                     $query->where('projects.count_articles', 0)

@@ -152,7 +152,7 @@
                         </div>
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
-                            <label for="" class="form-label">Состояние</label>
+                            <label for="" class="form-label">Состояние оплаты</label>
                             <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
                                     name="status_payment_id[]" multiple>
                                 <option value="">Не выбрано</option>
@@ -166,7 +166,7 @@
                         </div>
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
-                            <label for="" class="form-label">Состояние (исключить)</label>
+                            <label for="" class="form-label">Состояние оплаты (исключить)</label>
                             <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
                                     name="ignore_status_payment_id[]" multiple>
                                 <option value="">Не выбрано</option>
@@ -200,8 +200,28 @@
                                     name="price_client"
                             >
                                 <option value="">Не выбрано</option>
-                                <option value="without_zero" @if((request()->price_client ?? null) == 'without_zero') selected @endif>Только без 0 (цена клиента)</option>
-                                <option value="only_zero" @if((request()->price_client ?? null) == 'only_zero') selected @endif>Только с 0 (цена клиента)</option>
+                                <option value="without_zero"
+                                        @if((request()->price_client ?? null) == 'without_zero') selected @endif>Только
+                                    без 0 (цена клиента)
+                                </option>
+                                <option value="only_zero"
+                                        @if((request()->price_client ?? null) == 'only_zero') selected @endif>Только с 0
+                                    (цена клиента)
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Состояние</label>
+                            <select class="form-control border form-control-sm select-2 select2-with-color" title="Пожалуйста, выберите"
+                                    name="status_id[]" multiple>
+                                <option value="">Не выбрано</option>
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status['id'] }}"
+                                            @if(in_array($status['id'], request()->status_id ?? [])) selected @endif data-color="{{ $status['color'] }}">
+                                        {{ $status['name'] }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -366,7 +386,8 @@
                         <tr>
                             <th></th>
                             <th>ID</th>
-                            <th style="min-width: 140px;">Состояние</th>
+                            <th style="min-width: 140px;">Состояние оплаты</th>
+                            <th>Состояние</th>
                             <th class="fw-bold sort-p">@include('components.table.sort', ['title' => 'Долг', 'column' => 'duty_for_sort', 'routeName' => 'report_client.index'])</th>
                             <th>Проект</th>
                             <th>Тема</th>
@@ -375,6 +396,7 @@
                             <th class="sort-p"
                                 style="min-width: 120px;">@include('components.table.sort', ['title' => 'Объем ЗБП', 'column' => 'sum_without_space', 'routeName' => 'report_client.index'])</th>
                             <th class="sort-p">@include('components.table.sort', ['title' => 'ВД', 'column' => 'sum_gross_income', 'routeName' => 'report_client.index'])</th>
+                            <th>План ВД</th>
                             @role('Администратор')
                             <th>Маржа</th>
                             <th class="sort-p"
@@ -415,6 +437,13 @@
                                     </select>
                                 </td>
 
+                                <td>
+                                    <span class="badge" style="
+                                        background-color: {{ $item['projectStatus']['color'] }};
+                                        border: none; text-shadow: 1px 0 1px #3d3d3d,0 1px 1px #3d3d3d,-1px 0 1px #3d3d3d,0 -1px 1px #3d3d3d
+                                    ">{{$item['projectStatus']['name']}}</span>
+                                </td>
+
                                 <td class="fw-bolder nowrap">
                                         <span
                                             @if(($item['finish_duty'] + $item['duty'] + $item['remainder_duty']) < 0) class="text-danger" @endif>
@@ -433,8 +462,9 @@
                                         {{ $client['name'] }}
                                     @endforeach
                                 </td>
-                                <td class="nowrap">{{ number_format($item['sum_without_space'] + 0 ?? '-', 2, '.', ' ') }}</td>
-                                <td class="nowrap">{{ number_format($item['sum_gross_income'] + 0 ?? '-', 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{ number_format($item['sum_without_space'] + 0, 2, '.', ' ') }}</td>
+                                <td class="nowrap">{{ number_format($item['sum_gross_income'] + 0, 2, '.', ' ') }}</td>
+                                <td>{{ number_format($item['plan_gross_income'] + 0, 2, '.', ' ') }}</td>
                                 @role('Администратор')
                                 <td class="nowrap">{{ number_format($item['profit'] + 0 ?? '-', 2, '.', ' ') }}</td>
                                 <td class="nowrap">{{ number_format($item['diff_price'] + 0 ?? '-', 2, '.', ' ') }}</td>
