@@ -29,6 +29,7 @@ class ClientRepositories
                 projects.style_id,
                 projects.status_id,
                 projects.status_payment_id,
+                projects.service_type_id,
                 projects.payment_terms,
                 projects.requisite_id,
                 projects.plan_gross_income,
@@ -173,7 +174,8 @@ class ClientRepositories
                 'projectClients',
                 'projectUser:id,full_name',
                 'projectTheme:id,name',
-                'projectStyle:id,name'
+                'projectStyle:id,name',
+                'serviceType'
             ]);
 
         return $reports;

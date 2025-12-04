@@ -230,6 +230,7 @@
                             <th>Контрагент</th>
                             <th class="sort-p">@include('components.table.sort', ['title' => 'Отчетная дата', 'column' => 'reporting_data', 'routeName' => 'report_service.index'] )</th>
                             <th>М-ц работы</th>
+                            <th>Условия оплаты</th>
                             <th>Сумма дог.</th>
                             <th>Начислено</th>
                             <th>Состояние</th>
@@ -290,6 +291,7 @@
                                     @endif
                                 </td>
                                 <td class="text-center">{{ $item->count_month_work }}</td>
+                                <td>{{ $item['pay_info'] }}</td>
                                 <td>
                                     <input type="number"
                                            style="width: 80px"

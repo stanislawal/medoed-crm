@@ -328,7 +328,6 @@ class ProjectController extends Controller
         $statuses = Status::on()->get()->toArray(); //Достаем все статусы из бд
         $style = Style::on()->get()->toArray();
         $sourceClients = SourceClient::on()->get();
-        $serviceTypes = ServiceType::on()->get();
         $managers = User::on()->whereHas('roles', function ($query) {
             $query->where('id', 2);
         })
@@ -391,7 +390,7 @@ class ProjectController extends Controller
             'requisite'     => $requisite,
             'sourceClients' => $sourceClients,
             'specialists'   => SpecialistService::on()->get(),
-            'serviceTypes'  => $serviceTypes,
+            'serviceTypes'  => ServiceType::on()->get(),
         ]);
     }
 

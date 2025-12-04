@@ -12,6 +12,7 @@ use App\Models\Project\Style;
 use App\Models\Project\Theme;
 use App\Models\Rate\Rate;
 use App\Models\Requisite;
+use App\Models\Service\ServiceType;
 use App\Models\Status;
 use App\Models\StatusPaymentProject;
 use App\Models\User;
@@ -60,6 +61,7 @@ class ReportClientController extends Controller
              (sum(result.finish_duty) + sum(result.duty) + sum(result.remainder_duty)) as finish_duty,
              sum(result.sum_without_space) as sum_without_space,
              sum(result.sum_gross_income) as sum_gross_income,
+             sum(result.plan_gross_income) as sum_plan_gross_income,
              sum(result.profit) as profit,
              (sum(result.sum_gross_income) / (sum(result.sum_without_space) / 1000)) as middle_check,
              sum(result.symbol_in_day) as sum_symbols_in_day
@@ -112,6 +114,7 @@ class ReportClientController extends Controller
             'priorities'       => $priorities,
             'paymentMonth'     => $paymentMonth,
             'requisite'        => $requisite,
+            'serviceTypes'  => ServiceType::on()->get(),
         ]);
     }
 
@@ -174,6 +177,11 @@ class ReportClientController extends Controller
         // приоритет
         if (!empty($request->style_id)) {
             $reports->whereIn('projects.style_id', $request->style_id);
+        }
+
+        // отдел
+        if (!empty($request->service_type_id)) {
+            $reports->where('projects.service_type_id', $request->service_type_id);
         }
 
         // состояние оплаты

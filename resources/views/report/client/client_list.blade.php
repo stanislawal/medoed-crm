@@ -213,14 +213,31 @@
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Состояние</label>
-                            <select class="form-control border form-control-sm select-2 select2-with-color" title="Пожалуйста, выберите"
+                            <select class="form-control border form-control-sm select-2 select2-with-color"
+                                    title="Пожалуйста, выберите"
                                     name="status_id[]" multiple>
                                 <option value="">Не выбрано</option>
                                 @foreach ($statuses as $status)
                                     <option value="{{ $status['id'] }}"
-                                            @if(in_array($status['id'], request()->status_id ?? [])) selected @endif data-color="{{ $status['color'] }}">
+                                            @if(in_array($status['id'], request()->status_id ?? [])) selected
+                                            @endif data-color="{{ $status['color'] }}">
                                         {{ $status['name'] }}
                                     </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Отдел</label>
+                            <select class="form-select form-select-sm select2-with-color"
+                                    name="service_type_id">
+                                <option value="">Не выбрано</option>
+                                @foreach($serviceTypes as $item)
+                                    <option
+                                        @if($item->id == request()->service_type_id) selected @endif
+                                    data-color="{{ $item->color }}"
+                                        value="{{ $item->id }}"
+                                    >{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -292,6 +309,17 @@
                                 <strong>{{ number_format($paymentMonth['all_sum'], 2, '.', ' ') }}</strong>
                             </div>
                             <div class="text-12 nowrap-dot">Сумма оплат (текущий месяц):</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-4 mb-2"></div>
+                    <div class="col-12 col-sm-6 col-xl-4 mb-2"></div>
+
+                    <div class="col-12 col-sm-6 col-xl-4 mb-2">
+                        <div class="px-3 py-2 shadow border bg-white rounded">
+                            <div class="text-24">
+                                <strong>{{ number_format($statistics['sum_plan_gross_income'], 2, '.', ' ') }}</strong>
+                            </div>
+                            <div class="text-12 nowrap-dot">План ВД:</div>
                         </div>
                     </div>
                 </div>
@@ -390,8 +418,9 @@
                             <th>Состояние</th>
                             <th class="fw-bold sort-p">@include('components.table.sort', ['title' => 'Долг', 'column' => 'duty_for_sort', 'routeName' => 'report_client.index'])</th>
                             <th>Проект</th>
-                            <th>Тема</th>
-                            <th>Приоритет</th>
+                            <th>Отдел</th>
+                            {{--                            <th>Тема</th>--}}
+                            {{--                            <th>Приоритет</th>--}}
                             <th>Заказчик</th>
                             <th class="sort-p"
                                 style="min-width: 120px;">@include('components.table.sort', ['title' => 'Объем ЗБП', 'column' => 'sum_without_space', 'routeName' => 'report_client.index'])</th>
@@ -455,15 +484,26 @@
                                     @endif title="Не было оплат более 14 дней">{{ $item['project_name'] ?? '-' }} @if(!$item['count_payment'])
                                         <i class="ms-2 fas fa-credit-card"></i>
                                     @endif</td>
-                                <td>{{ $item['projectTheme']['name'] ?? '' }}</td>
-                                <td>{{ $item['projectStyle']['name'] ?? '-' }}</td>
+                                <td>
+                                    @if($item->serviceType)
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <div class="select-2-custom-state-color"
+                                                 style="background-color: {{ $item->serviceType->color }}">
+                                                {{ $item->serviceType->name }}
+                                            </div>
+                                        </div>
+                                    @endif
+                                </td>
+                                {{--                                <td>{{ $item['projectTheme']['name'] ?? '' }}</td>--}}
+                                {{--                                <td>{{ $item['projectStyle']['name'] ?? '-' }}</td>--}}
                                 <td>
                                     @foreach ($item['projectClients'] as $client)
                                         {{ $client['name'] }}
                                     @endforeach
                                 </td>
                                 <td class="nowrap">{{ number_format($item['sum_without_space'] + 0, 2, '.', ' ') }}</td>
-                                <td class="nowrap">{{ number_format($item['sum_gross_income'] + 0, 2, '.', ' ') }}</td>
+                                <td style="background-color: rgba(0,0,0,.10)"
+                                    class="nowrap">{{ number_format($item['sum_gross_income'] + 0, 2, '.', ' ') }}</td>
                                 <td>{{ number_format($item['plan_gross_income'] + 0, 2, '.', ' ') }}</td>
                                 @role('Администратор')
                                 <td class="nowrap">{{ number_format($item['profit'] + 0 ?? '-', 2, '.', ' ') }}</td>

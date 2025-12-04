@@ -57,6 +57,7 @@ class ServiceRepositories
             projects.requisite_id,
             projects.status_id,
             projects.duty_on_services,
+            projects.pay_info,
             projects.data_start_work,
             projects.promoting_website,
             projects.checkbox_in_service,
