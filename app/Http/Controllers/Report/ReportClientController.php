@@ -204,6 +204,11 @@ class ReportClientController extends Controller
             $orderBy->whereIn('status_id', $request->status_id ?? []);
         });
 
+        // статус проекта (исключение)
+        $reports->when(!empty($request->ignore_status_id), function (Builder $orderBy) use ($request) {
+            $orderBy->whereNotIn('status_id', $request->ignore_status_id ?? []);
+        });
+
         // сортировка
         $reports->when(!empty($request->sort), function (Builder $orderBy) use ($request) {
             $orderBy->orderBy($request->sort, $request->direction);

@@ -165,19 +165,19 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-12 col-md-4 col-lg-3">
-                            <label for="" class="form-label">Состояние оплаты (исключить)</label>
-                            <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
-                                    name="ignore_status_payment_id[]" multiple>
-                                <option value="">Не выбрано</option>
-                                @foreach ($statusPayments as $status)
-                                    <option value="{{ $status['id'] }}"
-                                            @if(in_array($status['id'], (request()->ignore_status_payment_id ?? []))) selected @endif>
-                                        {{ $status['name'] }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+{{--                        <div class="form-group col-12 col-md-4 col-lg-3">--}}
+{{--                            <label for="" class="form-label">Состояние оплаты (исключить)</label>--}}
+{{--                            <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"--}}
+{{--                                    name="ignore_status_payment_id[]" multiple>--}}
+{{--                                <option value="">Не выбрано</option>--}}
+{{--                                @foreach ($statusPayments as $status)--}}
+{{--                                    <option value="{{ $status['id'] }}"--}}
+{{--                                            @if(in_array($status['id'], (request()->ignore_status_payment_id ?? []))) selected @endif>--}}
+{{--                                        {{ $status['name'] }}--}}
+{{--                                    </option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Счет оплаты</label>
@@ -220,6 +220,22 @@
                                 @foreach ($statuses as $status)
                                     <option value="{{ $status['id'] }}"
                                             @if(in_array($status['id'], request()->status_id ?? [])) selected
+                                            @endif data-color="{{ $status['color'] }}">
+                                        {{ $status['name'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Состояние (исключить)</label>
+                            <select class="form-control border form-control-sm select-2 select2-with-color"
+                                    title="Пожалуйста, выберите"
+                                    name="ignore_status_id[]" multiple>
+                                <option value="">Не выбрано</option>
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status['id'] }}"
+                                            @if(in_array($status['id'], request()->ignore_status_id ?? [])) selected
                                             @endif data-color="{{ $status['color'] }}">
                                         {{ $status['name'] }}
                                     </option>
