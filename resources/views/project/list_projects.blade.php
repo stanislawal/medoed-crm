@@ -116,11 +116,11 @@
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Состояние</label>
-                                    <select class="form-control select-2" multiple
+                                    <select class="form-control select-2 select2-with-color" multiple
                                             name="status_id[]" id="">
                                         <option value="">Не выбрано</option>
                                         @foreach ($statuses as $status)
-                                            <option value="{{$status['id']}}"
+                                            <option value="{{$status['id']}}" data-color="{{ $status['color'] }}"
                                                     @if(in_array($status['id'], request()->status_id ?? []))
                                                         selected
                                                 @endif
@@ -131,11 +131,11 @@
 
                                 <div class="form-group col-12 col-md-4 col-lg-3">
                                     <label for="" class="form-label">Исключение состояний</label>
-                                    <select class="form-control select-2" multiple
+                                    <select class="form-control select-2 select2-with-color" multiple
                                             name="except_status_id[]" id="">
                                         <option value="">Не выбрано</option>
                                         @foreach ($statuses as $status)
-                                            <option value="{{$status['id']}}"
+                                            <option value="{{$status['id']}}" data-color="{{ $status['color'] }}"
                                                     @if(in_array($status['id'], request()->except_status_id ?? []))
                                                         selected
                                                 @endif
