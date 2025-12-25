@@ -116,10 +116,6 @@ class ClientRepositories
                 $where->whereNull('service_type_id')
                     ->orWhere('service_type_id', 14);
             })
-
-            ->when(UserHelper::isManager(), function ($where) {
-                $where->where('manager_id', UserHelper::getUserId());
-            })
             ->groupBy(['projects.id']);
 
         $reports = Project::on()
