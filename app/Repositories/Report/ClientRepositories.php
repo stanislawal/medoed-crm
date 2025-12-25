@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Report;
 
+use App\Helpers\UserHelper;
 use App\Models\Article;
 use App\Models\Payment\Payment;
 use Illuminate\Database\Eloquent\Builder;
@@ -108,7 +109,17 @@ class ClientRepositories
             })
             ->leftJoin('requisites', 'requisites.id', '=', 'projects.requisite_id')
             ->doesntHave('services')
+
             ->where('projects.duty_on_services', 0)
+
+            ->where(function($where){
+                $where->whereNull('service_type_id')
+                    ->orWhere('service_type_id', 14);
+            })
+
+            ->when(UserHelper::isManager(), function ($where) {
+                $where->where('manager_id', UserHelper::getUserId());
+            })
             ->groupBy(['projects.id']);
 
         $reports = Project::on()

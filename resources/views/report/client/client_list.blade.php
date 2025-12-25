@@ -415,7 +415,7 @@
         <div class=>
             <div class="card-header bg-white">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h4 class="card-title">Общий свод по заказчикам</h4>
+                    <h4 class="card-title">Общий свод по контенту</h4>
                     <div>Всего записей: <strong>{{ $reports->total() }}</strong></div>
                 </div>
             </div>

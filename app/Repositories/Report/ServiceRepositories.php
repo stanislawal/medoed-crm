@@ -84,10 +84,13 @@ class ServiceRepositories
                 $join->on('projects.id', '=', 'services_project_duty.project_id');
             })
 
-            ->groupBy('projects.id')
-            ->where(function ($where) {
-                $where->whereHas('services')->orWhere('duty_on_services', '>', 0);
-            });
+            ->Where('service_type_id','!=', 14)
+
+
+            ->groupBy('projects.id');
+//            ->where(function ($where) {
+//                $where->whereHas('services')->orWhere('duty_on_services', '>', 0);
+//            });
 
         $reports = Project::on()->selectRaw("
             projects.*,

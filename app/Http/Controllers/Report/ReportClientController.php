@@ -41,13 +41,13 @@ class ReportClientController extends Controller
         // Текущий рабочий день
         $diffInCurrentDay = \Illuminate\Support\Carbon::parse($startDate)->diffInWeekdays(Carbon::parse(now())) + 1;
 
-        $reportQuery->when(UserHelper::isManager(), function ($where) {
-            $where->where('manager_id', UserHelper::getUserId());
-        });
-
-        $statistict->when(UserHelper::isManager(), function ($where) {
-            $where->where('manager_id', UserHelper::getUserId());
-        });
+//        $reportQuery->when(UserHelper::isManager(), function ($where) {
+//            $where->where('manager_id', UserHelper::getUserId());
+//        });
+//
+//        $statistict->when(UserHelper::isManager(), function ($where) {
+//            $where->where('manager_id', UserHelper::getUserId());
+//        });
 
         // фильтр
         $this->filter($reportQuery, $request);
