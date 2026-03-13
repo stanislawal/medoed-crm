@@ -169,6 +169,13 @@ class ReportClientController extends Controller
             });
         }
 
+        // заказчик (исключить)
+        if (!empty($request->ignore_client_id)) {
+            $reports->whereDoesntHave('projectClients', function ($where) use ($request) {
+                $where->whereIn('clients.id', $request->ignore_client_id ?? []);
+            });
+        }
+
         // тема
         if (!empty($request->theme_id)) {
             $reports->where('projects.theme_id', $request->theme_id);

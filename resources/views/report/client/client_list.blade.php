@@ -109,6 +109,20 @@
                         </div>
 
                         <div class="form-group col-12 col-md-4 col-lg-3">
+                            <label for="" class="form-label">Заказчик (исключить)</label>
+                            <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
+                                    name="ignore_client_id[]" multiple>
+                                <option value="">Не выбрано</option>
+                                @foreach ($clients as $client)
+                                    <option value="{{ $client['id'] }}"
+                                            @if(in_array($client['id'], (request()->ignore_client_id ?? []))) selected @endif>
+                                        {{ $client['name'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4 col-lg-3">
                             <label for="" class="form-label">Тема</label>
                             <select class="form-control border form-control-sm select-2" title="Пожалуйста, выберите"
                                     name="theme_id">
