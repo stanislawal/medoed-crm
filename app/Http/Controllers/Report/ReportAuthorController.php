@@ -60,14 +60,14 @@ class ReportAuthorController extends Controller
             ->toArray();
 
         return view('report.author.author_list', [
-            'rates'            => Rate::on()->get(),
-            'reports'          => $reports,
-            'indicators'       => $indicators,
-            'diffInWeekdays'   => $diffInWeekdays,
+            'rates' => Rate::on()->get(),
+            'reports' => $reports,
+            'indicators' => $indicators,
+            'diffInWeekdays' => $diffInWeekdays,
             'diffInCurrentDay' => $diffInCurrentDay,
-            'authors'          => $authors,
-            'remainderDuty'    => collect($remainderDuty),
-            'banks'            => Bank::on()->get(),
+            'authors' => $authors,
+            'remainderDuty' => collect($remainderDuty),
+            'banks' => Bank::on()->get(),
         ]);
     }
 
@@ -155,13 +155,13 @@ class ReportAuthorController extends Controller
             ->get();
 
         return view('report.author.author_item', [
-            'articles'          => $articles,
-            'user'              => $user,
-            'indicators'        => $indicators,
-            'remainderDuty'     => $remainderDuty,
+            'articles' => $articles,
+            'user' => $user,
+            'indicators' => $indicators,
+            'remainderDuty' => $remainderDuty,
             'ignoreArticleList' => $ignoreArticleList,
-            'paymentHistory'    => $paymentHistory,
-            'documents'         => $documents,
+            'paymentHistory' => $paymentHistory,
+            'documents' => $documents,
         ]);
     }
 
@@ -169,7 +169,7 @@ class ReportAuthorController extends Controller
     {
         $validated = $request->validate([
             'date_from' => 'required|date',
-            'date_to'   => 'required|date',
+            'date_to' => 'required|date',
             'author_id' => 'required|integer'
         ]);
 
@@ -187,8 +187,8 @@ class ReportAuthorController extends Controller
 
         return response()->json([
             'result' => true,
-            'html'   => view('Render.Report.AuthorReport.article_list', ['list' => $articles])->render(),
-            'total'  => $articles->count()
+            'html' => view('Render.Report.AuthorReport.article_list', ['list' => $articles])->render(),
+            'total' => $articles->count()
         ]);
     }
 
@@ -199,7 +199,8 @@ class ReportAuthorController extends Controller
         try {
             $validated = $request->validate([
                 'article_ids' => 'required|array',
-                'author_id'   => 'required|integer'
+                'author_id' => 'required|integer',
+                'date' => 'required|date'
             ]);
 
             $author = User::on()->find($validated['author_id']);
@@ -232,7 +233,7 @@ class ReportAuthorController extends Controller
 
             $types = [
                 'act' => 'АКТ',
-                'tz'  => 'ТЗ'
+                'tz' => 'ТЗ'
             ];
 
             foreach ($types as $type => $typeName) {
@@ -257,13 +258,13 @@ class ReportAuthorController extends Controller
                 $amount['amount'] = (int)$amount['originAmount'];
                 $amount['decimal'] = number_format(explode('.', $amount['originAmount'])[1], 0, '', '');
 
-                [$fileName, $url] = $this->generateAndSavePDFFile($author, $validated['article_ids'], $amount, $type, $typeName);
+                [$fileName, $url] = $this->generateAndSavePDFFile($author, $validated['article_ids'], $amount, $type, $typeName, $validated['date']);
 
                 $attr = [
                     'author_id' => $author->id,
-                    'url'       => $url,
+                    'url' => $url,
                     'file_name' => $fileName,
-                    'type'      => $typeName
+                    'type' => $typeName
                 ];
                 $documentReport = DocumentReport::on()->create($attr);
                 $documentReport->sroccArticles()->attach($validated['article_ids']);
@@ -349,7 +350,7 @@ class ReportAuthorController extends Controller
     /*
      * генерация и сохранение файла
      */
-    private function generateAndSavePDFFile($author, $articles, $amount, $type, $typeName)
+    private function generateAndSavePDFFile($author, $articles, $amount, $type, $typeName, $dateGenerate)
     {
         $options = new Options();
         $options->set('isRemoteEnabled', true);
@@ -374,11 +375,11 @@ class ReportAuthorController extends Controller
             ->get();
 
         $html = view('pdf.' . $type, [
-            'articles'             => $articles,
-            'author'               => $author,
-            'amount'               => $amount,
-            'currentDate'          => DocumentHelper::currentDateFormat(),
-            'dateDocumentAuthor'   => DocumentHelper::currentDateFormat($author['date_contract_for_doc']),
+            'articles' => $articles,
+            'author' => $author,
+            'amount' => $amount,
+            'currentDate' => DocumentHelper::currentDateFormat($dateGenerate),
+            'dateDocumentAuthor' => DocumentHelper::currentDateFormat($author['date_contract_for_doc']),
         ])->render();
 
         $dompdf->setPaper('A4', 'portrait');
@@ -392,17 +393,17 @@ class ReportAuthorController extends Controller
         // параметры названия файла
         $path = 'report_author/' . $author->id . '/';
         $authorName = str_replace(' ', '_', $author->full_name);
-        $currentDate = now()->format('d-m-Y');
+        $dateGenerateDocument = Carbon::parse($dateGenerate)->format('d-m-Y');
         $instance = 0;
         $extension = '.pdf';
 
         // генерируем название файла и путь к нему
-        $filename = $authorName . '_' . '(' . $typeName . ')' . '_' . $currentDate . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
+        $filename = $authorName . '_' . '(' . $typeName . ')' . '_' . $dateGenerateDocument . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
         $url = $path . $filename;
 
         while (Storage::disk('public')->exists($url)) {
             $instance++;
-            $filename = $authorName . '_' . '(' . $typeName . ')' . '_' . $currentDate . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
+            $filename = $authorName . '_' . '(' . $typeName . ')' . '_' . $dateGenerateDocument . ($instance == 0 ? '' : '(' . $instance . ')') . $extension;
             $url = $path . $filename;
         }
 

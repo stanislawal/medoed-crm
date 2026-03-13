@@ -1,5 +1,5 @@
 <div class="modal fade" id="create_file_report" data-bs-backdrop="static" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-xl">
+    <div class="modal-dialog modal-lg modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Создание файла отчета</h1>
@@ -10,9 +10,9 @@
                     <input type="hidden" name="author_id" value="{{ $authorId }}">
                     <div class="input-group mb-3">
                         <input type="date" name="date_from" class="form-control" placeholder="Дата с" required
-                               value="{{ now()->startOfMonth()->format('Y-m-d') }}">
+                               value="{{ \Illuminate\Support\Carbon::parse(request()->month ?? now())->startOfMonth()->format('Y-m-d') }}">
                         <input type="date" name="date_to" class="form-control" placeholder="Дата по" required
-                               value="{{ now()->format('Y-m-d') }}">
+                               value="{{ \Illuminate\Support\Carbon::parse(request()->month ?? now())->endOfMonth()->format('Y-m-d') }}">
                         <button class="btn btn-sm btn-primary">Показать</button>
                     </div>
                 </form>
@@ -22,23 +22,28 @@
                 <form id="form-table-article" action="{{ route('report_author.create_document') }}" method="POST">
                     @csrf
                     <input type="hidden" name="author_id" value="{{ $authorId }}">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <td class="text-center">
-                                <div>
-                                    <input class="form-check-input ml-0 main-checkbox" type="checkbox" value="">
-                                </div>
-                            </td>
-                            <td class="text-center">ID</td>
-                            <td>Статья</td>
-                            <td class="text-center">Дата</td>
-                        </tr>
-                        </thead>
-                        <tbody id="tbody">
-                        </tbody>
-                    </table>
-                    <div class="mt-3 d-flex justify-content-end">
+                    <div style="max-height: 60vh; overflow-y: auto;">
+                        <table class="table table-bordered table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <td class="text-center">
+                                    <div>
+                                        <input class="form-check-input ml-0 main-checkbox" type="checkbox" value="">
+                                    </div>
+                                </td>
+                                <td class="text-center">ID</td>
+                                <td>Статья</td>
+                                <td class="text-center">Дата</td>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-between">
+                        <div>
+                            <input type="date" name="date" value="{{ \Illuminate\Support\Carbon::parse(request()->month ?? now())->startOfMonth()->format('Y-m-d') }}" class="form-control form-control-sm" required>
+                        </div>
                         <button class="btn btn-sm btn-success">Сгенерировать отчет</button>
                     </div>
                 </form>
