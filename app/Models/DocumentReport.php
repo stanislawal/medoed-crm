@@ -17,7 +17,8 @@ class DocumentReport extends Model
         'file_name',
         'type',
         'is_send',
-        'date_time_send'
+        'date_time_send',
+        'created_at'
     ];
 
     public function sroccArticles()

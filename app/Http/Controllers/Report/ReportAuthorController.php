@@ -267,7 +267,9 @@ class ReportAuthorController extends Controller
                     'type' => $typeName,
                     'created_at' => Carbon::parse($validated['date'])
                 ];
-                $documentReport = DocumentReport::on()->create($attr);
+                $documentReport = new DocumentReport($attr);
+                $documentReport->timestamps = false;   // отключаем авто created_at/updated_at
+                $documentReport->save();
                 $documentReport->sroccArticles()->attach($validated['article_ids']);
             }
 
