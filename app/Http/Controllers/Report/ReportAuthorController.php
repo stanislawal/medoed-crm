@@ -264,7 +264,8 @@ class ReportAuthorController extends Controller
                     'author_id' => $author->id,
                     'url' => $url,
                     'file_name' => $fileName,
-                    'type' => $typeName
+                    'type' => $typeName,
+                    'created_at' => Carbon::parse($validated['date'])
                 ];
                 $documentReport = DocumentReport::on()->create($attr);
                 $documentReport->sroccArticles()->attach($validated['article_ids']);
