@@ -93,7 +93,7 @@
 <body>
 <div>
     <div class="title">Акт</div>
-    <div class="title">приема-передачи оказанных услуг № ______
+    <div class="title">приема-передачи оказанных услуг №
     </div>
     <div class="title">от "<span class="underline">{{ $currentDate['day'] }}</span>"<span class="underline"
                                                                                                  style="padding: 0 5px;">{{ $currentDate['month'] }} {{ $currentDate['year'] }}</span>г.
