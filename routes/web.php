@@ -59,6 +59,7 @@ Route::get('/', function () {
     }
 });
 
+
 #Авторизация
 Route::resource('login', AuthController::class)->only(['index', 'store']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
