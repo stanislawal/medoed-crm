@@ -1,0 +1,17 @@
+stages:
+  - deploy
+
+deploy_job:
+  stage: deploy
+  tags:
+    - deploy              # должен совпадать с тегом вашего раннера
+  script:
+    - echo "🚀 Начинаю деплой"
+    - echo "📁 Текущая директория: $(pwd)"
+    - echo "👤 Пользователь: $(whoami)"
+    - echo "🖥️  Хост: $(hostname)"
+    - echo "📂 Содержимое директории:"
+    - ls -la
+    - echo "✅ Деплой успешно завершен"
+  only:
+    - main                # запускается только при пуше в main
